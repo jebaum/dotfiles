@@ -1,0 +1,54 @@
+# grabbing configuration file - this file must be placed in
+# `$XDG_CONFIG_HOME/grabbing/grabbing`. `$XDG_CONFIG_HOME` is usually
+# `~/.config`.
+
+
+# `grab`
+#
+# upload script to use: `imgur`, `scpur`
+
+UPLOADSCRIPT="imgur"
+
+# format for uploaded filename to use: `time`, `sha1sum`
+FORMAT="time"
+
+# `imgur`
+#
+# if specified imgur above, you must have an imgur anonymous api key
+# one can be obtained at <https://imgur.com/register/api_anon>
+
+IMGURKEY="e7bc144295297c37aa852990570435dc"
+
+# `scpur`
+#
+# this script uses scp to transfer a file to a web accessable directory
+# on a remote machine. options specified here are used directly with
+# `scp`.
+#
+# if on your remote server, the directory `/srv/http/files/` corresponds
+# to the web address <http://server/files/>, then set the following
+# options to correspond to any scp command you would use to copy files
+# to `/srv/http/files/`. eg:
+#
+#    scp -P 42222 dog.jpg user@server:/srv/http/files/
+#
+# making `dog.jpg` accessible at <http://server/files/dog.jpg>, then your
+# options would be set as follows:
+
+SCPOPTS="-P 22"
+SSHSTR="jebaum@jbaumy.com"
+SSHDIR="/home/jebaum/jbaumy.com/files/"
+WEBURL="http://files.jbaumy.com/"
+
+# OPTIONAL - put files with certain extensions into distinct directories
+# For each extension you should have 3 consecutive entries:
+# The extension, the path on the server to put the file, and the weburl where that path is found
+# If configured, must be in valid bash array format, as shown below:
+# If not configured or when dealing with an extension not specified here,
+# the above settings will be used
+
+EXTENSIONS=( \
+'txt' '/home/jebaum/jbaumy.com/files/text' 'http://files.jbaumy.com/text' \
+'jpg' '/home/jebaum/jbaumy.com/files/screens' 'http://files.jbaumy.com/screens' \
+'png' '/home/jebaum/jbaumy.com/files/screens' 'http://files.jbaumy.com/screens' \
+)

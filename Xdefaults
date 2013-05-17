@@ -1,0 +1,90 @@
+! vim: set filetype=xdefaults :
+dzen2*font: DejaVu Sans Mono-6
+dzen2*background: #262729
+dzen2*foreground: #aaaaaa
+dzen2*height: 14
+
+! XFT
+Xft*dpi: 98
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
+Xft.lcdfilter : lcddefault
+
+! make background transparent
+urxvt*background: [90]#0a0a0a
+URxvt.perl-ext-common : default,,keyboard-select,url-select,clipboard
+
+URxvt*transparent:true
+URxvt*shading:100
+
+URxvt.keysym.M-x           : perl:keyboard-select:activate
+URxvt.keysym.M-u           : perl:url-select:select_next
+URxvt.keysym.M-c           : perl:clipboard:copy
+URxvt.keysym.M-v           : perl:clipboard:paste
+URxvt.keysym.M-s           : perl:keyboard-select:search
+URxvt.keysym.M-C-v         : perl:clipboard:paste_escaped
+URxvt.url-select.launcher  : firefox
+URxvt.url-select.autocopy  : true
+URxvt.url-select.underline : true
+URxvt.matcher.button       : 1
+
+!URxvt.font     : xft:Inconsolata-dz:size=9.5
+URxvt.font     : xft:Deja Vu Sans Mono:size=8
+!URxvt.font     : xft:Ubuntu:size=8
+!URxvt.font     : xft:Andale Mono:size=8
+URxvt.termName : rxvt-unicode-256color
+URxvt.iso14755 : false
+
+URxvt.saveLines   : 12000
+URxvt.scrollBar   : false
+URxvt.scrollstyle : rxvt
+! mark i3 workspace urgent when bell received
+URxvt.urgentOnBell: true
+
+URxvt.cursorColor            : #93A1A1
+URxvt.pointerColorBackground : #586E75
+URxvt.pointerColorForeground : #93A1A1
+
+URxvt.background : #171717
+URxvt.foreground : #CCCCCC
+
+URxvt.colorBD : #FFFFFF
+URxvt.colorUL : #CCCC66
+
+! black 
+URxvt.color0  : #121212
+URxvt.color8  : #555753
+
+! red
+URxvt.color1  : #DC322F
+URxvt.color9  : #E84F4F
+
+! green
+URxvt.color2  : #859900
+URxvt.color10 : #99FF66
+
+! yellow
+URxvt.color3  : #fd971f
+URxvt.color11 : #E1AA5D
+
+! blue
+URxvt.color4  : #268BD2
+URxvt.color12 : #6699FF
+
+! magenta
+URxvt.color5  : #ff33CC
+URxvt.color13 : #ff66FF
+
+! cyan
+URxvt.color6  : #33CC99
+URxvt.color14 : #93A1A1
+
+! white
+URxvt.color7  : #EEE8D5
+URxvt.color15 : #FDF6E3
+
+!#include "/home/james/.colors/clean"
+! gohucolor has a nice separator thingy in zsh
+! space has a nice font color, vintage kinda does but its dark

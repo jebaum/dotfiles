@@ -1,0 +1,107 @@
+alias reload='source ~/.aliases'
+alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
+alias aliases='vim ~/.bash_aliases && reload'
+alias cwd='i3-sensible-terminal &'
+# ssh aliases
+alias lnxsrv='ssh baumgart@lnxsrv.seas.ucla.edu'
+alias jbaumy='mosh jebaum@jbaumy.com'
+alias sshl='ssh jebaum@linux.ucla.edu'
+
+# folder aliases
+alias cs111='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111'
+alias lab1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/1'
+alias w1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/w1'
+
+alias ucla='cd ~/Dropbox/Documents/UCLA'
+alias y2q3='cd ~/Dropbox/Documents/UCLA/Y2Q3'
+alias 33b='cd ~/Dropbox/Documents/UCLA/Y2Q3/math33b'
+alias anthro8='cd ~/Dropbox/Documents/UCLA/Y2Q3/anthro8'
+
+alias tf2='cd /home/james/.local/share/Steam/SteamApps/common/Team\ Fortress\ 2/tf/custom/hud'
+alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
+# command aliases
+alias top='htop'
+
+# rsyncs
+alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'
+alias pullschoolec2='rsync -avzu -e ssh --delete jebaum@jbaumy.com:/home/jebaum/school/* ~/Dropbox/Documents/UCLA/Y2Q3'
+
+# rsync master
+function syncschool() {
+  echo -e "${red}Running${NC}: ${white}rsync -azu from ${yellow}local ${white}to ${blue}ec2${NC}"
+  pushschoolec2
+  echo -e "${red}Running${NC}: ${white}rsync -azu from ${yellow}ec2 ${white}to ${blue}local${NC}"
+  pullschoolec2
+}
+
+
+function cptlnxsrv() { # copy to linux server
+		# 3 parameters: local location to copy from (relative to current directory) | optional folder to create for dump | flags to add (no dash)
+		# if copying one file and not folder, will be renamed to second parameter
+	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+		echo -e "${white}takes 3 parameters:\\n\\tlocal file or directory to copy (relative to current)\\n\\toptional folder under ~/files/ to create for dump\\n\\tflags to add beyond -r (no dash)${NC}"
+	else	
+		echo -e "${white}Running: scp -r$3 $1 /u/ee/ugrad/baumgart/files/$2${NC}"
+		scp -r$3 "./$1" baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$2"
+	fi
+}
+
+function cpflnxsrv() { # copy from linux server using "files" as base directory
+		# 2 parameters: location under files to copy | flags (no dash)
+		# passing no parameters will download everything under "files" and create a "files" directory
+		# passing "*" or "." downloads only the contents of files without creating a "files" directory
+	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+		echo -e "${white}takes 2 parameters:\\n\\tlocation under ~/files/ to copy\\n\\tflags to add beyond -r (no dash)\\n\\tpassing no parameters downloads everything in ~/files/ to SLS\\n\\tpassing * or . downloads contents of ~/files/, not parent folder${NC}"
+	else	
+		echo -e "${white}Running: scp -r$2 /u/ee/ugrad/baumgart/files/$1 Downloads/Seasnet Linux Server${NC}"
+		scp -r$2 baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$1" /cygdrive/d/Downloads/Seasnet\ Linux\ Server
+	fi
+}
+
+function lslnxsrv() { 
+		# 2 parameters: directory to list relative to "files" | flags (no dash)
+		# passing no parameters will list the contents of "files", passing ".." will list root
+	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+		echo -e "${white}takes 2 parameters:\\n\\tdirectory to list relative to ~/files/\\n\\tflags to add beyond -F (no dash)${NC}"
+	else
+		echo -e "${white}Listing contents of: /u/ee/ugrad/baumgart/files/$1${NC}"
+		ssh baumgart@lnxsrv.seas.ucla.edu ls -F$2 "files/$1"
+	fi
+}
+
+function rmlnxsrv() { # removes files from lnxsrv relative to "files" directory
+		# 2 parameters: files/directory to delete | flags to add (with a dash)
+	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+		echo -e "${white}takes 2 parameters:\\n\\tfiles to delete relative to ~/files/\\n\\tflags to add (with dash)${NC}"
+	else
+		echo -e "${white}Removing file: /u/ee/ugrad/baumgart/files/$1${NC}"
+		ssh baumgart@lnxsrv.seas.ucla.edu rm $2 "/u/ee/ugrad/baumgart/files/$1"
+	fi
+}
+
+	#if [ $# == 5 ]; then
+	#	echo 5 parameters were provided
+	# if [ $# -eq -ne -lt -le -gt -ge 3 ]; then
+	#	echo Number of operators is equal to, not equal to, less than... 3
+
+function title {
+	PROMPT_COMMAND="echo -ne \"\033]0;$1\007\""
+}
+
+white='\e[1;37m'
+blue='\e[1;34m'
+green='\e[1;32m'
+red='\e[1;31m'
+purple='\e[0;35m'
+yellow='\e[1;33m'
+
+NC='\e[0m' # No Color
+# MORE COLOR CODES FOR ALIASING
+#Black       0;30     Dark Gray     1;30
+#Blue        0;34     Light Blue    1;34
+#Green       0;32     Light Green   1;32
+#Cyan        0;36     Light Cyan    1;36
+#Red         0;31     Light Red     1;31
+#Purple      0;35     Light Purple  1;35
+#Brown       0;33     Yellow        1;33
+#Light Gray  0;37     White         1;37
