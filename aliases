@@ -19,8 +19,10 @@ alias anthro8='cd ~/Dropbox/Documents/UCLA/Y2Q3/anthro8'
 
 alias tf2='cd /home/james/.local/share/Steam/SteamApps/common/Team\ Fortress\ 2/tf/custom/hud'
 alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
+
 # command aliases
 alias top='htop'
+alias jist='jist -c'
 
 # rsyncs
 alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'
