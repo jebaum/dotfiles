@@ -23,9 +23,9 @@ set $gray2  #111111
 
 #                                             title bar bg +
 #class                    title bar border    window border   title bar text    indicator
-client.focused            #2554c7             #0c1488         #FFFFFF           #222222
+client.focused            #2554c7             #0c14a0         #FFFFFF           #222222
 client.focused_inactive   #000000             $gray1          #FFFFFF           #222222
-client.unfocused          #331111             #121212         #FFFFFF           #000000
+client.unfocused          #331111             #000000         #FFFFFF           #000000
 client.urgent             #cd989a             #cd989a         #2e3436
 client.background         #000000
 

@@ -1,4 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =3
 let g:netrw_dirhist_1='/home/james/.oh-my-zsh/plugins/dircycle'
 let g:netrw_dirhist_2='/home/james/.oh-my-zsh/plugins/torrent'
+let g:netrw_dirhist_3='/home/james/dotfiles/vim/bundle/syntastic/plugin/syntastic'
