@@ -2,6 +2,7 @@ alias reload='source ~/.aliases'
 alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
 alias aliases='vim ~/.bash_aliases && reload'
 alias cwd='i3-sensible-terminal &'
+
 # ssh aliases
 alias lnxsrv='ssh baumgart@lnxsrv.seas.ucla.edu'
 alias jbaumy='mosh jebaum@jbaumy.com'
@@ -10,10 +11,18 @@ alias sshl='ssh jebaum@linux.ucla.edu'
 # folder aliases
 alias cs111='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111'
 alias lab1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/1'
+alias lab2='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/2'
+alias lab3='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/3'
 alias w1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/w1'
 
 alias ucla='cd ~/Dropbox/Documents/UCLA'
+alias y1q1='cd ~/Dropbox/Documents/UCLA/Y1Q1'
+alias y1q2='cd ~/Dropbox/Documents/UCLA/Y1Q2'
+alias y1q3='cd ~/Dropbox/Documents/UCLA/Y1Q3'
+alias y2q1='cd ~/Dropbox/Documents/UCLA/Y2Q1'
+alias y2q2='cd ~/Dropbox/Documents/UCLA/Y2Q2'
 alias y2q3='cd ~/Dropbox/Documents/UCLA/Y2Q3'
+
 alias 33b='cd ~/Dropbox/Documents/UCLA/Y2Q3/math33b'
 alias anthro8='cd ~/Dropbox/Documents/UCLA/Y2Q3/anthro8'
 
@@ -23,6 +32,7 @@ alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 # command aliases
 alias top='htop'
 alias jist='jist -c'
+alias grep='grep --color=auto -in'
 
 # rsyncs
 alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'
