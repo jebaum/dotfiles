@@ -1,0 +1,47 @@
+search uc
+search y2
+search 
+find do
+find ospfsmod.c
+find to
+find t
+find s
+find v
+find
+find 
+find dr
+find i
+find E
+open_
+open_with -f 0
+open_with vim
+open_with -t vim
+open_with t vim
+
+find d
+find y2q3
+find 3
+find syl
+find u
+rename homework_1_33b.pdf
+rename homework_1_33b.pdf Homework1.pdf
+rename Homework1.pdf
+open_with 
+open_with 0
+cd 
+c
+cd cs111
+shell cs111
+travel k
+travel <CR
+travel;
+trave
+travel do
+-p wat
+touch wat
+delete
+rename wat
+rename TODO
+travel q
+travel # adding 'console' causes travel to wait for user input before executing
+travel 
