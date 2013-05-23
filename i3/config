@@ -9,7 +9,8 @@ new_window 1pixel
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:DejaVu Sans Mono 9
 
 # MISC SETTINGS
 focus_follows_mouse no

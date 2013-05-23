@@ -1,7 +1,6 @@
 alias reload='source ~/.aliases'
 alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
-alias aliases='vim ~/.bash_aliases && reload'
-alias cwd='i3-sensible-terminal &'
+alias aliases='vim ~/.aliases && reload'
 
 # ssh aliases
 alias lnxsrv='ssh baumgart@lnxsrv.seas.ucla.edu'
@@ -96,9 +95,9 @@ function rmlnxsrv() { # removes files from lnxsrv relative to "files" directory
 	# if [ $# -eq -ne -lt -le -gt -ge 3 ]; then
 	#	echo Number of operators is equal to, not equal to, less than... 3
 
-function title {
-	PROMPT_COMMAND="echo -ne \"\033]0;$1\007\""
-}
+#function title {
+#	PROMPT_COMMAND="echo -ne \"\033]0;$1\007\""
+#}
 
 white='\e[1;37m'
 blue='\e[1;34m'
