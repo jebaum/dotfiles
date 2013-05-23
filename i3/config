@@ -1,48 +1,74 @@
-# Mod4 = windows key
+############################## GENERAL CONFIG ##############################
+# Mod4 = windows key, Mod1 = alt key
 set $mod Mod4
 floating_modifier $mod
 
-# Mod1 = alt key
-#set $mod Mod1
-
-# Window border style
-# normal=border with title, 1pixel = border only, no title
+# WINDOW STYLE: <normal | 1pixel | none | pixel X>
+  # possible bug? according to userguide 4.8, 'new_window pixel 3' should work, but doesn't
 new_window 1pixel
 new_float 1pixel
-focus_follows_mouse no
-# Font for window titles
+  # <none | vertical | horizontal | both>
+hide_edge_borders none
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
-bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
+# MISC SETTINGS
+focus_follows_mouse no
+force_focus_wrapping no
+workspace_auto_back_and_forth yes
+force_display_urgency_hint 1000 ms
+# <horizontal | vertical | auto>
+default_orientation horizontal
+  # <default | stacking | tabbed>
+workspace_layout default
+  # <smart | ignore | leave_fullscreen>
+popup_during_fullscreen smart
 
-#COLORS#
-set $blue   #003366
-set $gray1  #444444
-set $gray2  #111111
-
-
-#                                             title bar bg +
-#class                    title bar border    window border   title bar text    indicator
-client.focused            #0000FF             #191945         #FFFFFF           #222222
-client.focused_inactive   #115011             #112011          #FFFFFF           #222222
-client.unfocused          #000000             #000000         #FFFFFF           #000000
-client.urgent             #cd989a             #cd989a         #2e3436
+#class                    borders     title bar bg   title bar text    indicator
+client.focused            #FF00FF       #191945         #FFFFFF         #222222
+client.focused_inactive   #115011       #112011         #FFFFFF         #222222
+client.unfocused          #000000       #000000         #FFFFFF         #000000
+client.urgent             #cd989a       #cd989a         #2e3436
 client.background         #000000
+############################################################################
+########################### STARTUP APPLICATIONS ###########################
+# exec_always will run when i3 is restarted, not just initially
+exec unclutter
+exec parcellite
+exec nitrogen --restore
+exec dropbox start
+exec amixer set PCM 208
+exec amixer set Master 25
+exec curl icanhazip.com > ~/Dropbox/jbaumy.com/ip.txt
+# exec --no-startup-id urxvtd
+############################################################################
+################################# KEYBINDS #################################
+# general command syntax
+# bindsym <keys> [[class="windowstoeffect" instance="lol"]] <command>
+# implemented criteria checks:
+# WM_CLASS → instance, class    WM_WINDOW_ROLE → window_role
+# X11 window ID, fetched via xwininfo → id    X11 window title, _NET_WM_NAME or WM_NAME as fallback → title
+# urgent, con_mark, con_id
 
+bindsym $mod+Shift+Return exec urxvt
+bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
+bindsym $mod+Shift+Q kill
+bindsym $mod+p exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
+bindsym $mod+Shift+R reload
+bindsym $mod+Shift+C restart
+bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# CUSTOM KEYBINDS #
-  # Messing with borders
-bindsym $mod+t exec i3-msg border normal 1pixel
-bindsym $mod+Shift+t exec i3-msg border normal 4pixel
-bindsym $mod+y exec i3-msg border 1pixel
-bindsym $mod+Shift+y exec i3-msg border pixel 4
+  ### Messing with borders
+bindsym $mod+t        border normal 1pixel
+bindsym $mod+Shift+t  border normal 4pixel
+bindsym $mod+y        border 1pixel
+bindsym $mod+Shift+y  border pixel 4
 bindsym $mod+n exec i3-msg border none
 
-  # scratchpad
+  ### scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-  # volume / music
+  ### volume / music
 bindsym $mod+Mod1+minus exec amixer set Master 1-
 bindsym $mod+Mod1+plus  exec amixer set Master 1+
 #bindsym $mod+Mod1+minus exec mpc volume -1
@@ -53,94 +79,94 @@ bindsym $mod+Mod1+n exec mpc next
 bindsym $mod+Mod1+s exec mpc stop
 bindsym $mod+Mod1+space exec mpc toggle
 
-# Script hotkeys
+  ### Script hotkeys
 bindsym --release $mod+o exec grab
 bindsym $mod+Shift+o exec pasta
 bindsym $mod+q exec quickswitch.py
+############################################################################
+######################## PROGRAM SPECIFIC SETTINGS #########################
+# for_window <criteria> command; command
+# use xprop to get instance/class, WM_CLASS(STRING) line
 
-
-###################
-
-# program specific settings
 for_window [class="Firefox"] border none
-for_window [class="Thunderbird"] border none
+assign     [class="Firefox"] → 2
 
+for_window [instance="Mail" class="Thunderbird"] border none
+assign     [instance="Mail" class="Thunderbird"] → 5
 
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
+for_window [instance="ec2" class="URxvt"] border none
+assign     [instance="ec2" class="URxvt"] → 3
 
-# start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal &
-bindsym $mod+Shift+Return exec urxvt
-bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
+for_window [instance="Steam" class="Steam"] border none
+assign     [instance="Steam" class="Steam"] → 9
+for_window [instance="hl2_linux" class="hl2_linux"] border none
+assign     [instance="hl2_linux" class="hl2_linux"] → tf2
 
-# kill focused window
-bindsym $mod+Shift+Q kill
+for_window [instance="vlc" class="Vlc"] border none
+assign     [instance="vlc" class="Vlc"] → 10
+############################################################################
+######################## WINDOW MANAGEMENT KEYBINDS ########################
+# TODO - mark/goto stuff, userguide 6.10
 
-# start dmenu (a program launcher)
-#bindsym $mod+p exec dmenu_run -fn -*-terminus-medium-*-*-*-*-*-*-*-*-*-*-* -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
-bindsym $mod+p exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
-
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+i focus up
-bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
+  ### ijkl and cursor for moving focus
+bindsym $mod+j     focus left
+bindsym $mod+k     focus down
+bindsym $mod+i     focus up
+bindsym $mod+l     focus right
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
+bindsym $mod+a     focus parent
+bindsym $mod+d     focus child
+# focus output <left | right | down | up | output_name>
 
-# move focused window
-bindsym $mod+Shift+J move left
-bindsym $mod+Shift+K move down
-bindsym $mod+Shift+I move up
-bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
+  ### move focused window, px only applies to floating windows, default is 10
+bindsym $mod+Shift+J     move left  20 px
+bindsym $mod+Shift+K     move down  20 px
+bindsym $mod+Shift+I     move up    20 px
+bindsym $mod+Shift+l     move right 20 px
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
+# move absolute position center
 
-# move workspaces
-bindsym $mod+Control+i move workspace to output up
-bindsym $mod+Control+j move workspace to output left
-bindsym $mod+Control+k move workspace to output down
-bindsym $mod+Control+l move workspace to output right
-
-# tab between workspaces
-bindsym Mod1+Tab workspace back_and_forth
-
-# split in horizontal orientation
+  ### container layout
 bindsym $mod+h split h
-
-# split in vertical orientation
 bindsym $mod+v split v
-
-# enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen
-
-# change container layout (stacked, tabbed, default)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout default
 
-# toggle tiling / floating
+  ### floating windows
 bindsym $mod+Shift+space floating toggle
-
-# change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
+############################################################################
+###################### WORKSPACE MANAGEMENT KEYBINDS #######################
+  ### automatically put workspace on certain screen on creation
+    # named workspace must be quoted, eg: workspace "tf2" output DVI-I-2
+workspace 1 output DVI-I-2
+workspace 4 output DVI-I-2
+workspace 5 output DVI-I-2
+workspace 9 output DVI-I-2
+workspace "tf2" output DVI-I-2
+workspace 2 output DVI-I-3
+workspace 3 output DVI-I-3
 
-# focus the parent container
-bindsym $mod+a focus parent
+bindsym $mod+Tab workspace next_on_output
+bindsym $mod+Shift+Tab workspace prev_on_output
+bindsym Mod1+Tab workspace back_and_forth
 
-# focus the child container
-bindsym $mod+d focus child
+  ### move workspaces between outputs, also takes specific output name instead of direction (DVI-I-2)
+bindsym $mod+Control+j move workspace to output left
+bindsym $mod+Control+k move workspace to output down
+bindsym $mod+Control+i move workspace to output up
+bindsym $mod+Control+l move workspace to output right
 
-# switch to workspace
+  ### switch to workspace
+    # TODO - numpad?
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
@@ -152,7 +178,7 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 
-# move focused container to workspace
+  ### move focused container to workspace
 bindsym $mod+Shift+1 move workspace number 1
 bindsym $mod+Shift+2 move workspace number 2
 bindsym $mod+Shift+3 move workspace number 3
@@ -164,56 +190,37 @@ bindsym $mod+Shift+8 move workspace number 8
 bindsym $mod+Shift+9 move workspace number 9
 bindsym $mod+Shift+0 move workspace number 10
 
-# tab between workspaces
-bindsym $mod+Tab workspace next_on_output
-bindsym $mod+Shift+Tab workspace prev_on_output
-#bindsym $mod+Space+Tab workspace next_on_output
-#bindsym $mod+Shift+Space+Tab workspace prev_on_output
-
-# reload the configuration file
-bindsym $mod+Shift+C reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+R restart
-# exit i3 (logs you out of your X session)
-#bindsym $mod+Shift+E exit
-bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-
-# resize window (you can also use the mouse for that)
+bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
+############################################################################
+############################### RESIZE MODE ################################
+  # px is pixels for floating containers, ppt is percent for tiling containers
 mode "resize" {
-          bindsym j        resize shrink left 1 px or 1 ppt
-          bindsym Shift+J  resize grow   left 1 px or 1 ppt
+# large resizes with ijkl  
+  bindsym j        resize grow     left 20 px or 2 ppt
+  bindsym Shift+J  resize shrink   left 20 px or 2 ppt
+  bindsym k        resize grow     down 20 px or 2 ppt
+  bindsym Shift+K  resize shrink   down 20 px or 2 ppt
+  bindsym i        resize grow     up 20 px or 2 ppt
+  bindsym Shift+i  resize shrink   up 20 px or 2 ppt
+  bindsym l        resize grow     right 20 px or 2 ppt
+  bindsym Shift+l  resize shrink   right 20 px or 2 ppt
+# refined control with arrow keys
+  bindsym Left        resize grow     left 1 px or 1 pt
+  bindsym Shift+Left  resize shrink   left 1 px or 1 pt
+  bindsym Down        resize grow    down 1 px or 1 ppt
+  bindsym Shift+Down  resize shrink  down 1 px or 1 ppt
+  bindsym Up          resize grow     up 1 px or 1 ppt
+  bindsym Shift+Up    resize shrink   up 1 px or 1 ppt
+  bindsym Right       resize grow     right 1 px or 1 ppt
+  bindsym Shift+Right resize shrink   right 1 px or 1 ppt
 
-          bindsym k        resize shrink down 1 px or 1 ppt
-          bindsym Shift+K  resize grow   down 1 px or 1 ppt
-
-          bindsym i        resize shrink up 1 px or 1 ppt
-          bindsym Shift+i  resize grow   up 1 px or 1 ppt
-
-          bindsym l        resize shrink right 1 px or 1 ppt
-          bindsym Shift+l  resize grow   right 1 px or 1 ppt
-
-    # same bindings, but for the arrow keys
-          bindsym Left        resize shrink left 1 px or 1 pt
-          bindsym Shift+Left  resize grow   left 1 px or 1 pt
-
-          bindsym Down        resize shrink down 1 px or 1 ppt
-          bindsym Shift+Down  resize grow   down 1 px or 1 ppt
-
-          bindsym Up          resize shrink up 1 px or 1 ppt
-          bindsym Shift+Up    resize grow   up 1 px or 1 ppt
-
-          bindsym Right       resize shrink right 1 px or 1 ppt
-          bindsym Shift+Right resize grow   right 1 px or 1 ppt
-
-    # back to normal: Enter or Escape
-          bindsym Return mode "default"
-          bindsym Escape mode "default"
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+############################################################################
+################################### BAR ####################################
+# TODO - possibly use multiple bar blocks to use conky|dzen? i3 user guide section 5
 bar {
       mode dock
       position top
@@ -226,13 +233,14 @@ bar {
 
       colors {
           background #1A1A1A
-          statusline #cccccc
-#                            border     bg      text
+          statusline #CCCCCC
+         #separator  #FF0000
+#                             border    bg      text
           focused_workspace  #4C7899  #285577  #FFFFFF
           active_workspace   #333333  #083557  #A0A0A0
           inactive_workspace #222222  #101010  #888888
           urgent_workspace   #a00000  #904040  #FFFFFF
       }
 }
-
+############################################################################
 # vim:filetype=i3
