@@ -63,8 +63,8 @@ bindsym $mod+t        border normal 1pixel
 bindsym $mod+Shift+t  border normal 4pixel
 bindsym $mod+y        border 1pixel
 bindsym $mod+Shift+y  border pixel 4
-bindsym $mod+n exec i3-msg border none
-
+bindsym $mod+n        border none
+bindsym $mod+KP_2     border normal 10pixel
   ### scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
@@ -89,8 +89,8 @@ bindsym $mod+q exec quickswitch.py
 # for_window <criteria> command; command
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
-for_window [class="Firefox"] border none
-assign     [class="Firefox"] → 2
+for_window [instance="Navigator" class="Firefox"] border none
+assign     [instance="Navigator" class="Firefox"] → 2
 
 for_window [instance="Mail" class="Thunderbird"] border none
 assign     [instance="Mail" class="Thunderbird"] → 5
@@ -197,21 +197,21 @@ bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
   # px is pixels for floating containers, ppt is percent for tiling containers
 mode "resize" {
 # large resizes with ijkl  
-  bindsym j        resize grow     left 20 px or 2 ppt
-  bindsym Shift+J  resize shrink   left 20 px or 2 ppt
-  bindsym k        resize grow     down 20 px or 2 ppt
-  bindsym Shift+K  resize shrink   down 20 px or 2 ppt
-  bindsym i        resize grow     up 20 px or 2 ppt
-  bindsym Shift+i  resize shrink   up 20 px or 2 ppt
-  bindsym l        resize grow     right 20 px or 2 ppt
-  bindsym Shift+l  resize shrink   right 20 px or 2 ppt
+  bindsym j           resize grow     left  20 px or 2 ppt
+  bindsym Shift+J     resize shrink   left  20 px or 2 ppt
+  bindsym k           resize grow     down  20 px or 2 ppt
+  bindsym Shift+K     resize shrink   down  20 px or 2 ppt
+  bindsym i           resize grow     up    20 px or 2 ppt
+  bindsym Shift+i     resize shrink   up    20 px or 2 ppt
+  bindsym l           resize grow     right 20 px or 2 ppt
+  bindsym Shift+l     resize shrink   right 20 px or 2 ppt
 # refined control with arrow keys
-  bindsym Left        resize grow     left 1 px or 1 pt
-  bindsym Shift+Left  resize shrink   left 1 px or 1 pt
-  bindsym Down        resize grow    down 1 px or 1 ppt
-  bindsym Shift+Down  resize shrink  down 1 px or 1 ppt
-  bindsym Up          resize grow     up 1 px or 1 ppt
-  bindsym Shift+Up    resize shrink   up 1 px or 1 ppt
+  bindsym Left        resize grow     left  1 px or 1 pt
+  bindsym Shift+Left  resize shrink   left  1 px or 1 pt
+  bindsym Down        resize grow     down  1 px or 1 ppt
+  bindsym Shift+Down  resize shrink   down  1 px or 1 ppt
+  bindsym Up          resize grow     up    1 px or 1 ppt
+  bindsym Shift+Up    resize shrink   up    1 px or 1 ppt
   bindsym Right       resize grow     right 1 px or 1 ppt
   bindsym Shift+Right resize shrink   right 1 px or 1 ppt
 
@@ -223,25 +223,26 @@ bindsym $mod+r mode "resize"
 ################################### BAR ####################################
 # TODO - possibly use multiple bar blocks to use conky|dzen? i3 user guide section 5
 bar {
-      mode dock
-      position top
-      workspace_buttons yes
-      font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-      status_command ~/.i3/conky
-      #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -x '1600' -y '1000' -m
-      #status_command conky -c ~/.i3/dzconky
-      tray_output DVI-I-2
+  output DVI-I-2
+  output DVI-I-3
+  mode dock
+  position top
+  workspace_buttons yes
+  font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+  status_command ~/.i3/conky
+  #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
+  tray_output DVI-I-2
 
-      colors {
-          background #1A1A1A
-          statusline #CCCCCC
-         #separator  #FF0000
-#                             border    bg      text
-          focused_workspace  #4C7899  #285577  #FFFFFF
-          active_workspace   #333333  #083557  #A0A0A0
-          inactive_workspace #222222  #101010  #888888
-          urgent_workspace   #a00000  #904040  #FFFFFF
-      }
+  colors {
+    background #000000
+    statusline #CCCCCC
+   #separator  #FF0000
+#                       border    bg      text
+    focused_workspace  #4C7899  #285577  #FFFFFF
+    active_workspace   #333333  #083557  #A0A0A0
+    inactive_workspace #222222  #101010  #888888
+    urgent_workspace   #a00000  #904040  #FFFFFF
+  }
 }
 ############################################################################
 # vim:filetype=i3

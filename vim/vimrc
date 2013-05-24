@@ -43,8 +43,10 @@ execute pathogen#infect()
 syntax on
 set ttyfast "we have a fast terminal (?)
 set restorescreen=on " restore screen contents on exit
-set title titlelen=150 titlestring=%t
-"set title titlelen=150 titlestring=%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
+set title titlelen=150
+set titlestring=
+set titlestring+=%t\  " file name
+set titlestring+=(%F) " full file path + name
 set number
 set backspace=indent,eol,start " allow backspace in insert mode
 set autoread " reload files changed outside of vim
