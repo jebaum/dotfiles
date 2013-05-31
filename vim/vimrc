@@ -49,6 +49,10 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 " putting call in vimrc makes it auto do things when the file loads.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
 
+" open nerdtree if no files were specified
+autocmd vimenter * if !argc() | NERDTree | endif
+
+
 execute pathogen#infect()
 
 
@@ -78,7 +82,7 @@ nmap <F2> :set list!<CR>
 nmap <F3> :call StripTrailingWhitespaces()<CR>
 nmap <F11>  zR
 nmap <F12>  zM
-
+map <C-n> :NERDTreeToggle<CR>
 
 " searching
 set incsearch "find as you type
