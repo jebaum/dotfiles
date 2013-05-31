@@ -1,22 +1,7 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
+execute pathogen#infect()
 
-""""""""""""""""""""""""""""""""" STATUSLINE """""""""""""""""""""""""""""""""
-" full statusline colors defined in ~/.vim/plugin/statline.vim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! InsertStatuslineColor(mode)
- if a:mode == 'i'
-    hi User6 ctermfg=green ctermbg=235
-  elseif a:mode == 'c'
-    hi User6 ctermfg=green ctermbg=232
-  elseif a:mode == 'x'
-    hi User6 ctermfg=green ctermbg=232
-  endif
-endfunction
-" change statusline color depending on mode
-au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertChange * call InsertStatuslineColor('c')
-au InsertLeave * call InsertStatuslineColor('x')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""" RELATIVE LINE NUMBER """"""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -50,7 +35,6 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 " last parameter is optional and can be any highlight group. call in vimrc makes it do things when the file loads.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
 autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
-execute pathogen#infect()
 
 " make :set list (show whitespace chars) nicer, don't show EOL
 if &listchars ==# 'eol:$'

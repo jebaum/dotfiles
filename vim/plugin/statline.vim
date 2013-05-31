@@ -56,7 +56,7 @@ hi User5 ctermfg=111 ctermbg=black
 "empty space, 16 is pure black
 hi User6 ctermfg=green ctermbg=232
 
-"line/column
+" mode message
 hi User7 ctermfg=202 ctermbg=black
 
 "scroll percent
@@ -67,8 +67,45 @@ hi User9 ctermfg=207 ctermbg=black
 
 " ====== basic info ======
 
-" ---- number of buffers : buffer number ----
+" pretty mode display - converts the one letter status notifiers to words
+function! Mode()
+    let l:mode = mode()
 
+    if     mode ==# "n"  | return "NORMAL"
+    elseif mode ==# "i"  | return "INSERT"
+    elseif mode ==# "R"  | return "REPLACE"
+    elseif mode ==# "v"  | return "VISUAL"
+    elseif mode ==# "V"  | return "V-LINE"
+    elseif mode ==# "^V" | return "V-BLOCK"
+    else                 | return l:mode
+    endif
+endfunc  
+
+" Change the values for User1 color preset depending on mode
+function! ModeChanged(mode)
+    if     a:mode ==# "n"
+      hi User7 guifg=#000000 guibg=#7dcc7d gui=NONE ctermfg=0 ctermbg=2 cterm=NONE
+      hi User6 ctermfg=green ctermbg=232  
+    elseif a:mode ==# "i"
+      hi User7 guifg=#ffffff guibg=#ff0000 gui=bold ctermfg=15 ctermbg=9 cterm=bold
+      hi User6 ctermfg=green ctermbg=235
+    elseif a:mode ==# "r"
+      hi User7 guifg=#ffff00 guibg=#5b7fbb gui=bold ctermfg=190 ctermbg=67 cterm=bold
+      hi User6 ctermfg=green ctermbg=235
+    "elseif a:mode ==# "v"  | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
+    "elseif a:mode ==# "V"  | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
+    "elseif a:mode ==# "^V" | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
+    else
+      hi User1 guifg=#ffffff guibg=#810085 gui=NONE ctermfg=15 ctermbg=53 cterm=NONE
+      hi User6 ctermfg=green ctermbg=232
+    endif
+endfunc
+au InsertEnter * call ModeChanged(v:insertmode)
+au InsertChange * call ModeChanged(v:insertmode)
+au InsertLeave * call ModeChanged(mode())
+
+
+" ---- number of buffers : buffer number ----
 function! StatlineBufCount()
     if !exists("s:statline_n_buffers")
         let s:statline_n_buffers = len(filter(range(1,bufnr('$')), 'buflisted(v:val)'))
@@ -91,6 +128,7 @@ else
     set statusline=[%n]\ %<
 endif
 
+let &stl.="%7*\ %{Mode()} %0*" 
 
 " ---- filename (relative or tail) ----
 
@@ -160,7 +198,7 @@ endif
 " ---- current line and column ----
 
 " (-:left align, 14:minwid, l:line, L:nLines, c:column)
-set statusline+=%7*%-14(\ L%l/%L:C%c\ %)%*
+set statusline+=%8*%-14(\ L%l/%L:C%c\ %)%*
 
 
 " ----  scroll percent ----
