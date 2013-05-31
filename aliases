@@ -12,8 +12,9 @@ alias cs111='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111'
 alias lab1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/1'
 alias lab2='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/2'
 alias lab3='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/3'
+alias lab4='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/4'
 alias w1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/w1'
-
+alias w2='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/w2'
 alias ucla='cd ~/Dropbox/Documents/UCLA'
 alias y1q1='cd ~/Dropbox/Documents/UCLA/Y1Q1'
 alias y1q2='cd ~/Dropbox/Documents/UCLA/Y1Q2'
@@ -21,17 +22,26 @@ alias y1q3='cd ~/Dropbox/Documents/UCLA/Y1Q3'
 alias y2q1='cd ~/Dropbox/Documents/UCLA/Y2Q1'
 alias y2q2='cd ~/Dropbox/Documents/UCLA/Y2Q2'
 alias y2q3='cd ~/Dropbox/Documents/UCLA/Y2Q3'
-
 alias 33b='cd ~/Dropbox/Documents/UCLA/Y2Q3/math33b'
 alias anthro8='cd ~/Dropbox/Documents/UCLA/Y2Q3/anthro8'
-
 alias tf2='cd /home/james/.local/share/Steam/SteamApps/common/Team\ Fortress\ 2/tf/custom/hud'
 alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 
 # command aliases
+alias playserver='mplayer -slave -idle -nocache -input file=/home/everyone/mplayerfifo'
+alias playserverlog='watch -n 1 "cat /home/everyone/log|tail -20"'
+
+function sendplayservercmd() {
+  echo "$1" > /home/everyone/mplayerfifo
+}
+
 alias top='htop'
 alias jist='jist -c'
 alias grep='grep --color=auto -in'
+alias yt='youtube-viewer'
+alias ytdl='youtube-dl'
+alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
+
 
 # rsyncs
 alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'

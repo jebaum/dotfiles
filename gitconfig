@@ -1,0 +1,49 @@
+[alias]
+  s = status
+  co = checkout
+  c = commit
+  b = branch
+
+    # adding --cached to any diff compares what's added instead of the working copy
+  d = diff # difference between working copy and what's added (index). adding cache compares index to HEAD
+  dc = diff --color-words
+  dh = diff HEAD # difference between working copy and head. 'git diff HEAD --cached' == 'git diff --cached'
+  dhc = diff --color-words HEAD
+ 
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  lg = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %Cgreen%an%Creset, %Cred%ar%Creset (%ad)' --date=short
+  ls = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --max-count 5 --stat
+  lgs = log --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %Cgreen%an%Creset, %Cred%ar%Creset (%ad)' --date=short --max-count 5 --stat
+  ll = log --stat --abbrev-commit
+  lls = log --stat --abbrev-commit --max-count 3
+  last = log -p --stat --abbrev-commit --max-count 1
+  type = cat-file -t
+  dump = cat-file -p
+[user]
+	name = James Baumgarten
+	email = jebaum@ucla.edu
+[color]
+    ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+  meta = yellow 
+  frag = magenta #bold
+  plain = white
+  old = red 
+  new = green
+  commit = yellow bold
+  func = green dim
+[color "status"]
+    added = green bold
+    changed = yellow bold
+    untracked = red bold
+[github]
+	user = jebaum
+[core]
+	editor = vim
+[push]
+	default = simple

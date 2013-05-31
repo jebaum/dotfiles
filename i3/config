@@ -81,13 +81,19 @@ bindsym $mod+Mod1+p     exec mpc cdprev
 bindsym $mod+Mod1+n     exec mpc next
 bindsym $mod+Mod1+s     exec mpc stop
 bindsym $mod+Mod1+space exec mpc toggle
+bindsym $mod+Mod1+Left  exec mpc seek -5
+bindsym $mod+Mod1+Right exec mpc seek +5
+bindsym $mod+Mod1+Down  exec mpc seek -20
+bindsym $mod+Mod1+Up    exec mpc seek +20
+bindsym $mod+Mod1+Next  exec mpc seek -60
+bindsym $mod+Mod1+Prior exec mpc seek +60
 
   ### mplayer controls
-bindsym $mod+Control+space exec echo pause > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+s     exec echo stop > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+m     exec echo mute > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+n     exec echo pt_step 1 > ~/.mplayer/mplayerfifo
 bindsym $mod+Control+p     exec echo pt_step -1 > ~/.mplayer/mplayerfifo
+bindsym $mod+Control+n     exec echo pt_step 1 > ~/.mplayer/mplayerfifo
+bindsym $mod+Control+s     exec echo stop > ~/.mplayer/mplayerfifo
+bindsym $mod+Control+q     exec killall mplayer
+bindsym $mod+Control+space exec echo pause > ~/.mplayer/mplayerfifo
 bindsym $mod+Control+Left  exec echo seek -10 0 > ~/.mplayer/mplayerfifo
 bindsym $mod+Control+Right exec echo seek 10 0 > ~/.mplayer/mplayerfifo
 bindsym $mod+Control+Down  exec echo seek -60 0 > ~/.mplayer/mplayerfifo
@@ -165,8 +171,8 @@ bindsym $mod+space focus mode_toggle
 workspace 1 output DVI-I-2
 workspace 4 output DVI-I-2
 workspace 5 output DVI-I-2
-workspace "steam" output DVI-I-2
-workspace "tf2" output DVI-I-2
+workspace "11: steam" output DVI-I-2
+workspace "12: tf2" output DVI-I-2
 workspace 2 output DVI-I-3
 workspace 3 output DVI-I-3
 

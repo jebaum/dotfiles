@@ -1,1 +1,0 @@
-SyntaxRange.vba: call delete('/home/james/.vim/autoload/SyntaxRange.vim')|call delete('/home/james/.vim/plugin/SyntaxRange.vim')|call delete('/home/james/.vim/doc/SyntaxRange.txt')

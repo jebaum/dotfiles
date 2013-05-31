@@ -460,7 +460,7 @@ now_playing_prefix = "$b"
 now_playing_suffix = "$/b"
 song_window_title_format = "MPD: {%a > }{%t}{ [%b{ Disc %d}]}|{%f}"
 selected_item_prefix = "$b"
-selected_item_suffix = "$\b"
+selected_item_suffix = ""
 
 colors_enabled = "yes"
 discard_colors_if_item_is_selected = "yes"

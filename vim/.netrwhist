@@ -1,5 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/home/james/.oh-my-zsh/plugins/dircycle'
 let g:netrw_dirhist_2='/home/james/.oh-my-zsh/plugins/torrent'
 let g:netrw_dirhist_3='/home/james/dotfiles/vim/bundle/syntastic/plugin/syntastic'
+let g:netrw_dirhist_4='/etc/cron.hourly'
+let g:netrw_dirhist_5='/home/james/.mplayer'
+let g:netrw_dirhist_6='/etc/php'
+let g:netrw_dirhist_7='/srv/http/clients/player/config'

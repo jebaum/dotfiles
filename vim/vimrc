@@ -19,6 +19,19 @@ au InsertChange * call InsertStatuslineColor('c')
 au InsertLeave * call InsertStatuslineColor('x')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""" relative line number """""""""""""""""""
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
+function! g:ToggleNuMode()
+  if(&rnu == 1)
+    set nu
+  else
+    set rnu
+  endif
+endfunc 
+nnoremap <C-L> :call g:ToggleNuMode()<cr>
+
 """"""""" function to remove trailing whitespaces """"""""""
 fun! StripTrailingWhitespaces()
     let l = line(".")
@@ -47,7 +60,7 @@ set title titlelen=150
 set titlestring=
 set titlestring+=%t\  " file name
 set titlestring+=(%F) " full file path + name
-set number
+set relativenumber
 set backspace=indent,eol,start " allow backspace in insert mode
 set autoread " reload files changed outside of vim
 set noruler
