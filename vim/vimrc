@@ -1,9 +1,9 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 
-
-"""""""""""""""""""""""" STATUSLINE """"""""""""""""""""""""
+""""""""""""""""""""""""""""""""" STATUSLINE """""""""""""""""""""""""""""""""
 " full statusline colors defined in ~/.vim/plugin/statline.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! InsertStatuslineColor(mode)
  if a:mode == 'i'
     hi User6 ctermfg=green ctermbg=235
@@ -17,9 +17,9 @@ endfunction
 au InsertEnter * call InsertStatuslineColor(v:insertmode)
 au InsertChange * call InsertStatuslineColor('c')
 au InsertLeave * call InsertStatuslineColor('x')
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-""""""""""""""""""" relative line number """""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""" RELATIVE LINE NUMBER """"""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 
@@ -32,7 +32,9 @@ function! g:ToggleNuMode()
 endfunc 
 nnoremap <C-L> :call g:ToggleNuMode()<cr>
 
-""""""""" function to remove trailing whitespaces """"""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""" FUNCTION TO REMOVE TRAILING WHITESPACES """""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 fun! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -41,22 +43,32 @@ fun! StripTrailingWhitespaces()
 endfun
 " call function on write for these file types
 autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" vim.org script 4168, defined in autoload/SyntaxRange.vim
-" documentation in .vim/doc/SyntaxRange.txt
-" last parameter is optional and can be any highlight group
-" putting call in vimrc makes it auto do things when the file loads.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""MISC""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim.org script 4168, defined in autoload/SyntaxRange.vim, documentation in .vim/doc/SyntaxRange.txt
+" last parameter is optional and can be any highlight group. call in vimrc makes it do things when the file loads.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
-
-" open nerdtree if no files were specified
-autocmd vimenter * if !argc() | NERDTree | endif
-
-
+autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 execute pathogen#infect()
 
+" make :set list (show whitespace chars) nicer, don't show EOL
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+  if &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
+    let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+  endif
+endif
 
-" general stuff
+" highlight end of line whitespcae
+" match Todo /\s\+$/
+
+" latex stuff
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""" GENERAL STUFF """"""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 set ttyfast "we have a fast terminal (?)
 set restorescreen=on " restore screen contents on exit
@@ -74,21 +86,14 @@ set showmode
 set showcmd
 set showmatch
 set cursorline
-
-" keybinds
-set pastetoggle=<INS>
-nmap <F1> :let @+=@"<CR>
-nmap <F2> :set list!<CR>
-nmap <F3> :call StripTrailingWhitespaces()<CR>
-nmap <F11>  zR
-nmap <F12>  zM
-map <C-n> :NERDTreeToggle<CR>
-
-" searching
 set incsearch "find as you type
 set hlsearch  "hilight search terms
 set ignorecase "case insensitive search
-
+set scrolljump=5 "lines to scroll when cursor leaves screen
+set scrolloff=8 "start scrolling when 8 lines away from margins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""" FOLDING """""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " folding: zf#j manually folds # lines, or zf in visual mode selection.
 " zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
 " zj and zk to move between folds
@@ -100,9 +105,9 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <space> zf
 "au BufWinLeave * mkview
 "au BufWinEnter * silent loadview
-
-
-" tab/indent stuff
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""" TAB / INDENT STUFF """"""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent
 set smartindent
 set smarttab
@@ -115,27 +120,14 @@ filetype indent on " manually overrode this for c/cpp files in .vim/after/ftplug
 set linebreak " wrap lines at nice points
 set textwidth=0
 "set nowrap " don't wrap lines
-
-
-" scroll stuff
-set scrolljump=5 "lines to scroll when cursor leaves screen
-set scrolloff=8 "start scrolling when 8 lines away from margins
-"set sidescrolloff=15
-"set sidescroll=1
-
-
-" make :set list (show whitespace chars) nicer, don't show EOL
-if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-  if &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
-    let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
-  endif
-endif
-
-" highlight end of line whitespcae
-" match Todo /\s\+$/
-
-" latex stuff
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""" KEYBINDS """"""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set pastetoggle=<INS>
+nmap <F1> :let @+=@"<CR>
+nmap <F2> :set list!<CR>
+nmap <F3> :call StripTrailingWhitespaces()<CR>
+nmap <F11>  zR
+nmap <F12>  zM
+map <C-n> :NERDTreeToggle<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
