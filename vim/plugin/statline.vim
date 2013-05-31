@@ -57,7 +57,7 @@ hi User5 ctermfg=111 ctermbg=black
 hi User6 ctermfg=green ctermbg=232
 
 " mode message
-hi User7 ctermfg=202 ctermbg=black
+hi User7 ctermfg=255 ctermbg=black
 
 "scroll percent
 hi User8 ctermfg=184 ctermbg=black
@@ -84,13 +84,13 @@ endfunc
 " Change the values for User1 color preset depending on mode
 function! ModeChanged(mode)
     if     a:mode ==# "n"
-      hi User7 guifg=#000000 guibg=#7dcc7d gui=NONE ctermfg=0 ctermbg=2 cterm=NONE
+      hi User7 ctermfg=255 ctermbg=0 cterm=NONE
       hi User6 ctermfg=green ctermbg=232  
     elseif a:mode ==# "i"
-      hi User7 guifg=#ffffff guibg=#ff0000 gui=bold ctermfg=15 ctermbg=9 cterm=bold
+      hi User7 ctermfg=15 ctermbg=124 cterm=bold
       hi User6 ctermfg=green ctermbg=235
     elseif a:mode ==# "r"
-      hi User7 guifg=#ffff00 guibg=#5b7fbb gui=bold ctermfg=190 ctermbg=67 cterm=bold
+      hi User7 ctermfg=255 ctermbg=57 cterm=bold
       hi User6 ctermfg=green ctermbg=235
     "elseif a:mode ==# "v"  | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
     "elseif a:mode ==# "V"  | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
