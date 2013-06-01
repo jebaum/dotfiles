@@ -253,7 +253,7 @@ bar {
   mode dock
   position top
   workspace_buttons yes
-  font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+  font pango:Times New Roman 9
   status_command ~/.i3/conky
   #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -dock -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
   tray_output DVI-I-2
@@ -264,8 +264,8 @@ bar {
    #separator  #FF0000
 #                       border    bg      text
     focused_workspace  #4C7899  #285577  #FFFFFF
-    active_workspace   #333333  #083557  #A0A0A0
-    inactive_workspace #222222  #101010  #888888
+    active_workspace   #333333  #083557  #B0B0B0
+    inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #a00000  #904040  #FFFFFF
   }
 }
