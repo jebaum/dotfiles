@@ -92,18 +92,14 @@ function! ModeChanged(mode)
     elseif a:mode ==# "r"
       hi User7 ctermfg=255 ctermbg=57 cterm=bold
       hi User6 ctermfg=green ctermbg=235
-    "elseif a:mode ==# "v"  | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
-    "elseif a:mode ==# "V"  | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
-    "elseif a:mode ==# "^V" | hi User7 guifg=#ffffff guibg=#810085 ctermfg=15 ctermbg=53
     else
-      hi User1 guifg=#ffffff guibg=#810085 gui=NONE ctermfg=15 ctermbg=53 cterm=NONE
+      hi User1 ctermfg=15 ctermbg=53 cterm=NONE
       hi User6 ctermfg=green ctermbg=232
     endif
 endfunc
 au InsertEnter * call ModeChanged(v:insertmode)
 au InsertChange * call ModeChanged(v:insertmode)
 au InsertLeave * call ModeChanged(mode())
-
 
 " ---- number of buffers : buffer number ----
 function! StatlineBufCount()

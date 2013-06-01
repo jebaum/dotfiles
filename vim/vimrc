@@ -1,7 +1,6 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 execute pathogen#infect()
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""" RELATIVE LINE NUMBER """"""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -14,7 +13,7 @@ function! g:ToggleNuMode()
   else
     set rnu
   endif
-endfunc 
+endfunc
 nnoremap <C-L> :call g:ToggleNuMode()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -34,7 +33,7 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 " vim.org script 4168, defined in autoload/SyntaxRange.vim, documentation in .vim/doc/SyntaxRange.txt
 " last parameter is optional and can be any highlight group. call in vimrc makes it do things when the file loads.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
-autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
+"autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
 " make :set list (show whitespace chars) nicer, don't show EOL
 if &listchars ==# 'eol:$'
@@ -50,6 +49,13 @@ endif
 " latex stuff
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
+let g:showmarks_enable = 0 " hide marks by default
+let showmarks_include = "abcdefghijklmnopqrstuvwxyz"
+" shifting doesn't exit visual mode
+vnoremap < <gv
+vnoremap > >gv
+" when forgetting to sudo, write to file with w!!
+cmap w!! w !sudo tee % >/dev/null
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""" GENERAL STUFF """"""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -75,6 +81,7 @@ set hlsearch  "hilight search terms
 set ignorecase "case insensitive search
 set scrolljump=5 "lines to scroll when cursor leaves screen
 set scrolloff=8 "start scrolling when 8 lines away from margins
+set updatetime=200
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""" FOLDING """""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -109,9 +116,30 @@ set textwidth=0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set pastetoggle=<INS>
 nmap <F1> :let @+=@"<CR>
-nmap <F2> :set list!<CR>
-nmap <F3> :call StripTrailingWhitespaces()<CR>
+nmap <F2> :call StripTrailingWhitespaces()<CR>
+nmap <F3> :set list!<CR>
+nmap <F4> :ShowMarksToggle<CR>
+nmap <F6> :set spell!<CR>
 nmap <F11>  zR
 nmap <F12>  zM
 map <C-n> :NERDTreeToggle<CR>
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = ','  " use command instead of \ as leader
+" use semicolon as well as colon to enter command mode
+nnoremap ; :
+" make Y yank from cursor to end of line, consistent with C and D
+nnoremap Y y$
+
+" move motion keys to be ijkl instead of hjkl
+nnoremap j h
+nnoremap k j
+nnoremap i k
+vnoremap j h
+vnoremap k j
+vnoremap i k
+
+" since 'i' is now used for motion, make 'h' do what 'i' used to
+nnoremap h i
+nnoremap H I
+vnoremap h i
+vnoremap H I
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
