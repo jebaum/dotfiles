@@ -15,7 +15,6 @@ function! g:ToggleNuMode()
   endif
 endfunc
 nnoremap <C-L> :call g:ToggleNuMode()<cr>
-
 "=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
 "=============================================================================
@@ -89,6 +88,7 @@ set updatetime=100
 set encoding=utf8
 set ffs=unix,dos,mac
 set timeoutlen=2000  " wait for 2 seconds to time out leader
+"set paste "permanently set paste mode, no retabbing by vim when pasting in text
 "=============================================================================
 "                                  FOLDING
 "=============================================================================
@@ -135,6 +135,7 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 let g:mapleader = ","
 set pastetoggle=<INS>
+nmap <INS> h<INS>
 
 nmap <F1>   :let @+=@"<CR>
 nmap <F2>   :call StripTrailingWhitespaces()<CR>
