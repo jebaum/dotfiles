@@ -5,11 +5,10 @@ floating_modifier $mod
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
   # possible bug? according to userguide 4.8, 'new_window pixel 3' should work, but doesn't
-new_window 1pixel
+new_window normal
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
-#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:DejaVu Sans Mono 9
 
 # MISC SETTINGS
@@ -25,10 +24,10 @@ workspace_layout default
 popup_during_fullscreen smart
 
 #class                    borders     title bar bg   title bar text    indicator
-client.focused            #AA22AA       #191945         #FFFFFF         #CCCCCC
-client.focused_inactive   #115011       #112011         #FFFFFF         #999999
-client.unfocused          #401111       #000000         #FFFFFF         #999999
-client.urgent             #cd989a       #cd989a         #2e3436
+client.focused            #0000FF       #000022         #FFFFFF         #CCCCCC
+client.focused_inactive   #207020       #112011         #FFFFFF         #999999
+client.unfocused          #3A3A3A       #202020         #FFFFFF         #999999
+client.urgent             #CD989A       #CD989A         #2E3436
 client.background         #000000
 ############################################################################
 ########################### STARTUP APPLICATIONS ###########################
@@ -111,13 +110,13 @@ bindsym $mod+q exec quickswitch.py
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
 for_window [instance="Navigator" class="Firefox"] border none
-assign     [instance="Navigator" class="Firefox"] → 2
+assign     [instance="Navigator" class="Firefox"] → 2: web
 
 for_window [instance="Mail" class="Thunderbird"] border none
-assign     [instance="Mail" class="Thunderbird"] → 5
+assign     [instance="Mail" class="Thunderbird"] → 5: mail
 
 for_window [instance="ec2" class="URxvt"] border none
-assign     [instance="ec2" class="URxvt"] → 3
+assign     [instance="ec2" class="URxvt"] → 3: ec2
 
 for_window [instance="Steam" class="Steam"] border none
 assign     [instance="Steam" class="Steam"] → 11: steam
@@ -168,13 +167,13 @@ bindsym $mod+space focus mode_toggle
 ###################### WORKSPACE MANAGEMENT KEYBINDS #######################
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-I-2
-workspace 1 output DVI-I-2
-workspace 4 output DVI-I-2
-workspace 5 output DVI-I-2
+workspace "1: main"   output DVI-I-2
+workspace "4: music"  output DVI-I-2
+workspace "5: mail"   output DVI-I-2
 workspace "11: steam" output DVI-I-2
-workspace "12: tf2" output DVI-I-2
-workspace 2 output DVI-I-3
-workspace 3 output DVI-I-3
+workspace "12: tf2"   output DVI-I-2
+workspace "2: web"    output DVI-I-3
+workspace "3: ec2"    output DVI-I-3
 
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
@@ -202,12 +201,12 @@ bindsym $mod+KP_1 workspace number 11
 bindsym $mod+KP_2 workspace number 12
 bindsym $mod+KP_3 workspace number 13
   ### move focused container to workspace
-bindsym $mod+Shift+1    move workspace number 1
-bindsym $mod+Shift+2    move workspace number 2
-bindsym $mod+Shift+3    move workspace number 3
-bindsym $mod+Shift+4    move workspace number 4
-bindsym $mod+Shift+5    move workspace number 5
-bindsym $mod+Shift+6    move workspace number 6
+bindsym $mod+Shift+1    move workspace number 1: main
+bindsym $mod+Shift+2    move workspace number 2: web
+bindsym $mod+Shift+3    move workspace number 3: ec2
+bindsym $mod+Shift+4    move workspace number 4: music
+bindsym $mod+Shift+5    move workspace number 5: mail
+bindsym $mod+Shift+6    move workspace number 6: files
 bindsym $mod+Shift+7    move workspace number 7
 bindsym $mod+Shift+8    move workspace number 8
 bindsym $mod+Shift+9    move workspace number 9
@@ -222,14 +221,14 @@ bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
   # px is pixels for floating containers, ppt is percent for tiling containers
 mode "resize" {
 # large resizes with ijkl
-  bindsym j           resize grow     left  20 px or 2 ppt
-  bindsym Shift+J     resize shrink   left  20 px or 2 ppt
-  bindsym k           resize grow     down  20 px or 2 ppt
-  bindsym Shift+K     resize shrink   down  20 px or 2 ppt
-  bindsym i           resize grow     up    20 px or 2 ppt
-  bindsym Shift+i     resize shrink   up    20 px or 2 ppt
-  bindsym l           resize grow     right 20 px or 2 ppt
-  bindsym Shift+l     resize shrink   right 20 px or 2 ppt
+  bindsym j           resize grow     left  20 px or 3 ppt
+  bindsym Shift+J     resize shrink   left  20 px or 3 ppt
+  bindsym k           resize grow     down  20 px or 3 ppt
+  bindsym Shift+K     resize shrink   down  20 px or 3 ppt
+  bindsym i           resize grow     up    20 px or 3 ppt
+  bindsym Shift+i     resize shrink   up    20 px or 3 ppt
+  bindsym l           resize grow     right 20 px or 3 ppt
+  bindsym Shift+l     resize shrink   right 20 px or 3 ppt
 # refined control with arrow keys
   bindsym Left        resize grow     left  1 px or 1 pt
   bindsym Shift+Left  resize shrink   left  1 px or 1 pt
@@ -266,7 +265,7 @@ bar {
     focused_workspace  #4C7899  #285577  #FFFFFF
     active_workspace   #333333  #083557  #B0B0B0
     inactive_workspace #444444  #222222  #A0A0A0
-    urgent_workspace   #a00000  #904040  #FFFFFF
+    urgent_workspace   #A00000  #904040  #FFFFFF
   }
 }
 ############################################################################
