@@ -124,6 +124,7 @@ for_window [instance="hl2_linux" class="hl2_linux"] border none
 assign     [instance="hl2_linux" class="hl2_linux"] → 12: tf2
 
 for_window [instance="vdpau" class="mplayer2"] border none
+for_window [instance="firefox.exe" class="Wine"] border none
 ############################################################################
 ######################## WINDOW MANAGEMENT KEYBINDS ########################
 # TODO - mark/goto stuff, userguide 6.10
