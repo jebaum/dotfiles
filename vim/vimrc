@@ -123,7 +123,7 @@ set textwidth=0
 "=============================================================================
 if has("wildmenu")
   set wildmenu " turn on wildmenu
-  set wildmode=longest:full
+  set wildmode=full
   set wildignore=*.o,*.a,*~,*.pyc " ignore compiled files
   set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
   set wildignore+=.DS_Store,.git,.hg,.svn
@@ -135,7 +135,7 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 let g:mapleader = ","
 set pastetoggle=<INS>
-" Ctrl+Delete in insert mode deletes from cursor to end of line, like D
+
 nmap <F1>   :let @+=@"<CR>
 nmap <F2>   :call StripTrailingWhitespaces()<CR>
 nmap <F3>   :set list!<CR>
