@@ -32,9 +32,13 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 " vim.org script 4168, defined in autoload/SyntaxRange.vim, documentation in .vim/doc/SyntaxRange.txt
 " last parameter is optional and can be any highlight group. call in vimrc makes it do things when the file loads.
+autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
 
 "autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
+
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabNoCompleteAfter = ['^', ',', '\s']
 
 " make :set list (show whitespace chars) nicer, don't show EOL
 if &listchars ==# 'eol:$'
@@ -71,6 +75,7 @@ set titlestring+=%t\  " file name
 set titlestring+=(%F) " full file path + name
 set relativenumber
 set backspace=indent,eol,start " allow backspace in insert mode
+set esckeys  " make numpad work
 set autoread " reload files changed outside of vim
 set noruler
 set laststatus=2
@@ -81,7 +86,9 @@ set showmatch
 set cursorline
 set incsearch "find as you type
 set hlsearch  "hilight search terms
+set magic     "change how backslashes are handled in searches
 set ignorecase "case insensitive search
+set smartcase  " case sensitive search if search contains uppercase letter
 set scrolljump=5 "lines to scroll when cursor leaves screen
 set scrolloff=8 "start scrolling when 8 lines away from margins
 set updatetime=100
@@ -156,10 +163,6 @@ nmap <leader>q :q<CR>
 nmap <leader>r :W<CR>
 nmap <leader>s :set spell!<CR>
 nmap <leader>w :w!<CR>
-
-" space and ctrl+space for searching
-nmap <Space> /
-nmap <C-Space> ?
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
