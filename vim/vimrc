@@ -1,9 +1,9 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 execute pathogen#infect()
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""" RELATIVE LINE NUMBER """"""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=============================================================================
+"                          RELATIVE LINE NUMBERS
+"=============================================================================
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 
@@ -16,9 +16,9 @@ function! g:ToggleNuMode()
 endfunc
 nnoremap <C-L> :call g:ToggleNuMode()<cr>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""" FUNCTION TO REMOVE TRAILING WHITESPACES """""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=============================================================================
+"                  FUNCTION TO REMOVE TRAILING WHITESPACES
+"=============================================================================
 fun! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -27,12 +27,14 @@ fun! StripTrailingWhitespaces()
 endfun
 " call function on write for these file types
 autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""MISC""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocmd BufWrite *.txt :call StripTrailingWhitespaces() " this line can be copied for any extension
+"=============================================================================
+"                                 MISC
+"=============================================================================
 " vim.org script 4168, defined in autoload/SyntaxRange.vim, documentation in .vim/doc/SyntaxRange.txt
 " last parameter is optional and can be any highlight group. call in vimrc makes it do things when the file loads.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
+
 "autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
 " make :set list (show whitespace chars) nicer, don't show EOL
@@ -49,16 +51,18 @@ endif
 " latex stuff
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
+
 let g:showmarks_enable = 0 " hide marks by default
-let showmarks_include = "abcdefghijklmnopqrstuvwxyz"
-" shifting doesn't exit visual mode
-vnoremap < <gv
-vnoremap > >gv
-" when forgetting to sudo, write to file with w!!
-cmap w!! w !sudo tee % >/dev/null
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""" GENERAL STUFF """"""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
+let g:SuperTabDefaultCompletionType = "<c-n>" " supertab completion navigates menu downward
+" Return to last edit position when opening files
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+"=============================================================================
+"                             GERNERAL STUFF
+"=============================================================================
 syntax on
 set ttyfast "we have a fast terminal (?)
 set restorescreen=on " restore screen contents on exit
@@ -81,10 +85,13 @@ set hlsearch  "hilight search terms
 set ignorecase "case insensitive search
 set scrolljump=5 "lines to scroll when cursor leaves screen
 set scrolloff=8 "start scrolling when 8 lines away from margins
-set updatetime=200
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""" FOLDING """""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set updatetime=100
+set encoding=utf8
+set ffs=unix,dos,mac
+set timeoutlen=2000  " wait for 2 seconds to time out leader
+"=============================================================================
+"                                  FOLDING
+"=============================================================================
 " folding: zf#j manually folds # lines, or zf in visual mode selection.
 " zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
 " zj and zk to move between folds
@@ -96,9 +103,9 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <space> zf
 "au BufWinLeave * mkview
 "au BufWinEnter * silent loadview
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""" TAB / INDENT STUFF """"""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=============================================================================
+"                             TAB / INDENT STUFF
+"=============================================================================
 set autoindent
 set smartindent
 set smarttab
@@ -111,35 +118,76 @@ filetype indent on " manually overrode this for c/cpp files in .vim/after/ftplug
 set linebreak " wrap lines at nice points
 set textwidth=0
 "set nowrap " don't wrap lines
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""" KEYBINDS """"""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=============================================================================
+"                                 WILDMENU
+"=============================================================================
+if has("wildmenu")
+  set wildmenu " turn on wildmenu
+  set wildmode=longest:full
+  set wildignore=*.o,*.a,*~,*.pyc " ignore compiled files
+  set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+  set wildignore+=.DS_Store,.git,.hg,.svn
+  set wildignore+=*~,*.swp,*.tmp
+endif
+"=============================================================================
+"                                 KEYBINDS
+"=============================================================================
+let mapleader = ','  " use comma instead of \ as leader
+let g:mapleader = ","
 set pastetoggle=<INS>
-nmap <F1> :let @+=@"<CR>
-nmap <F2> :call StripTrailingWhitespaces()<CR>
-nmap <F3> :set list!<CR>
-nmap <F4> :ShowMarksToggle<CR>
-nmap <F6> :set spell!<CR>
-nmap <F11>  zR
-nmap <F12>  zM
-map <C-n> :NERDTreeToggle<CR>
-let mapleader = ','  " use command instead of \ as leader
+" Ctrl+Delete in insert mode deletes from cursor to end of line, like D
+nmap <F1>   :let @+=@"<CR>
+nmap <F2>   :call StripTrailingWhitespaces()<CR>
+nmap <F3>   :set list!<CR>
+nmap <F11>   zR
+nmap <F12>   zM
+nmap <C-n>  :NERDTreeToggle<CR>
+
+" leader shortcuts to frequent commands
+nmap <leader>d :delmarks a-z<CR>
+nmap <leader>h :noh<return><esc>
+nmap <leader>l :ls<CR>:b<space>
+nmap <leader>m :DoShowMarks<CR>
+nmap <leader>n :NoShowMarks<CR>
+nmap <leader>q :q<CR>
+nmap <leader>s :set spell!<CR>
+nmap <leader>w :w!<CR>
+
+" space and ctrl+space for searching
+nmap <Space> /
+nmap <C-Space> ?
+
 " use semicolon as well as colon to enter command mode
-nnoremap ; :
+nmap ; :
+vmap ; :
 " make Y yank from cursor to end of line, consistent with C and D
-nnoremap Y y$
+nmap Y y$
 
-" move motion keys to be ijkl instead of hjkl
+" shifting doesn't exit visual mode
+vmap < <gv
+vmap > >gv
+
+" move motion keys to be ijkl instead of hjkl. must be non recursive mappings
 nnoremap j h
-nnoremap k j
-nnoremap i k
 vnoremap j h
-vnoremap k j
+nnoremap i k
 vnoremap i k
-
+nnoremap k j
+vnoremap k j
 " since 'i' is now used for motion, make 'h' do what 'i' used to
 nnoremap h i
 nnoremap H I
 vnoremap h i
 vnoremap H I
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" cursor keys go up and down by visual lines
+imap <up> <C-O>gk
+imap <down> <C-O>gj
+nmap <up> gk
+nmap <down> gj
+vmap <up> gk
+vmap <down> gj
+" left and right arrow keys shift text
+nmap <Left> <<
+nmap <Right> >>
+"=============================================================================
