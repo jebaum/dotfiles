@@ -144,6 +144,7 @@ nmap <F12>   zM
 nmap <C-n>  :NERDTreeToggle<CR>
 
 " leader shortcuts to frequent commands
+nmap <leader>c :WatchForChanges!<CR>
 nmap <leader>d :delmarks a-z<CR>
 nmap <leader>h :noh<return><esc>
 nmap <leader>l :ls<CR>:b<space>
