@@ -4,8 +4,8 @@ execute pathogen#infect()
 "=============================================================================
 "                          RELATIVE LINE NUMBERS
 "=============================================================================
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
+"autocmd InsertEnter * :set number
+"autocmd InsertLeave * :set relativenumber
 
 function! g:ToggleNuMode()
   if(&rnu == 1)
@@ -14,7 +14,7 @@ function! g:ToggleNuMode()
     set rnu
   endif
 endfunc
-nnoremap <C-L> :call g:ToggleNuMode()<cr>
+nnoremap <C-L> :call g:ToggleNuMode()<CR>
 "=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
 "=============================================================================
