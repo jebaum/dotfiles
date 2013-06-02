@@ -266,7 +266,7 @@ bar {
     focused_workspace  #4C7899  #285577  #FFFFFF
     active_workspace   #333333  #083557  #B0B0B0
     inactive_workspace #444444  #222222  #A0A0A0
-    urgent_workspace   #A00000  #904040  #FFFFFF
+    urgent_workspace   #FF0000  #904040  #FFFFFF
   }
 }
 ############################################################################

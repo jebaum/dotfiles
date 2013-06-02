@@ -132,6 +132,7 @@ endif
 "=============================================================================
 "                                 KEYBINDS
 "=============================================================================
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 let mapleader = ','  " use comma instead of \ as leader
 let g:mapleader = ","
 set pastetoggle=<INS>
@@ -152,6 +153,7 @@ nmap <leader>l :ls<CR>:b<space>
 nmap <leader>m :DoShowMarks<CR>
 nmap <leader>n :NoShowMarks<CR>
 nmap <leader>q :q<CR>
+nmap <leader>r :W<CR>
 nmap <leader>s :set spell!<CR>
 nmap <leader>w :w!<CR>
 
