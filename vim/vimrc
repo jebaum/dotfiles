@@ -58,6 +58,16 @@ let g:tex_flavor = "latex"
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
 let g:SuperTabDefaultCompletionType = "<c-n>" " supertab completion navigates menu downward
+
+" in normal or visual mode, '//' comments out a block of lines, '\\' uncomments them
+au FileType haskell,vhdl,ada let b:comment_leader = '-- '
+au FileType vim let b:comment_leader = '" '
+au FileType c,cpp,java let b:comment_leader = '// '
+au FileType sh,make let b:comment_leader = '# '
+au FileType tex let b:comment_leader = '% '
+noremap <silent> // :<C-B>sil <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:noh<CR>
+noremap <silent> \\ :<C-B>sil <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:noh<CR>
+
 " Return to last edit position when opening files
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -104,12 +114,20 @@ set timeoutlen=2000  " wait for 2 seconds to time out leader
 " zj and zk to move between folds
 " ':#,# fo' folds # through #
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
+
 set foldmethod=syntax
 set foldnestmax=1
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <space> zf
+
 "au BufWinLeave * mkview
 "au BufWinEnter * silent loadview
+
+" below autocommands create folds from indent levels on file load, then switch method to manual
+" augroup vimrc
+"   au BufReadPre * set foldmethod=indent
+"   au BufWinEnter * if &fdm == 'indent' | set foldmethod=manual | endif
+" augroup END
 "=============================================================================
 "                             TAB / INDENT STUFF
 "=============================================================================
@@ -163,6 +181,7 @@ nmap <leader>q :q<CR>
 nmap <leader>r :W<CR>
 nmap <leader>s :set spell!<CR>
 nmap <leader>w :w!<CR>
+nmap <leader>x :wq<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :

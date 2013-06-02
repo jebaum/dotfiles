@@ -27,7 +27,7 @@ popup_during_fullscreen smart
 client.focused            #0000FF       #000022         #FFFFFF         #CCCCCC
 client.focused_inactive   #207020       #112011         #FFFFFF         #999999
 client.unfocused          #3A3A3A       #202020         #FFFFFF         #999999
-client.urgent             #CD989A       #CD989A         #2E3436
+client.urgent             #CD989A       #CD989A         #000000
 client.background         #000000
 ############################################################################
 ########################### STARTUP APPLICATIONS ###########################
@@ -62,7 +62,7 @@ bindsym $mod+Shift+t  border normal 4pixel
 bindsym $mod+y        border 1pixel
 bindsym $mod+Shift+y  border pixel 4
 bindsym $mod+n        border none
- 
+
  ### scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
@@ -264,7 +264,7 @@ bar {
    #separator  #FF0000
 #                       border    bg      text
     focused_workspace  #4C7899  #285577  #FFFFFF
-    active_workspace   #333333  #083557  #B0B0B0
+    active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF
   }
