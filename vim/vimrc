@@ -72,6 +72,10 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
+
+" hilights for syntastic, no longer seem to be necessary
+" highlight link SyntasticErrorSign SyntasticErrorSign
+" highlight link SyntasticWarningSign SyntasticWarningSign
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================

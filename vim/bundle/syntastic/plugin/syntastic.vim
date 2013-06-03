@@ -77,8 +77,6 @@ command! SyntasticInfo call s:registry.echoInfoFor(s:CurrentFiletypes())
 
 highlight link SyntasticError SpellBad
 highlight link SyntasticWarning SpellCap
-highlight link SyntasticErrorSign SyntasticErrorSign
-highlight link SyntasticWarningSign SyntasticWarningSign
 
 augroup syntastic
     autocmd BufReadPost * if g:syntastic_check_on_open | call s:UpdateErrors(1) | endif
