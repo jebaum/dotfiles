@@ -24,9 +24,9 @@ workspace_layout default
 popup_during_fullscreen smart
 
 #class                    borders     title bar bg   title bar text    indicator
-client.focused            #0000FF       #000022         #FFFFFF         #CCCCCC
-client.focused_inactive   #207020       #112011         #FFFFFF         #999999
-client.unfocused          #3A3A3A       #202020         #FFFFFF         #999999
+client.focused            #0000FF       #000022         #FFFFFF         #FFFFFF
+client.focused_inactive   #208020       #002200         #FFFFFF         #999999
+client.unfocused          #505050       #202020         #FFFFFF         #999999
 client.urgent             #CD989A       #CD989A         #000000
 client.background         #000000
 ############################################################################
@@ -104,6 +104,7 @@ bindsym $mod+Control+Prior exec echo seek 600 0 > ~/.mplayer/mplayerfifo
 bindsym --release Print exec grab
 bindsym $mod+Print exec pasta
 bindsym $mod+q exec quickswitch.py
+bindsym $mod+Escape exec /usr/bin/lk
 ############################################################################
 ######################## PROGRAM SPECIFIC SETTINGS #########################
 # for_window <criteria> command; command
