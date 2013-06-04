@@ -39,8 +39,6 @@ command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 "autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
 set completeopt=menuone,preview,longest
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabNoCompleteAfter = ['^', ',', '\s']
 
 " make :set list (show whitespace chars) nicer, don't show EOL
 if &listchars ==# 'eol:$'
