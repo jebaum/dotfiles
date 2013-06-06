@@ -12,9 +12,9 @@
 ## will be used to switch between columns.
 ##
 #
-#key_up = 259 'k'
+key_up = 259 'i'
 #
-#key_down = 258 'j'
+key_down = 258 'k'
 #
 #key_up_album = '['
 #
@@ -42,9 +42,9 @@
 #
 #key_volume_down = 260 '-'
 #
-#key_prev_column = 260
+key_prev_column = 260 'j'
 #
-#key_next_column = 261
+key_next_column = 261 'l'
 #
 #key_toggle_space_mode = 't'
 #
@@ -130,7 +130,7 @@
 #
 #key_go_to_position = 'g'
 #
-#key_song_info = 'i'
+key_song_info = 'h'
 #
 #key_artist_info = 'I'
 #

@@ -84,7 +84,7 @@ set restorescreen=on " restore screen contents on exit
 set title titlelen=150
 set titlestring=
 set titlestring+=%t\  " file name
-set titlestring+=(%F) " full file path + name
+" set titlestring+=(%F) " full file path + name
 set relativenumber
 set backspace=indent,eol,start " allow backspace in insert mode
 set esckeys  " make numpad work

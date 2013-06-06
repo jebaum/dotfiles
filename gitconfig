@@ -9,7 +9,7 @@
   dc = diff --color-words
   dh = diff HEAD # difference between working copy and head. 'git diff HEAD --cached' == 'git diff --cached'
   dhc = diff --color-words HEAD
- 
+
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
   lg = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %Cgreen%an%Creset, %Cred%ar%Creset (%ad)' --date=short
@@ -21,8 +21,8 @@
   type = cat-file -t
   dump = cat-file -p
 [user]
-	name = James Baumgarten
-	email = jebaum@ucla.edu
+  name = James Baumgarten
+  email = jebaum@ucla.edu
 [color]
     ui = auto
 [color "branch"]
@@ -30,10 +30,10 @@
     local = yellow
     remote = green
 [color "diff"]
-  meta = yellow 
+  meta = yellow
   frag = magenta #bold
   plain = white
-  old = red 
+  old = red
   new = green
   commit = yellow bold
   func = green dim
@@ -42,8 +42,11 @@
     changed = yellow bold
     untracked = red bold
 [github]
-	user = jebaum
+  user = jebaum
 [core]
-	editor = vim
+  editor = vim
+  pager = cat
 [push]
-	default = simple
+  default = simple
+[merge]
+  tool = vimdiff

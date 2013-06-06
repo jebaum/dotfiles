@@ -189,12 +189,12 @@ bindsym $mod+Control+l move workspace to output right
 
   ### switch to workspace
     # TODO - numpad?
-bindsym $mod+1    workspace number 1
-bindsym $mod+2    workspace number 2
-bindsym $mod+3    workspace number 3
-bindsym $mod+4    workspace number 4
-bindsym $mod+5    workspace number 5
-bindsym $mod+6    workspace number 6
+bindsym $mod+1    workspace number 1: main
+bindsym $mod+2    workspace number 2: web
+bindsym $mod+3    workspace number 3: ec2
+bindsym $mod+4    workspace number 4: music
+bindsym $mod+5    workspace number 5: mail
+bindsym $mod+6    workspace number 6: files
 bindsym $mod+7    workspace number 7
 bindsym $mod+8    workspace number 8
 bindsym $mod+9    workspace number 9
