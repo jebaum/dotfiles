@@ -15,6 +15,17 @@ function! g:ToggleNuMode()
   endif
 endfunc
 "=============================================================================
+"                            RETURN FUNCTION NAME
+"=============================================================================
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+"=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
 "=============================================================================
 fun! StripTrailingWhitespaces()
@@ -165,6 +176,7 @@ let g:mapleader = ","
 set pastetoggle=<INS>
 nmap <INS> h
 
+map f :call ShowFuncName() <CR>
 nnoremap <C-L> :call g:ToggleNuMode()<CR>
 noremap <silent> // :<C-B>sil <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:noh<CR>
 noremap <silent> \\ :<C-B>sil <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:noh<CR>
