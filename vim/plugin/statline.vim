@@ -101,6 +101,8 @@ au InsertEnter * call ModeChanged(v:insertmode)
 au InsertChange * call ModeChanged(v:insertmode)
 au InsertLeave * call ModeChanged(mode())
 
+
+
 " ---- number of buffers : buffer number ----
 function! StatlineBufCount()
     if !exists("s:statline_n_buffers")
@@ -109,99 +111,20 @@ function! StatlineBufCount()
     return s:statline_n_buffers
 endfunction
 
-" ---- begin display current function
-" http://vim.wikia.com/wiki/Show_what_function_the_cursor_is_in 
-function! GetProtoLine()
-  let ret       = ""
-  let line_save = line(".")
-  let col_save  = col(".")
-  let window_line = winline()
-  let top       = line_save - winline() + 1
-  let so_save = &so
-  let &so = 0
-  let istypedef = 0
-  " find closing brace
-  let closing_lnum = search('^}','cW')
-  if closing_lnum > 0
-    if getline(line(".")) =~ '\w\s*;\s*$'
-      let istypedef = 1
-      let closingline = getline(".")
-    endif
-    " go to the opening brace
-    keepjumps normal! %
-    " if the start position is between the two braces
-    if line(".") <= line_save
-      if istypedef
-        let ret = matchstr(closingline, '\w\+\s*;')
-      else
-        " find a line contains function name
-        let lnum = search('^\w','bcnW')
-        if lnum > 0
-          let ret = getline(lnum)
-        endif
-      endif
-      let lines = closing_lnum - line(".")
-      let line_rel = line_save - line(".")
-      let ret = ret . ':' . line_rel . '/' . lines
-    endif
-  endif
-  "exe "keepjumps normal! " . top . "Gz\<CR>"
-  " restore position and screen line
-  call cursor(line_save, col_save)
-  " needed for diff mode (scroll fixing)
-  let line_diff = winline() - window_line
-  if line_diff > 0
-    exe 'normal ' . line_diff . "\<c-e>"
-  elseif line_diff < 0
-    exe 'normal ' . -line_diff . "\<c-y>"
-  endif
-  " sometimes cursor position is wrong after scroll fix, why? Workaround:
-  call cursor(line_save, col_save)
-  let &so = so_save
-  return ret
-endfunction
-
-function! WhatFunction()
-  " allow to quickly disable it (:let b:noWhatFunction=1)
-  if exists("b:noWhatFunction") && b:noWhatFunction
-    return ""
-  endif
-  if &ft != "c" && &ft != "cpp"
-    return ""
-  endif
-  let proto = GetProtoLine()
-  if proto == ""
-    return "?"
-  endif
-  let line_info = matchstr(proto, ':\d\+\/\d\+')
-  if stridx(proto, '(') > 0
-    let ret = matchstr(proto, '\~\?\w\+(\@=')
-  elseif proto =~# '\<struct\>'
-    let ret = matchstr(proto, 'struct\s\+\w\+')
-  elseif proto =~# '\<class\>'
-    let ret = matchstr(proto, 'class\s\+\w\+')
-  else
-    let ret = strpart(proto, 0, 15) . "..."
-  endif
-  let ret .= line_info
-  return ret
-endfunction
-" --------------- end display current function
-
 
 if !exists('g:statline_show_n_buffers')
     let g:statline_show_n_buffers = 1
 endif
 
 if g:statline_show_n_buffers
-    set statusline=%1*[%{StatlineBufCount()}\:%n]\ %<
+    set statusline+=%1*[%{StatlineBufCount()}\:%n]\ %<
     " only calculate buffers after adding/removing buffers
     augroup statline_nbuf
         autocmd!
         autocmd BufAdd,BufDelete * unlet! s:statline_n_buffers
     augroup END
 else
-    set statusline=[%n]\ %<
+    set statusline+=[%n]\ %<
 endif
 
 let &stl.="%7*\ %{Mode()} %0*"
@@ -257,9 +180,6 @@ set statusline+=%8*%{exists('g:loaded_fugitive')?fugitive#statusline():''}%*
 "endif
 
 
-" print current c function in statusline
-set statusline+=%2*\ %{WhatFunction()}\%m
-
 " ---- separation between left/right aligned items ----
 set statusline+=%6*%=%*
 
@@ -273,6 +193,8 @@ if g:statline_syntastic
     set statusline+=\%3*%-{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}%*
 endif
 
+" show current function in statusline. optional 'p' parameter says to display full prototype with arguments
+" set statusline+=%8*%{tagbar#currenttag('[%s]\ ','','p')}%*
 
 " ---- current line and column ----
 

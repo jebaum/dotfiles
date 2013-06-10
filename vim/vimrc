@@ -15,17 +15,6 @@ function! g:ToggleNuMode()
   endif
 endfunc
 "=============================================================================
-"                            RETURN FUNCTION NAME
-"=============================================================================
-fun! ShowFuncName()
-  let lnum = line(".")
-  let col = col(".")
-  echohl ModeMsg
-  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
-  echohl None
-  call search("\\%" . lnum . "l" . "\\%" . col . "c")
-endfun
-"=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
 "=============================================================================
 fun! StripTrailingWhitespaces()
@@ -82,6 +71,11 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
+
+let g:tagbar_left  = 1      "default is to open on right
+let g:tagbar_width = 50     "default is 40
+let g:tagbar_indent= 1      "default is 2
+let g_tagbar_autoshowtag=1  "auto unfold any parents so highlighted tag is shown
 
 " hilights for syntastic, no longer seem to be necessary
 " highlight link SyntasticErrorSign SyntasticErrorSign
@@ -175,11 +169,14 @@ let mapleader = ','  " use comma instead of \ as leader
 let g:mapleader = ","
 set pastetoggle=<INS>
 nmap <INS> h
+nmap f :TagbarCurrentTag p<CR>
 
-map f :call ShowFuncName() <CR>
 nnoremap <C-L> :call g:ToggleNuMode()<CR>
-noremap <silent> // :<C-B>sil <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:noh<CR>
-noremap <silent> \\ :<C-B>sil <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:noh<CR>
+nnoremap <C-T> :TagbarOpen fjc<CR>
+
+" mappings to auto comment and uncomment lines. replaced by nerdcommenter
+"noremap <silent> // :<C-B>sil <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:noh<CR>
+"noremap <silent> \\ :<C-B>sil <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:noh<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
@@ -192,6 +189,10 @@ nnoremap i k
 vnoremap i k
 nnoremap k j
 vnoremap k j
+map <C-w>j <C-w><Left>
+map <C-w>i <C-w><Up>
+map <C-w>k <C-w><Down>
+
 " since 'i' is now used for motion, make 'h' do what 'i' used to
 nnoremap h i
 nnoremap H I
