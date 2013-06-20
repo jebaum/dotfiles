@@ -41,7 +41,7 @@ alias grep='grep --color=auto -in'
 alias yt='youtube-viewer'
 alias ytdl='youtube-dl'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
-
+alias 'ps?'='ps ax | grep '
 
 # rsyncs
 alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'

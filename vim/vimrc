@@ -57,14 +57,7 @@ let g:tex_flavor = "latex"
 
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
-let g:SuperTabDefaultCompletionType = "<c-n>" " supertab completion navigates menu downward
-
-" in normal or visual mode, '//' comments out a block of lines, '\\' uncomments them
-au FileType haskell,vhdl,ada let b:comment_leader = '-- '
-au FileType vim let b:comment_leader = '" '
-au FileType c,cpp,java let b:comment_leader = '// '
-au FileType sh,make let b:comment_leader = '# '
-au FileType tex let b:comment_leader = '% '
+"let g:SuperTabDefaultCompletionType = "<c-n>" " supertab completion navigates menu downward
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -76,6 +69,7 @@ let g:tagbar_left  = 1      "default is to open on right
 let g:tagbar_width = 50     "default is 40
 let g:tagbar_indent= 1      "default is 2
 let g_tagbar_autoshowtag=1  "auto unfold any parents so highlighted tag is shown
+let g:tagbar_sort  = 0      "sort tags by position in source file, not alphabetically
 
 " hilights for syntastic, no longer seem to be necessary
 " highlight link SyntasticErrorSign SyntasticErrorSign
@@ -173,10 +167,6 @@ nmap f :TagbarCurrentTag p<CR>
 
 nnoremap <C-L> :call g:ToggleNuMode()<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
-
-" mappings to auto comment and uncomment lines. replaced by nerdcommenter
-"noremap <silent> // :<C-B>sil <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:noh<CR>
-"noremap <silent> \\ :<C-B>sil <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:noh<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
