@@ -1,0 +1,119 @@
+.container, body.api #wrapper, body.platform-switch #content-wrapper, .container .discussion-timeline, .edit.container .main, .gist .files, .gist-item .description {
+  width:90% !important
+}
+#slider .frames .frame, #slider .frames, body.platform-switch #content-wrapper .site, .container .file-commit-form {
+  width:100% !important
+}
+.frame[style*="margin-left: -1200px;"] {
+  visibility: hidden !important;
+  display: none !important
+}
+body.api {
+  min-width:1440px !important
+}
+body.api #wrapper .content, .columns.blog .main {
+  width:920px !important
+}
+body.api #wrapper .sidebar-shell {
+  position:static !important
+}
+body.platform-switch #content-wrapper, body.platform-switch #content-wrapper #bootcamp, body.platform-switch #content-wrapper .outer {
+  margin:0 auto !important
+}
+body.platform-switch #content-wrapper #bootcamp, body.platform-switch #content-wrapper .outer {
+ width:660px !important
+}
+.container .last, .htabs .tab-content, .container .main {
+  width:auto !important;
+  min-width:670px !important;
+  max-width:1280px !important;
+  margin-left:50px !important;
+  float:left !important
+}
+.container #graph-shots .js-gshot {
+  margin:0 10px 10px 0 !important
+}
+.container .singleline input, .container .outer #gollum-editor-body, .container input.commit-message-summary, .container textarea.commit-message {
+  width:99% !important
+}
+.container .outer #gollum-editor-body {
+  margin-left:0 !important
+}
+}
+
+@-moz-document domain("gist.github.com") {
+.container .column,.root-pane {
+  width:100% !important
+}
+.root-pane {
+  float:left !important;
+  margin-bottom:20px !important
+}
+.menu-container {
+  width:auto !important;
+  height:37px !important;
+  float:left !important
+}
+.menu, .filter-list {
+  width:auto !important;
+  height:35px !important
+}
+.menu li {
+  width:auto !important;
+  display:inline-block !important;
+  border-top:0 !important;
+  border-bottom:0 !important;
+  border-left:1px solid #EEE !important;
+  border-right:1px solid white !important
+}
+.menu a .counter,ul.filter-list .filter-item .count {
+  float:none !important;
+  margin:0 0 0 10px !important
+}
+ul.filter-list,.export-references {
+  float:left !important;
+  display:inline-block !important;
+  border-top:0 !important;
+  border-left:1px solid #F1F1F1 !important;
+  padding-top:10px !important;
+  margin-top:0 !important;
+  margin-left:10px !important;
+  height:35px !important
+}
+.export-references {
+  padding-top:8px !important
+}
+ul.filter-list li,.export-references li,.export-references li > * {
+  float:left !important;
+  width:auto !important;
+  display:inline-block !important;
+  padding-left:10px !important
+}
+.export-references li:not(:first-child) {
+  border-left:1px solid #F1F1F1 !important;
+  margin-left:10px !important;
+  padding-left:0 !important
+}
+.export-references label {
+  margin-right: 10px !important
+}
+ul.filter-list .filter-item:link,.column > .tabnav .tabnav-tab {
+  background:#FAFAFB !important;
+  border-radius: 2px
+}
+.column > .tabnav {
+  position:relative !important;
+  top:-60px !important;
+  width:auto !important;
+  float:right !important;
+  border-bottom:0 !important
+}
+#files .bubble, #files .file, #files .ace_editor {
+  min-height:720px !important
+}
+}
+
+@-moz-document domain("status.github.com") {
+#wrapper {
+  width:90% !important
+}

@@ -1,0 +1,21 @@
+input[type=text]
+{
+  background-color: black;
+  color: white;
+  border: 1px solid #ccc;
+  font-size: 12px;
+}
+
+input[type=text]:focus
+{
+  background-color: #121212;
+  color: #00FF00;
+  border: 1px solid #992222;
+  font-size: 12px;
+}
+
+select
+{
+  background-color: black;
+  font-size: 12px;
+}

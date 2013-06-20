@@ -1,0 +1,509 @@
+
+/* -=< Darker Lifehacker by Zigboom Designs >=- */
+
+
+#lifehacker   {
+ background: #000000 url("http://i930.photobucket.com/albums/ad144/zigboom/outlets_zpsa3012731.png") !important; 
+}
+
+#hidescroll {
+ background: transparent !important; 
+}
+
+
+/* Background Color */
+
+#rightcontainer .wrapper, .post, .time.modfont, .frontpagegrid, 
+#main-container > .inner, .site-forecolor, .comment, .replies, .code, #container,
+ #tomorrowsnews, #main-container, .cn_login_panel.presence_control, #userMenu, 
+#rightcontainer, #pane, #postTransitionOverlay, .rightbar_list, .basebar.modfont, .post-supp, .ui-shade, .post-wrapper, 
+.mobile-helper, body, .post .tag, .top-bar ul > li.has-dropdown.open > ul.dropdown
+  {
+ background: #181818 !important; 
+}
+
+
+
+.post .tag {
+ background-image: -moz-radial-gradient(150% 0, #333333, transparent 150%) !important;
+ }
+ 
+
+#header, #page {
+ border-right: 2px solid !important; 
+ -moz-border-right-colors: #303030 #000000 !important; 
+  border-left: 2px solid !important; 
+ -moz-border-left-colors: #303030 #000000 !important; 
+ }
+ 
+ .replyrow .fade {
+  background-image: -moz-linear-gradient(left center , rgba(145, 145, 145, 0.1) 0%, 
+  #333333 90%, #333333 100%) !important; 
+  }
+ 
+.site-logo:not(:hover) {
+ transform: scale(.9); 
+ transition: transform .6s !important;
+ } 
+ 
+.site-logo:hover {
+ transform: scale(1); 
+ transition: transform .6s !important;
+ }
+ 
+ /* lower left part alignment */
+ #about_gawker_media {
+  margin-bottom: -10px !important; 
+  }
+
+ .inner {
+ padding-left: 10px !important; 
+  padding-right: 40px !important; 
+   background: #181818 !important; 
+ }
+  
+.wrap {
+ background: transparent !important; 
+ }
+ 
+.cn_login_panel.presence_control {
+ background: #181818 !important; 
+ }
+ 
+.ad_container.default {
+ margin-left: -10px !important; 
+ }
+ 
+
+li:hover, #login, .ui-dropdown.modfont.site-bg-color {
+ background-color: transparent !important; 
+}
+
+a,a:link,a:visited {
+  color: #FFFFFF !important;
+  text-shadow: none !important; 
+  -moz-transition: text-shadow .5s !important; 
+  }
+
+a:hover {
+  text-decoration: none !important;
+  text-shadow: 0 0 3px rgba(255,255,255,.9) !important; 
+  -moz-transition: text-shadow .5s !important; 
+  }
+
+#rightcontainer .post .site-bg-color, .site-bg-color, BLOCKQUOTE {
+  background-color: #181818 !important;
+  color: #CCCCCC !important;
+  }
+
+/* Title Links */ 
+
+.site-forecolor {
+  color: /* #719602 */ #FFFFFF !important;
+  }
+
+.site-forecolor:hover {
+text-decoration: none !important; 
+}
+
+/* More top Stories */
+
+#latest, .post-wrapper {
+ border-bottom: 0px !important;
+}
+
+
+/* Right Side Content */ 
+
+#page {
+ background-color: #181818 !important;  
+ border-left: 1px solid #555555; 
+ border-right: 1px solid #555555;
+/* box-shadow:0 1px 3px #FFFFFF !important;  */
+ border-top: 0px !important; 
+ margin-top: 0px !important; 
+}
+
+p, span, div, h1, h2, h3, h4, h5, h6 {
+ color: #CCCCCC !important; 
+}
+
+
+#post_list li, .post-body, #comments, .comment, ul.related li, #load_previous, .text-container,
+ .referenced-wide .container {
+ border-bottom: 2px solid !important; 
+ -moz-border-bottom-colors: #333333 #000000 !important;
+}
+
+.marquee-border .row {
+ border-bottom: 3px solid !important; 
+ -moz-border-bottom-colors: #333333 #000000 !important;
+}
+
+.button.transparent.no-text.pln, .button.transparent.phn {
+ background-image: none !important; 
+ }
+
+.comment, #about_gawker_media, ul.related li, .related-more {
+ border-top: 0px !important; 
+}
+
+ .post .content hr, .referenced-wide .container {
+ border-top: 2px solid !important; 
+ -moz-border-top-colors: #000000 #333333 !important;
+}
+
+.post blockquote, .soft_list p, .post .tag {
+ border: 2px solid !important; 
+ -moz-border-top-colors: #000000 #333333 !important; 
+ -moz-border-right-colors: #000000 #333333 !important; 
+ -moz-border-bottom-colors: #000000 #333333 !important; 
+ -moz-border-left-colors: #000000 #333333 !important; 
+}
+
+.top-bar .has-tooltip.tip-bottom, .js_login_link, 
+.top-bar.user-bar ul.top-bar-tools .header-topstories a.dropdown-trigger, 
+.top-bar.user-bar ul.top-bar-tools > li.site-name-container .dropdown-trigger {
+ box-shadow: none !important; 
+ border: 2px solid !important; 
+ border-radius: 6px !important; 
+ -moz-border-top-colors: #000000 #555555 !important; 
+ -moz-border-right-colors: #000000 #444444 !important; 
+ -moz-border-bottom-colors: #000000 #333333 !important; 
+ -moz-border-left-colors: #000000 #444444 !important; 
+}
+
+.img-border {
+ border: 2px solid !important; 
+ -moz-border-top-colors: #333333 #000000 !important; 
+ -moz-border-right-colors: #333333 #000000 !important; 
+ -moz-border-bottom-colors: #333333 #000000 !important; 
+ -moz-border-left-colors: #333333 #000000 !important; 
+}
+
+.top-bar .has-tooltip.tip-bottom, .js_login_link, 
+.top-bar.user-bar ul.top-bar-tools .header-topstories a.dropdown-trigger, 
+.top-bar.user-bar ul.top-bar-tools > li.site-name-container .dropdown-trigger {
+  background-color: transparent !important;
+  transition: all .5s !important; 
+}
+
+.top-bar .has-tooltip.tip-bottom:hover, .js_login_link:hover, 
+.top-bar.user-bar ul.top-bar-tools .header-topstories a.dropdown-trigger:hover, 
+.top-bar.user-bar ul.top-bar-tools > li.site-name-container .dropdown-trigger:hover {
+  background-color: rgba(100,100,100,.25) !important;
+  transition: all .5s !important; 
+}
+
+.soft_list p {
+ background: #181818 !important; 
+}
+
+ .wide, .icon.notranslate.has-tooltip.tip-bottom, .js_like.has-tooltip.tip-bottom.no-hover {
+ border: 0 !important; 
+}
+
+.threadfooter a.hide {
+ margin-bottom: -2px !important; 
+} 
+
+#post_list li.date-separator {
+ border: 1px solid #555555 !important; 
+ background: -moz-linear-gradient(bottom, #181818, #555555) !important;
+}
+
+.date.modfont, .icon.notranslate.has-tooltip.tip-bottom, .js_like.has-tooltip.tip-bottom.no-hover, 
+.referenced-wide .referenced-label {
+ background: transparent !important; 
+}
+
+/* Header */
+
+#site, #rightbar_notification_container, .top-bar {
+ background: linear-gradient(to top, #181818, #444444) !important;
+ border-bottom: 1px solid #080808 !important; 
+ margin-top: 0px !important;  
+ border-top: 0px !important;
+}
+
+#page {
+ padding-left: 6px !important; 
+  padding-right: 26px !important; 
+ }
+
+#header {
+ /* box-shadow:0 0px 3px #FFFFFF !important; */
+  margin-bottom: -2px !important; 
+  width: 1012px !important; 
+}
+
+#rightbar-header {
+ border: 0px !important; 
+ margin: 0px !important; 
+ width: 326px !important; 
+ margin-left: -26px !important; 
+}
+
+.scrollwrap {
+margin-left: -26px !important; 
+}
+
+
+
+
+.marked-head, #site, #rightbar-header, #rightbar, #header {
+ background: -moz-linear-gradient(#555555, #181818) !important;
+ height: 33px !important; 
+}
+
+
+.chrome .site-forecolor {
+ background: transparent !important; 
+}
+
+
+/* Comments Header */
+
+#thread_navigation {
+ background: -moz-linear-gradient(bottom, #181818, #555555) !important;
+ border-bottom: 1px solid #555555 !important; 
+ border-right: 1px solid #555555 !important; 
+ margin-bottom: 0px !important;  
+}
+
+#comments .cn_threadlist {
+ border-bottom: 0px solid #ccc !important; 
+}
+
+.threadfooter a.hide {
+background: -moz-linear-gradient(bottom, #181818, #555555) !important;
+ border-right: 1px solid #555555 !important; 
+}
+
+.thread .replies .comment {
+ border-left: 5px solid transparent !important; 
+}
+
+
+.tc.cn_showall.selected, .tc.cn_showfeatured.selected, #thread > DIV > DIV:nth-child(3) > A {
+ background: -moz-linear-gradient(bottom, #181818, #555555) !important;
+ border-bottom: 1px solid #555555 !important; 
+ border-right: 1px solid #555555 !important;  
+}
+
+#thread_featured, #thread_all {
+ background: transparent !important; 
+ border-color: transparent !important; 
+}
+
+#comments {
+ border: none !important; 
+ }
+
+/* Hide XX replies */
+
+#thread > DIV > DIV:nth-child(3) > A {
+ margin-top: 10px !important; 
+}
+
+#thread_label, #thread_new, #comments #thread_navigation a, .border-separated.text-upper, .text-upper.selected.strong {
+ box-shadow: none !important; 
+}
+
+
+#comments #thread_navigation a, .viewcomments {
+ border-bottom: 0px !important; 
+}
+
+#thread_new {
+ border-left: 1px solid transparent !important; 
+}
+
+
+#postform_widget > DIV, #postform_widget > DIV > FORM > DIV > TEXTAREA {
+ background: #181818 !important; 
+}
+
+/* Cancel & Submit buttons */
+
+.thin.pfc.cn_cancel.modfont, .thin.pfc.cn_submit.modfont.default {
+ color: #CCCCCC !important; 
+}
+
+
+/* General Border Color */
+
+* {
+ border-color: #555555 !important; 
+}
+
+
+
+/* Under The header - First Section */
+
+#welcome-box > DIV {
+ border-left: 0px !important; 
+ border-right: 0px !important; 
+}
+
+
+/* Header Buttons */ 
+
+#switch_latest > A, #switch_popular > A, #switch_search > A {
+ background-color: transparent !important; 
+}
+
+#switch_latest > A:hover, #switch_popular > A:hover, #switch_search > A:hover {
+ box-shadow: 0 0 3px #CCCCCC !important; 
+}
+
+#top_presence_control > DIV:last-child > A {
+ border-left: 0px !important;
+}
+
+#user > a,
+#login a {
+  box-shadow: none !important;
+ background-color: transparent !important;  
+}
+
+/* ####################################################################
+
+#switch_latest > A {
+ background-image: url("http://i930.photobucket.com/albums/ad144/zigboom/icon-home.png") !important; 
+}
+
+#switch_popular > A {
+ background-image: url("http://i930.photobucket.com/albums/ad144/zigboom/icon-popular.png") !important; 
+}
+
+#switch_search > A {
+ background-image: url("http://i930.photobucket.com/albums/ad144/zigboom/icon-search.png") !important; 
+}
+
+################################################################## */
+
+DIV[style="background-color: #e2e0d4; padding: 16px; margin: 16px 8px 16px 8px;"] {
+ background: #181818 !important; 
+}
+
+#site_list {
+ background-color: transparent !important; 
+}
+
+.button, button {
+  background: -moz-linear-gradient(bottom, #181818, #555555) !important;
+  box-shadow: none !important; 
+}
+
+#post_list li.current {
+ background: transparent !important;
+ border: 1px solid #555555 !important;  
+ padding: 6px !important; 
+ box-shadow: 0 0 0px #666666 !important; 
+}
+
+
+.rightBarControl.cn_pager.lower.modfont, .rightBarControl.cn_pager.upper.modfont {
+ background: rgba(51,51,51,.85) !important; 
+ box-shadow: none !important; 
+ }
+
+ul.rightbar_list li:hover {
+ background: #181818 !important; 
+ }
+ 
+ #pw-comments {
+  width:680px; margin:0 0 0 0px !important; 
+  background: #181818 !important; 
+ }
+ 
+ .comment {
+ background: #181818 !important; 
+ }
+
+div#thread_navigation, .marked, .marked-head, .post div.post-supp {
+ border: none !important; 
+ }
+ 
+ 
+
+
+/* #################################################################### */
+
+}
+
+/* #################################################################### */
+
+
+
+@-moz-document url-prefix(http://api.gawker.com/powwow/){
+
+
+BODY, .viewlist, #panelselector * { 
+background: #181818 !important;
+}
+
+P,.txt,.excerpt,.newthread, SPAN {
+ color: #CCCCCC !important;
+ text-decoration: none !important; 
+ }
+ 
+ a,a:link,a:visited {
+  color: #FFFFFF !important;
+  text-shadow: none !important; 
+  -moz-transition: text-shadow .5s !important; 
+  }
+
+a:hover {
+  text-decoration: none !important;
+  text-shadow: 0 0 3px rgba(255,255,255,.9) !important; 
+  -moz-transition: text-shadow .5s !important; 
+  }
+
+.feature-expandview .comment { 
+background: #181818 !important;
+color: #CCCCCC !important;
+border-bottom: 2px solid !important;
+ -moz-border-bottom-colors: #333333 #000000 !important;
+ border-top: none !important; 
+}
+
+.feature-expandview .form-container .commentform textarea {
+  background: -moz-linear-gradient(#555555, #181818) !important; 
+    border-color: #181818 !important;
+    color: #CCCCCC !important;
+ }
+
+ .feature-expandview #top-nav {
+  border: none !important; 
+  }
+  
+#refresh span, #top-nav .refresh, .nodewrapper .pagedivider .pagenum, .nodewrapper .pagedivider .backtotop {
+ background-color: transparent !important; 
+ }
+ 
+ .button, button {
+   background: -moz-linear-gradient(#555555, #282828, #333333) !important; 
+  border: 2px solid !important;
+ -moz-border-bottom-colors: #000000 #444444 !important;
+  -moz-border-top-colors: #000000 #666666 !important;
+   -moz-border-left-colors: #000000 #555555 !important;
+    -moz-border-right-colors: #000000 #555555 !important;
+    color: #CCCCCC !important; 
+  }
+  
+  .button:hover, button:hover {
+  background: -moz-linear-gradient(#666666, #333333, #444444) !important; 
+  border: 2px solid !important;
+ -moz-border-bottom-colors: #000000 #555555 !important;
+  -moz-border-top-colors: #000000 #777777 !important;
+   -moz-border-left-colors: #000000 #666666 !important;
+    -moz-border-right-colors: #000000 #666666 !important;
+        color: #FFFFFF !important; 
+  }
+  
+  
+  .nodewrapper .pagedivider {
+   border-top: 1px solid #333333 !important; 
+   }

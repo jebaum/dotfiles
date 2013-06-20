@@ -1,0 +1,300 @@
+/* 2013-01-10 */
+/* style by Kaligula */
+/*
+I try to update it as soon as they change Facebook.
+Because it's meant for me and syncing with my brother so I also want this to be up to date.
+You want sth – shout. :)
+_______________________________________
+I:
+- use Chrome
+- have 1280 wide screen
+and do not know if other browsers/resolutions will look the same. If I had time…
+*/
+
+* {
+background-color: #000 !important;
+color: #b1b1b1 !important;
+border-color: #333 !important;
+}
+#pagelet_group_, #pagelet_group_ *,
+#contentArea, #contentArea * {
+  background-color: transparent !important;
+}
+
+a {
+color: #555 !important;
+}
+
+
+/*
+| photos and maps
+\_______________________________________________*/
+
+.fbPhotoSnowlift,
+.fbPhotoSnowliftOuter,
+.fbPhotoSnowliftInner,
+.fbPhotoSnowliftContainer.uiContextualLayerParent,
+.stage,
+.stage *,
+.stage ~ * {
+background: transparent !important;
+}
+
+.fbPhotoSnowlift {
+background-color: rgba(0, 0, 0, .7) !important;
+}
+
+DIV#fbxPhotoContentContainer > TABLE.fbPhotoImageStage,
+DIV#fbxPhotoContentContainer > TABLE.fbPhotoImageStage DIV {
+background: transparent !important;
+}
+
+.fbPhotoSnowlift.pagingActivated .snowliftPager,
+.fullScreenSwitch {
+opacity: .25;
+}
+
+.fbPhotoSnowlift .snowliftFixedPagers .snowliftPager:hover, .fbPhotoSnowlift.pagingActivated .snowliftPager.hilightPager,
+DIV#fbxPhotoContentContainer SPAN.like {
+opacity: 0.6 !important;
+}
+
+DIV#fbxPhotoContentContainer SPAN.like:hover {
+opacity: 1 !important;
+}
+
+.fbPhotoTagger, .fbPhotoTagger * {
+background-color: transparent !important;
+}
+.fbPhotoTagger .typeaheadBackdrop, .fbPhotoTagger .uiTypeaheadView {
+background-color: black !important;
+}
+
+.fbPhotoSnowlift.pagingActivated .snowliftOverlayBar, .fbPhotoSnowlift.taggingMode .snowliftOverlayBar {
+opacity: .6;
+}
+
+DIV.fbPlaceFlyoutMapArrow,
+DIV.fbPlaceFlyoutMapArrow *,
+DIV.tagPointer * {
+  background-color: transparent !important;}
+DIV#fbxPhotoContentContainer > table.fbPhotoImageStage DIV.tagPointer DIV.tagName {
+  background-color: black !important;}
+
+/* thumbnails in albums fix */
+._6ia *,
+._53s * {
+background-color: transparent !important;
+color: white !important;
+}
+
+/* photo in a conversation */
+.generic_dialog_modal,
+.generic_dialog_fixed_overflow {
+  background-color: rgba(0, 0, 0, .9) !important;}
+DIV.pop_container_advanced,
+DIV.pop_content,
+DIV.dialog_content,
+DIV.dialog_body,
+DIV.dialog_body > DIV {
+  border: none !important;
+  background: transparent !important;}
+
+/* fixed adding photos to message when sending from recipient's Wall */
+.mal._3mf, .mal._3mf * {
+background-color: transparent !important
+}
+
+
+/*
+| fixing the window showing who shared the post
+\_______________________________________________*/
+
+BODY > DIV.uiOverlayPageWrapper.shareOverlay {
+background-color: rgba(0,0,0,.7) !important;
+}
+
+BODY > DIV.uiOverlayPageWrapper.shareOverlay > .uiOverlayPageInner,
+BODY > DIV.uiOverlayPageWrapper.shareOverlay > DIV.uiOverlayPageInner > DIV.uiOverlay {
+background-color: transparent !important;
+}
+
+
+/*
+| fixing unread msg layout
+\_______________________________________________*/
+
+.notifNegativeBase #fbMessagesFlyout li.jewelItemNew a.messagesContent,
+.threadRow.unread *,
+DIV#fbMessagesFlyout .jewelItemList .jewelItemNew,
+DIV#fbMessagesFlyout .jewelItemList .jewelItemNew *,
+#pagelet_web_messenger ._kx,
+#pagelet_web_messenger ._kx * {
+background-color: #222 !important;
+}
+
+
+/*
+| notifications color  #111
+\_______________________________________________*/
+
+DIV#fbRequestsFlyout DIV.jewelFooter:hover,
+DIV#fbRequestsFlyout DIV.uiStickyArea:hover,
+DIV#fbRequestsFlyout DIV.fbRequestList:hover,
+DIV#fbRequestsFlyout DIV.jewelFooter:hover *,
+DIV#fbRequestsFlyout DIV.uiStickyArea:hover *,
+DIV#fbRequestsFlyout DIV.fbRequestList:hover *,
+DIV#fbMessagesFlyout > DIV:hover,
+DIV#fbMessagesFlyout > DIV:hover *,
+DIV#fbMessagesFlyout > LI.selected *,
+DIV#fbMessagesFlyout DIV.jewelFooter:hover,
+DIV#fbMessagesFlyout DIV.jewelFooter:hover *,
+DIV#fbNotificationsFlyout UL DIV:hover,
+DIV#fbNotificationsFlyout UL DIV:hover *,
+DIV#fbNotificationsFlyout UL LI.selected *,
+DIV#fbNotificationsFlyout DIV.jewelFooter:hover,
+DIV#fbNotificationsFlyout DIV.jewelFooter:hover *,
+.fbJewelFlyout .jewelHighlight li a:hover,
+.fbJewelFlyout .jewelHighlight li a:active,
+.fbJewelFlyout .jewelHighlight li a:focus,
+.fbJewelFlyout .jewelHighlight li a:hover * {
+background-color: #222 !important;
+}
+
+UL#fbMessagesItemList,
+UL#fbNotificationsList {
+padding: 0 !important;
+}
+
+
+/*
+| buttons' background
+\_______________________________________________*/
+
+
+.uiButton,
+.uiButtonSuppressed:active,
+.uiButtonSuppressed:focus,
+.uiButtonSuppressed:hover,
+.uiSelectorNormal .uiButtonOverlay,
+.uiSelectorNormal .uiButtonOverlay:active,
+.uiSelectorNormal .uiButtonOverlay:focus,
+.uiSelectorNormal .uiButtonOverlay:hover,
+.uiSelectorNormal .uiSelectorButton:active,
+.uiSelectorNormal .uiButtonSuppressed,
+.uiButtonConfirm
+ {background-image: none !important;}
+
+.comment_like_button
+ {padding: 4px !important;}
+
+.uiSearchInput button
+ {
+ //background-image: url(https://s-static.ak.fbcdn.net/rsrc.php/v2/yw/x/l6qufrBtvhv.png) !important;
+ background-position-x: 0px !important;
+ }
+
+
+/*
+| timeline
+\_______________________________________________*/
+
+DIV#fbProfileCover > DIV.cover A > * {
+background-color: transparent !important;
+}
+
+DIV#pagelet_timeline_nav * {
+background-color: transparent !important;
+}
+
+.fbTimelineCapsule .bottomBorder,
+.fbTimelineCapsule .topBorder {
+background-image: none !important;
+background-color: #333 !important;
+}
+
+/* few friends list on timeline */
+.fbTimelineFriendsBoxLarge .friendName {
+background:-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, .8)) !important;}
+.fbTimelineFriendsBoxLarge .friendName .mas.name {
+background: transparent !important;}
+
+/* profile popup if sb has timeline */
+.HovercardStage *
+  {background-image: none !important;}
+
+.coverOverlaidText,
+.coverOverlaidText *,
+.HovercardContent,
+.HovercardContent *,
+._7lt * {
+  background-color: transparent !important;}
+
+.CoverAreaGradient
+  {background:url(https://s-static.ak.fbcdn.net/rsrc.php/v2/yG/r/8RHv8nDQAHL.png) repeat-x left top !important;}
+
+
+/*
+| OTHER
+\_______________________________________________*/
+
+/* popup after hover on profile pic
+and group photos over the group page */
+.uiOverlay.uiContextualDialog.uiOverlayArrowTop,
+.groupsCoverPhoto.fbTimelineSection, .groupsCoverPhoto.fbTimelineSection * {
+background: transparent !important;
+}
+
+
+/* sidebar fbChat (TURNED OFF)
+#pagelet_sidebar > .fbChatSidebar > * {
+border-color: #333 !important;
+}*/
+
+
+/* poll */
+.pollResultsBar .label {
+line-height: 15px !important;
+}
+
+.pollResultsBar .fbQuestionsPollClickTarget {
+background: transparent !important;
+}
+
+.commentActions.fsm.fwn.fcg * {
+color: #333 !important;
+}
+
+/* fix: if sb uses my both fb styles (black and without garbage) */
+.storyContent {
+margin-top: 1px !important;
+}
+
+/* calendar */
+#contentArea .fbCalendarGrid .fbCalendarGridToday {
+background-color: #fdfad3 !important;
+}
+
+.fbCalendarGrid .fbCalendarGridToday .fbCalendarItemDay::after,
+.fbCalendarGrid .fbCalendarItemDay::after {
+background-image: none !important;
+}
+
+/* msgbox */
+#pagelet_web_messenger, #pagelet_web_messenger * {
+background-color: transparent !important;
+}
+
+/* rightCol fix */
+.rightCol {
+    border: none !important;
+}
+.groupsSideMargin, .groupsSideMargin ~ *,
+#pagelet_rhc_footer, .groupsFileBox {
+    display: none !important;
+}
+
+/* new post (image) image upload bar fill fix */
+#contentArea .uiProgressBar .fill {
+    background-color: #6d84b4 !important;
+}

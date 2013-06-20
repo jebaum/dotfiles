@@ -1,0 +1,219 @@
+/* ▓▓ ModernWiki Night:                         ▓▓
+   ▓▓ dark ModernWiki style for 'wikipedia.org' ▓▓
+   ▓▓ by vetinari - 2010                        ▓▓
+   ▓▓ contact: vetinari.userstyles@inode.at     ▓▓
+   ▓▓ ----------------------------------------- ▓▓
+   ▓▓ created: 09.09.2010                       ▓▓
+   ▓▓ last modified: 25.12.2012                 ▓▓
+   ▓▓___________________________________________▓▓ */
+/* ################## ----- Overall / Element Settings----- ####################### */
+body{ 
+  background:#080808 -moz-linear-gradient(center 50px , #383838, #080808 27%) no-repeat fixed!important;
+  background:#080808 -webkit-gradient( linear, left top, left bottom, color-stop(0.06, #383838),color-stop(0.27, #080808)) no-repeat fixed!important;
+  min-width: 990px!important;}
+a, a *{ color: #B6AA7B !important; }
+table{ background:#464646!important;}
+a[href*=".pdf"]{background-image:none!important;}
+a.new{color:#b8b8b8 !important}
+hr{height:1px!important;color:#707070!important; background:#707070!important; border:0 none #707070!important; overflow:hidden!important; padding:0!important; margin: 1px 12px!important}
+h1,h2,h3,h4{color: #ddd!important}
+code{background:#2a2a30!important; padding: 0 2px!important}
+ul, ul li, #toc ul li, .search-types li, #pagehistory li{list-style: none inside none!important;}
+ul{ background:transparent!important;}
+tr[class]:nth-child(odd), tr[style]:nth-child(odd), tr, span[style*="background"], .noprint:not(#mw-head):not(#mw-panel) *, .noprint, #bodyContent>div[style], #mw-search-top-table, #pagehistory li, #pagehistory li *, .mw-history-legend, table.diff, tr, td div, .pathnavbox, dl, dl dd{background:transparent!important;}
+.pathnavbox{border-style:solid!important;}
+tr[class]:nth-child(even), tr[style]:nth-child(even){background:#333!important;}
+td[style*="background"], .NavHead, .toccolours, td[bgcolor], th[bgcolor], #filetoc, td[class]{background:#262626!important;}
+body img{opacity: .4!important;  background:#ddd!important;}
+body img:hover, map:hover+img{opacity: 1!important}
+body #content form input[type="submit"]{-moz-appearance: none!important;color: #bbb!important; background:-moz-linear-gradient(center 0px,  #5a5a5a, #505050 40%, #202020 58%) #505050 !important;
+border:1px solid #B6AA7B!important; font-weight: bold!important; border-radius: 5px; padding: 2px 10px!important; box-shadow: inset -2px -2px 2px #000, inset 1px 1px 2px #999}
+body #content form input[type="submit"]:hover{ box-shadow: inset -2px -2px 2px #000, inset 1px 1px 2px #999, 0px 0px 4px #B6AA7B!important; text-shadow: 0px 0px 2px #bbb, 1px 1px 0px #000}
+/* ################## ----- search form / top bar ----- ####################### */
+#mw-head{height:28px!important;background-color: #606060!important; background:-moz-linear-gradient(center top , #686868, #606060 5px , #505050 25px ,#484848 28px ) repeat fixed 0 0 #606060 !important;
+background: -webkit-gradient( linear, left top, left bottom, color-stop(0.08, #606060),color-stop(0.85, #505050), color-stop(0.92, #484848))!important;
+overflow: visible !important; z-index: 99 !important; box-shadow: 0px 2px 2px #000; border-top: 1px solid #999!important; position: fixed!important}
+#mw-panel{position: fixed!important; top: 0px!important; z-index: 101 !important; width: 100%!important; height: 1px!important; overflow: visible!important; padding: 0px!important; margin: 0px!important}
+/*  -------- Search Form --------  */
+#p-search{margin: 1px 0 0 0!important; position: absolute; top: 0px; left: 50%; margin-left:-290px!important; border-right: 1px solid #111; padding: 3px 56px 3px 0!important; box-shadow: 1px 0px 0px #777}
+#searchform, #simpleSearch{margin: 0px!important;}
+#simpleSearch{margin: 0px!important;border-radius:11px !important; -webkit-border-radius:11px !important;background:#ddd none no-repeat fixed !important; height: 20px!important; box-shadow: inset 1px 1px 2px #666, 1px 1px 0px #333, -1px -1px 0px #484848; padding: 0 0 0 4px !important; border: 0px none!important }
+#simpleSearch *{border: 0px none!important; color: #555!important}
+/* ###### ---- Document Menu Tabs ---- ######*/
+div.vectorTabs {background: transparent none !important}
+div.vectorTabs a span, div.vectorTabs li a{padding: 0px!important; height: auto!important; color: inherit!important; text-decoration: inherit!important; float: none!important; background: transparent none !important; margin: 0!important}
+/*  ---- left menu ---- */
+#left-navigation{position: absolute!important; left:48px!important; right:auto !important; top: 5px !important; z-index:555!important;  }
+#p-namespaces{position: absolute!important; left:0!important; right:auto !important; top: 0px !important;  }
+#p-namespaces ul:before{content:" " !important;margin:3px 0 6px 2%!important; font-size: 0px!important; height: 0;width: 0;
+border-width:9px 5px 0px 5px!important; border-color: #888 transparent transparent transparent!important; border-style: solid!important;display: block }
+#p-namespaces ul:hover:before{content:" " !important; margin:2px 0 6px 2%!important; font-size: 0px!important; height: 0;width: 0;
+border-width:5px 0px 5px 9px!important; border-color:  transparent  transparent transparent #BB9D5A!important; border-style: solid!important;display: block }
+#p-namespaces ul{border-radius: 5px!important; padding: 2px 10px 2px 3px !important; margin: 0 !important; opacity:.92!important; cursor: default; overflow: hidden!important; height: 15px !important;background: transparent none !important}
+#p-namespaces ul li{display: block !important; background: transparent !important; border-width: 0 0 0 9px!important; border-color: #ccc!important;  border-style: solid!important; margin: 3px 1px 3px 3px!important; padding: 0px 3px 0px 4px !important; float: none!important; line-height: .9em !important;height:auto !important; color: #bbb!important; text-decoration: none!important;}
+#p-namespaces  ul:hover{background: #242424 !important; height:auto !important; box-shadow:  #000 2px 2px 3px }
+#p-namespaces ul li.selected{ border-color: #BB9D5A!important;color: #dedede!important }
+#p-namespaces ul li:hover{text-decoration: underline!important;}
+/*  ---- right menu ---- */
+#p-views{left:auto!important; right: 16px !important; top: 5px !important; z-index: 999!important; position: absolute!important }
+#p-views ul:before{content:" " !important; margin:3px 0 6px 90%!important; font-size: 0px!important; height: 0;width: 0;
+border-width:9px 5px 0px 5px!important; border-color: #888 transparent transparent transparent!important; border-style: solid!important;display: block }
+#p-views ul:hover:before{content:" " !important; margin:2px 0 6px 90%!important; font-size: 0em!important;border-width:5px 9px 5px 0px!important;font-size: 0px!important; height: 0;width: 0;
+border-color:  transparent #BB9D5A transparent transparent!important; border-style: solid!important;display: block }
+#p-views ul{border-radius: 5px!important; padding: 2px 10px 2px 3px !important; margin: 0 !important; opacity:.92!important; cursor: default; overflow: hidden!important; height: 15px !important;background: transparent none !important}
+#p-views  ul:hover{background: #242424 !important; height:auto !important; box-shadow:  #000 2px 2px 3px }
+#p-views ul li{display: block !important; background: transparent !important; border-width: 0 0 0 9px!important; border-color: #ccc!important;  border-style: solid!important; margin: 3px 1px 3px 3px!important; padding: 0px 3px 0px 4px !important; float: none!important; line-height: .9em !important;height:auto !important; color: #bbb!important; text-decoration: none!important;}
+#p-views ul li.selected{ border-color: #BB9D5A!important;color: #dedede!important }
+#p-views ul li:hover{text-decoration: underline!important;}
+/*  ----- personal portlet ----- */
+#p-personal{position:absolute!important; height: 10px!important; width:10px!important; border-radius: 8px!important; background: #505050 none!important; overflow: hidden!important; top:8px!important; right:auto!important; left: 8px!important;padding: 0px !important; color: #6D777C!important; cursor: default!important; z-index:9999!important;border:2px solid #888!important; box-shadow: inset #111 -1px -1px 0px, inset #ccc 1px 1px 1px, -1px -1px 1px #111 }
+#p-personal:hover{width: auto!important; height: auto!important; padding: 8px!important;  background: #aaa none!important; border:1px solid #ccc!important; box-shadow:  #000 2px 2px 2px;opacity: .94!important}
+li#pt-userpage, li#pt-anonuserpage, li#pt-login{background: transparent none!important; padding: 0!important;}
+#p-personal li{display: block!important; margin: 2px 2px 4px 2px!important; float: none!important; padding: 0px!important}
+#p-personal ul{text-align:left!important; padding: 2px 4px!important; margin: 20px 0 0 0!important}
+#p-personal:hover ul {margin:0px 0 0 0!important}
+#p-personal li a{color:#333!important}
+#p-personal li a:hover{text-decoration:underline!important}
+/*  ----- Panels ----- */
+#mw-panel.collapsible-nav div.portal{background: transparent none!important; padding: 0px!important; margin-top: 0px!important}
+.portal>h5{font-size: .8em!important; color:#bababa !important; }
+.portal li a{color: #333!important; font-size: 1em!important; white-space: nowrap; word-wrap: break-word}
+.portal ul li, .portal ul li.FA{background: transparent none!important; text-shadow: 1px 1px 1px #555;  white-space: nowrap; word-wrap: break-word}
+.vectorTabs span{background-image:none!important}
+/*  ----- Languages ----- */
+#p-lang{ cursor: default !important; position: absolute !important; top:7px !important; left:50% !important; z-index:999 !important; overflow: visible !important; margin:0px 0px 0px 190px !important;}
+#p-lang div.body{position:relative !important; top:0px !important; left:-80px !important; display:none !important;  z-index:99 !important;}
+#p-lang:hover div.body{display:block !important;  }
+#p-lang:hover .body ul{-moz-column-count: 3!important; -moz-column-gap:16px!important;-webkit-column-count: 3!important; -webkit-column-gap:16px!important;min-width: 323px;
+clear: both!important; background:rgba(180,180,180,.92)!important; margin: 17px 0px 0px 0px!important; border:1px solid #ccc !important; padding: 2px 4px !important; box-shadow:  #000 2px 2px 2px;}
+#p-lang h3{background: #333 !important; border-radius: 9px !important; border-top:1px solid #111 !important; border-left:1px solid #111 !important;border-right:0px none #4A5154 !important;border-bottom:0px none #404040!important; padding:0px 10px 0px 10px!important; float: left!important}
+#p-lang:hover h3{color:#ddd!important;background: #585858 !important; }
+#p-lang h3:hover{ text-decoration: none!important}
+
+li.interwiki-en, li.interwiki-de{font-weight:bold !important}
+/*  -------- Navigation ------- */
+#p-navigation{ cursor: default !important; position: absolute !important; top:7px !important; left:50% !important; z-index:900 !important; overflow: visible !important; margin-left:50px !important}
+#p-navigation div.body{position:relative !important; top:0px !important; left:-8px !important; display:none !important;  z-index:99 !important;}
+#p-navigation:hover .body{display:block !important; }
+#p-navigation:hover .body ul{ clear: both!important; background: #aaa!important; margin: 17px 0px 0px 0px!important; border:1px solid #ccc!important; padding: 2px 4px !important;   box-shadow:  #000 2px 2px 2px; opacity: .94!important}
+#p-navigation h3{background: #333 !important; border-radius: 9px !important; border-top:1px solid #111 !important; border-left:1px solid #111 !important;border-right:0px none #4A5154 !important;border-bottom:0px none #404040!important; padding:0px 10px 0px 10px!important; display: block!important; float: left!important}
+#p-navigation:hover h3{color:#ddd!important;background: #585858 !important;}
+
+/* ################## ----- Main Content ----- ####################### */
+#content{margin:48px auto 24px auto !important; border:1px solid #707070 !important; width:90% !important; min-width:880px !important; max-width: 1340px !important; border-radius:7px !important;-webkit-border-radius:7px !important;background: #202020 !important; color: #b8b8b8!important}
+#content *:not(pre) {border-color: #707070!important; }
+ * {color:#c4c4c4!important}
+div.thumbinner, #Vorlage_Dieser_Artikel *{background: #101010 !important}
+/* ################# ------- Layout-Article -------- ###################### */
+#bodyContent div.mw-geshi, *:not([class="mw-geshi"])>div>pre{background: #333 !important; border-width: 2px 1px 2px 6px!important; border-style: solid!important; border-color: #333!important; box-shadow: inset 1px 1px 0px #282828; padding: 2px 2px 2px 6px!important}
+div.mw-geshi  pre{background: transparent !important; border-width: 0px!important; border-style: none!important; border-color: #333!important;}
+
+pre span.me1, pre span.me0, pre span.me2 , pre span.kw3{color: #dc7878!important}
+pre span.sy0, pre span.sy1,  pre span.re0,  pre span.st_h{color: #aa5588!important}
+pre span.coMULTI, pre span.co1, pre span.co2{color: #999!important}
+pre span.kw2, pre span.kw1, pre span.re2, pre span.re1{color: #7090e5!important}
+pre span.br0, pre span.br1{color: #8866aa!important}
+pre span.st0{color: #558877!important}
+
+#content #bodyContent>table.infobox{border-color: #aa8866 !important}
+#bodyContent th[style], #bodyContent table[class] th{background: #2a2a2a !important}
+#bodyContent tr[style], #bodyContent table[style], #bodyContent table[class], #bodyContent table[class] tr,#bodyContent table[class] td{border-color: #777 !important}
+.navbox-abovebelow, .navbox-group, .navbox-subgroup .navbox-title {background: #333 !important}
+.navbox-subgroup .navbox-group, .navbox-subgroup .navbox-abovebelow , .infobox, .wikitable, .navbox, .plainlinks, #catlinks, .mw-search-formheader,.catlinks, fieldset{background: #444 !important}
+.navbox-even{background: #555 !important}
+
+#bodyContent table td.navbox-list,#bodyContent table .navbox-columns-table td{border-color: #888 !important}
+.articleFeedback-panel{background:transparent!important}
+.articleFeedback-panel .articleFeedback-ratings, .articleFeedback-switch-report, .articleFeedback-expertise,
+.articleFeedback-pending, .articleFeedback-success, .articleFeedback-title{opacity:.4!important;}
+.articleFeedback-label{border:1px solid #f4f4f4!important; padding-left:24px!important; margin: 0 10px 2px 10px!important}
+.articleFeedback-label,.articleFeedback-switch-report,.articleFeedback-rating-label,.articleFeedback-rating-clear{border-radius:16px!important; box-shadow: inset 1px 1px 2px #202020!important}
+div.thumb{background: #101010!important}
+div[style*="background"]{background:transparent!important}
+/*  -------- Images ----------- */
+#content div.tright, #content div.tleft{border: 6px solid #202020 !important}
+/*  --------- TOC ------------- */
+#bodyContent table#toc{border-color: #707070 !important; background: #383838!important}
+table#toc td>ul{-moz-column-count: 3!important; -moz-column-gap:6px!important;  padding: 0px  !important;}
+table#toc td ul{list-style-image:none !important; list-style-type:none !important; }
+#toc a, #toc a *{color:#aaa !important; }
+.portlet ul, .portlet ul li, #bodyContent ul{list-style-image:url(data:image/gif;base64,R0lGODlhBQAHAKIAANe4rbl3YNGqnaRKK+3k4axcQLh1XQAAACH5BAEAAAcALAAAAAAFAAcAAAMQSDZGUaKEAQ5gsLTVjv9gAgA7) !important;  color:#9A3613 !important}
+#bodyContent ul li{color:#b8b8b8 !important}
+
+/*################## ----- Content - TABLE - Colors ----- #######################*/
+#bodyContent table[class~="float-right"] tr[style~="background:"], #bodyContent table[class~="float-right"] td[style~="background:"],#bodyContent table[class~="float-right"] tr[style~="background-color:"], #bodyContent table[class~="float-right"] td[style~="background-color:"],#bodyContent table[class~="float-right"] td[class][style=""]{background:#776655 none!important; color:#ccc!important}
+#bodyContent table.infobox td[style]{background:#333 none!important; color:#bbb!important}
+#bodyContent table[class~="float-right"] .navbox-group{background:#444 none!important; color:#bbb!important}
+table.taxobox, table.taxobox th, table.taxobox tr, table.taxobox td{border-color: #753 !important}
+table.wikitable, table.wikitable td, table.wikitable th, table.wikitable tr{border-color: #753 !important}
+dl dt{background:#333 none!important; color:#bbb!important; padding: 0px 2px!important; margin:8px 0 -1px 0!important}
+table.prettytable th{border-color: #753 !important}
+#bodyContent table[class~="float-right"] a>font{color:#ccc!important}
+#bodyContent table[class~="float-right"] a+font{color:#aaa!important}
+table tbody{background: #363636!important;}
+#bodyContent table th * {background: transparent!important}
+#bodyContent table th>div[style*="background"] {background: rgba(180, 140, 100, .15)!important}
+
+/* ##################----- gallery ----------######################*/
+#bodyContent table.gallery{background:  #333!important;}
+#bodyContent table.gallery td{background: #333!important; border-color: #333!important}
+#bodyContent div.gallerybox div.thumb{background: #181818!important; border-color: #333 #080808 #080808 #333!important}
+#bodyContent div.gallerytext {font-size:.9em !important; padding:0px 6px 6px 6px!important}
+#bodyContent div.gallerytext p{ padding:0px!important;  margin:0px!important; color: #999!important}
+/* ##################----- Suggestions ----------######################*/
+div.suggestions{opacity: .94!important; box-shadow:  #000 2px 2px 3px;background:#aaa !important}
+div.suggestions * {border-color: #ccc!important}
+div.suggestions-results, div.suggestions-special{background:transparent !important; }
+.suggestions-result span, .special-query span{color:#333!important}
+.special-label{color: #ddd!important;}
+.suggestions-result-current span, div.suggestions-special.suggestions-result-current span, .suggestions-result-current , div.suggestions-special.suggestions-result-current {color: #ddd!important; background:#606060 !important }
+/* ################## ----- Elements Display None ----- ####################### */
+#mw-page-base, #mw-head-base, #footer, #p-logo,#siteNotice,  .metadata,  #mp-strapline,
+#p-coll-print_export, #mw-panel .portal:not(#p-lang):not(#p-navigation)
+{display:none !important}
+img[src*="Bluebg_rounded"]{visibility:hidden !important}
+/* ################## ----- Main/welcome page ----- ####################### */
+/*  --------- DE/Ger ------------- */
+#hauptseite h2{background:  #383838!important;border:#B6AA7B solid 1px!important;}
+#hauptseite .inhalt,  #hauptseite table{border-color:#202020 #888 #888!important; background-color: transparent!important; }
+/*  --------- US/UK/Eng ------------- */
+body[class*="page-Main_Page"] #mp-upper *, body[class*="page-Main_Page"] #mp-upper+table *,  body[class*="page-Main_Page"] table{background: transparent!important;border-color:#888!important }
+body[class*="page-Main_Page"] td.MainPageBG+td[style]{border:0px none !important}
+body[class*="page-Main_Page"] #mp-upper table th h2,body[class*="page-Main_Page"] #mp-upper+table table th h2{background:  #383838!important;border:#B6AA7B solid 1px!important;}
+body[class*="page-Main_Page"] #mp-upper table th[style],body[class*="page-Main_Page"] #mp-upper+table table th[style]{background: transparent!important;border:#333 none!important; padding: 3px!important;margin: 0Px!important}
+body[class*="page-Main_Page"] #mp-upper+table a.image{display: block!important; padding: 6px!important; background: #181818!important; border: 1px solid #888!important; margin-right: 6px!important}
+/*  --------- Fra ------------- */
+#accueil_titre+table *, #accueil_titre , body[class*="Accueil_principal"] table{background-color: transparent!important;border-color:#888!important }
+#accueil_titre+table tr td[style*="border: 5px"]{border:5px solid transparent !important}
+#accueil_titre+table th div:first-child{background: #383838!important;border-radius: 10px!important ;}
+#accueil_titre+table th div>img[width="38"]{opacity: .8!important}
+/*  --------- Ita ------------- */
+body[class*="page-Pagina_principale"] #bodyContent>div[style*="float"] *{background-color: transparent!important;border-color:#888!important } 
+body[class*="page-Pagina_principale"] #bodyContent>div[style*="float"] h2{background:  #383838!important;border-bottom:#B6AA7B solid 1px!important; } 
+body[class*="page-Pagina_principale"] #bodyContent div[style*="height: 1px"] {display: none!important}
+/*  --------- Esp ------------- */
+body[class*="page-Wikipedia_Portada"] #bodyContent table *, body[class*="page-Wikipedia_Portada"] #bodyContent table{background-color: transparent!important;border-color:#888!important }
+body[class*="page-Wikipedia_Portada"] #bodyContent th h2{background:  #383838!important;border:#B6AA7B solid 1px!important;}
+body[class*="page-Wikipedia_Portada"] #bodyContent table td[style="border: 1px solid transparent;"]{border: 1px solid transparent!important}
+/*  --------- Hun ------------- */
+body[class*="Kezdőlap"] #bodyContent table *, body[class*="Kezdőlap"] #bodyContent table{background-color: transparent!important;border-color:#888!important }
+body[class*="Kezdőlap"] #bodyContent th{background: #383838!important;border:#B6AA7B solid 1px!important;}
+/*  --------- Dan /Cze ------------- */
+body[class*="Forside"] #bodyContent table *, body[class*="Hlavní"] #bodyContent table *:not(.thumb), body[class*="Forside"] #bodyContent table
+{background-color: transparent!important;border-color:#888!important }
+/*  --------- Fin/Suomi ------------- */
+body[class*="Etusivu"] #bodyContent table *, body[class*="Etusivu"] #bodyContent table{background-color: transparent!important;border-color:#888!important }
+body[class*="Etusivu"] #bodyContent th h2{background:  #383838!important;border:#B6AA7B solid 1px!important;}
+/*  --------- Türkçe ------------- */
+body[class*="Ana_Sayfa"] #bodyContent>table:first-of-type {background-color: #222!important;border-color:#888!important }
+body[class*="Ana_Sayfa"] #bodyContent table *, body[class*="Ana_Sayfa"] #bodyContent table {background-color: transparent!important;border-color:#888!important }
+body[class*="Ana_Sayfa"] #bodyContent th{background:  #383838!important;border:#B6AA7B solid 1px!important;}
+
+body[class*="Hlavní_strana"] #bodyContent table *, body[class*="Hlavní_strana"] #bodyContent table
+{background-color: transparent!important; } 
+body[class*="Hoofdpagina"] #bodyContent table *, body[class*="Hoofdpagina"] #bodyContent table
+{background-color: transparent!important; } 
+body[class*="Tuisblad"] #bodyContent table *, body[class*="Tuisblad"] #bodyContent table
+{background-color: transparent!important; } 
+
+ul li{ list-style-type: disc !important; }
