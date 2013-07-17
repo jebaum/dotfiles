@@ -1,5 +1,6 @@
 ############################## GENERAL CONFIG ##############################
 # Mod4 = windows key, Mod1 = alt key
+set $mpdhost localhost
 set $mod Mod4
 floating_modifier $mod
 
@@ -24,10 +25,18 @@ workspace_layout default
 popup_during_fullscreen smart
 
 #class                    borders     title bar bg   title bar text    indicator
-client.focused            #0000FF       #000022         #FFFFFF         #FFFFFF
-client.focused_inactive   #208020       #002200         #FFFFFF         #999999
-client.unfocused          #505050       #202020         #FFFFFF         #999999
-client.urgent             #CD989A       #CD989A         #000000
+#client.focused            #0000FF       #000022         #FFFFFF         #FFFFFF
+#client.focused_inactive   #208020       #002200         #FFFFFF         #999999
+#client.unfocused          #505050       #202020         #FFFFFF         #999999
+#client.urgent             #CD989A       #CD989A         #000000
+
+### default colors
+#class                     tbar bor      tbar bg        tbar text       indicator
+client.focused             #4c7899       #285577         #FFFFFF         #2e9ef4
+client.focused_inactive    #333333       #303030         #FFFFFF         #484e50
+client.unfocused           #333333       #000000         #DDDDDD         #292d2e
+client.urgent              #2f343a       #900000         #FFFFFF         #900000
+
 client.background         #000000
 ############################################################################
 ########################### STARTUP APPLICATIONS ###########################
@@ -58,34 +67,39 @@ bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit
 
   ### Messing with borders
 bindsym $mod+t        border normal 1pixel
-bindsym $mod+Shift+t  border normal 4pixel
+bindsym $mod+Shift+t  border normal 2pixel
 bindsym $mod+y        border 1pixel
-bindsym $mod+Shift+y  border pixel 4
+bindsym $mod+Shift+y  border pixel 2
 bindsym $mod+n        border none
 
  ### scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-  ### volume
-bindsym $mod+Mod1+minus  exec amixer set Master 1-
-bindsym $mod+Mod1+plus   exec amixer set Master 1+
-#bindsym $mod+Mod1+minus exec mpc volume -1
-#bindsym $mod+Mod1+plus  exec mpc volume +1
-bindsym $mod+Mod1+m      exec amixer set Master toggle
-bindsym Pause            exec mpc toggle; exec echo pause > ~/.mplayer/mplayerfifo
+  ### audio device controls
+bindsym $mod+Mod1+minus       exec volume.sh 1 -
+bindsym $mod+Mod1+plus        exec volume.sh 1 +
+bindsym XF86AudioLowerVolume  exec volume.sh 1 -
+bindsym XF86AudioRaiseVolume  exec volume.sh 1 +
+bindsym $mod+Mod1+m           exec volume.sh toggle
+bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mplayer/mplayerfifo
+bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mplayer/mplayerfifo
+#bindsym XF86AudioPrev         exec device.sh idk
+#bindsym XF86AudioNext         exec device.sh idk
+#bindsym $mod+Mod1+d           exec device.sh idk
+bindsym $mod+Mod1+t           exec killall mpd && mpd
 
   ### mpc controls
-bindsym $mod+Mod1+p     exec mpc cdprev
-bindsym $mod+Mod1+n     exec mpc next
-bindsym $mod+Mod1+s     exec mpc stop
-bindsym $mod+Mod1+space exec mpc toggle
-bindsym $mod+Mod1+Left  exec mpc seek -5
-bindsym $mod+Mod1+Right exec mpc seek +5
-bindsym $mod+Mod1+Down  exec mpc seek -20
-bindsym $mod+Mod1+Up    exec mpc seek +20
-bindsym $mod+Mod1+Next  exec mpc seek -60
-bindsym $mod+Mod1+Prior exec mpc seek +60
+bindsym $mod+Mod1+p     exec mpc -h $mpdhost cdprev
+bindsym $mod+Mod1+n     exec mpc -h $mpdhost next
+bindsym $mod+Mod1+s     exec mpc -h $mpdhost stop
+bindsym $mod+Mod1+space exec mpc -h $mpdhost toggle
+bindsym $mod+Mod1+Left  exec mpc -h $mpdhost seek -10
+bindsym $mod+Mod1+Right exec mpc -h $mpdhost seek +10
+bindsym $mod+Mod1+Down  exec mpc -h $mpdhost seek -60
+bindsym $mod+Mod1+Up    exec mpc -h $mpdhost seek +60
+bindsym $mod+Mod1+Next  exec mpc -h $mpdhost seek -60
+bindsym $mod+Mod1+Prior exec mpc -h $mpdhost seek +60
 
   ### mplayer controls
 bindsym $mod+Control+p     exec echo pt_step -1 > ~/.mplayer/mplayerfifo
@@ -116,8 +130,8 @@ assign     [instance="Navigator" class="Firefox"] → 2: web
 for_window [instance="Mail" class="Thunderbird"] border none
 assign     [instance="Mail" class="Thunderbird"] → 5: mail
 
-for_window [instance="ec2" class="URxvt"] border none
-assign     [instance="ec2" class="URxvt"] → 3: ec2
+for_window [instance="vps" class="URxvt"] border none
+assign     [instance="vps" class="URxvt"] → 3: vps
 
 for_window [instance="Steam" class="Steam"] border none
 assign     [instance="Steam" class="Steam"] → 11: steam
@@ -168,20 +182,21 @@ bindsym $mod+space focus mode_toggle
 ############################################################################
 ###################### WORKSPACE MANAGEMENT KEYBINDS #######################
   ### automatically put workspace on certain screen on creation
-    # named workspace must be quoted, eg: workspace "tf2" output DVI-I-2
-workspace "1: main"   output DVI-I-2
-workspace "4: music"  output DVI-I-2
-workspace "5: mail"   output DVI-I-2
-workspace "11: steam" output DVI-I-2
-workspace "12: tf2"   output DVI-I-2
-workspace "2: web"    output DVI-I-3
-workspace "3: ec2"    output DVI-I-3
+    # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
+workspace "1: main"   output DVI-D-0
+workspace "2: web"    output VGA-0
+workspace "3: vps"    output DVI-D-1
+workspace "4: music"  output VGA-0
+workspace "5: mail"   output VGA-0
+workspace "11: steam" output DVI-D-0
+workspace "12: tf2"   output DVI-D-0
+workspace "13: tv"    output HDMI-0
 
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
 bindsym Mod1+Tab workspace back_and_forth
 
-  ### move workspaces between outputs, also takes specific output name instead of direction (DVI-I-2)
+  ### move workspaces between outputs, also takes specific output name instead of direction (DVI-D-0)
 bindsym $mod+Control+j move workspace to output left
 bindsym $mod+Control+k move workspace to output down
 bindsym $mod+Control+i move workspace to output up
@@ -191,7 +206,7 @@ bindsym $mod+Control+l move workspace to output right
     # TODO - numpad?
 bindsym $mod+1    workspace number 1: main
 bindsym $mod+2    workspace number 2: web
-bindsym $mod+3    workspace number 3: ec2
+bindsym $mod+3    workspace number 3: vps
 bindsym $mod+4    workspace number 4: music
 bindsym $mod+5    workspace number 5: mail
 bindsym $mod+6    workspace number 6: files
@@ -205,7 +220,7 @@ bindsym $mod+KP_3 workspace number 13
   ### move focused container to workspace
 bindsym $mod+Shift+1    move workspace number 1: main
 bindsym $mod+Shift+2    move workspace number 2: web
-bindsym $mod+Shift+3    move workspace number 3: ec2
+bindsym $mod+Shift+3    move workspace number 3: vps
 bindsym $mod+Shift+4    move workspace number 4: music
 bindsym $mod+Shift+5    move workspace number 5: mail
 bindsym $mod+Shift+6    move workspace number 6: files
@@ -241,23 +256,26 @@ mode "resize" {
   bindsym Right       resize grow     right 1 px or 1 ppt
   bindsym Shift+Right resize shrink   right 1 px or 1 ppt
 
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
+  bindsym Return    mode "default"
+  bindsym Escape    mode "default"
+  bindsym Control+C mode "default"
 }
 bindsym $mod+r mode "resize"
 ############################################################################
 ################################### BAR ####################################
 # TODO - possibly use multiple bar blocks to use conky|dzen? i3 user guide section 5
 bar {
-  output DVI-I-2
-  output DVI-I-3
+  output DVI-D-0
+  output DVI-D-1
+  output VGA-0
+  output HDMI-0
   mode dock
   position top
   workspace_buttons yes
   font pango:Times New Roman 9
   status_command ~/.i3/conky
   #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -dock -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
-  tray_output DVI-I-2
+  tray_output DVI-D-0
 
   colors {
     background #000000
