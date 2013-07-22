@@ -54,6 +54,8 @@ endif
 " latex stuff
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
+let g:Tex_ViewRule_pdf = '/usr/bin/evince' " set pdf viewer for <leader>lv
+let g:Tex_ViewRule_dvi = '/usr/bin/evince' " set dvi viewer for <leader>lv
 
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
@@ -95,7 +97,6 @@ set showmode
 set showcmd
 set showmatch
 set cursorline
-set paste
 set incsearch "find as you type
 set hlsearch  "hilight search terms
 set magic     "change how backslashes are handled in searches
@@ -162,7 +163,6 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 let g:mapleader = ","
 set pastetoggle=<INS>
-nmap <INS> h
 nmap f :TagbarCurrentTag p<CR>
 
 nnoremap <C-L> :call g:ToggleNuMode()<CR>
