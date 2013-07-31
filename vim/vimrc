@@ -2,19 +2,6 @@ set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 execute pathogen#infect()
 "=============================================================================
-"                          RELATIVE LINE NUMBERS
-"=============================================================================
-"autocmd InsertEnter * :set number
-"autocmd InsertLeave * :set relativenumber
-
-function! g:ToggleNuMode()
-  if(&rnu == 1)
-    set nu
-  else
-    set rnu
-  endif
-endfunc
-"=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
 "=============================================================================
 fun! StripTrailingWhitespaces()
@@ -29,27 +16,20 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 "                                 MISC
 "=============================================================================
-" last parameter is optional and can be any highlight group. call in vimrc makes it do things when the file loads.
+" last parameter is optional and can be any highlight group.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
 
 autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
 
-command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" prevent folds from slowing down vim on big files
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 
 "autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
 set completeopt=menuone,preview,longest
-
-" make :set list (show whitespace chars) nicer, don't show EOL
-if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-  if &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
-    let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
-  endif
-endif
-
-" highlight end of line whitespcae
-" match Todo /\s\+$/
 
 " latex stuff
 set grepprg=grep\ -nH\ $*
@@ -57,9 +37,9 @@ let g:tex_flavor = "latex"
 let g:Tex_ViewRule_pdf = '/usr/bin/evince' " set pdf viewer for <leader>lv
 let g:Tex_ViewRule_dvi = '/usr/bin/evince' " set dvi viewer for <leader>lv
 
+" vim marks
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
-"let g:SuperTabDefaultCompletionType = "<c-n>" " supertab completion navigates menu downward
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -67,15 +47,21 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
+" tagbar settings
 let g:tagbar_left  = 1      "default is to open on right
 let g:tagbar_width = 50     "default is 40
 let g:tagbar_indent= 1      "default is 2
 let g_tagbar_autoshowtag=1  "auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort  = 0      "sort tags by position in source file, not alphabetically
 
-" hilights for syntastic, no longer seem to be necessary
-" highlight link SyntasticErrorSign SyntasticErrorSign
-" highlight link SyntasticWarningSign SyntasticWarningSign
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'php' : 1,
+    \}
+
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
@@ -87,6 +73,7 @@ set titlestring=
 set titlestring+=%t\  " file name
 " set titlestring+=(%F) " full file path + name
 set relativenumber
+set nu
 set backspace=indent,eol,start " allow backspace in insert mode
 set esckeys  " make numpad work
 set autoread " reload files changed outside of vim
@@ -100,15 +87,15 @@ set cursorline
 set incsearch "find as you type
 set hlsearch  "hilight search terms
 set magic     "change how backslashes are handled in searches
-set ignorecase "case insensitive search
+set ignorecase
 set smartcase  " case sensitive search if search contains uppercase letter
+"set spell spelllang=en_us
 set scrolljump=5 "lines to scroll when cursor leaves screen
 set scrolloff=8 "start scrolling when 8 lines away from margins
 set updatetime=100
 set encoding=utf8
 set ffs=unix,dos,mac
 set timeoutlen=2000  " wait for 2 seconds to time out leader
-"set paste "permanently set paste mode, no retabbing by vim when pasting in text
 "=============================================================================
 "                                  FOLDING
 "=============================================================================
@@ -135,6 +122,7 @@ vnoremap <space> zf
 "                             TAB / INDENT STUFF
 "=============================================================================
 set autoindent
+"set cindent "alternative to vi 'autoindent' that uses c indentation standard
 set smartindent
 set smarttab
 set shiftwidth=2
@@ -161,12 +149,12 @@ endif
 "                                 KEYBINDS
 "=============================================================================
 let mapleader = ','  " use comma instead of \ as leader
-let g:mapleader = ","
 set pastetoggle=<INS>
-nmap f :TagbarCurrentTag p<CR>
+"nmap f :TagbarCurrentTag p<CR>
 
-nnoremap <C-L> :call g:ToggleNuMode()<CR>
+nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
+nmap <C-n>  :NERDTreeToggle<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
@@ -194,7 +182,6 @@ nmap <F1>   :let @+=@"<CR>
 nmap <F6>   :set spell!<CR>
 nmap <F11>   zR
 nmap <F12>   zM
-nmap <C-n>  :NERDTreeToggle<CR>
 
 " leader shortcuts to frequent commands
 nmap <leader>c :WatchForChanges!<CR>
