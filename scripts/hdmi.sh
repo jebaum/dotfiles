@@ -6,7 +6,8 @@
 
 if [ "$1" == "on" ]; then
   xrandr --output HDMI-0  --auto
-  xrandr --output HDMI-0  --pos 5760x200
+  #xrandr --output HDMI-0  --pos 5760x200
+  xrandr --output HDMI-0  --right-of DVI-D-1
 elif [ "$1" == "off" ]; then
   xrandr --output HDMI-0  --off
 else

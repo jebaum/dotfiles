@@ -1,3 +1,4 @@
+# note to self - this counts on existing link being valid or some shit. look into that
 BASEDIR="${HOME}/.alsaconfs"
 DEVICE=`readlink ${HOME}/.asoundrc | egrep -o 'hw[0-9].?[0-9]?'`
 MOBO="hw0"
@@ -20,6 +21,7 @@ elif [ "$DEVICE" == "$HDMI" ]; then
 elif [ "$DEVICE" == "$HEADSET" ]; then
   INDICATOR="H"
   CONTROL="PCM"
+
 else
   echo "idk bro"
 fi
