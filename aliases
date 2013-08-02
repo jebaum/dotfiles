@@ -33,18 +33,26 @@ alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 alias playserver='mplayer --profile=hdmi > /home/everyone/log'
 alias playserverlog='watch -n 1 "cat /home/everyone/log|tail -20"'
 
-function sendplayservercmd() {
-  echo "$1" > /home/everyone/mplayerfifo
-}
-
 alias top='htop'
 alias gist='gist -c'
 alias grep='grep --color=auto -in'
 alias yt='youtube-viewer'
 alias ytdl='youtube-dl'
+alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias mpc='mpc -h 192.168.1.100'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias 'ps?'='ps ax | grep '
+
+function up() {
+  LIMIT=$1
+  P=$PWD
+  for ((i=1; i <= LIMIT; i++))
+  do
+    P=$P/..
+  done
+  cd $P
+  export MPWD=$P
+}
 
 # rsyncs
 alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'
@@ -57,7 +65,6 @@ function syncschool() {
   echo -e "${red}Running${NC}: ${white}rsync -azu from ${yellow}ec2 ${white}to ${blue}local${NC}"
   pullschoolec2
 }
-
 
 function cptlnxsrv() { # copy to linux server
 		# 3 parameters: local location to copy from (relative to current directory) | optional folder to create for dump | flags to add (no dash)
@@ -129,3 +136,5 @@ NC='\e[0m' # No Color
 #Purple      0;35     Light Purple  1;35
 #Brown       0;33     Yellow        1;33
 #Light Gray  0;37     White         1;37
+#
+# vim:filetype=sh

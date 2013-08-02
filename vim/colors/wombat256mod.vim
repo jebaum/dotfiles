@@ -20,11 +20,11 @@ let colors_name = "wombat256mod"
 
 
 " General colors
-hi Normal		ctermfg=231		ctermbg=none	cterm=none		guifg=#e3e0d7	guibg=#242424	gui=none
-hi Cursor		ctermfg=234		ctermbg=228		cterm=none		guifg=#242424	guibg=#eae788	gui=none
-hi Visual		ctermfg=251		ctermbg=239		cterm=none		guifg=#c3c6ca	guibg=#554d4b	gui=none
-hi VisualNOS	ctermfg=251		ctermbg=236		cterm=none		guifg=#c3c6ca	guibg=#303030	gui=none
-hi Search		ctermfg=177		ctermbg=241		cterm=none		guifg=#d787ff	guibg=#636066	gui=none
+hi Normal		ctermfg=231		ctermbg=none	cterm=none		guifg=#ffffff	guibg=none		gui=none
+hi Cursor		ctermfg=234		ctermbg=228		cterm=none		guifg=#1c1c1c	guibg=#ffff87	gui=none
+hi Visual		ctermfg=251		ctermbg=239		cterm=none		guifg=#c6c6c6	guibg=#4e4e4e	gui=none
+hi VisualNOS	ctermfg=251		ctermbg=236		cterm=none		guifg=#c6c6c6	guibg=#303030	gui=none
+hi Search		ctermfg=177		ctermbg=241		cterm=none		guifg=#d787ff	guibg=#626262	gui=none
 hi Folded		ctermfg=103		ctermbg=237		cterm=none		guifg=#a0a8b0	guibg=#3a4046	gui=none
 hi Title		ctermfg=230						cterm=bold		guifg=#ffffd7					gui=bold
 hi StatusLine	ctermfg=230		ctermbg=238		cterm=none		guifg=#ffffd7	guibg=#444444	gui=italic

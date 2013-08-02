@@ -1,0 +1,12 @@
+div{background-color: black !important; color: #F00000 !important; text-shadow: 0 0 0; background: black !important; background-image: none !important; border-color: #333!important;}
+body, p, table, tr, td, em, h1, h2, h3, h4, h5, h6, span, dl, dt, dd, input, select, pre, samp, code, tt, textarea, strong, b, i, u {background-color: black !important; color: #00C000 !important; text-shadow: 0 0 0; background: black !important; background-image: none !important; border-color: #333!important;}
+a:visited, a:visited em {color: #C32FED !important;}
+a, a:link, a em, a:link em {color: #277EF5 !important;}
+a:hover, a:hover em {color: #FF4040 !important;}
+* {background-color: black !important;}
+
+.tex { background-color: #efefef !important; }
+
+/* jQuery documentation */
+#sidebar li {text-shadow: 0 0 0 !important;}
+
