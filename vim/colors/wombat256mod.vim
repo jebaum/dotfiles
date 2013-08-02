@@ -102,4 +102,13 @@ hi! link FoldColumn		Folded
 hi! link CursorColumn	CursorLine
 hi! link NonText		LineNr
 
+" vim-gitgutter hilights	
+hi GitGutterAdd					ctermfg=46
+hi GitGutterChange				ctermfg=226
+hi GitGutterDelete				ctermfg=196
+hi GitGutterChangeDelete		ctermfg=201
+hi GitGutterAddLine				ctermbg=23
+hi GitGutterChangeLine			ctermbg=58
+hi GitGutterDeleteLine			ctermbg=52
+hi GitGutterChangeDeleteLine	ctermbg=53
 " vim:set ts=4 sw=4 noet:

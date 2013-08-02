@@ -66,6 +66,8 @@ let g:mta_filetypes = {
     \ 'php' : 1,
     \}
 
+let g:gitgutter_escape_grep = 1  " use raw, non aliased grep for gutter
+let g:gitgutter_enabled = 0      " don't show gutter by default
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
@@ -190,6 +192,7 @@ nmap <F12>   zM
 " leader shortcuts to frequent commands
 nmap <leader>c :WatchForChanges!<CR>
 nmap <leader>d :delmarks a-z<CR>
+nmap <leader>g :GitGutterToggle<CR>
 nmap <leader>h :noh<return><esc>
 nmap <leader>l :ls<CR>:b<space>
 nmap <leader>m :DoShowMarks<CR>
