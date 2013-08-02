@@ -1,8 +1,8 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
-"let g:rehash256=1
-"colorscheme molokai
-"set background=dark
+"colorscheme ir_black
+"colorscheme distinguished
+"colorscheme jellybeans
 execute pathogen#infect()
 "=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
