@@ -36,7 +36,7 @@ cpu_avg_samples 2
 ### https://bbs.archlinux.org/viewtopic.php?pid=1217759#p1217759
 # add weather at some point
 # mpd_smart dispalys artist + album
-mpd_host 192.168.1.7
+mpd_host 192.168.1.100
 mpd_port 6600
 TEXT
 
@@ -44,7 +44,7 @@ TEXT
  { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#B58900"},
  { "full_text": " ❤ $cpu% ${loadavg}  ","color": "\#ca55d3"},
  { "full_text": " R: ${fs_used /}/${fs_size /} [${fs_used_perc /}%] H: ${fs_used /home}/${fs_size /home} [${fs_used_perc /home}%] ","color":"\#7996a9" }, 
- { "full_text": " ≈ ${if_up enp5s0}${addr enp5s0} U/D[${upspeed enp5s0}/${downspeed enp5s0}] ${else}N/A ${endif}","color":"\#33CC99"},
+ { "full_text": " ≈ ${if_up enp6s0}${addr enp6s0} U/D[${upspeed enp6s0}/${downspeed enp6s0}] ${else}N/A ${endif}","color":"\#33CC99"},
  { "full_text": " ☇ RIG5 $uptime ", "color":"\#33dd55"},
  { "full_text": " ${time %j,%U- %a %b %d} ${time %I:%M:%S %p} "}
 ],

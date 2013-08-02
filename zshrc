@@ -47,3 +47,4 @@ source ~/.aliases
 # Customize to your needs...
 
 setopt BRACE_CCL
+export EDITOR=vim

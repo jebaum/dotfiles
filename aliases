@@ -4,8 +4,9 @@ alias aliases='vim ~/.aliases && reload'
 
 # ssh aliases
 alias lnxsrv='ssh baumgart@lnxsrv.seas.ucla.edu'
-alias jbaumy='mosh jebaum@jbaumy.com'
+alias jbaumy='mosh james@jbaumy.com'
 alias sshl='ssh jebaum@linux.ucla.edu'
+alias vm='ssh -p 3022 cs144@127.0.0.1'
 
 # folder aliases
 alias cs111='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111'
@@ -22,13 +23,14 @@ alias y1q3='cd ~/Dropbox/Documents/UCLA/Y1Q3'
 alias y2q1='cd ~/Dropbox/Documents/UCLA/Y2Q1'
 alias y2q2='cd ~/Dropbox/Documents/UCLA/Y2Q2'
 alias y2q3='cd ~/Dropbox/Documents/UCLA/Y2Q3'
+alias y3q1='cd ~/Dropbox/Documents/UCLA/Y3Q1'
 alias 33b='cd ~/Dropbox/Documents/UCLA/Y2Q3/math33b'
 alias anthro8='cd ~/Dropbox/Documents/UCLA/Y2Q3/anthro8'
 alias tf2='cd /home/james/.local/share/Steam/SteamApps/common/Team\ Fortress\ 2/tf/custom/hud'
 alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 
 # command aliases
-alias playserver='mplayer -slave -idle -nocache -input file=/home/everyone/mplayerfifo'
+alias playserver='mplayer --profile=hdmi > /home/everyone/log'
 alias playserverlog='watch -n 1 "cat /home/everyone/log|tail -20"'
 
 function sendplayservercmd() {
@@ -36,10 +38,11 @@ function sendplayservercmd() {
 }
 
 alias top='htop'
-alias jist='jist -c'
+alias gist='gist -c'
 alias grep='grep --color=auto -in'
 alias yt='youtube-viewer'
 alias ytdl='youtube-dl'
+alias mpc='mpc -h 192.168.1.100'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias 'ps?'='ps ax | grep '
 

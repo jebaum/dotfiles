@@ -32,7 +32,7 @@ URxvt.matcher.button       : 1
 
 !  anti aliasing of xft fonts in urxvt makes w3m image preview in ranger misbehave, see:
 !  https://github.com/hut/ranger/issues/86
-URxvt.font     : xft:Deja Vu Sans Mono for Powerline:size=9
+URxvt.font     : xft:Deja Vu Sans Mono for Powerline:size=9.5
 !URxvt.font     : xft:Deja Vu Sans Mono:size=9
 !URxvt.font     : xft:Inconsolata-dz:size=9.5
 !URxvt.font     : xft:Ubuntu:size=8
@@ -52,7 +52,7 @@ URxvt.pointerColorBackground : #586E75
 URxvt.pointerColorForeground : #93A1A1
 
 URxvt.background : #171717
-URxvt.foreground : #CCCCCC
+URxvt.foreground : #F0F0F0
 
 URxvt.colorBD : #FFFFFF
 URxvt.colorUL : #CCCC66

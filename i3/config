@@ -1,6 +1,6 @@
-############################## GENERAL CONFIG ##############################
+############################# GENERAL CONFIG ###############################
 # Mod4 = windows key, Mod1 = alt key
-set $mpdhost localhost
+set $mpdhost 192.168.1.100
 set $mod Mod4
 floating_modifier $mod
 
@@ -18,7 +18,7 @@ force_focus_wrapping no
 workspace_auto_back_and_forth no
 force_display_urgency_hint 1000 ms
 # <horizontal | vertical | auto>
-default_orientation horizontal
+default_orientation auto
   # <default | stacking | tabbed>
 workspace_layout default
   # <smart | ignore | leave_fullscreen>
@@ -32,8 +32,8 @@ popup_during_fullscreen smart
 
 ### default colors
 #class                     tbar bor      tbar bg        tbar text       indicator
-client.focused             #4c7899       #285577         #FFFFFF         #2e9ef4
-client.focused_inactive    #333333       #303030         #FFFFFF         #484e50
+client.focused             #4c7899       #204060         #FFFFFF         #2e9ef4
+client.focused_inactive    #207020       #112011         #FFFFFF         #484e50
 client.unfocused           #333333       #000000         #DDDDDD         #292d2e
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 
@@ -62,7 +62,7 @@ bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
 bindsym $mod+Shift+Q kill
 bindsym $mod+p exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
 bindsym $mod+Shift+R reload
-bindsym $mod+Shift+C restart
+bindsym $mod+Shift+C exec killall conky; restart
 bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit i3' 'i3-msg exit'"
 
   ### Messing with borders
@@ -76,18 +76,23 @@ bindsym $mod+n        border none
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-  ### audio device controls
+  ### global controls
+bindsym $mod+Mod1+Control+m   exec device.sh mobo
+bindsym $mod+Mod1+Control+x   exec device.sh xfi
+bindsym $mod+Mod1+Control+h   exec device.sh headset
+bindsym $mod+Mod1+Control+t   exec device.sh hdmi; exec hdmi.sh on
+
+bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mplayer/mplayerfifo
+bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mplayer/mplayerfifo
+#bindsym XF86AudioPrev         exec device.sh idk
+#bindsym XF86AudioNext         exec device.sh idk
+
+  ### volume controls
 bindsym $mod+Mod1+minus       exec volume.sh 1 -
 bindsym $mod+Mod1+plus        exec volume.sh 1 +
 bindsym XF86AudioLowerVolume  exec volume.sh 1 -
 bindsym XF86AudioRaiseVolume  exec volume.sh 1 +
 bindsym $mod+Mod1+m           exec volume.sh toggle
-bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mplayer/mplayerfifo
-bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mplayer/mplayerfifo
-#bindsym XF86AudioPrev         exec device.sh idk
-#bindsym XF86AudioNext         exec device.sh idk
-#bindsym $mod+Mod1+d           exec device.sh idk
-bindsym $mod+Mod1+t           exec killall mpd && mpd
 
   ### mpc controls
 bindsym $mod+Mod1+p     exec mpc -h $mpdhost cdprev
@@ -100,6 +105,7 @@ bindsym $mod+Mod1+Down  exec mpc -h $mpdhost seek -60
 bindsym $mod+Mod1+Up    exec mpc -h $mpdhost seek +60
 bindsym $mod+Mod1+Next  exec mpc -h $mpdhost seek -60
 bindsym $mod+Mod1+Prior exec mpc -h $mpdhost seek +60
+bindsym $mod+Mod1+t     exec killall mpd && mpd
 
   ### mplayer controls
 bindsym $mod+Control+p     exec echo pt_step -1 > ~/.mplayer/mplayerfifo
@@ -139,6 +145,8 @@ for_window [instance="hl2_linux" class="hl2_linux"] border none
 assign     [instance="hl2_linux" class="hl2_linux"] → 12: tf2
 
 for_window [instance="vdpau" class="mplayer2"] border none
+#assign     [instance="vdpau" class="mplayer2"] → 13: tv
+
 for_window [instance="firefox.exe" class="Wine"] border none
 ############################################################################
 ######################## WINDOW MANAGEMENT KEYBINDS ########################
@@ -183,13 +191,14 @@ bindsym $mod+space focus mode_toggle
 ###################### WORKSPACE MANAGEMENT KEYBINDS #######################
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
-workspace "1: main"   output DVI-D-0
-workspace "2: web"    output VGA-0
+workspace "1: main"   output HDMI-0
+workspace "2: web"    output HDMI-0
 workspace "3: vps"    output DVI-D-1
 workspace "4: music"  output VGA-0
 workspace "5: mail"   output VGA-0
-workspace "11: steam" output DVI-D-0
-workspace "12: tf2"   output DVI-D-0
+workspace "6: files"  output DVI-D-0
+workspace "11: steam" output HDMI-0
+workspace "12: tf2"   output HDMI-0
 workspace "13: tv"    output HDMI-0
 
 bindsym $mod+Tab workspace next_on_output
@@ -216,7 +225,7 @@ bindsym $mod+9    workspace number 9
 bindsym $mod+0    workspace number 10
 bindsym $mod+KP_1 workspace number 11
 bindsym $mod+KP_2 workspace number 12
-bindsym $mod+KP_3 workspace number 13
+bindsym $mod+KP_3 workspace number 13: tv
   ### move focused container to workspace
 bindsym $mod+Shift+1    move workspace number 1: main
 bindsym $mod+Shift+2    move workspace number 2: web
@@ -230,7 +239,7 @@ bindsym $mod+Shift+9    move workspace number 9
 bindsym $mod+Shift+0    move workspace number 10
 bindsym $mod+Shift+KP_1 move workspace number 11
 bindsym $mod+Shift+KP_2 move workspace number 12
-bindsym $mod+Shift+KP_3 move workspace number 13
+bindsym $mod+Shift+KP_3 move workspace number 13: tv
 
 bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
 ############################################################################
@@ -275,14 +284,14 @@ bar {
   font pango:Times New Roman 9
   status_command ~/.i3/conky
   #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -dock -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
-  tray_output DVI-D-0
+  tray_output HDMI-0
 
   colors {
     background #000000
     statusline #CCCCCC
    #separator  #FF0000
 #                       border    bg      text
-    focused_workspace  #4C7899  #285577  #FFFFFF
+    focused_workspace  #4C7899  #204060  #FFFFFF
     active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF

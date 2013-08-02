@@ -1,5 +1,8 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
+"let g:rehash256=1
+"colorscheme molokai
+"set background=dark
 execute pathogen#infect()
 "=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
@@ -18,6 +21,7 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 " last parameter is optional and can be any highlight group.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
+call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 
 autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
 
@@ -114,10 +118,10 @@ vnoremap <space> zf
 "au BufWinEnter * silent loadview
 
 " below autocommands create folds from indent levels on file load, then switch method to manual
-" augroup vimrc
-"   au BufReadPre * set foldmethod=indent
-"   au BufWinEnter * if &fdm == 'indent' | set foldmethod=manual | endif
-" augroup END
+ "augroup vimrc
+   "au BufReadPre * set foldmethod=syntax
+   "au BufWinEnter * if &fdm == 'syntax' | set foldmethod=manual | endif
+ "augroup END
 "=============================================================================
 "                             TAB / INDENT STUFF
 "=============================================================================
