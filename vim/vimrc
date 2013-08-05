@@ -187,6 +187,7 @@ nnoremap h i
 nnoremap H I
 vnoremap h i
 vnoremap H I
+nnoremap I H
 
 " function keys
 nmap <F1>   :let @+=@"<CR>
