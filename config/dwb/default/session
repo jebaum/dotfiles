@@ -1,18 +1,3 @@
 g:default
--16 file:///home/james/Verizon%20DSL%20Settings.html Error
--15 http://www.google.com/ test
--14 http://www.google.com/#output=search&sclient=psy-ab&q=test&oq=test&gs_l=hp.3..0l4.3126.3391.0.3798.4.4.0.0.0.0.182.582.0j4.4.0....0...1c.1.23.psy-ab..0.4.568.9MCHD2Q4xKs&pbx=1&bav=on.2,or.r_qf.&bvm=bv.50165853%2Cd.cGE%2Cpv.xjs.s.en_US.seW1cfrvSKg.O&fp=fdd30ea130542987&biw=1918&bih=1148 test
--13 http://test.com/ Create
--12 http://www.google.com/ Google
--11 dwb:bookmarks dwb
--10 dwb:settings dwb
--9 https://www.facebook.com/ 
--8 http://www.google.com/ google.com
--7 http://www.google.com/#sugexp=crnk_timecombined&gs_rn=23&gs_ri=psy-ab&cp=7&gs_id=13&xhr=t&q=google.com&es_nrs=true&pf=p&output=search&sclient=psy-ab&oq=google.&gs_l=&pbx=1&bav=on.2,or.r_qf.&bvm=bv.50165853,d.cGE&fp=fdd30ea130542987&biw=1918&bih=1148 google.com
--6 http://www.google.com/#sugexp=crnk_timecombined&gs_rn=23&gs_ri=psy-ab&cp=7&gs_id=13&xhr=t&q=google.com&es_nrs=true&pf=p&output=search&sclient=psy-ab&oq=google.&gs_l=&pbx=1&fp=fdd30ea130542987&biw=1918&bih=1148&bav=on.2,or.r_qf.&cad=b&bvm=pv.xjs.s.en_US.seW1cfrvSKg.O google.com
--5 http://www.google.com/#sugexp=crnk_timecombined&gs_rn=23&gs_ri=psy-ab&cp=7&gs_id=13&xhr=t&q=google.com&es_nrs=true&pf=p&output=search&sclient=psy-ab&oq=google.&gs_l=&pbx=1&fp=34efff5adaac62a5&biw=1918&bih=1148&cad=b&bav=on.2,or.r_qf.&bvm=pv.xjs.s.en_US.seW1cfrvSKg.O google.com
--4 http://www.google.com/#sugexp=crnk_timecombined&gs_rn=23&gs_ri=psy-ab&cp=7&gs_id=13&xhr=t&q=google.com&es_nrs=true&pf=p&output=search&sclient=psy-ab&oq=google.&gs_l=&pbx=1&fp=fe7fe51a51948362&biw=1918&bih=1148&cad=b&bav=on.2,or.r_qf.&bvm=pv.xjs.s.en_US.seW1cfrvSKg.O google.com
--3 http://www.google.com/#sclient=psy-ab&q=google.com&oq=google.com&gs_l=serp.5...0.0.0.5358.0.0.0.0.0.0.0.0..0.0....0...1c..23.psy-ab..0.0.0.Es-1sNgvyIw&pbx=1&bav=on.2,or.r_qf.&fp=fe7fe51a51948362&biw=1918&bih=1148&bvm=pv.xjs.s.en_US.seW1cfrvSKg.O google.com
--2 http://stackoverflow.com/ Stack
--1 http://www.google.com/ Google
-0|0 http://www.reddit.com/ reddit: the front page of the internet
+-1 http://stackoverflow.com/questions/2137297/how-to-make-div-always-top-using-css How to make div always top using css? - Stack Overflow
+0|0 http://stackoverflow.com/ Stack Overflow
