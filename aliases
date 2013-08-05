@@ -33,6 +33,7 @@ alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 alias playserver='mplayer --profile=hdmi > /home/everyone/log'
 alias playserverlog='watch -n 1 "cat /home/everyone/log|tail -20"'
 
+alias open='xdg-open'
 alias top='htop'
 alias gist='gist -c'
 alias grep='grep --color=auto -in'
