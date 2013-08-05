@@ -19,6 +19,7 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 "                                 MISC
 "=============================================================================
+set shell=zsh\ --login
 " last parameter is optional and can be any highlight group.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
 call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
@@ -32,7 +33,9 @@ command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forget
 
 "autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
-set completeopt=menuone,preview,longest
+set completeopt=longest,menuone
+" hitting enter when completion menu is visible selects item
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " latex stuff
 set grepprg=grep\ -nH\ $*
@@ -147,7 +150,7 @@ set textwidth=0
 "=============================================================================
 if has("wildmenu")
   set wildmenu " turn on wildmenu
-  set wildmode=full
+  set wildmode=longest:full,full
   set wildignore=*.o,*.a,*~,*.pyc " ignore compiled files
   set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
   set wildignore+=.DS_Store,.git,.hg,.svn
