@@ -1,3 +1,4 @@
+*.pyc
 pentadactyl/info/*
 config/ranger/history
-i3/xcwd/xcwd*
+config/dwb/adblock_lists/

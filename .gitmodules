@@ -46,3 +46,6 @@
 [submodule "vim/bundle/vim-repeat"]
 	path = vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+[submodule "i3/xcwd"]
+	path = i3/xcwd
+	url = https://github.com/schischi-a/xcwd.git
