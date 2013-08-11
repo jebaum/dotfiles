@@ -49,3 +49,6 @@
 [submodule "i3/xcwd"]
 	path = i3/xcwd
 	url = https://github.com/schischi-a/xcwd.git
+[submodule "vim/bundle/vim-gnupg"]
+	path = vim/bundle/vim-gnupg
+	url = https://github.com/jamessan/vim-gnupg.git
