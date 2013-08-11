@@ -10,22 +10,22 @@ function rmifexists()
 
 if   [ "$1" == "mobo" ]; then
   rmifexists
-  ln -s ${BASEDIR}/${MOBO} ${HOME}/.asoundrc
+  ln -s ${MOBO} ${HOME}/.asoundrc
   amixer set PCM 209
 
 elif [ "$1" == "xfi" ]; then
   rmifexists
-  ln -s ${BASEDIR}/${XFI} ${HOME}/.asoundrc
+  ln -s ${XFI} ${HOME}/.asoundrc
   amixer set PCM 211
   amixer set Master 160
 
 elif [ "$1" == "hdmi" ]; then
   rmifexists
-  ln -s ${BASEDIR}/${HDMI} ${HOME}/.asoundrc
+  ln -s ${HDMI} ${HOME}/.asoundrc
 
 elif [ "$1" == "headset" ]; then
   rmifexists
-  ln -s ${BASEDIR}/${HEADSET} ${HOME}/.asoundrc
+  ln -s ${HEADSET} ${HOME}/.asoundrc
 
 else
   echo "valid device options are: mobo, xfi, hdmi, headset"

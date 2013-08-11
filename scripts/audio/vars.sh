@@ -1,10 +1,10 @@
 # note to self - this counts on existing link being valid or some shit. look into that
-BASEDIR="${HOME}/.alsaconfs"
-DEVICE=`readlink ${HOME}/.asoundrc | egrep -o 'hw[0-9].?[0-9]?'`
-MOBO="hw0"
-XFI="hw1"
-HDMI="hw2.3"
-HEADSET="hw4"
+BASEDIR="${HOME}/dotfiles/alsaconfs"
+DEVICE=`readlink ${HOME}/.asoundrc`  # | egrep -o 'hw[0-9].?[0-9]?'`
+MOBO="${BASEDIR}/mobo"
+XFI="${BASEDIR}/xfi"
+HDMI="${BASEDIR}/hdmi"
+HEADSET="${BASEDIR}/headset"
 
 if   [ "$DEVICE" == "$MOBO" ]; then
   INDICATOR="M"
