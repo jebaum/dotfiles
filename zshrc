@@ -40,7 +40,8 @@ ZSH_THEME="blinks"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git archlinux colored-man colorize web-search)
+plugins=(git archlinux colored-man extract web-search)
+# left off on git
 
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
@@ -48,3 +49,8 @@ source ~/.aliases
 
 setopt BRACE_CCL
 export EDITOR=vim
+
+GPG_TTY=$(tty)
+export GPG_TTY
+bindkey "^[[7~" beginning-of-line
+bindkey "^[[8~" end-of-line

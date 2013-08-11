@@ -45,7 +45,7 @@
   user = jebaum
 [core]
   editor = vim
-  pager = cat
+  pager = less
 [push]
   default = simple
 [merge]

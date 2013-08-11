@@ -19,6 +19,8 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 "                                 MISC
 "=============================================================================
+au BufRead /tmp/mutt-* set tw=72  " for email with mutt
+
 set shell=zsh\ --login
 " last parameter is optional and can be any highlight group.
 call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
