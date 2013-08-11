@@ -1,12 +1,11 @@
-############################# GENERAL CONFIG ###############################
+############################## GENERAL CONFIG ##############################
 # Mod4 = windows key, Mod1 = alt key
-set $mpdhost 192.168.1.100
 set $mod Mod4
 floating_modifier $mod
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
   # possible bug? according to userguide 4.8, 'new_window pixel 3' should work, but doesn't
-new_window normal
+new_window 1pixel
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
@@ -18,7 +17,7 @@ force_focus_wrapping no
 workspace_auto_back_and_forth no
 force_display_urgency_hint 1000 ms
 # <horizontal | vertical | auto>
-default_orientation auto
+default_orientation horizontal
   # <default | stacking | tabbed>
 workspace_layout default
   # <smart | ignore | leave_fullscreen>
@@ -44,11 +43,7 @@ client.background         #000000
 exec unclutter
 exec parcellite
 exec nitrogen --restore
-exec dropbox start
-exec amixer set PCM 208
-exec amixer set Master 25
-exec curl icanhazip.com > ~/Dropbox/jbaumy.com/ip.txt
-#exec --no-startup-id urxvtd -q -o -f
+#exec dropbox start
 ############################################################################
 ################################# KEYBINDS #################################
 # general command syntax
@@ -62,96 +57,53 @@ bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
 bindsym $mod+Shift+Q kill
 bindsym $mod+p exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
 bindsym $mod+Shift+R reload
-bindsym $mod+Shift+C exec killall conky; restart
+bindsym $mod+Shift+C restart
 bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit i3' 'i3-msg exit'"
 
   ### Messing with borders
 bindsym $mod+t        border normal 1pixel
-bindsym $mod+Shift+t  border normal 2pixel
+bindsym $mod+Shift+t  border normal 4pixel
 bindsym $mod+y        border 1pixel
-bindsym $mod+Shift+y  border pixel 2
+bindsym $mod+Shift+y  border pixel 4
 bindsym $mod+n        border none
 
  ### scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-  ### global controls
-bindsym $mod+Mod1+Control+m   exec device.sh mobo
-bindsym $mod+Mod1+Control+x   exec device.sh xfi
-bindsym $mod+Mod1+Control+h   exec device.sh headset
-bindsym $mod+Mod1+Control+t   exec device.sh hdmi; exec hdmi.sh on
-
-bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mplayer/mplayerfifo
-bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mplayer/mplayerfifo
-#bindsym XF86AudioPrev         exec device.sh idk
-#bindsym XF86AudioNext         exec device.sh idk
-
-  ### volume controls
-bindsym $mod+Mod1+minus       exec volume.sh 1 -
-bindsym $mod+Mod1+plus        exec volume.sh 1 +
-bindsym XF86AudioLowerVolume  exec volume.sh 1 -
-bindsym XF86AudioRaiseVolume  exec volume.sh 1 +
-bindsym $mod+Mod1+m           exec volume.sh toggle
-
-  ### mpc controls
-bindsym $mod+Mod1+p     exec mpc -h $mpdhost cdprev
-bindsym $mod+Mod1+n     exec mpc -h $mpdhost next
-bindsym $mod+Mod1+s     exec mpc -h $mpdhost stop
-bindsym $mod+Mod1+space exec mpc -h $mpdhost toggle
-bindsym $mod+Mod1+Left  exec mpc -h $mpdhost seek -10
-bindsym $mod+Mod1+Right exec mpc -h $mpdhost seek +10
-bindsym $mod+Mod1+Down  exec mpc -h $mpdhost seek -60
-bindsym $mod+Mod1+Up    exec mpc -h $mpdhost seek +60
-bindsym $mod+Mod1+Next  exec mpc -h $mpdhost seek -60
-bindsym $mod+Mod1+Prior exec mpc -h $mpdhost seek +60
-bindsym $mod+Mod1+t     exec killall mpd && mpd
-
-  ### mplayer controls
-bindsym $mod+Control+p     exec echo pt_step -1 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+n     exec echo pt_step 1 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+s     exec echo stop > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+q     exec killall mplayer
-bindsym $mod+Control+space exec echo pause > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+Left  exec echo seek -10 0 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+Right exec echo seek 10 0 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+Down  exec echo seek -60 0 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+Up    exec echo seek 60 0 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+Next  exec echo seek -600 0 > ~/.mplayer/mplayerfifo
-bindsym $mod+Control+Prior exec echo seek 600 0 > ~/.mplayer/mplayerfifo
+  ### volume
+bindsym $mod+Mod1+minus  exec amixer set Master 1-
+bindsym $mod+Mod1+plus   exec amixer set Master 1+
+#bindsym $mod+Mod1+minus exec mpc volume -1
+#bindsym $mod+Mod1+plus  exec mpc volume +1
+bindsym $mod+Mod1+m      exec amixer set Master toggle
+bindsym Pause            exec mpc toggle; exec echo pause > ~/.mplayer/mplayerfifo
 
   ### Script hotkeys
 bindsym --release Print exec grab
 bindsym $mod+Print exec pasta
 bindsym $mod+q exec quickswitch.py
 bindsym $mod+Escape exec /usr/bin/lk
+
+  ### backlight
+bindsym $mod+F1 exec sudo backlight down
+bindsym $mod+F2 exec sudo backlight up
 ############################################################################
 ######################## PROGRAM SPECIFIC SETTINGS #########################
 # for_window <criteria> command; command
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
 for_window [instance="Navigator" class="Firefox"] border none
-assign     [instance="Navigator" class="Firefox"] → 2: web
+assign     [instance="Navigator" class="Firefox"] → 2
 
 for_window [instance="Mail" class="Thunderbird"] border none
-assign     [instance="Mail" class="Thunderbird"] → 5: mail
+assign     [instance="Mail" class="Thunderbird"] → 5
 
-for_window [instance="vps" class="URxvt"] border none
-assign     [instance="vps" class="URxvt"] → 3: vps
-
-for_window [instance="Steam" class="Steam"] border none
-assign     [instance="Steam" class="Steam"] → 11: steam
-for_window [instance="hl2_linux" class="hl2_linux"] border none
-assign     [instance="hl2_linux" class="hl2_linux"] → 12: tf2
-
-for_window [instance="vdpau" class="mplayer2"] border none
-#assign     [instance="vdpau" class="mplayer2"] → 13: tv
-
-for_window [instance="firefox.exe" class="Wine"] border none
+for_window [instance="ec2" class="URxvt"] border none
+assign     [instance="ec2" class="URxvt"] → 3
 ############################################################################
 ######################## WINDOW MANAGEMENT KEYBINDS ########################
 # TODO - mark/goto stuff, userguide 6.10
-
   ### ijkl and cursor for moving focus
 bindsym $mod+j     focus left
 bindsym $mod+k     focus down
@@ -189,27 +141,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 ############################################################################
 ###################### WORKSPACE MANAGEMENT KEYBINDS #######################
-  ### automatically put workspace on certain screen on creation
-    # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
-workspace "1: main"   output DVI-D-1
-workspace "2: web"    output HDMI-0
-workspace "3: vps"    output DVI-D-1
-workspace "4: music"  output VGA-0
-workspace "5: mail"   output VGA-0
-workspace "6: files"  output DVI-D-0
-workspace "7: code"   output VGA-0
-workspace "8: code"   output DVI-D-0
-workspace "9: code"   output HDMI-0
-workspace "10: code"  output DVI-D-1
-workspace "11: steam" output HDMI-0
-workspace "12: tf2"   output HDMI-0
-workspace "13: tv"    output HDMI-0
-
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
 bindsym Mod1+Tab workspace back_and_forth
 
-  ### move workspaces between outputs, also takes specific output name instead of direction (DVI-D-0)
 bindsym $mod+Control+j move workspace to output left
 bindsym $mod+Control+k move workspace to output down
 bindsym $mod+Control+i move workspace to output up
@@ -217,33 +152,27 @@ bindsym $mod+Control+l move workspace to output right
 
   ### switch to workspace
     # TODO - numpad?
-bindsym $mod+1    workspace number 1: main
-bindsym $mod+2    workspace number 2: web
-bindsym $mod+3    workspace number 3: vps
-bindsym $mod+4    workspace number 4: music
-bindsym $mod+5    workspace number 5: mail
-bindsym $mod+6    workspace number 6: files
-bindsym $mod+7    workspace number 7: code
-bindsym $mod+8    workspace number 8: code
-bindsym $mod+9    workspace number 9: code
-bindsym $mod+0    workspace number 10: code
-bindsym $mod+KP_1 workspace number 11
-bindsym $mod+KP_2 workspace number 12
-bindsym $mod+KP_3 workspace number 13: tv
+bindsym $mod+1    workspace number 1
+bindsym $mod+2    workspace number 2
+bindsym $mod+3    workspace number 3
+bindsym $mod+4    workspace number 4
+bindsym $mod+5    workspace number 5
+bindsym $mod+6    workspace number 6
+bindsym $mod+7    workspace number 7
+bindsym $mod+8    workspace number 8
+bindsym $mod+9    workspace number 9
+bindsym $mod+0    workspace number 10
   ### move focused container to workspace
-bindsym $mod+Shift+1    move workspace number 1: main
-bindsym $mod+Shift+2    move workspace number 2: web
-bindsym $mod+Shift+3    move workspace number 3: vps
-bindsym $mod+Shift+4    move workspace number 4: music
-bindsym $mod+Shift+5    move workspace number 5: mail
-bindsym $mod+Shift+6    move workspace number 6: files
-bindsym $mod+Shift+7    move workspace number 7: code
-bindsym $mod+Shift+8    move workspace number 8: code
-bindsym $mod+Shift+9    move workspace number 9: code
-bindsym $mod+Shift+0    move workspace number 10: code
-bindsym $mod+Shift+KP_1 move workspace number 11
-bindsym $mod+Shift+KP_2 move workspace number 12
-bindsym $mod+Shift+KP_3 move workspace number 13: tv
+bindsym $mod+Shift+1    move workspace number 1
+bindsym $mod+Shift+2    move workspace number 2
+bindsym $mod+Shift+3    move workspace number 3
+bindsym $mod+Shift+4    move workspace number 4
+bindsym $mod+Shift+5    move workspace number 5
+bindsym $mod+Shift+6    move workspace number 6
+bindsym $mod+Shift+7    move workspace number 7
+bindsym $mod+Shift+8    move workspace number 8
+bindsym $mod+Shift+9    move workspace number 9
+bindsym $mod+Shift+0    move workspace number 10
 
 bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
 ############################################################################
@@ -269,34 +198,26 @@ mode "resize" {
   bindsym Right       resize grow     right 1 px or 1 ppt
   bindsym Shift+Right resize shrink   right 1 px or 1 ppt
 
-  bindsym Return    mode "default"
-  bindsym Escape    mode "default"
-  bindsym Control+C mode "default"
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 ############################################################################
 ################################### BAR ####################################
 # TODO - possibly use multiple bar blocks to use conky|dzen? i3 user guide section 5
 bar {
-  output DVI-D-0
-  output DVI-D-1
-  output VGA-0
-  output HDMI-0
   mode dock
   position top
   workspace_buttons yes
   font pango:Times New Roman 9
   status_command ~/.i3/conky
-  #status_command i3pystatus
-  #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -dock -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
-  tray_output HDMI-0
 
   colors {
     background #000000
     statusline #CCCCCC
    #separator  #FF0000
 #                       border    bg      text
-    focused_workspace  #4C7899  #204060  #FFFFFF
+    focused_workspace  #4C7899  #285577  #FFFFFF
     active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF

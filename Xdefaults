@@ -25,14 +25,14 @@ URxvt.keysym.M-c           : perl:clipboard:copy
 URxvt.keysym.M-v           : perl:clipboard:paste
 URxvt.keysym.M-s           : perl:keyboard-select:search
 URxvt.keysym.M-C-v         : perl:clipboard:paste_escaped
-URxvt.url-select.launcher  : firefox
+URxvt.url-select.launcher  : dwb
 URxvt.url-select.autocopy  : true
 URxvt.url-select.underline : true
 URxvt.matcher.button       : 1
 
 !  anti aliasing of xft fonts in urxvt makes w3m image preview in ranger misbehave, see:
 !  https://github.com/hut/ranger/issues/86
-URxvt.font     : xft:Deja Vu Sans Mono for Powerline:size=9.5
+URxvt.font     : xft:Deja Vu Sans Mono for Powerline:size=9
 !URxvt.font     : xft:Deja Vu Sans Mono:size=9
 !URxvt.font     : xft:Inconsolata-dz:size=9.5
 !URxvt.font     : xft:Ubuntu:size=8
