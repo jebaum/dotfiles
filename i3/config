@@ -191,12 +191,16 @@ bindsym $mod+space focus mode_toggle
 ###################### WORKSPACE MANAGEMENT KEYBINDS #######################
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
-workspace "1: main"   output HDMI-0
+workspace "1: main"   output DVI-D-1
 workspace "2: web"    output HDMI-0
 workspace "3: vps"    output DVI-D-1
 workspace "4: music"  output VGA-0
 workspace "5: mail"   output VGA-0
 workspace "6: files"  output DVI-D-0
+workspace "7: code"   output VGA-0
+workspace "8: code"   output DVI-D-0
+workspace "9: code"   output HDMI-0
+workspace "10: code"  output DVI-D-1
 workspace "11: steam" output HDMI-0
 workspace "12: tf2"   output HDMI-0
 workspace "13: tv"    output HDMI-0
@@ -219,10 +223,10 @@ bindsym $mod+3    workspace number 3: vps
 bindsym $mod+4    workspace number 4: music
 bindsym $mod+5    workspace number 5: mail
 bindsym $mod+6    workspace number 6: files
-bindsym $mod+7    workspace number 7
-bindsym $mod+8    workspace number 8
-bindsym $mod+9    workspace number 9
-bindsym $mod+0    workspace number 10
+bindsym $mod+7    workspace number 7: code
+bindsym $mod+8    workspace number 8: code
+bindsym $mod+9    workspace number 9: code
+bindsym $mod+0    workspace number 10: code
 bindsym $mod+KP_1 workspace number 11
 bindsym $mod+KP_2 workspace number 12
 bindsym $mod+KP_3 workspace number 13: tv
@@ -233,10 +237,10 @@ bindsym $mod+Shift+3    move workspace number 3: vps
 bindsym $mod+Shift+4    move workspace number 4: music
 bindsym $mod+Shift+5    move workspace number 5: mail
 bindsym $mod+Shift+6    move workspace number 6: files
-bindsym $mod+Shift+7    move workspace number 7
-bindsym $mod+Shift+8    move workspace number 8
-bindsym $mod+Shift+9    move workspace number 9
-bindsym $mod+Shift+0    move workspace number 10
+bindsym $mod+Shift+7    move workspace number 7: code
+bindsym $mod+Shift+8    move workspace number 8: code
+bindsym $mod+Shift+9    move workspace number 9: code
+bindsym $mod+Shift+0    move workspace number 10: code
 bindsym $mod+Shift+KP_1 move workspace number 11
 bindsym $mod+Shift+KP_2 move workspace number 12
 bindsym $mod+Shift+KP_3 move workspace number 13: tv
@@ -283,6 +287,7 @@ bar {
   workspace_buttons yes
   font pango:Times New Roman 9
   status_command ~/.i3/conky
+  #status_command i3pystatus
   #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -dock -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
   tray_output HDMI-0
 
