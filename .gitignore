@@ -1,4 +1,9 @@
 *.pyc
+*.gpg
+*.swp
+mutt/mail
+offlineimap/*
+!offlineimap/offlineimaprc
 pentadactyl/info/*
 config/ranger/history
 config/dwb/adblock_lists/

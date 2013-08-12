@@ -19,7 +19,16 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 "                                 MISC
 "=============================================================================
-au BufRead /tmp/mutt-* set tw=72  " for email with mutt
+augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
+  au BufRead /tmp/mutt-* set tw=72  " for email with mutt
+  au BufRead /tmp/mutt-* set spell " <-- vim 7 required
+  au BufRead /tmp/mutt-* nmap  <F1>  gqap
+  au BufRead /tmp/mutt-* nmap  <F2>  gqqj
+  au BufRead /tmp/mutt-* nmap  <F3>  kgqj
+  au BufRead /tmp/mutt-* map!  <F1>  <ESC>gqapi
+  au BufRead /tmp/mutt-* map!  <F2>  <ESC>gqqji
+  au BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
+augroup END
 
 set shell=zsh\ --login
 " last parameter is optional and can be any highlight group.

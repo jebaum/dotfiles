@@ -1,0 +1,57 @@
+# Colorize diffs.
+set allow_ansi
+auto_view text/x-diff
+auto_view text/x-patch
+color body brightred    black "^-.*"
+color body brightgreen  black "^[+].*"
+color body brightwhite  black "^diff --git.*"
+color body brightwhite  black "^index [a-f0-9].*"
+color body brightyellow black "^@@.*"
+
+##your Mutt has to have some colors
+color quoted     green         black
+color quoted1    magenta       black
+color quoted2    yellow        black
+color quoted3    red           black
+color signature  cyan          cyan
+
+color hdrdefault brightcyan    black
+color header     brightwhite   black "^from:"
+color header     brightwhite   black "^subject:"
+
+color quoted     brightgreen   black
+color signature  brightwhite   black
+
+color error      red           black
+mono  error      bold
+color status     black         cyan
+mono  status     bold
+
+color tilde      brightmagenta black
+color body       brightwhite   black "[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono  body       bold                "[-a-z_0-9.]+@[-a-z_0-9.]+"
+color body       brightyellow  black "^Good signature"
+mono  body       bold                "^Good signature"
+color body       brightwhite   red   "^Bad signature from.*"
+mono  body       bold                "^Bad signature from.*"
+color normal     white         black
+color message    green         black
+color attachment black         blue
+
+color  body      brightgreen     default "^gpg: Good signature .*"
+color  body      white           default "^gpg: "
+color  body      brightwhite     red     "^gpg: BAD signature from.*"
+
+# the bar that selects messages
+#color indicator  default         black
+
+color index      brightyellow  black   ~N # New
+color index      yellow        black   ~O # Old
+color index      magenta       black   ~F # Flagged
+color index      blue          black   ~T # Tagged
+color index      red           black   ~D # Deleted
+color index      default       default ~R # Read
+
+# the arrow indicating threads
+color tree       green         default
+

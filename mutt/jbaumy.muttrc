@@ -1,0 +1,12 @@
+set from = "james@jbaumy.com"
+
+# NOTE - do not end folder path with '/'
+set folder = ~/.mutt/mail/jbaumy        # specifies common base path
+set spoolfile = +INBOX                  # controls what folder is in mutt on load
+set record = +sent
+set postponed = +drafts
+
+set sendmail = "/usr/bin/msmtp -a jbaumy"
+
+color status white black
+# vim:filetype=muttrc
