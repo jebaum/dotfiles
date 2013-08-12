@@ -1,0 +1,171 @@
+#=Boring Details=======================================#
+set realname = "James Baumgarten"
+set folder=~/.mutt/mail
+source ~/.mutt/mailboxes
+set use_from = yes
+set envelope_from ="yes"
+
+# Check for new mail in the folders
+set mail_check=5  # mutt checks for new mails on every keystroke
+                  # but not more often then once in 60 seconds
+set beep_new = yes #Make it so awesome colors this tag when mail comes in
+set sleep_time = 0
+set wait_key = no
+#=Folders==============================================#
+
+set mbox_type=Maildir
+set move=no                  # Don't move mail from spool
+set mask="!^\\.[^.]"
+set sort_browser=alpha    # Sort mailboxes by alpha(bet)
+#=Headers==============================================#
+ignore *
+unignore Date: From: User-Agent: \
+         Cc: Reply-To: Subject: Mail-Followup-To:
+hdr_order Date From Subject To CC
+
+set sort=threads
+set sort_browser=reverse-date
+set sort_aux=reverse-last-date-received
+#=Editor / Composition=================================#
+
+set editor="vim"
+set edit_headers=yes      # See the headers when editing
+#=Aliases==============================================#
+
+set alias_file = ~/.mutt/aliases # In their own file
+source ~/.mutt/aliases           # Source them
+set sort_alias=alias             # Sort alphabetically
+#=Colors===============================================#
+
+source ~/.mutt/colors/ivyleague.muttrc
+#=Odds and Ends========================================#
+
+set markers          # mark wrapped lines of text in the pager with a +
+set smart_wrap       # Don't wrap mid-word
+set pager_context=5  # Retain 5 lines of previous page when scrolling.
+set status_on_top    # Status bar on top.
+push <show-version>  # Shows mutt version at startup
+set duplicate_threads = yes
+set mailcap_path  = ~/.mutt/mailcap
+auto_view text/html
+set thorough_search
+
+folder-hook ~/.mutt/mail/jebaumg/*  source ~/.mutt/jebaumg.muttrc
+folder-hook ~/.mutt/mail/jbaumy/*   source ~/.mutt/jbaumy.muttrc
+folder-hook ~/.mutt/mail/neurionb/* source ~/.mutt/neurionb.muttrc
+#=Status Bar===========================================#
+
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+#=Sidebar==============================================#
+
+set sidebar_delim   = '│'
+set sidebar_visible = yes
+set sidebar_width   = 24
+color sidebar_new color221 color233
+set sidebar_shortpath=yes
+#=Pager================================================#
+
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
+
+#Skip some options
+set include=yes
+set forward_quote=yes
+set copy=yes
+set delete=yes
+set confirmappend=no
+set fast_reply=yes
+#=Macros===============================================#
+
+macro index,pager \e1 "<enter-command>source ~/.mutt/jebaumg.muttrc<enter>"
+macro index,pager \e2 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter>"
+macro index,pager \e3 "<enter-command>source ~/.mutt/neurionb.muttrc<enter>"
+
+macro index,pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+
+macro index <F8> "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
+    "notmuch: search mail"
+
+macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt thread<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter><enter-command>set wait_key<enter>" \
+    "search and reconstruct owning thread with notmuch"
+
+
+macro index <F6> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt -- tag -inbox<enter>" \
+    "remove message from inbox with notmuch"
+#=Keybinds=============================================#
+
+bind index,pager \Cp   sidebar-prev
+bind index,pager \Cn   sidebar-next
+bind index,pager \Co   sidebar-open
+bind index,pager \Cu   half-up
+bind index,pager \Cd   half-down
+bind index,pager R     group-reply
+
+
+bind attach <return> view-mailcap
+bind pager i  previous-line
+bind pager k  next-line
+bind pager gg top
+bind pager G  bottom
+# move 1/2 page up/down like in vi
+
+bind pager  \eD     delete-thread
+bind pager  \eU     undelete-thread
+bind index  \eD     delete-thread
+bind index  \eU     undelete-thread
+# ^U and ^D were bound otherwise, so bind it now again to something else
+bind pager <Home>   top
+bind pager <End>    bottom
+bind pager   g      top
+bind pager   G      bottom
+bind pager   q      exit
+bind pager   j      exit
+bind pager   i      noop
+bind pager   b      previous-page
+bind pager   f      next-page
+bind pager <Up>     previous-line
+bind pager <Down>   next-line
+bind pager <Insert> previous-entry
+bind pager <Delete> next-entry
+
+bind index   B     bounce-message
+bind index \ef     forget-passphrase
+bind index \Cb     previous-page
+bind index \Cf     next-page
+bind index   i     previous-entry
+bind index   k     next-entry
+bind index   l     display-message
+bind index   L     limit
+bind index <Home>  first-entry
+bind index <End>   last-entry
+bind index   gg    first-entry
+bind index   G     last-entry
+bind index <space> collapse-thread
+# Ctrl-R to mark all as read
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
+# Saner copy/move dialogs
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+
+
+color body    brightcyan  default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color body    brightwhite default "(http|ftp|news|telnet|finger)://[^ \">\t\r\n]*"
+color body    brightwhite default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+color header    brightmagenta default ^(Date):
+color header    brightyellow  default ^Subject
+color body    brightred default " [;:]-*[)>(<|]"
+
+
+set folder = ~/.mutt/mail/jebaumg       # specifies common base path
+set spoolfile = +INBOX                  # controls what folder is in mutt on load
+
+source ~/.mutt/jebaumg.muttrc

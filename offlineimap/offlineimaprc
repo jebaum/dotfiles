@@ -1,0 +1,116 @@
+[general]
+accounts = jbaumy,jebaumg,neurionb
+maxsyncaccounts = 3
+maxconnections = 3
+ui = machineui
+pythonfile = ~/.mutt/nametrans.py
+
+
+
+
+[Account jbaumy]
+localrepository = jbaumy-local
+remoterepository = jbaumy-remote
+status_backend = sqlite
+autorefresh = 1
+quick = 10
+postsynchook = notmuch new
+
+[Repository jbaumy-local]
+type = Maildir
+localfolders = ~/.mutt/mail/jbaumy/
+nametrans = nt_local
+
+[Repository jbaumy-remote]
+type = Gmail
+remoteuser = james@jbaumy.com
+remotepasseval = mailpasswd("jbaumy")
+realdelete = no
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+nametrans = nt_remote
+
+
+
+
+[Account jebaumg]
+localrepository = jebaumg-local
+remoterepository = jebaumg-remote
+status_backend = sqlite
+autorefresh = 1
+quick = 10
+postsynchook = notmuch new
+
+[Repository jebaumg-local]
+type = Maildir
+localfolders = ~/.mutt/mail/jebaumg/
+nametrans = nt_local
+
+[Repository jebaumg-remote]
+type = Gmail
+remoteuser = jebaum@g.ucla.edu
+remotepasseval = mailpasswd("jebaum")
+realdelete = no
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+nametrans = nt_remote
+
+
+
+
+#[Account jebaum]
+#localrepository = jebaum-local
+#remoterepository = jebaum-remote
+#status_backend = sqlite
+#autorefresh = 1
+#quick = 10
+#postsynchook = notmuch new
+
+#[Repository jebaum-local]
+#type = Maildir
+#localfolders = ~/.mutt/mail/jebaum/
+#nametrans = nt_local
+
+#[Repository jebaum-remote]
+#type = IMAP
+#remotehost = mail.ucla.edu
+#remoteuser = jebaum
+#remotepasseval = mailpasswd("jebaum")
+#realdelete = no
+#sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+#nametrans = nt_remote
+
+
+
+
+[Account neurionb]
+localrepository = neurionb-local
+remoterepository = neurionb-remote
+status_backend = sqlite
+autorefresh = 1
+quick = 10
+postsynchook = notmuch new
+
+[Repository neurionb-local]
+type = Maildir
+localfolders = ~/.mutt/mail/neurionb/
+nametrans = nt_local
+
+[Repository neurionb-remote]
+type = Gmail
+remoteuser = neurionb@gmail.com
+remotepasseval = mailpasswd("neurionb")
+realdelete = no
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+nametrans = nt_remote
+
+
+
+
+#[mbnames]
+#enabled = yes
+#filename = ~/.mutt/mailboxes
+#header = "mailboxes "
+#peritem = "+%(accountname)s/%(foldername)s"
+#sep = " "
+#footer = "\n"
+
+
