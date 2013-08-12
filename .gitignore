@@ -6,5 +6,7 @@ offlineimap/*
 !offlineimap/offlineimaprc
 pentadactyl/info/*
 config/ranger/history
+config/ranger/bookmarks
+config/ranger/__pycache__/*
 config/dwb/adblock_lists/
 config/dwb/default/*
