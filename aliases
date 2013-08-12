@@ -5,6 +5,7 @@ alias aliases='vim ~/.aliases && reload'
 # ssh aliases
 alias lnxsrv='ssh baumgart@lnxsrv.seas.ucla.edu'
 alias jbaumy='mosh james@jbaumy.com'
+alias rig5='ssh james@96.251.7.41'
 alias hoffman='ssh jebaum@hoffman2.idre.ucla.edu'
 alias sshl='ssh jebaum@linux.ucla.edu'
 alias vm='ssh -p 3022 cs144@127.0.0.1'

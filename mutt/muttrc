@@ -5,6 +5,9 @@ source ~/.mutt/mailboxes
 set use_from = yes
 set envelope_from ="yes"
 
+set header_cache = ~/.cache/mutt
+set message_cachedir = ~/.cache/mutt
+
 set mail_check=5  # mutt checks for new mails on every keystroke, not more than once per 5 seconds
 set beep_new = yes
 set sleep_time = 0
@@ -91,10 +94,12 @@ set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/plain text/enriched text/html
 #=Macros===============================================#
 
-macro index,pager \e1 "<enter-command>source ~/.mutt/jebaumg.muttrc<enter>"
-macro index,pager \e2 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter>"
-macro index,pager \e3 "<enter-command>source ~/.mutt/neurionb.muttrc<enter>"
+macro index,pager \e1 "<enter-command>source ~/.mutt/neurionb.muttrc<enter><change-folder>~/.mutt/mail/neurionb/INBOX<enter>"
+macro index,pager \e2 "<enter-command>source ~/.mutt/jebaumg.muttrc<enter><change-folder>~/.mutt/mail/jebaumg/INBOX<enter>"
+macro index,pager \e3 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter><change-folder>~/.mutt/mail/jbaumy/INBOX<enter>"
+
 macro index,pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+macro index,pager b '<enter-command>toggle sidebar_visible<enter><refresh>'
 
 macro index S "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
     "notmuch: search mail"

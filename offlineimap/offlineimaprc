@@ -1,9 +1,9 @@
 [general]
 accounts = jbaumy,jebaumg,neurionb
 maxsyncaccounts = 3
-maxconnections = 3
-ui = quiet
-#ui = ttyui
+maxconnections = 1
+#ui = quiet
+ui = ttyui
 pythonfile = ~/.mutt/nametrans.py
 
 
