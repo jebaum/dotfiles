@@ -5,18 +5,17 @@ source ~/.mutt/mailboxes
 set use_from = yes
 set envelope_from ="yes"
 
-# Check for new mail in the folders
-set mail_check=5  # mutt checks for new mails on every keystroke
-                  # but not more often then once in 60 seconds
-set beep_new = yes #Make it so awesome colors this tag when mail comes in
+set mail_check=5  # mutt checks for new mails on every keystroke, not more than once per 5 seconds
+set beep_new = yes
 set sleep_time = 0
 set wait_key = no
 #=Folders==============================================#
 
 set mbox_type=Maildir
-set move=no                  # Don't move mail from spool
+set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
-set sort_browser=alpha    # Sort mailboxes by alpha(bet)
+set sort_browser=alpha        # Sort mailboxes by alpha(bet)
+source ~/.mutt/jebaumg.muttrc # Startup folder
 #=Headers==============================================#
 ignore *
 unignore Date: From: User-Agent: \
@@ -29,7 +28,16 @@ set sort_aux=reverse-last-date-received
 #=Editor / Composition=================================#
 
 set editor="vim"
-set edit_headers=yes      # See the headers when editing
+set edit_headers=yes  # See the headers when editing
+
+set include=yes                      # include message in replies
+set forward_quote=yes                # include message in forwards
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set copy=yes
+set delete=yes
+set confirmappend=no
+set fast_reply=yes                   # skip to compose when replying
 #=Aliases==============================================#
 
 set alias_file = ~/.mutt/aliases # In their own file
@@ -38,6 +46,12 @@ set sort_alias=alias             # Sort alphabetically
 #=Colors===============================================#
 
 source ~/.mutt/colors/ivyleague.muttrc
+color body    brightcyan  default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color body    brightwhite default "(http|ftp|news|telnet|finger)://[^ \">\t\r\n]*"
+color body    brightwhite default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+color header    brightmagenta default ^(Date):
+color header    brightyellow  default ^Subject
+color body    brightred default " [;:]-*[)>(<|]"
 #=Odds and Ends========================================#
 
 set markers          # mark wrapped lines of text in the pager with a +
@@ -75,32 +89,28 @@ unset markers              # no ugly plus signs
 
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/plain text/enriched text/html
-
-#Skip some options
-set include=yes
-set forward_quote=yes
-set copy=yes
-set delete=yes
-set confirmappend=no
-set fast_reply=yes
 #=Macros===============================================#
 
 macro index,pager \e1 "<enter-command>source ~/.mutt/jebaumg.muttrc<enter>"
 macro index,pager \e2 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter>"
 macro index,pager \e3 "<enter-command>source ~/.mutt/neurionb.muttrc<enter>"
-
 macro index,pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
 
-macro index <F8> "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
+macro index S "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
     "notmuch: search mail"
 
 macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt thread<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter><enter-command>set wait_key<enter>" \
     "search and reconstruct owning thread with notmuch"
 
-
 macro index <F6> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt -- tag -inbox<enter>" \
     "remove message from inbox with notmuch"
+
+macro index a "<limit>all\n" "show all messages (undo limit)"
 #=Keybinds=============================================#
+
+bind attach  <return> view-mailcap
+bind compose p        postpone-message # postpone message from sending screen
+bind index   p        recall-message
 
 bind index,pager \Cp   sidebar-prev
 bind index,pager \Cn   sidebar-next
@@ -108,64 +118,40 @@ bind index,pager \Co   sidebar-open
 bind index,pager \Cu   half-up
 bind index,pager \Cd   half-down
 bind index,pager R     group-reply
+bind index,pager \eD   delete-thread
+bind index,pager \eU   undelete-thread
+bind index,pager \Cb   previous-page
+bind index,pager \Cf   next-page
+bind index,pager N     search-opposite # override default 'N' that marks as new for more vimlike searching
 
-
-bind attach <return> view-mailcap
-bind pager i  previous-line
-bind pager k  next-line
-bind pager gg top
-bind pager G  bottom
-# move 1/2 page up/down like in vi
-
-bind pager  \eD     delete-thread
-bind pager  \eU     undelete-thread
-bind index  \eD     delete-thread
-bind index  \eU     undelete-thread
 # ^U and ^D were bound otherwise, so bind it now again to something else
 bind pager <Home>   top
+bind pager g        top
 bind pager <End>    bottom
-bind pager   g      top
-bind pager   G      bottom
-bind pager   q      exit
-bind pager   j      exit
-bind pager   i      noop
-bind pager   b      previous-page
-bind pager   f      next-page
+bind pager G        bottom
+bind pager q        exit
+bind pager j        exit
 bind pager <Up>     previous-line
+bind pager i        previous-line
 bind pager <Down>   next-line
-bind pager <Insert> previous-entry
-bind pager <Delete> next-entry
+bind pager k        next-line
+bind pager I        previous-entry
+bind pager K        next-entry
 
-bind index   B     bounce-message
-bind index \ef     forget-passphrase
-bind index \Cb     previous-page
-bind index \Cf     next-page
-bind index   i     previous-entry
-bind index   k     next-entry
-bind index   l     display-message
-bind index   L     limit
 bind index <Home>  first-entry
+bind index g       first-entry
 bind index <End>   last-entry
-bind index   gg    first-entry
-bind index   G     last-entry
+bind index G       last-entry
+bind index i       previous-entry
+bind index k       next-entry
+bind index l       display-message
+bind index L       limit
+bind index B       bounce-message
+bind index \ef     forget-passphrase
 bind index <space> collapse-thread
-# Ctrl-R to mark all as read
+
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
-# Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
-
-color body    brightcyan  default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
-color body    brightwhite default "(http|ftp|news|telnet|finger)://[^ \">\t\r\n]*"
-color body    brightwhite default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
-color header    brightmagenta default ^(Date):
-color header    brightyellow  default ^Subject
-color body    brightred default " [;:]-*[)>(<|]"
-
-
-set folder = ~/.mutt/mail/jebaumg       # specifies common base path
-set spoolfile = +INBOX                  # controls what folder is in mutt on load
-
-source ~/.mutt/jebaumg.muttrc

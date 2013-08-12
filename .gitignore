@@ -1,5 +1,6 @@
 *.pyc
 *.gpg
+*.swp
 mutt/mail
 offlineimap/*
 !offlineimap/offlineimaprc
