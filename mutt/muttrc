@@ -49,12 +49,15 @@ set sort_alias=alias             # Sort alphabetically
 #=Colors===============================================#
 
 source ~/.mutt/colors/ivyleague.muttrc
-color body    brightcyan  default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
-color body    brightwhite default "(http|ftp|news|telnet|finger)://[^ \">\t\r\n]*"
-color body    brightwhite default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
-color header    brightmagenta default ^(Date):
-color header    brightyellow  default ^Subject
-color body    brightred default " [;:]-*[)>(<|]"
+#source ~/.mutt/colors/colors256-dark.muttrc
+#source ~/.mutt/colors/colors.muttrc
+#source ~/.mutt/colors/avocado.muttrc
+#color body    brightcyan  default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+#color body    brightwhite default "(http|ftp|news|telnet|finger)://[^ \">\t\r\n]*"
+#color body    brightwhite default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+#color header    brightmagenta default ^(Date):
+#color header    brightyellow  default ^Subject
+#color body    brightred default " [;:]-*[)>(<|]"
 #=Odds and Ends========================================#
 
 set markers          # mark wrapped lines of text in the pager with a +
