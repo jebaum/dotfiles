@@ -182,6 +182,10 @@ nmap <C-n>  :NERDTreeToggle<CR>
 nmap ; :
 vmap ; :
 
+" / and ? are really far away
+map t /
+map T ?
+
 " move motion keys to be ijkl instead of hjkl. must be non recursive mappings
 nnoremap j h
 vnoremap j h
