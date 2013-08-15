@@ -45,6 +45,7 @@ plugins=(git archlinux colored-man extract web-search)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
+source ~/dotfiles/fancyprompt.zsh
 # Customize to your needs...
 
 setopt BRACE_CCL
