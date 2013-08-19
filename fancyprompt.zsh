@@ -69,10 +69,11 @@ local GIT_CLEAN
 
 function precmd_update_git_vars() {
   # if we update_current_git_vars every time we generate a prompt, it can be a little slow on some systems
-    if [ -n "$__UPDATE_GIT_PR" ]; then
-      update_current_git_vars
-        unset __UPDATE_GIT_PR
-    fi
+    update_current_git_vars
+    #if [ -n "$__UPDATE_GIT_PR" ]; then
+      #update_current_git_vars
+        #unset __UPDATE_GIT_PR
+    #fi
 }
 
 function preexec_update_git_vars() {
@@ -91,7 +92,7 @@ function update_current_git_vars() {
     unset _GIT_STATUS
     unset __CURRENT_GIT_STATUS
 
-    local gitstatus="$__GIT_PROMPT_DIR/gitstatus.py"
+    local gitstatus="$__GIT_PROMPT_DIR/gitstatus.pyc"
     _GIT_STATUS=`python ${gitstatus}`
     __CURRENT_GIT_STATUS=("${(@f)_GIT_STATUS}")
     GIT_BRANCH=$__CURRENT_GIT_STATUS[1]
@@ -113,7 +114,7 @@ function _prompt_char() {
 
 # Default values for the appearance of the prompt. Configure at will.
 ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%b%K{16}%B%F{green}%}]"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{%K{16}%B%F{green}%}]"
 ZSH_THEME_GIT_PROMPT_SEPARATOR="%B%F{231}%K{16}|%b"
 ZSH_THEME_GIT_PROMPT_BRANCH="%F{blue}"
 ZSH_THEME_GIT_PROMPT_STAGED="%K{16}%F{green}●"
