@@ -37,9 +37,6 @@ call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 
 autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
 
-" prevent folds from slowing down vim on big files
-autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 
 "autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
@@ -127,10 +124,15 @@ syntax sync minlines=256
 " ':#,# fo' folds # through #
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
 
-set foldmethod=syntax
+set foldmethod=syntax " define syntax folds when file loads
 set foldnestmax=1
+au InsertEnter * set foldmethod=manual " once we start typing, using manual folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <space> zf
+
+" prevent folds from slowing down vim on big files
+"autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+"autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 "au BufWinLeave * mkview
 "au BufWinEnter * silent loadview
@@ -138,7 +140,8 @@ vnoremap <space> zf
 " below autocommands create folds from indent levels on file load, then switch method to manual
  "augroup vimrc
    "au BufReadPre * set foldmethod=syntax
-   "au BufWinEnter * if &fdm == 'syntax' | set foldmethod=manual | endif
+   "au TermResponse * if &fdm == 'syntax' | set foldmethod=manual | endif
+   "au InsertEnter * set foldmethod=manual
  "augroup END
 "=============================================================================
 "                             TAB / INDENT STUFF
@@ -215,6 +218,7 @@ nmap <F12>   zM
 " leader shortcuts to frequent commands
 nmap <leader>c :WatchForChanges!<CR>
 nmap <leader>d :delmarks a-z<CR>
+nmap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nmap <leader>g :GitGutterToggle<CR>
 nmap <leader>h :noh<return><esc>
 nmap <leader>l :ls<CR>:b<space>
