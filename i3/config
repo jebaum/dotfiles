@@ -150,8 +150,6 @@ for_window [instance="vdpau" class="mplayer2"] border none
 for_window [instance="firefox.exe" class="Wine"] border none
 ############################################################################
 ######################## WINDOW MANAGEMENT KEYBINDS ########################
-# TODO - mark/goto stuff, userguide 6.10
-
   ### ijkl and cursor for moving focus
 bindsym $mod+j     focus left
 bindsym $mod+k     focus down
@@ -245,7 +243,10 @@ bindsym $mod+Shift+KP_1 move workspace number 11
 bindsym $mod+Shift+KP_2 move workspace number 12
 bindsym $mod+Shift+KP_3 move workspace number 13: tv
 
-bindsym $mod+x exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
+bindsym $mod+x          exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
+bindsym $mod+m          exec i3-input -l 1 -F 'mark "%s"' -P 'create mark: '
+bindsym $mod+u          exec i3-input -l 1 -F 'unmark "%s"' -P 'delete mark: '
+bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto mark: '
 ############################################################################
 ############################### RESIZE MODE ################################
   # px is pixels for floating containers, ppt is percent for tiling containers

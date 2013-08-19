@@ -80,6 +80,7 @@ let g:gitgutter_escape_grep = 1  " use raw, non aliased grep for gutter
 let g:gitgutter_enabled = 0      " don't show gutter by default
 
 let g:rbpt_bold = 1
+set cryptmethod=blowfish
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
