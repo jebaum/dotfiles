@@ -34,6 +34,9 @@ hi LineNr		ctermfg=33 		ctermbg=232		cterm=none		guifg=#0087ff	guibg=#000000	gui
 hi SpecialKey	ctermfg=241		ctermbg=235		cterm=none		guifg=#626262	guibg=#262626	gui=none
 hi WarningMsg	ctermfg=203										guifg=#ff5f55
 hi ErrorMsg		ctermfg=196		ctermbg=232		cterm=bold		guifg=#ff0000	guibg=#000000	gui=bold
+hi TabLineFill  ctermfg=234
+hi TabLine	    ctermfg=246		ctermbg=16		cterm=none
+hi TabLineSel	ctermfg=231		ctermbg=24		cterm=bold
 
 " Vim >= 7.0 specific colors
 if version >= 700
@@ -64,14 +67,10 @@ hi IncSearch ctermfg=127 ctermbg=226
 "hi SpellCap
 "hi SpellLocal
 "hi SpellRare
-"hi TabLine
-"hi TabLineFill
-"hi TabLineSel
 "hi Tooltip
 "hi User1
 "hi User9
 "hi WildMenu
-"TODO
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
 hi Keyword		ctermfg=201		cterm=none		guifg=#ff00ff	gui=none
 " statement = return, for, if, switch, case, continue, etc

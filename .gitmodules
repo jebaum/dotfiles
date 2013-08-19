@@ -55,3 +55,6 @@
 [submodule "vim/bundle/vim-airline"]
 	path = vim/bundle/vim-airline
 	url = https://github.com/bling/vim-airline.git
+[submodule "vim/bundle/taboo.vim"]
+	path = vim/bundle/taboo.vim
+	url = https://github.com/gcmt/taboo.vim.git

@@ -38,8 +38,9 @@ call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
 
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
+cnoreabbrev te tabedit
 
-"autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
+autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
@@ -81,6 +82,10 @@ let g:gitgutter_enabled = 0      " don't show gutter by default
 
 let g:rbpt_bold = 1
 set cryptmethod=blowfish
+let g:taboo_tab_format = "%N %0a/%f%m "
+let NERDTreeMapOpenSplit="s"
+let NERDTreeMapOpenVSplit="v"
+let NERDTreeShowLineNumbers=1
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
@@ -127,7 +132,7 @@ let g:airline_right_alt_sep = ''
 let g:airline_branch_prefix = ' '
 let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
-"let g:airline_section_z=""     " TODO: change line number/percent display in airline
+let g:airline_section_z="%l/%L:C%c %b/0x%B"
 let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
 "=============================================================================
 "                                  FOLDING
@@ -193,7 +198,7 @@ set pastetoggle=<INS>
 
 nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
-nmap <C-n>  :NERDTreeToggle<CR>
+nmap <C-f>  :NERDTreeToggle<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
@@ -224,8 +229,6 @@ nnoremap I H
 " function keys
 nmap <F1>   :let @+=@"<CR>
 nmap <F6>   :set spell!<CR>
-noremap <F10> <Esc>:syntax sync fromstart<CR>
-inoremap <F10> <C-o>:syntax sync fromstart<CR>
 nmap <F11>   zR
 nmap <F12>   zM
 
@@ -245,6 +248,22 @@ nmap <leader>r :W<CR>
 nmap <leader>s :call StripTrailingWhitespaces()<CR>
 nmap <leader>w :w!<CR>
 nmap <leader>x :wq<CR>
+
+" shortcuts for managing tabs
+map <C-n> gt
+map <C-p> gT
+map \n :tabmove +1<CR>
+map \p :tabmove -1<CR>
+map \1 1gt
+map \2 2gt
+map \3 3gt
+map \4 4gt
+map \5 5gt
+map \6 6gt
+map \7 7gt
+map \8 8gt
+map \9 9gt
+nmap \0 :tablast<CR>
 
 " make Y yank from cursor to end of line, consistent with C and D
 nmap Y y$
