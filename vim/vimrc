@@ -126,6 +126,8 @@ let g:airline_right_alt_sep = ''
 let g:airline_branch_prefix = ' '
 let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
+"let g:airline_section_z=""     " TODO: change line number/percent display in airline
+let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
 "=============================================================================
 "                                  FOLDING
 "=============================================================================
@@ -227,6 +229,7 @@ nmap <F11>   zR
 nmap <F12>   zM
 
 " leader shortcuts to frequent commands
+nmap <leader>a :AirlineToggle<CR>
 nmap <leader>c :WatchForChanges!<CR>
 nmap <leader>d :delmarks a-z<CR>
 nmap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
