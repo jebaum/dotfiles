@@ -116,6 +116,17 @@ set ffs=unix,dos,mac
 set timeoutlen=2000  " wait for 2 seconds to time out leader
 syntax sync minlines=256
 "=============================================================================
+"                             AIRLINE SETTINGS
+"=============================================================================
+let g:airline_theme="simple"
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_branch_prefix = ' '
+let g:airline_readonly_symbol = ''
+let g:airline_linecolumn_prefix = ''
+"=============================================================================
 "                                  FOLDING
 "=============================================================================
 " folding: zf#j manually folds # lines, or zf in visual mode selection.

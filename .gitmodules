@@ -52,3 +52,6 @@
 [submodule "vim/bundle/vim-gnupg"]
 	path = vim/bundle/vim-gnupg
 	url = https://github.com/jamessan/vim-gnupg.git
+[submodule "vim/bundle/vim-airline"]
+	path = vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline.git
