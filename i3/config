@@ -88,10 +88,10 @@ bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.
 #bindsym XF86AudioNext         exec device.sh idk
 
   ### volume controls
-bindsym $mod+Mod1+minus       exec volume.sh 1 -
-bindsym $mod+Mod1+plus        exec volume.sh 1 +
-bindsym XF86AudioLowerVolume  exec volume.sh 1 -
-bindsym XF86AudioRaiseVolume  exec volume.sh 1 +
+bindsym $mod+Mod1+minus       exec volume.sh 2% -
+bindsym $mod+Mod1+plus        exec volume.sh 2% +
+bindsym XF86AudioLowerVolume  exec volume.sh 2% -
+bindsym XF86AudioRaiseVolume  exec volume.sh 2% +
 bindsym $mod+Mod1+m           exec volume.sh toggle
 
   ### mpc controls

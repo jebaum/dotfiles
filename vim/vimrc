@@ -103,7 +103,7 @@ let g:rbpt_colorpairs = [
     \ ]
 let g:rbpt_max = 15
 let g:rbpt_bold = 1
-au VimEnter * RainbowParenthesesToggleAll
+"au VimEnter * RainbowParenthesesToggleAll
 
 " showmarks settings
 let g:showmarks_enable = 0 " hide marks by default
@@ -234,15 +234,11 @@ set pastetoggle=<INS>
 
 nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
-nmap <C-f>  :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeToggle<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
 vmap ; :
-
-" / and ? are really far away
-map t /
-map T ?
 
 " move motion keys to be ijkl instead of hjkl. must be non recursive mappings
 nnoremap j h
