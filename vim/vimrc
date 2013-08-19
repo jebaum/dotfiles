@@ -83,9 +83,13 @@ let g:gitgutter_enabled = 0      " don't show gutter by default
 let g:rbpt_bold = 1
 set cryptmethod=blowfish
 let g:taboo_tab_format = "%N %0a/%f%m "
+let NERDTreeWinSize=40
 let NERDTreeMapOpenSplit="s"
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeShowLineNumbers=1
+
+let g:gundo_width=40
+let g:gundo_preview_height=40
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
@@ -116,10 +120,13 @@ set smartcase  " case sensitive search if search contains uppercase letter
 "set spell spelllang=en_us
 set scrolljump=5 "lines to scroll when cursor leaves screen
 set scrolloff=8 "start scrolling when 8 lines away from margins
-set updatetime=100
+set updatetime=50
 set encoding=utf8
 set ffs=unix,dos,mac
 set timeoutlen=2000  " wait for 2 seconds to time out leader
+set guioptions-=m
+set guioptions-=T
+set guioptions-=r
 syntax sync minlines=256
 "=============================================================================
 "                             AIRLINE SETTINGS
@@ -228,6 +235,7 @@ nnoremap I H
 
 " function keys
 nmap <F1>   :let @+=@"<CR>
+nmap <F5>   :GundoToggle<CR>
 nmap <F6>   :set spell!<CR>
 nmap <F11>   zR
 nmap <F12>   zM
