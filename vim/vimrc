@@ -231,6 +231,7 @@ nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
 nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
+nnoremap <CR> :set hlsearch!<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
@@ -268,7 +269,7 @@ nmap <leader>c :WatchForChanges!<CR>
 nmap <leader>d :delmarks a-z<CR>
 nmap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nmap <leader>g :GitGutterToggle<CR>
-nmap <leader>h :noh<return><esc>
+nmap <leader>h :set hlsearch!<CR>
 nmap <leader>l :ls<CR>:b<space>
 nmap <leader>m :DoShowMarks<CR>
 nmap <leader>n :NoShowMarks<CR>
