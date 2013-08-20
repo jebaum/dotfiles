@@ -283,21 +283,39 @@ nmap <leader>s :call StripTrailingWhitespaces()<CR>
 nmap <leader>w :w!<CR>
 nmap <leader>x :wq<CR>
 
+" alt/esc normal mode shortcuts to frequent commands
+map <Esc>q     :quitall<CR>
+
+" alt/esc insert mode shortcuts for movement
+imap <Esc>i     <C-o>gk
+imap <Esc>j     <C-o>j
+imap <Esc>k     <C-o>gj
+imap <Esc>l     <C-o>l
+imap <Esc>b     <C-o>b
+imap <Esc>B     <C-o>B
+imap <Esc>e     <C-o>e
+imap <Esc>E     <C-o>E
+imap <Esc>w     <C-o>w
+imap <Esc>W     <C-o>W
+imap <Esc>0     <C-o>0
+imap <Esc>6     <C-o>^
+imap <Esc>4     <C-o>$
+
 " shortcuts for managing tabs
 map <C-n> gt
 map <C-p> gT
-map \n :tabmove +1<CR>
-map \p :tabmove -1<CR>
-map \1 1gt
-map \2 2gt
-map \3 3gt
-map \4 4gt
-map \5 5gt
-map \6 6gt
-map \7 7gt
-map \8 8gt
-map \9 9gt
-nmap \0 :tablast<CR>
+map <Esc>n :tabmove +1<CR>
+map <Esc>p :tabmove -1<CR>
+map <Esc>1 1gt
+map <Esc>2 2gt
+map <Esc>3 3gt
+map <Esc>4 4gt
+map <Esc>5 5gt
+map <Esc>6 6gt
+map <Esc>7 7gt
+map <Esc>8 8gt
+map <Esc>9 9gt
+nmap <Esc>0 :tablast<CR>
 
 " make Y yank from cursor to end of line, consistent with C and D
 nmap Y y$
