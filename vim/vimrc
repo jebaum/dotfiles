@@ -82,28 +82,6 @@ let NERDTreeMapOpenSplit="s"
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeShowLineNumbers=1
 
-" rainbow parentheses settings. increasing nest levels iterate back from end of list
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-let g:rbpt_max = 15
-let g:rbpt_bold = 1
-"au VimEnter * RainbowParenthesesToggleAll
-
 " showmarks settings
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
@@ -154,6 +132,7 @@ set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
+set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 "=============================================================================
 "                             AIRLINE SETTINGS
 "=============================================================================
@@ -193,10 +172,10 @@ set autoindent
 "set cindent "alternative to vi 'autoindent' that uses c indentation standard
 set smartindent
 set smarttab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-set expandtab
+set shiftwidth=2   " amount of whitespace to insert or remove using normal mode indentation commands
+set softtabstop=2  " amount of whitespace deleted by backspace
+set tabstop=2      " width of tab character
+set expandtab      " use spaces instead of tabs
 filetype plugin on " this or below line causes comment token to be auto added when hitting enter from comment
 filetype indent on " manually overrode this for c/cpp files in .vim/after/ftplugin/c.vim
 set linebreak      " wrap lines at nice points
