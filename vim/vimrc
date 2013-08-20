@@ -1,8 +1,5 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
-"colorscheme ir_black
-"colorscheme distinguished
-"colorscheme jellybeans
 execute pathogen#infect()
 "=============================================================================
 "                  FUNCTION TO REMOVE TRAILING WHITESPACES
@@ -21,7 +18,7 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call S
 "=============================================================================
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   au BufRead /tmp/mutt-* set tw=72  " for email with mutt
-  au BufRead /tmp/mutt-* set spell " <-- vim 7 required
+  au BufRead /tmp/mutt-* set spell  " <-- vim 7 required
   au BufRead /tmp/mutt-* nmap  <F1>  gqap
   au BufRead /tmp/mutt-* nmap  <F2>  gqqj
   au BufRead /tmp/mutt-* nmap  <F3>  kgqj
@@ -31,8 +28,9 @@ augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful wa
 augroup END
 
 set shell=zsh\ --login
-" last parameter is optional and can be any highlight group.
-call SyntaxRange#Include('@begin=c@', '@end=c@', 'c', 'NonText')
+
+" last parameter is optional and can be any highlight group, determines delimiter colors
+call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
 call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 
 autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
@@ -47,7 +45,7 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
+"autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
 
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
@@ -122,42 +120,40 @@ let g:tagbar_sort  = 0      "sort tags by position in source file, not alphabeti
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
-syntax on
-set ttyfast "we have a fast terminal (?)
-set restorescreen=on " restore screen contents on exit
-set title titlelen=150
-set titlestring=
-set titlestring+=%t\  " file name
-" set titlestring+=(%F) " full file path + name
-set relativenumber
-set nu
+set ttyfast                    " redraw screen faster
+set restorescreen=on           " restore screen contents on exit
+set titlestring=%t\            " file name
+set title titlelen=150         " max length of title string
+set relativenumber             " use relative line numbers
+set number                     " show current line number on left instead of 0
 set backspace=indent,eol,start " allow backspace in insert mode
-set esckeys  " make numpad work
-set autoread " reload files changed outside of vim
-set noruler
-set laststatus=2
-set history=1000
-set showmode
-set showcmd
-set showmatch
-set cursorline
-set incsearch "find as you type
-set hlsearch  "hilight search terms
-set magic     "change how backslashes are handled in searches
-set ignorecase
-set smartcase  " case sensitive search if search contains uppercase letter
-"set spell spelllang=en_us
-set scrolljump=5 "lines to scroll when cursor leaves screen
-set scrolloff=8 "start scrolling when 8 lines away from margins
-set updatetime=50
-set encoding=utf8
-set ffs=unix,dos,mac
-set timeoutlen=2000  " wait for 2 seconds to time out leader
-set cryptmethod=blowfish " more secure encryption for vim -x
-set guioptions-=m
-set guioptions-=T
-set guioptions-=r
-syntax sync minlines=256
+set esckeys                    " make numpad work
+set autoread                   " reload files changed outside of vim
+set noruler                    " don't show the ruler
+set laststatus=2               " always display the statusline
+set history=1000               " length of command history
+set showmode                   " show what mode we're in on the bottom line
+set showcmd                    " show current command or visual selection info in bottom line
+set showmatch                  " flash to matching paren when typing
+set matchtime=3                " tenths of a second to flash to matching paren
+set cursorline                 " hilight current line
+set incsearch                  " find as you type
+set hlsearch                   " hilight search terms
+set magic                      " change how backslashes are handled in searches
+set ignorecase                 " case insensitive search by default
+set smartcase                  " case sensitive search if search contains uppercase letter
+set scrolljump=5               " lines to scroll when cursor leaves screen
+set scrolloff=8                " start scrolling when 8 lines away from margins
+set updatetime=50              " make CursorHold autocommand and swap writes happen more frequently
+set encoding=utf8              " new files use utf-8 encoding by default
+set ffs=unix,dos,mac           " new files use unix line endings by default
+set timeoutlen=2000            " wait for 2 seconds to time out leader
+set cryptmethod=blowfish       " more secure encryption for vim -x
+set guioptions-=m              " hide gui menu bar
+set guioptions-=T              " hide gui toolbar
+set guioptions-=r              " hide gui righthand scrollbar
+syntax on                      " syntax hilighting
+syntax sync minlines=256       " speed up syntax hilighting
 "=============================================================================
 "                             AIRLINE SETTINGS
 "=============================================================================
@@ -180,25 +176,16 @@ let g:airline_detect_whitespace=2 " don't display long message for trailing whit
 " ':#,# fo' folds # through #
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
 
-set foldmethod=syntax " define syntax folds when file loads
-set foldnestmax=1
+set foldmethod=syntax                  " define syntax folds when file loads
+set foldnestmax=1                      " only one level deep
 au InsertEnter * set foldmethod=manual " once we start typing, using manual folds
+
+" spacebar toggles folds in normal mode
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-vnoremap <space> zf
 
 " prevent folds from slowing down vim on big files
 "autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
 "autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
-
-"au BufWinLeave * mkview
-"au BufWinEnter * silent loadview
-
-" below autocommands create folds from indent levels on file load, then switch method to manual
- "augroup vimrc
-   "au BufReadPre * set foldmethod=syntax
-   "au TermResponse * if &fdm == 'syntax' | set foldmethod=manual | endif
-   "au InsertEnter * set foldmethod=manual
- "augroup END
 "=============================================================================
 "                             TAB / INDENT STUFF
 "=============================================================================
@@ -210,11 +197,10 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
-filetype plugin on " either this or the below one causes comment token to be auto added when hitting enter from comment
+filetype plugin on " this or below line causes comment token to be auto added when hitting enter from comment
 filetype indent on " manually overrode this for c/cpp files in .vim/after/ftplugin/c.vim
-set linebreak " wrap lines at nice points
+set linebreak      " wrap lines at nice points
 set textwidth=0
-"set nowrap " don't wrap lines
 "=============================================================================
 "                                 WILDMENU
 "=============================================================================
@@ -231,11 +217,11 @@ endif
 "=============================================================================
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
-"nmap f :TagbarCurrentTag p<CR>
 
+nnoremap <C-f> /
+nnoremap <C-h> :NERDTreeToggle<CR>
 nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
-nnoremap <C-h> :NERDTreeToggle<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
@@ -286,7 +272,6 @@ nmap <leader>x :wq<CR>
 
 " alt/esc normal mode shortcuts to frequent commands
 map <Esc>q     :quitall<CR>
-map <C-f>      /
 
 " alt/esc insert mode shortcuts for movement
 imap <Esc>i     <C-o>gk
