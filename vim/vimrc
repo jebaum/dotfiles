@@ -82,6 +82,16 @@ let NERDTreeMapOpenSplit="s"
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeShowLineNumbers=1
 
+" rainbow settings
+let g:rainbow_active = 0  " don't load automatically
+let g:rainbow_ctermfgs = ['white', 'lightblue', 'lightgreen',]
+let g:rainbow_load_separately = [
+ \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+ \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+ \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+ \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+ \ ]
+
 " showmarks settings
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
@@ -228,7 +238,7 @@ nnoremap I H
 nmap <F1>   :let @+=@"<CR>
 nmap <F5>   :GundoToggle<CR>
 nmap <F6>   :set spell!<CR>
-nmap <F7>   :RainbowParenthesesToggleAll<CR>
+nmap <F7>   :RainbowToggle<CR>
 nmap <F11>   zR
 nmap <F12>   zM
 
