@@ -138,6 +138,10 @@ let g:tagbar_width = 50     "default is 40
 let g:tagbar_indent= 1      "default is 2
 let g_tagbar_autoshowtag=1  "auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort  = 0      "sort tags by position in source file, not alphabetically
+
+" ultisnips settings
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-j>"
 "=============================================================================
 "                             GERNERAL STUFF
 "=============================================================================
@@ -269,7 +273,7 @@ nmap <leader>c :WatchForChanges!<CR>
 nmap <leader>d :delmarks a-z<CR>
 nmap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nmap <leader>g :GitGutterToggle<CR>
-nmap <leader>h :set hlsearch!<CR>
+nmap <leader>h :split<CR>
 nmap <leader>l :ls<CR>:b<space>
 nmap <leader>m :DoShowMarks<CR>
 nmap <leader>n :NoShowMarks<CR>
@@ -277,6 +281,9 @@ nmap <leader>p :set list!<CR>
 nmap <leader>q :q<CR>
 nmap <leader>r :W<CR>
 nmap <leader>s :call StripTrailingWhitespaces()<CR>
+vmap <leader>s :!sort -f<CR>
+nmap <leader>t :tabnew<CR>
+nmap <leader>v :vsplit<CR>
 nmap <leader>w :w!<CR>
 nmap <leader>x :wq<CR>
 
