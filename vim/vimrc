@@ -97,7 +97,7 @@ let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
 
 " taboo.vim tab name format string
-let g:taboo_tab_format = "%N %0a/%f%m "
+let g:taboo_tab_format = "%N %1a%m "
 
 " tagbar settings
 let g:tagbar_left  = 1      "default is to open on right
