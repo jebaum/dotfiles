@@ -48,15 +48,8 @@ exec dropbox start
 exec amixer set PCM 208
 exec amixer set Master 25
 exec curl icanhazip.com > ~/Dropbox/jbaumy.com/ip.txt
-#exec --no-startup-id urxvtd -q -o -f
 ############################################################################
 ################################# KEYBINDS #################################
-# general command syntax
-# bindsym <keys> [[class="windowstoeffect" instance="lol"]] <command>
-# implemented criteria checks:
-# WM_CLASS → instance, class    WM_WINDOW_ROLE → window_role
-# X11 window ID, fetched via xwininfo → id    X11 window title, _NET_WM_NAME or WM_NAME as fallback → title
-# urgent, con_mark, con_id
 bindsym $mod+Shift+Return exec urxvt
 bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
 bindsym $mod+Shift+Q kill
@@ -76,7 +69,7 @@ bindsym $mod+n        border none
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-  ### global controls
+  ### switch audio device
 bindsym $mod+Mod1+Control+m   exec device.sh mobo
 bindsym $mod+Mod1+Control+x   exec device.sh xfi
 bindsym $mod+Mod1+Control+h   exec device.sh headset
@@ -133,12 +126,6 @@ bindsym $mod+Escape exec /usr/bin/lk
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
 
-for_window [instance="Mail" class="Thunderbird"] border none
-assign     [instance="Mail" class="Thunderbird"] → 5: mail
-
-for_window [instance="vps" class="URxvt"] border none
-assign     [instance="vps" class="URxvt"] → 3: vps
-
 for_window [instance="Steam" class="Steam"] border none
 assign     [instance="Steam" class="Steam"] → 11: steam
 for_window [instance="hl2_linux" class="hl2_linux"] border none
@@ -150,18 +137,21 @@ for_window [instance="vdpau" class="mplayer2"] border none
 for_window [instance="firefox.exe" class="Wine"] border none
 ############################################################################
 ######################## WINDOW MANAGEMENT KEYBINDS ########################
-  ### ijkl and cursor for moving focus
-bindsym $mod+j     focus left
-bindsym $mod+k     focus down
-bindsym $mod+i     focus up
-bindsym $mod+l     focus right
-bindsym $mod+Left  focus left
-bindsym $mod+Down  focus down
-bindsym $mod+Up    focus up
-bindsym $mod+Right focus right
-bindsym $mod+a     focus parent
-bindsym $mod+d     focus child
-# focus output <left | right | down | up | output_name>
+  ### ijkl for moving focus
+bindsym $mod+j      focus left
+bindsym $mod+k      focus down
+bindsym $mod+i      focus up
+bindsym $mod+l      focus right
+bindsym $mod+Left   focus left
+bindsym $mod+Down   focus down
+bindsym $mod+Up     focus up
+bindsym $mod+Right  focus right
+bindsym $mod+a      focus parent
+bindsym $mod+d      focus child
+bindsym $mod+mod1+j focus output left
+bindsym $mod+mod1+k focus output down
+bindsym $mod+mod1+i focus output up
+bindsym $mod+mod1+l focus output right
 
   ### move focused window, px only applies to floating windows, default is 10
 bindsym $mod+Shift+J     move left  50 px
