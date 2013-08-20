@@ -24,7 +24,8 @@ hi Normal		ctermfg=231		ctermbg=none	cterm=none		guifg=#ffffff	guibg=#000000		gu
 hi Cursor		ctermfg=234		ctermbg=228		cterm=none		guifg=#1c1c1c	guibg=#ffff87	gui=none
 hi Visual		ctermfg=251		ctermbg=239		cterm=none		guifg=#c6c6c6	guibg=#4e4e4e	gui=none
 hi VisualNOS	ctermfg=251		ctermbg=236		cterm=none		guifg=#c6c6c6	guibg=#303030	gui=none
-hi Search		ctermfg=177		ctermbg=241		cterm=none		guifg=#d787ff	guibg=#626262	gui=none
+hi Search		ctermfg=231		ctermbg=88 		cterm=none		guifg=#d787ff	guibg=#626262	gui=none
+hi IncSearch	ctermfg=196		ctermbg=231
 hi Folded		ctermfg=103		ctermbg=237		cterm=none		guifg=#8787af	guibg=#3a3a3a	gui=none
 hi Title		ctermfg=230						cterm=bold		guifg=#ffffd7					gui=bold
 hi StatusLine	ctermfg=230		ctermbg=238		cterm=none		guifg=#ffffd7	guibg=#444444	gui=italic
@@ -54,7 +55,6 @@ hi DiffChange					ctermbg=237										guibg=#382a37
 
 "hi CursorIM
 "hi Directory
-hi IncSearch ctermfg=127 ctermbg=226
 "hi Menu
 "hi ModeMsg
 "hi MoreMsg

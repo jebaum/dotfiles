@@ -39,6 +39,7 @@ autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
 
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
+cnoreabbrev tn tabnew
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -234,7 +235,7 @@ set pastetoggle=<INS>
 
 nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
-nnoremap <C-f> :NERDTreeToggle<CR>
+nnoremap <C-h> :NERDTreeToggle<CR>
 
 " use semicolon as well as colon to enter command mode
 nmap ; :
@@ -285,6 +286,7 @@ nmap <leader>x :wq<CR>
 
 " alt/esc normal mode shortcuts to frequent commands
 map <Esc>q     :quitall<CR>
+map <C-f>      /
 
 " alt/esc insert mode shortcuts for movement
 imap <Esc>i     <C-o>gk
