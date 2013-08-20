@@ -53,6 +53,20 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 "=============================================================================
 "                             PLUGIN SETTINGS
 "=============================================================================
+" easyclip settings
+let g:EasyClipAutoFormat=0       " disable auto-formatting pasting text
+let g:EasyClipYankHistorySize=20 " default is 30
+let g:EasyClipDoSystemSync=1     " default value. change to 0 to disable sync
+" don't use default keys for easyclip settings
+let g:EasyClipUseYankDefaults=0
+let g:EasyClipUseCutDefaults=0
+let g:EasyClipUsePasteDefaults=0
+let g:EasyClipUseSubstituteDefaults=0
+" use yd<motion> or ydd to cut
+nmap yd <Plug>MoveMotionPlug
+xmap yd <Plug>MoveMotionXPlug
+nmap ydd <Plug>MoveMotionLinePlug
+
 " gitgutter settings
 let g:gitgutter_escape_grep = 1  " use raw, non aliased grep for gutter
 let g:gitgutter_enabled = 0      " don't show gutter by default

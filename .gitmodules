@@ -64,3 +64,6 @@
 [submodule "vim/bundle/rainbow"]
 	path = vim/bundle/rainbow
 	url = https://github.com/oblitum/rainbow.git
+[submodule "vim/bundle/vim-easyclip"]
+	path = vim/bundle/vim-easyclip
+	url = https://github.com/svermeulen/vim-easyclip.git
