@@ -235,10 +235,11 @@ nnoremap <C-h> :NERDTreeToggle<CR>
 nnoremap <C-L> :set relativenumber!<CR>
 nnoremap <C-T> :TagbarOpen fjc<CR>
 nnoremap <CR> :set hlsearch!<CR>
+inoremap <C-c> <Esc><Esc>
 
 " use semicolon as well as colon to enter command mode
-nmap ; :
-vmap ; :
+nnoremap ; :
+vnoremap ; :
 
 " move motion keys to be ijkl instead of hjkl. must be non recursive mappings
 nnoremap j h
@@ -247,9 +248,9 @@ nnoremap i k
 vnoremap i k
 nnoremap k j
 vnoremap k j
-map <C-w>j <C-w><Left>
-map <C-w>i <C-w><Up>
-map <C-w>k <C-w><Down>
+noremap <C-w>j <C-w><Left>
+noremap <C-w>i <C-w><Up>
+noremap <C-w>k <C-w><Down>
 
 " since 'i' is now used for motion, make 'h' do what 'i' used to
 nnoremap h i
@@ -259,86 +260,86 @@ vnoremap H I
 nnoremap I H
 
 " function keys
-nmap <F1>   :let @+=@"<CR>
-nmap <F5>   :GundoToggle<CR>
-nmap <F6>   :set spell!<CR>
-nmap <F7>   :RainbowToggle<CR>
-nmap <F11>   zR
-nmap <F12>   zM
+nnoremap <F1>   :let @+=@"<CR>
+nnoremap <F5>   :GundoToggle<CR>
+nnoremap <F6>   :set spell!<CR>
+nnoremap <F7>   :RainbowToggle<CR>
+nnoremap <F11>   zR
+nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
-nmap <leader>a :AirlineToggle<CR>
-nmap <leader>c :WatchForChanges!<CR>
-nmap <leader>d :delmarks a-z<CR>
-nmap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nmap <leader>g :GitGutterToggle<CR>
-nmap <leader>h :split<CR>
-nmap <leader>l :ls<CR>:b<space>
-nmap <leader>m :DoShowMarks<CR>
-nmap <leader>n :NoShowMarks<CR>
-nmap <leader>p :set list!<CR>
-nmap <leader>q :q<CR>
-nmap <leader>r :W<CR>
-nmap <leader>s :call StripTrailingWhitespaces()<CR>
-vmap <leader>s :!sort -f<CR>
-nmap <leader>t :tabnew<CR>
-nmap <leader>v :vsplit<CR>
-nmap <leader>w :w!<CR>
-nmap <leader>x :wq<CR>
+nnoremap <leader>a :AirlineToggle<CR>
+nnoremap <leader>c :WatchForChanges!<CR>
+nnoremap <leader>d :delmarks a-z<CR>
+nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+nnoremap <leader>g :GitGutterToggle<CR>
+nnoremap <leader>h :split<CR>
+nnoremap <leader>l :ls<CR>:b<space>
+nnoremap <leader>m :DoShowMarks<CR>
+nnoremap <leader>n :NoShowMarks<CR>
+nnoremap <leader>p :set list!<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>r :W<CR>
+nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
+vnoremap <leader>s :!sort -f<CR>
+nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>w :w!<CR>
+nnoremap <leader>x :wq<CR>
 
 " alt/esc normal mode shortcuts to frequent commands
-map <Esc>q     :quitall<CR>
+nnoremap <Esc>q     :quitall<CR>
 
 " alt/esc insert mode shortcuts for movement
-imap <Esc>i     <C-o>gk
-imap <Esc>j     <C-o>j
-imap <Esc>k     <C-o>gj
-imap <Esc>l     <C-o>l
-imap <Esc>b     <C-o>b
-imap <Esc>B     <C-o>B
-imap <Esc>e     <C-o>e
-imap <Esc>E     <C-o>E
-imap <Esc>w     <C-o>w
-imap <Esc>W     <C-o>W
-imap <Esc>0     <C-o>0
-imap <Esc>6     <C-o>^
-imap <Esc>4     <C-o>$
+inoremap <Esc>i     <C-o>gk
+inoremap <Esc>j     <C-o>j
+inoremap <Esc>k     <C-o>gj
+inoremap <Esc>l     <C-o>l
+inoremap <Esc>b     <C-o>b
+inoremap <Esc>B     <C-o>B
+inoremap <Esc>e     <C-o>e
+inoremap <Esc>E     <C-o>E
+inoremap <Esc>w     <C-o>w
+inoremap <Esc>W     <C-o>W
+inoremap <Esc>0     <C-o>0
+inoremap <Esc>6     <C-o>^
+inoremap <Esc>4     <C-o>$
 
 " shortcuts for managing tabs
-map <C-n> gt
-map <C-p> gT
-map <Esc>n :tabmove +1<CR>
-map <Esc>p :tabmove -1<CR>
-map <Esc>1 1gt
-map <Esc>2 2gt
-map <Esc>3 3gt
-map <Esc>4 4gt
-map <Esc>5 5gt
-map <Esc>6 6gt
-map <Esc>7 7gt
-map <Esc>8 8gt
-map <Esc>9 9gt
-nmap <Esc>0 :tablast<CR>
+noremap <C-n> gt
+noremap <C-p> gT
+noremap <Esc>n :tabmove +1<CR>
+noremap <Esc>p :tabmove -1<CR>
+noremap <Esc>1 1gt
+noremap <Esc>2 2gt
+noremap <Esc>3 3gt
+noremap <Esc>4 4gt
+noremap <Esc>5 5gt
+noremap <Esc>6 6gt
+noremap <Esc>7 7gt
+noremap <Esc>8 8gt
+noremap <Esc>9 9gt
+noremap <Esc>0 :tablast<CR>
 
 " make Y yank from cursor to end of line, consistent with C and D
-nmap Y y$
+nnoremap Y y$
 
 " Alt-k/i inserts blank line above/below
 nnoremap <silent><Esc>i :set paste<CR>m`O<Esc>``:set nopaste<CR>
 nnoremap <silent><Esc>k :set paste<CR>m`o<Esc>``:set nopaste<CR>
 
 " shifting doesn't exit visual mode
-vmap < <gv
-vmap > >gv
+vnoremap < <gv
+vnoremap > >gv
 
 " cursor keys go up and down by visual lines
-imap <up> <C-O>gk
-imap <down> <C-O>gj
-nmap <up> gk
-nmap <down> gj
-vmap <up> gk
-vmap <down> gj
+inoremap <up> <C-O>gk
+inoremap <down> <C-O>gj
+nnoremap <up> gk
+nnoremap <down> gj
+vnoremap <up> gk
+vnoremap <down> gj
 " left and right arrow keys shift text
-nmap <Left> <<
-nmap <Right> >>
+nnoremap <Left> <<
+nnoremap <Right> >>
 "=============================================================================
