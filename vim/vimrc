@@ -322,9 +322,9 @@ nmap <Esc>0 :tablast<CR>
 " make Y yank from cursor to end of line, consistent with C and D
 nmap Y y$
 
-" Ctrl-k/i inserts blank line below/above
-nnoremap <silent><C-k> :set paste<CR>m`o<Esc>``:set nopaste<CR>
-nnoremap <silent><C-i> :set paste<CR>m`O<Esc>``:set nopaste<CR>
+" Alt-k/i inserts blank line above/below
+nnoremap <silent><Esc>i :set paste<CR>m`O<Esc>``:set nopaste<CR>
+nnoremap <silent><Esc>k :set paste<CR>m`o<Esc>``:set nopaste<CR>
 
 " shifting doesn't exit visual mode
 vmap < <gv
