@@ -170,6 +170,8 @@ let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
 let g:airline_section_z="%l/%L:C%c %b/0x%B"
 let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
+let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 1
 "=============================================================================
 "                                  FOLDING
 "=============================================================================
