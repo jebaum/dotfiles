@@ -53,6 +53,25 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 "=============================================================================
 "                             PLUGIN SETTINGS
 "=============================================================================
+" airline settings
+let g:airline_theme="simple"
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_branch_prefix = ' '
+let g:airline_readonly_symbol = ''
+let g:airline_linecolumn_prefix = ''
+let g:airline_section_z="%l/%L:C%c %b/0x%B"
+let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
+let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 1
+
+" bufferline settings
+let g:bufferline_echo = 0        " enable/disable display in command bar
+let g:bufferline_active_highlight = 'StatusLine'
+let g:bufferline_inactive_highlight = 'StatusLineNC'
+
 " easyclip settings
 let g:EasyClipAutoFormat=0       " disable auto-formatting pasting text
 let g:EasyClipYankHistorySize=20 " default is 30
@@ -157,21 +176,6 @@ set guioptions-=r              " hide gui righthand scrollbar
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
-"=============================================================================
-"                             AIRLINE SETTINGS
-"=============================================================================
-let g:airline_theme="simple"
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_branch_prefix = ' '
-let g:airline_readonly_symbol = ''
-let g:airline_linecolumn_prefix = ''
-let g:airline_section_z="%l/%L:C%c %b/0x%B"
-let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
-let g:airline#extensions#hunks#enabled = 1
-let g:airline#extensions#hunks#non_zero_only = 1
 "=============================================================================
 "                                  FOLDING
 "=============================================================================
