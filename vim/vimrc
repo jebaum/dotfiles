@@ -33,8 +33,6 @@ set shell=zsh\ --login
 call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
 call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 
-autocmd BufEnter * lcd %:p:h  " change working directory to that of current file
-
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
 cnoreabbrev tn tabnew
@@ -147,6 +145,7 @@ let g:UltiSnipsJumpBackwardTrigger="<C-j>"
 "=============================================================================
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
+set autochdir                  " change cwd when switching/opening buffers
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
 set relativenumber             " use relative line numbers
