@@ -127,6 +127,15 @@ let g:rainbow_load_separately = [
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
 
+" startify settings
+let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
+let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc' ]
+let g:startify_files_number = 10
+let g:startify_session_detection = 1 " show session at top when Session.vim is found in current directory
+let g:startify_session_autoload = 0  " opening directories with a Session.vim file will have it auto loaded
+let g:startify_change_to_dir = 1     " when opening file or bookmark, change to its directory
+let g:startify_custom_indices = ['f', 'g', 'h'] " shortcut keys. don't use beiqsv, navigation keys
+
 " taboo.vim tab name format string
 let g:taboo_tab_format = "%N %1a%m "
 
