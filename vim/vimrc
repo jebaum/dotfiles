@@ -289,7 +289,7 @@ nnoremap <F11>   zR
 nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
-nnoremap <leader>a :AirlineToggle<CR>
+nnoremap <leader>a :Tabularize /=<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
 nnoremap <leader>d :delmarks a-z<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
@@ -308,11 +308,12 @@ nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 
 " alt/esc normal mode shortcuts to frequent commands
-nnoremap <Esc>q     :quitall<CR>
+nnoremap <Esc>a    :AirlineToggle<CR>
+nnoremap <Esc>q    :quitall<CR>
 
 " alt/esc insert mode shortcuts for movement
 inoremap <Esc>i     <C-o>gk
-inoremap <Esc>j     <C-o>j
+inoremap <Esc>j     <C-o>h
 inoremap <Esc>k     <C-o>gj
 inoremap <Esc>l     <C-o>l
 inoremap <Esc>b     <C-o>b
