@@ -53,6 +53,10 @@ hi DiffDelete	ctermfg=234		ctermbg=60		cterm=none		guifg=#242424	guibg=#3e3969	g
 hi DiffText						ctermbg=53		cterm=none						guibg=#73186e	gui=none
 hi DiffChange					ctermbg=237										guibg=#382a37
 
+" Multiple Cursor Hilighting
+hi multiple_cursors_cursor	    ctermfg=231	    ctermbg=88
+hi link multiple_cursors_visual Visual
+
 "hi CursorIM
 "hi Directory
 "hi Menu
