@@ -54,5 +54,13 @@ stty -ixon
 
 GPG_TTY=$(tty)
 export GPG_TTY
-bindkey "^[[7~" beginning-of-line
-bindkey "^[[8~" end-of-line
+bindkey "^[[7~" beginning-of-line   # make home key work
+bindkey "^[[8~" end-of-line         # make end key work
+bindkey "^J"    backward-word       # C-j moves back a word
+bindkey "^L"    forward-word        # C-l moves forward a word
+bindkey "^K"    backward-char       # C-k moves back a character
+bindkey "^I"    forward-char        # C-i moves forward a character
+bindkey "^F"    vi-find-next-char   # C-f takes one character input, moves to next instance
+bindkey "^T"    vi-find-prev-char   # C-t takes one character input, moves to prev instance
+bindkey "^O"    kill-line           # C-o does what C-k does by default, kills from cursor to eol
+bindkey "^S"    clear-screen        # C-s does what C-l does by default, clear screen

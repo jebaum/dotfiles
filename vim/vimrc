@@ -255,6 +255,7 @@ nnoremap <C-l> :set relativenumber!<CR>
 nnoremap <C-t> :TagbarOpen fjc<CR>
 nnoremap <CR> :set hlsearch!<CR>
 inoremap <C-c> <Esc><Esc>
+noremap & v%
 
 " use semicolon as well as colon to enter command mode
 nnoremap ; :
