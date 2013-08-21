@@ -84,10 +84,6 @@ nmap yd <Plug>MoveMotionPlug
 xmap yd <Plug>MoveMotionXPlug
 nmap ydd <Plug>MoveMotionLinePlug
 
-" gitgutter settings
-let g:gitgutter_escape_grep = 1  " use raw, non aliased grep for gutter
-let g:gitgutter_enabled = 0      " don't show gutter by default
-
 " gundo settings
 let g:gundo_width=40
 let g:gundo_preview_height=40
@@ -109,8 +105,8 @@ let g:mta_filetypes = {
 
 " multi-cursor settings
 let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-m>'
+let g:multi_cursor_next_key='<C-o>'
+let g:multi_cursor_prev_key='<C-i>'
 let g:multi_cursor_skip_key='<C-s>' " requires `stty -ixon` set in terminal or scroll lock steals the key
 let g:multi_cursor_quit_key='<C-c>'
 
@@ -133,6 +129,13 @@ let g:rainbow_load_separately = [
 " showmarks settings
 let g:showmarks_enable = 0 " hide marks by default
 let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
+
+" signify settings
+let g:signify_disable_by_default = 1  " disable run by default
+let g:signify_vcs_list = [ 'git' ]    " I only use git for now
+let g:signify_mapping_next_hunk = '<leader>gk'
+let g:signify_mapping_prev_hunk = '<leader>gi'
+let g:signify_sign_change       = '~'
 
 " startify settings
 let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
@@ -288,7 +291,6 @@ nnoremap <leader>a :AirlineToggle<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
 nnoremap <leader>d :delmarks a-z<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nnoremap <leader>g :GitGutterToggle<CR>
 nnoremap <leader>h :split<CR>
 nnoremap <leader>l :ls<CR>:b<space>
 nnoremap <leader>m :DoShowMarks<CR>

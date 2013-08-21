@@ -20,12 +20,12 @@ let colors_name = "wombat256mod"
 
 
 " General colors
-hi Normal		ctermfg=231		ctermbg=none	cterm=none		guifg=#ffffff	guibg=#000000		gui=none
+hi Normal		ctermfg=231		ctermbg=none	cterm=none		guifg=#ffffff	guibg=#000000	gui=none
 hi Cursor		ctermfg=234		ctermbg=228		cterm=none		guifg=#1c1c1c	guibg=#ffff87	gui=none
 hi Visual		ctermfg=251		ctermbg=239		cterm=none		guifg=#c6c6c6	guibg=#4e4e4e	gui=none
 hi VisualNOS	ctermfg=251		ctermbg=236		cterm=none		guifg=#c6c6c6	guibg=#303030	gui=none
-hi Search		ctermfg=231		ctermbg=88 		cterm=none		guifg=#d787ff	guibg=#626262	gui=none
-hi IncSearch	ctermfg=196		ctermbg=231
+hi Search		ctermfg=231		ctermbg=88 		cterm=none
+hi IncSearch	ctermfg=196		ctermbg=231		cterm=none
 hi Folded		ctermfg=103		ctermbg=237		cterm=none		guifg=#8787af	guibg=#3a3a3a	gui=none
 hi Title		ctermfg=230						cterm=bold		guifg=#ffffd7					gui=bold
 hi StatusLine	ctermfg=230		ctermbg=238		cterm=none		guifg=#ffffd7	guibg=#444444	gui=italic
@@ -48,10 +48,18 @@ hi PmenuSel		ctermfg=232		ctermbg=192						guifg=#080808	guibg=#cae982
 endif
 
 " Diff highlighting
-hi DiffAdd						ctermbg=17										guibg=#2a0d6a
-hi DiffDelete	ctermfg=234		ctermbg=60		cterm=none		guifg=#242424	guibg=#3e3969	gui=none
-hi DiffText						ctermbg=53		cterm=none						guibg=#73186e	gui=none
-hi DiffChange					ctermbg=237										guibg=#382a37
+hi DiffText					 ctermbg=53		cterm=none						guibg=#73186e	gui=none
+" also contorl line hilighting by signify
+hi DiffAdd		        	 cterm=bold ctermbg=none ctermfg=119
+hi DiffDelete	          	 cterm=bold ctermbg=none ctermfg=167
+hi DiffChange	          	 cterm=bold ctermbg=none ctermfg=220
+hi SignifyLineAdd			 cterm=bold ctermbg=none ctermfg=119
+hi SignifyLineDelete	  	 cterm=bold ctermbg=none ctermfg=167
+hi SignifyLineChange	  	 cterm=bold ctermbg=none ctermfg=227
+" highlight signs in Sy
+hi SignifySignAdd			 cterm=bold ctermbg=237 ctermfg=119
+hi SignifySignDelete 		 cterm=bold ctermbg=237 ctermfg=167
+hi SignifySignChange 		 cterm=bold ctermbg=237 ctermfg=227
 
 " Multiple Cursor Hilighting
 hi multiple_cursors_cursor	    ctermfg=231	    ctermbg=88
@@ -75,6 +83,7 @@ hi link multiple_cursors_visual Visual
 "hi User1
 "hi User9
 "hi WildMenu
+
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
 hi Keyword		ctermfg=201		cterm=none		guifg=#ff00ff	gui=none
 " statement = return, for, if, switch, case, continue, etc
@@ -105,13 +114,4 @@ hi! link FoldColumn		Folded
 hi! link CursorColumn	CursorLine
 hi! link NonText		LineNr
 
-" vim-gitgutter hilights	
-hi GitGutterAdd					ctermfg=46
-hi GitGutterChange				ctermfg=226
-hi GitGutterDelete				ctermfg=196
-hi GitGutterChangeDelete		ctermfg=201
-hi GitGutterAddLine				ctermbg=23
-hi GitGutterChangeLine			ctermbg=58
-hi GitGutterDeleteLine			ctermbg=52
-hi GitGutterChangeDeleteLine	ctermbg=53
 " vim:set ts=4 sw=4 noet:
