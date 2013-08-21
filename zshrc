@@ -46,21 +46,26 @@ plugins=(git archlinux colored-man extract web-search)
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 source ~/dotfiles/fancyprompt.zsh
-# Customize to your needs...
 
 setopt BRACE_CCL
 export EDITOR=vim
-stty -ixon
+stty -ixon  # stop C-s from activating scroll lock
 
 GPG_TTY=$(tty)
 export GPG_TTY
-bindkey "^[[7~" beginning-of-line   # make home key work
-bindkey "^[[8~" end-of-line         # make end key work
-bindkey "^J"    backward-word       # C-j moves back a word
-bindkey "^L"    forward-word        # C-l moves forward a word
-bindkey "^K"    backward-char       # C-k moves back a character
-bindkey "^I"    forward-char        # C-i moves forward a character
-bindkey "^F"    vi-find-next-char   # C-f takes one character input, moves to next instance
-bindkey "^T"    vi-find-prev-char   # C-t takes one character input, moves to prev instance
-bindkey "^O"    kill-line           # C-o does what C-k does by default, kills from cursor to eol
-bindkey "^S"    clear-screen        # C-s does what C-l does by default, clear screen
+
+# list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
+bindkey "^[[7~" beginning-of-line    # make home key work
+bindkey "^[[8~" end-of-line          # make end key work
+bindkey "^J"    backward-word        # C-j moves back a word
+bindkey "^L"    forward-word         # C-l moves forward a word
+bindkey "^[j"   backward-char        # A-j moves back a character
+bindkey "^[l"   forward-char         # A-l moves forward a character
+bindkey "^F"    vi-find-next-char    # C-f takes one character input, moves to next instance
+bindkey "^T"    vi-find-prev-char    # C-t takes one character input, moves to prev instance
+bindkey "^Y"    vi-repeat-find       # C-y repeats last find ('yes', repeat)
+bindkey "^S"    clear-screen         # C-s does what C-l does by default, clear screen
+bindkey "^Q"    delete-word          # C-q deletes word in front of cursor, opposite C-w
+bindkey "^G"    delete-char          # C-g deletes character in front of cursor, opposite C-h
+bindkey "^B"    undo                 # C-b undoes last text modification (think 'back')
+bindkey "^D"    send-break           # C-d aborts current command
