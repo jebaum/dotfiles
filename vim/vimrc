@@ -70,20 +70,6 @@ let g:bufferline_echo = 0        " enable/disable display in command bar
 let g:bufferline_active_highlight = 'StatusLine'
 let g:bufferline_inactive_highlight = 'StatusLineNC'
 
-" easyclip settings
-let g:EasyClipAutoFormat=0       " disable auto-formatting pasting text
-let g:EasyClipYankHistorySize=20 " default is 30
-let g:EasyClipDoSystemSync=1     " default value. change to 0 to disable sync
-" don't use default keys for easyclip settings
-let g:EasyClipUseYankDefaults=0
-let g:EasyClipUseCutDefaults=0
-let g:EasyClipUsePasteDefaults=0
-let g:EasyClipUseSubstituteDefaults=0
-" use yd<motion> or ydd to cut
-nmap yd <Plug>MoveMotionPlug
-xmap yd <Plug>MoveMotionXPlug
-nmap ydd <Plug>MoveMotionLinePlug
-
 " gundo settings
 let g:gundo_width=40
 let g:gundo_preview_height=40
