@@ -109,9 +109,9 @@ let g:mta_filetypes = {
 
 " multi-cursor settings
 let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-i>'
-let g:multi_cursor_prev_key='<C-o>'
-let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-m>'
+let g:multi_cursor_skip_key='<C-s>' " requires `stty -ixon` set in terminal or scroll lock steals the key
 let g:multi_cursor_quit_key='<C-c>'
 
 " nerdtree settings

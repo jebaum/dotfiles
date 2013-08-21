@@ -50,6 +50,7 @@ source ~/dotfiles/fancyprompt.zsh
 
 setopt BRACE_CCL
 export EDITOR=vim
+stty -ixon
 
 GPG_TTY=$(tty)
 export GPG_TTY
