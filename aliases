@@ -47,6 +47,8 @@ alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias mpc='mpc -h 192.168.1.100'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias 'ps?'='ps ax | grep '
+alias trance='mplayer http://listen.trance.fm/1/320'
+alias trance2='mplayer http://listen.trance.fm/1/320/02'
 
 function up() {
   LIMIT=$1

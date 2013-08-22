@@ -43,8 +43,6 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-"autocmd vimenter * if !argc() | NERDTree | endif " open nerdtree if no files were specified
-
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -145,11 +143,11 @@ let g:startify_custom_header = [
 let g:taboo_tab_format = "%N %1a%m "
 
 " tagbar settings
-let g:tagbar_left  = 1      "default is to open on right
-let g:tagbar_width = 50     "default is 40
-let g:tagbar_indent= 1      "default is 2
-let g_tagbar_autoshowtag=1  "auto unfold any parents so highlighted tag is shown
-let g:tagbar_sort  = 0      "sort tags by position in source file, not alphabetically
+let g:tagbar_left  = 1      " default is to open on right
+let g:tagbar_width = 50     " default is 40
+let g:tagbar_indent= 1      " default is 2
+let g_tagbar_autoshowtag=1  " auto unfold any parents so highlighted tag is shown
+let g:tagbar_sort  = 0      " sort tags by position in source file, not alphabetically
 
 " ultisnips settings
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
@@ -215,23 +213,23 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 "=============================================================================
 "                             TAB / INDENT STUFF
 "=============================================================================
-set autoindent
-"set cindent "alternative to vi 'autoindent' that uses c indentation standard
-set smartindent
-set smarttab
-set shiftwidth=2   " amount of whitespace to insert or remove using normal mode indentation commands
-set softtabstop=2  " amount of whitespace deleted by backspace
-set tabstop=2      " width of tab character
-set expandtab      " use spaces instead of tabs
-filetype plugin on " this or below line causes comment token to be auto added when hitting enter from comment
-filetype indent on " manually overrode this for c/cpp files in .vim/after/ftplugin/c.vim
-set linebreak      " wrap lines at nice points
-set textwidth=0
+set autoindent      " auto indent line to match above line when hitting enter
+"set cindent        " alternative to vi 'autoindent' that uses c indentation standard
+set smartindent     " do smart indenting with lines ending in { and other keywords
+set smarttab        " make tabs more consistent with softtabstop
+set shiftwidth=2    " amount of whitespace to insert or remove using normal mode indentation commands
+set softtabstop=2   " amount of whitespace deleted by backspace
+set tabstop=2       " width of tab character
+set expandtab       " use spaces instead of tabs
+set linebreak       " wrap lines at nice points
+set textwidth=0     " disables textwidth
+filetype plugin on  " this or below line causes comment token to be auto added when hitting enter from comment
+filetype indent on  " manually overrode this for c/cpp files in .vim/after/ftplugin/c.vim
 "=============================================================================
 "                                 WILDMENU
 "=============================================================================
 if has("wildmenu")
-  set wildmenu " turn on wildmenu
+  set wildmenu                    " turn on wildmenu
   set wildmode=longest:full,full
   set wildignore=*.o,*.a,*~,*.pyc " ignore compiled files
   set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
@@ -334,9 +332,6 @@ inoremap <Esc>B     <C-Left>
 inoremap <Esc>w     <S-Right>
 inoremap <Esc>W     <C-Right>
 inoremap <Esc>h     <Home>
-inoremap <Esc>0     <Home>
-inoremap <Esc>6     <Home>
-inoremap <Esc>4     <End>
 inoremap <Esc>e     <End>
 
 " shifting doesn't exit visual mode
