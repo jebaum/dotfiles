@@ -25,9 +25,6 @@
 [submodule "vim/bundle/SyntaxRange"]
 	path = vim/bundle/SyntaxRange
 	url = https://github.com/vim-scripts/SyntaxRange.git
-[submodule "vim/bundle/ShowMarks"]
-	path = vim/bundle/ShowMarks
-	url = https://github.com/jacquesbh/vim-showmarks.git
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git

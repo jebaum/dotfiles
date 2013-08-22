@@ -112,10 +112,6 @@ let g:rainbow_load_separately = [
  \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
  \ ]
 
-" showmarks settings
-let g:showmarks_enable = 0 " hide marks by default
-let g:showmarks_marks = "abcdefghijklmnopqrstuvwxyz" " only show local, user created marks
-
 " signify settings
 let g:signify_disable_by_default = 1  " disable run by default
 let g:signify_vcs_list = [ 'git' ]    " I only use git for now
@@ -132,7 +128,6 @@ let g:startify_session_autoload = 0  " opening directories with a Session.vim fi
 let g:startify_change_to_dir = 1     " when opening file or bookmark, change to its directory
 let g:startify_custom_indices = ['f', 'g', 'h'] " shortcut keys. don't use beiqsv, navigation keys
 let g:startify_custom_header = [
-  \ ' ____________________________________________________________',
   \ '  __/\\\________/\\\___/\\\\\\\\\\\___/\\\\____________/\\\\__',
   \ '   _\/\\\_______\/\\\__\/////\\\///___\/\\\\\\________/\\\\\\__',
   \ '    _\//\\\______/\\\_______\/\\\______\/\\\//\\\____/\\\//\\\__',
@@ -142,7 +137,6 @@ let g:startify_custom_header = [
   \ '        _____\//\\\\\___________\/\\\______\/\\\_____________\/\\\__',
   \ '         ______\//\\\_________/\\\\\\\\\\\__\/\\\_____________\/\\\__',
   \ '          _______\///_________\///////////___\///______________\///___',
-  \ '           ____________________________________________________________',
   \ '',
   \ '',
   \ ]
