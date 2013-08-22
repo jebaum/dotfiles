@@ -68,6 +68,10 @@ let g:bufferline_echo = 0        " enable/disable display in command bar
 let g:bufferline_active_highlight = 'StatusLine'
 let g:bufferline_inactive_highlight = 'StatusLineNC'
 
+" ctrlp settings
+let g:ctrlp_map = '<Esc>b'
+let g:ctrlp_mruf_case_sensitive = 0
+
 " gundo settings
 let g:gundo_width=40
 let g:gundo_preview_height=40
@@ -297,6 +301,7 @@ nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
 
 " ctrl normal mode
+nnoremap <C-b> :CtrlPBuffer<CR>
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
 nnoremap <C-l> :set relativenumber!<CR>
