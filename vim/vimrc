@@ -250,13 +250,10 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
 
-nnoremap <C-f> /
-nnoremap <C-h> :NERDTreeToggle<CR>
-nnoremap <C-l> :set relativenumber!<CR>
-nnoremap <C-t> :TagbarOpen fjc<CR>
 nnoremap <CR> :set hlsearch!<CR>
 inoremap <C-c> <Esc><Esc>
-noremap & v%
+nnoremap Y y$
+nnoremap & v%
 
 " use semicolon as well as colon to enter command mode
 nnoremap ; :
@@ -289,7 +286,6 @@ nnoremap <F11>   zR
 nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
-nnoremap <leader>a :Tabularize /=<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
 nnoremap <leader>d :delmarks a-z<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
@@ -306,61 +302,61 @@ nnoremap <leader>t :tabnew<CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
+nnoremap <leader>= :Tabularize /=<CR>
 
-" alt/esc normal mode shortcuts to frequent commands
-nnoremap <Esc>a    :AirlineToggle<CR>
-nnoremap <Esc>q    :quitall<CR>
+" ctrl normal mode
+nnoremap <C-f> /
+nnoremap <C-h> :NERDTreeToggle<CR>
+nnoremap <C-l> :set relativenumber!<CR>
+nnoremap <C-n> gt
+nnoremap <C-p> gT
+nnoremap <C-t> :TagbarOpen fjc<CR>
 
-" alt/esc insert mode shortcuts for movement
-inoremap <Esc>i     <C-o>gk
-inoremap <Esc>j     <C-o>h
-inoremap <Esc>k     <C-o>gj
-inoremap <Esc>l     <C-o>l
-inoremap <Esc>b     <C-o>b
-inoremap <Esc>B     <C-o>B
-inoremap <Esc>e     <C-o>e
-inoremap <Esc>E     <C-o>E
-inoremap <Esc>w     <C-o>w
-inoremap <Esc>W     <C-o>W
-inoremap <Esc>0     <C-o>0
-inoremap <Esc>6     <C-o>^
-inoremap <Esc>4     <C-o>$
-
-" shortcuts for managing tabs
-noremap <C-n> gt
-noremap <C-p> gT
-noremap <Esc>n :tabmove +1<CR>
-noremap <Esc>p :tabmove -1<CR>
-noremap <Esc>1 1gt
-noremap <Esc>2 2gt
-noremap <Esc>3 3gt
-noremap <Esc>4 4gt
-noremap <Esc>5 5gt
-noremap <Esc>6 6gt
-noremap <Esc>7 7gt
-noremap <Esc>8 8gt
-noremap <Esc>9 9gt
-noremap <Esc>0 :tablast<CR>
-
-" make Y yank from cursor to end of line, consistent with C and D
-nnoremap Y y$
-
-" Alt-k/i inserts blank line above/below
+" alt/esc normal mode
+nnoremap <Esc>a :AirlineToggle<CR>
+nnoremap <Esc>n :tabmove +1<CR>
+nnoremap <Esc>p :tabmove -1<CR>
+nnoremap <Esc>q :quitall<CR>
+nnoremap <Esc>1 1gt
+nnoremap <Esc>2 2gt
+nnoremap <Esc>3 3gt
+nnoremap <Esc>4 4gt
+nnoremap <Esc>5 5gt
+nnoremap <Esc>6 6gt
+nnoremap <Esc>7 7gt
+nnoremap <Esc>8 8gt
+nnoremap <Esc>9 9gt
+nnoremap <Esc>0 :tablast<CR>
 nnoremap <silent><Esc>i :set paste<CR>m`O<Esc>``:set nopaste<CR>
 nnoremap <silent><Esc>k :set paste<CR>m`o<Esc>``:set nopaste<CR>
+
+" alt/esc insert mode
+inoremap <Esc>i     <Up>
+inoremap <Esc>j     <Left>
+inoremap <Esc>k     <Down>
+inoremap <Esc>l     <Right>
+inoremap <Esc>b     <S-Left>
+inoremap <Esc>B     <C-Left>
+inoremap <Esc>w     <S-Right>
+inoremap <Esc>W     <C-Right>
+inoremap <Esc>h     <Home>
+inoremap <Esc>0     <Home>
+inoremap <Esc>6     <Home>
+inoremap <Esc>4     <End>
+inoremap <Esc>e     <End>
 
 " shifting doesn't exit visual mode
 vnoremap < <gv
 vnoremap > >gv
 
-" cursor keys go up and down by visual lines
-inoremap <up> <C-O>gk
+" up/down arrow keys go up and down by visual lines
+inoremap <up>   <C-O>gk
 inoremap <down> <C-O>gj
-nnoremap <up> gk
-nnoremap <down> gj
-vnoremap <up> gk
-vnoremap <down> gj
-" left and right arrow keys shift text
-nnoremap <Left> <<
-nnoremap <Right> >>
+nnoremap <up>        gk
+nnoremap <down>      gj
+vnoremap <up>        gk
+vnoremap <down>      gj
+" left/right arrow keys indent
+nnoremap <Left>      <<
+nnoremap <Right>     >>
 "=============================================================================
