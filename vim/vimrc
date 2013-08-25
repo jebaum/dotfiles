@@ -2,18 +2,6 @@ set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 execute pathogen#infect()
 "=============================================================================
-"                  FUNCTION TO REMOVE TRAILING WHITESPACES
-"=============================================================================
-fun! StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-" call function on write for these file types
-autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
-" autocmd BufWrite *.txt :call StripTrailingWhitespaces() " this line can be copied for any extension
-"=============================================================================
 "                                 MISC
 "=============================================================================
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
@@ -30,8 +18,8 @@ augroup END
 set shell=zsh\ --login
 
 " last parameter is optional and can be any highlight group, determines delimiter colors
-call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
-call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
+autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
+autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
@@ -46,6 +34,28 @@ autocmd BufReadPost *
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+fun! StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
+" autocmd BufWrite *.txt :call StripTrailingWhitespaces() " this line can be copied for any extension
+
+function! NoBufChange(cmd, undo)
+    let initbuf = bufnr("%")
+    echo initbuf
+    execute "normal! \<esc>" . v:count1 . a:cmd
+    if initbuf != bufnr("%")
+      execute "normal! \<esc>" . v:count1 . a:undo
+      redraw
+      echo "Refused to run " . a:cmd . " because it crosses buffer boundary"
+    endif
+endfunction
+nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
+nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
 "=============================================================================
 "                             PLUGIN SETTINGS
 "=============================================================================
@@ -93,8 +103,9 @@ let g:mta_filetypes = {
 
 " multi-cursor settings
 let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-i>'
-let g:multi_cursor_prev_key='<C-o>'
+let g:multi_cursor_start_key='<C-s>'
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
 
@@ -113,6 +124,12 @@ let g:rainbow_load_separately = [
  \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
  \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
  \ ]
+
+" showmarks settings
+let g:showmarks_enable=0
+let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
+let g:showmarks_textlower=">"
+let g:showmarks_ignore_type="h"
 
 " signify settings
 let g:signify_disable_by_default = 1  " disable run by default
@@ -283,15 +300,12 @@ nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
 nnoremap <leader>c :WatchForChanges!<CR>
-nnoremap <leader>d :delmarks a-z<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nnoremap <leader>h :split<CR>
 nnoremap <leader>l :ls<CR>:b<space>
-nnoremap <leader>m :DoShowMarks<CR>
-nnoremap <leader>n :NoShowMarks<CR>
+nnoremap <leader>n :set relativenumber!<CR>
 nnoremap <leader>p :set list!<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader>r :W<CR>
 nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s :!sort -f<CR>
 nnoremap <leader>t :tabnew<CR>
@@ -299,18 +313,20 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
+nnoremap <leader>lh :set cursorline!<CR>
+nnoremap <leader>ch :set cursorcolumn!<CR>
 
 " ctrl normal mode
 nnoremap <C-b> :CtrlPBuffer<CR>
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
-nnoremap <C-l> :set relativenumber!<CR>
 nnoremap <C-n> gt
 nnoremap <C-p> gT
 nnoremap <C-t> :TagbarOpen fjc<CR>
 
 " alt/esc normal mode
 nnoremap <Esc>a :AirlineToggle<CR>
+"        <Esc>b Ctrlp buffer
 nnoremap <Esc>n :tabmove +1<CR>
 nnoremap <Esc>p :tabmove -1<CR>
 nnoremap <Esc>q :quitall<CR>

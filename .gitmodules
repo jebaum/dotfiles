@@ -88,3 +88,6 @@
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
+[submodule "vim/bundle/vim-showmarks"]
+	path = vim/bundle/vim-showmarks
+	url = https://github.com/vimez/vim-showmarks.git

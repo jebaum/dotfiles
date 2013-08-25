@@ -65,6 +65,11 @@ hi SignifySignChange 		 cterm=bold ctermbg=237 ctermfg=227
 hi multiple_cursors_cursor	    ctermfg=231	    ctermbg=88
 hi link multiple_cursors_visual Visual
 
+" Showmarks Hilighting
+hi ShowMarksHLl ctermfg=45	  ctermbg=none
+hi ShowMarksHLm ctermfg=202	  ctermbg=none
+
+
 "hi CursorIM
 "hi Directory
 "hi Menu
