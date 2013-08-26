@@ -206,6 +206,8 @@ set encoding=utf8              " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
 set timeoutlen=2000            " wait for 2 seconds to time out leader
 set cryptmethod=blowfish       " more secure encryption for vim -x
+set formatoptions-=r           " don't automatically continue comment when hitting enter in insert mode
+set formatoptions-=o           " don't automatically continue comment when hitting o in normal mode
 set guioptions-=m              " hide gui menu bar
 set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
@@ -244,8 +246,8 @@ set tabstop=2       " width of tab character
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
-filetype plugin on  " this or below line causes comment token to be auto added when hitting enter from comment
-filetype indent on  " manually overrode this for c/cpp files in .vim/after/ftplugin/c.vim
+filetype plugin on
+filetype indent on
 "=============================================================================
 "                                 WILDMENU
 "=============================================================================
