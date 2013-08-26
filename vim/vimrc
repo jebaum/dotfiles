@@ -223,8 +223,8 @@ set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 " ':#,# fo' folds # through #
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
 
-set foldmethod=syntax                  " define syntax folds when file loads
-set foldnestmax=1                      " only one level deep
+set foldnestmax=1                      " folds only one level deep
+au BufEnter    * set foldmethod=syntax " define syntax folds when file loads
 au InsertEnter * set foldmethod=manual " once we start typing, using manual folds
 
 " spacebar toggles folds in normal mode
@@ -315,8 +315,9 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
-nnoremap <leader>lh :set cursorline!<CR>
-nnoremap <leader>ch :set cursorcolumn!<CR>
+nnoremap <leader>hl :set cursorline!<CR>
+nnoremap <leader>hc :set cursorcolumn!<CR>
+nnoremap <leader>ss :syntax sync fromstart<CR>
 
 " ctrl normal mode
 nnoremap <C-b> :CtrlPBuffer<CR>

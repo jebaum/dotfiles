@@ -49,6 +49,13 @@ source ~/dotfiles/fancyprompt.zsh
 
 setopt BRACE_CCL
 export EDITOR=vim
+
+export PAGER="less"
+export LESS="-R"
+if [ -f "/usr/bin/src-hilite-lesspipe.sh" ]; then
+  export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+fi
+
 stty -ixon  # stop C-s from activating scroll lock
 
 GPG_TTY=$(tty)
