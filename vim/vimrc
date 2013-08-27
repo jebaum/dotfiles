@@ -269,6 +269,12 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
 
+" motions for selecting next/previous paren/bracket objects
+onoremap in( :<c-u>normal! f(vi(<CR>
+onoremap ip( :<c-u>normal! F)vi(<CR>
+onoremap in[ :<c-u>normal! f[vi[<CR>
+onoremap ip[ :<c-u>normal! F]vi[<CR>
+
 nnoremap <CR> :set hlsearch!<CR>
 inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
