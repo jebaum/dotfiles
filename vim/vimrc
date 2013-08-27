@@ -5,14 +5,14 @@ execute pathogen#infect()
 "                                 MISC
 "=============================================================================
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
-  au BufRead /tmp/mutt-* set tw=72  " for email with mutt
-  au BufRead /tmp/mutt-* set spell  " <-- vim 7 required
-  au BufRead /tmp/mutt-* nmap  <F1>  gqap
-  au BufRead /tmp/mutt-* nmap  <F2>  gqqj
-  au BufRead /tmp/mutt-* nmap  <F3>  kgqj
-  au BufRead /tmp/mutt-* map!  <F1>  <ESC>gqapi
-  au BufRead /tmp/mutt-* map!  <F2>  <ESC>gqqji
-  au BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
+  autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
+  autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
+  autocmd BufRead /tmp/mutt-* nmap  <F1>  gqap
+  autocmd BufRead /tmp/mutt-* nmap  <F2>  gqqj
+  autocmd BufRead /tmp/mutt-* nmap  <F3>  kgqj
+  autocmd BufRead /tmp/mutt-* map!  <F1>  <ESC>gqapi
+  autocmd BufRead /tmp/mutt-* map!  <F2>  <ESC>gqqji
+  autocmd BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
 augroup END
 
 set shell=zsh\ --login
@@ -28,23 +28,27 @@ cnoreabbrev te tabedit
 cnoreabbrev tn tabnew
 
 " Return to last edit position when opening files
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
+augroup ReturnToLast
+  autocmd BufReadPost *
+       \ if line("'\"") > 0 && line("'\"") <= line("$") |
+       \   exe "normal! g`\"" |
+       \ endif
+augroup END
 
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-fun! StripTrailingWhitespaces()
+function! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
-" autocmd BufWrite *.txt :call StripTrailingWhitespaces() " this line can be copied for any extension
+augroup StripWhitespaceOnWrite
+  autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
+  autocmd BufWrite *.txt :call StripTrailingWhitespaces()
+augroup END
 
 function! NoBufChange(cmd, undo)
     let initbuf = bufnr("%")
@@ -56,8 +60,8 @@ function! NoBufChange(cmd, undo)
       echo "Refused to run " . a:cmd . " because it crosses buffer boundary"
     endif
 endfunction
-nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
-nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
+"nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
+"nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
 "=============================================================================
 "                             PLUGIN SETTINGS
 "=============================================================================
@@ -228,15 +232,13 @@ set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
 
 set foldnestmax=1                      " folds only one level deep
-au BufEnter    * set foldmethod=syntax " define syntax folds when file loads
-au InsertEnter * set foldmethod=manual " once we start typing, using manual folds
+augroup SyntaxFold
+  autocmd BufEnter    * set foldmethod=syntax " define syntax folds when file loads
+  autocmd InsertEnter * set foldmethod=manual " once we start typing, using manual folds
+augroup END
 
 " spacebar toggles folds in normal mode
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-
-" prevent folds from slowing down vim on big files
-"autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-"autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 "=============================================================================
 "                             TAB / INDENT STUFF
 "=============================================================================
@@ -337,8 +339,11 @@ nnoremap <leader>zss :syntax sync fromstart<CR>
 nnoremap <C-b> :CtrlPBuffer<CR>
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
+"        <C-j> UltiSnipsJumpBackwardTrigger
+"        <C-l> UltiSnipsJumpForwardTrigger
 nnoremap <C-n> gt
 nnoremap <C-p> gT
+"        <C-s> multi_cursor_start_key
 nnoremap <C-t> :TagbarOpen fjc<CR>
 
 " alt/esc normal mode
