@@ -18,8 +18,10 @@ augroup END
 set shell=zsh\ --login
 
 " last parameter is optional and can be any highlight group, determines delimiter colors
-autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
-autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
+augroup SyntaxNotes
+  autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
+  autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
+augroup END
 
 command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
@@ -138,6 +140,8 @@ let g:signify_mapping_next_hunk = '<leader>gk'
 let g:signify_mapping_prev_hunk = '<leader>gi'
 let g:signify_sign_change       = '~'
 
+" singlecompile settings
+let g:SingleCompile_resultheight = 10
 " startify settings
 let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
 let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc' ]
@@ -204,7 +208,7 @@ set scrolloff=8                " start scrolling when 8 lines away from margins
 set updatetime=50              " make CursorHold autocommand and swap writes happen more frequently
 set encoding=utf8              " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
-set timeoutlen=2000            " wait for 2 seconds to time out leader
+set timeoutlen=1000            " wait for 1 second to time out leader
 set cryptmethod=blowfish       " more secure encryption for vim -x
 set formatoptions-=r           " don't automatically continue comment when hitting enter in insert mode
 set formatoptions-=o           " don't automatically continue comment when hitting o in normal mode
@@ -294,9 +298,11 @@ nnoremap I H
 
 " function keys
 nnoremap <F1>   :let @+=@"<CR>
-nnoremap <F5>   :GundoToggle<CR>
+nnoremap <F2>   :GundoToggle<CR>
 nnoremap <F6>   :set spell!<CR>
 nnoremap <F7>   :RainbowToggle<CR>
+nnoremap <F9>   :SCCompileRunAsync<CR>
+nnoremap <F10>  :SCViewResultAsync<CR>
 nnoremap <F11>   zR
 nnoremap <F12>   zM
 
@@ -306,6 +312,7 @@ nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nnoremap <leader>h :split<CR>
 nnoremap <leader>l :ls<CR>:b<space>
 nnoremap <leader>n :set relativenumber!<CR>
+nnoremap <leader>o :only<CR>
 nnoremap <leader>p :set list!<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
@@ -315,9 +322,10 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
+nnoremap <leader>ev :tabedit $MYVIMRC<CR>
 nnoremap <leader>hl :set cursorline!<CR>
 nnoremap <leader>hc :set cursorcolumn!<CR>
-nnoremap <leader>ss :syntax sync fromstart<CR>
+nnoremap <leader>zss :syntax sync fromstart<CR>
 
 " ctrl normal mode
 nnoremap <C-b> :CtrlPBuffer<CR>

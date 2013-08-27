@@ -91,3 +91,6 @@
 [submodule "vim/bundle/vim-showmarks"]
 	path = vim/bundle/vim-showmarks
 	url = https://github.com/vimez/vim-showmarks.git
+[submodule "vim/bundle/SingleCompile"]
+	path = vim/bundle/SingleCompile
+	url = https://github.com/vim-scripts/SingleCompile.git
