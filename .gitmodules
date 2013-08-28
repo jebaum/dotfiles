@@ -94,6 +94,6 @@
 [submodule "vim/bundle/SingleCompile"]
 	path = vim/bundle/SingleCompile
 	url = https://github.com/vim-scripts/SingleCompile.git
-[submodule "vim/bundle/pipe2eval"]
-	path = vim/bundle/pipe2eval
-	url = https://github.com/zweifisch/pipe2eval.git
+[submodule "vim/bundle/csapprox"]
+	path = vim/bundle/csapprox
+	url = https://github.com/godlygeek/csapprox.git
