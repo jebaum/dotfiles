@@ -1,5 +1,7 @@
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
+let g:rehash256=1
+"colorscheme molokai
 execute pathogen#infect()
 "=============================================================================
 "                                 MISC
@@ -340,10 +342,10 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
-nnoremap <leader>ev :tabedit $MYVIMRC<CR>
-nnoremap <leader>hl :set cursorline!<CR>
-nnoremap <leader>hc :set cursorcolumn!<CR>
-nnoremap <leader>zss :syntax sync fromstart<CR>
+nnoremap <leader>zv :tabedit $MYVIMRC<CR>
+nnoremap <leader>zl :set cursorline!<CR>
+nnoremap <leader>zc :set cursorcolumn!<CR>
+nnoremap <leader>zs :syntax sync fromstart<CR>
 
 " ctrl normal mode
 nnoremap <C-b> :CtrlPBuffer<CR>
