@@ -97,3 +97,12 @@
 [submodule "vim/bundle/csapprox"]
 	path = vim/bundle/csapprox
 	url = https://github.com/godlygeek/csapprox.git
+[submodule "vim/bundle/vim-visual-star-search"]
+	path = vim/bundle/vim-visual-star-search
+	url = https://github.com/nelstrom/vim-visual-star-search.git
+[submodule "vim/bundle/vimple"]
+	path = vim/bundle/vimple
+	url = https://github.com/dahu/vimple.git
+[submodule "vim/bundle/vim-buffalo"]
+	path = vim/bundle/vim-buffalo
+	url = https://github.com/Raimondi/vim-buffalo.git
