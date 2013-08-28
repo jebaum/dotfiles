@@ -149,6 +149,9 @@ let g:signify_sign_change       = '~'
 " singlecompile settings
 let g:SingleCompile_resultheight = 10
 
+" skybison settings
+let g:skybison_fuzz = 2 " characters must appear contiguously and in order
+
 " startify settings
 let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
 let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc' ]
@@ -176,9 +179,11 @@ let g:syntastic_c_compiler = 'clang'
 let g:syntastic_c_compiler_options = ' -Wall'
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -Wall'
-let g:syntastic_aggregate_errors=1 " display all errors
+let g:syntastic_aggregate_errors=1         " display all errors
+let g:syntastic_always_populate_loc_list=1 " always put detecter errors in location list
 let g:syntastic_error_symbol='✗✗'
 let g:syntastic_warning_symbol='⚠⚠'
+let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 
 " taboo.vim tab name format string
 let g:taboo_tab_format = "%N %1a%m "
@@ -226,6 +231,7 @@ set encoding=utf8              " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
 set timeoutlen=1000            " wait for 1 second to time out leader
 set cryptmethod=blowfish       " more secure encryption for vim -x
+set switchbuf=usetab           " look to see if buffer is already open in another window or tab
 set formatoptions-=r           " don't automatically continue comment when hitting enter in insert mode
 set formatoptions-=o           " don't automatically continue comment when hitting o in normal mode
 set guioptions-=m              " hide gui menu bar
@@ -271,6 +277,7 @@ filetype indent on
 "=============================================================================
 if has("wildmenu")
   set wildmenu                    " turn on wildmenu
+  set wildignorecase              " wildmenu doesn't care about case
   set wildmode=longest:full,full
   set wildignore=*.o,*.a,*~,*.pyc " ignore compiled files
   set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
@@ -328,9 +335,10 @@ nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
 nnoremap <leader>c :WatchForChanges!<CR>
+nnoremap <leader>e :<c-u>call SkyBison("tabedit ")<cr>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nnoremap <leader>h :split<CR>
-nnoremap <leader>l :ls<CR>:b<space>
+nnoremap <leader>l 2:<c-u>call SkyBison("sb ")<CR>
 nnoremap <leader>n :set relativenumber!<CR>
 nnoremap <leader>o :only<CR>
 nnoremap <leader>p :set list!<CR>
@@ -342,6 +350,7 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
+nnoremap <leader>/ 2:<c-u>call SkyBison("h ")<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zc :set cursorcolumn!<CR>
