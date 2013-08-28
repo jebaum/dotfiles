@@ -149,9 +149,6 @@ let g:signify_sign_change       = '~'
 " singlecompile settings
 let g:SingleCompile_resultheight = 10
 
-" skybison settings
-let g:skybison_fuzz = 2 " characters must appear contiguously and in order
-
 " startify settings
 let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
 let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc' ]
