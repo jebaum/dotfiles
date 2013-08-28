@@ -100,6 +100,6 @@
 [submodule "vim/bundle/vim-visual-star-search"]
 	path = vim/bundle/vim-visual-star-search
 	url = https://github.com/nelstrom/vim-visual-star-search.git
-[submodule "vim/vim/bundle/SkyBison"]
-	path = vim/vim/bundle/SkyBison
+[submodule "vim/bundle/SkyBison"]
+	path = vim/bundle/SkyBison
 	url = https://github.com/paradigm/SkyBison.git
