@@ -297,6 +297,7 @@ onoremap in[ :<c-u>normal! f[vi[<CR>
 onoremap ip[ :<c-u>normal! F]vi[<CR>
 
 inoremap <C-c> <Esc><Esc>
+nmap <tab> %
 nnoremap Y y$
 nnoremap & v%
 
