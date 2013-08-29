@@ -89,7 +89,7 @@ hi cCustomFunc  ctermfg=117   ctermbg=none   cterm=none   guifg=#87d7ff
 hi cCustomClass ctermfg=77    ctermbg=none   cterm=none   guifg=#5fd75f
 
 " syntastic, error = spellbad, warning = spellcap, bar on left = signcolumn
-hi SignColumn           ctermfg=none  ctermbg=233
+hi SignColumn           ctermfg=none  ctermbg=16
 hi SpellBad             ctermfg=226   ctermbg=52    cterm=bold
 hi SpellCap             ctermfg=196   ctermbg=232   cterm=bold
 hi SyntasticErrorLine   ctermfg=none  ctermbg=234

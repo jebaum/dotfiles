@@ -125,6 +125,8 @@ let NERDTreeWinSize=40
 let NERDTreeMapOpenSplit="s"
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeShowLineNumbers=1
+let NERDTreeShowBookmarks=1
+let NERDTreeQuitOnOpen=1
 
 " rainbow settings
 let g:rainbow_active = 0  " don't load automatically
@@ -210,6 +212,7 @@ let g:UltiSnipsJumpBackwardTrigger="<C-j>"
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
 set autochdir                  " change cwd when switching/opening buffers
+set clipboard=unnamedplus      " by default, use system clipboard for yanks ('+' register)
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
 set relativenumber             " use relative line numbers
@@ -359,6 +362,18 @@ nnoremap <leader>zc :set cursorcolumn!<CR>
 nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
+
+" potential git maps. TODO: revise
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gr :Gread<CR>:GitGutter<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
+nnoremap <silent> <leader>ge :Gedit<CR>
+nnoremap <silent> <leader>gg :GitGutterToggle<CR>
 
 " alt leader shortcuts to opening/closing windows
 nnoremap                   \h :split<CR>
