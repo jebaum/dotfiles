@@ -1,0 +1,20 @@
+defutf8 on
+
+vbell off # works together with urxvt.urgentonbell to mark i3 workspace as urgent when bell is triggered
+hardstatus off
+hardstatus alwayslastline
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%c %Y-%m-%d %{W} %l %{g}]'
+#hardstatus string '%{= kG}[ %?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%c %Y-%m-%d %{W} %l %{g}]'
+
+#most recent
+#hardstatus string '%{= kG}[V %?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}]'
+
+#hardstatus string "%{.kG}%-Lw%{.KW}%n%f %t%{-}%+Lw %=%{..G} %H %{..W} %d/%m %C%a "
+escape ^Ff
+
+hardstatus string '%{= kg}[%{R}F%{-} %{G}%H%{-} ][%= %{w}%-Lw%{R}(%{-}%{W}%n*%f %t%{-}%{R})%{-}%+Lw%{-} %=] [ %{y}%0c %Y-%m-%d%{-} %{M}%l%{-} ]%{= dd}'
+
+startup_message off
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce "on"
