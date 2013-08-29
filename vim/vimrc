@@ -69,7 +69,7 @@ endfunction
 "nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
 " }}
 
-" Plugin Settings {{ 
+" Plugin Settings {{
 " airline settings
 let g:airline_theme="simple"
 let g:airline_left_sep = ''
@@ -301,30 +301,34 @@ let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
 
 " motions for selecting next/previous paren/bracket objects
+" TODO: add quotes?
 onoremap in( :<c-u>normal! f(vi(<CR>
 onoremap ip( :<c-u>normal! F)vi(<CR>
 onoremap in[ :<c-u>normal! f[vi[<CR>
 onoremap ip[ :<c-u>normal! F]vi[<CR>
+onoremap in{ :<c-u>normal! f{vi{<CR>
+onoremap ip{ :<c-u>normal! F}vi{<CR>
+onoremap in< :<c-u>normal! f<vi<<CR>
+onoremap ip< :<c-u>normal! F>vi<<CR>
 
 inoremap <C-c> <Esc><Esc>
 nmap <tab> %
 nnoremap Y y$
 nnoremap & v%
+" junk map so latex doesn't overwrite C-j
+nnoremap <Esc>z <Plug>IMAP_JumpForward
 
 " use semicolon as well as colon to enter command mode
 nnoremap ; :
 vnoremap ; :
 
-" move motion keys to be ijkl instead of hjkl. must be non recursive mappings
+" move motion keys to be ijkl instead of hjkl
 nnoremap j h
 vnoremap j h
 nnoremap i k
 vnoremap i k
 nnoremap k j
 vnoremap k j
-noremap <C-w>j <C-w><Left>
-noremap <C-w>i <C-w><Up>
-noremap <C-w>k <C-w><Down>
 
 " since 'i' is now used for motion, make 'h' do what 'i' used to
 nnoremap h i
@@ -344,10 +348,11 @@ nnoremap <F11>   zR
 nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
+nnoremap <leader>a :set paste<CR>m`O<Esc>``:set nopaste<CR>
+nnoremap <leader>b :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nnoremap <leader>l 2:<c-u>call SkyBison("sb ")<CR>
-nnoremap <leader><leader>l :ls<CR>:b
 nnoremap <leader>n :set relativenumber!<CR>
 nnoremap <leader>p :set list!<CR>
 nnoremap <leader>q :q<CR>
@@ -363,6 +368,8 @@ nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
+nnoremap <leader><leader>l :ls<CR>:b<space>
+
 " potential git maps. TODO: revise
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -373,9 +380,9 @@ nnoremap <silent> <leader>gp :Git push<CR>
 nnoremap <silent> <leader>gr :Gread<CR>:GitGutter<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
-nnoremap <silent> <leader>gg :GitGutterToggle<CR>
+nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
-" alt leader shortcuts to opening/closing windows
+" slash leader shortcuts to opening/closing windows
 nnoremap                   \h :split<CR>
 nnoremap <script> <silent> \l :call ToggleLocationList()<CR>
 nnoremap                   \o :only<CR>
@@ -386,8 +393,10 @@ nnoremap                   \v :vsplit<CR>
 nnoremap <C-b> :CtrlPBuffer<CR>
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
-"        <C-j> UltiSnipsJumpBackwardTrigger
-"        <C-l> UltiSnipsJumpForwardTrigger
+nnoremap <C-i> <C-w><Up>
+nnoremap <C-j> <C-w><Left>
+nnoremap <C-k> <C-w><Down>
+nnoremap <C-l> <C-w><Right>
 nnoremap <C-n> gt
 nnoremap <C-p> gT
 "        <C-s> multi_cursor_start_key
@@ -397,6 +406,10 @@ nnoremap <C-t> :TagbarOpen fjc<CR>
 nnoremap <Esc>a :AirlineToggle<CR>
 "        <Esc>b Ctrlp buffer
 nnoremap <Esc>h :set hlsearch!<CR>
+nnoremap <Esc>i :resize +2<CR>
+nnoremap <Esc>j :vertical resize -2<CR>
+nnoremap <Esc>k :resize -2<CR>
+nnoremap <Esc>l :vertical resize +2<CR>
 nnoremap <Esc>n :tabmove +1<CR>
 nnoremap <Esc>p :tabmove -1<CR>
 nnoremap <Esc>q :quitall<CR>
@@ -410,8 +423,6 @@ nnoremap <Esc>7 7gt
 nnoremap <Esc>8 8gt
 nnoremap <Esc>9 9gt
 nnoremap <Esc>0 :tablast<CR>
-nnoremap <silent><Esc>i :set paste<CR>m`O<Esc>``:set nopaste<CR>
-nnoremap <silent><Esc>k :set paste<CR>m`o<Esc>``:set nopaste<CR>
 
 " alt/esc insert mode
 inoremap <Esc>i     <Up>
@@ -423,6 +434,7 @@ inoremap <Esc>B     <C-Left>
 inoremap <Esc>w     <S-Right>
 inoremap <Esc>W     <C-Right>
 inoremap <Esc>h     <Home>
+inoremap <Esc>a     <Home>
 inoremap <Esc>e     <End>
 
 " shifting doesn't exit visual mode
