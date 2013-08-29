@@ -142,6 +142,9 @@ let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
 let g:showmarks_textlower=">"
 let g:showmarks_ignore_type="h"
 
+" simplyfold settings
+let g:SimplyFold_docstring_preview = 0
+
 " signify settings
 let g:signify_disable_by_default = 1  " disable run by default
 let g:signify_vcs_list = [ 'git' ]    " I only use git for now

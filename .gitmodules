@@ -106,3 +106,6 @@
 [submodule "vim/bundle/vim-togglelist"]
 	path = vim/bundle/vim-togglelist
 	url = https://github.com/milkypostman/vim-togglelist.git
+[submodule "vim/bundle/SimplyFold"]
+	path = vim/bundle/SimplyFold
+	url = https://github.com/tmhedberg/SimpylFold.git
