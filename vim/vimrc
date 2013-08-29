@@ -192,6 +192,9 @@ let g:tagbar_indent= 1      " default is 2
 let g_tagbar_autoshowtag=1  " auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort  = 0      " sort tags by position in source file, not alphabetically
 
+" togglelist settings
+let g:toggle_list_no_mappings=1 " don't use default mappings
+
 " ultisnips settings
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
@@ -293,7 +296,6 @@ onoremap ip( :<c-u>normal! F)vi(<CR>
 onoremap in[ :<c-u>normal! f[vi[<CR>
 onoremap ip[ :<c-u>normal! F]vi[<CR>
 
-nnoremap <CR> :set hlsearch!<CR>
 inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
 nnoremap & v%
@@ -332,26 +334,30 @@ nnoremap <F12>   zM
 
 " leader shortcuts to frequent commands
 nnoremap <leader>c :WatchForChanges!<CR>
-nnoremap <leader>e :<c-u>call SkyBison("tabedit ")<cr>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nnoremap <leader>h :split<CR>
 nnoremap <leader>l 2:<c-u>call SkyBison("sb ")<CR>
+nnoremap <leader><leader>l :ls<CR>:b
 nnoremap <leader>n :set relativenumber!<CR>
-nnoremap <leader>o :only<CR>
 nnoremap <leader>p :set list!<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s :!sort -f<CR>
-nnoremap <leader>t :tabnew<CR>
-nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>t :<c-u>call SkyBison("tabedit ")<cr>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
 nnoremap <leader>= :Tabularize /=<CR>
 nnoremap <leader>/ 2:<c-u>call SkyBison("h ")<CR>
-nnoremap <leader>zv :tabedit $MYVIMRC<CR>
-nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zc :set cursorcolumn!<CR>
+nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
+nnoremap <leader>zv :tabedit $MYVIMRC<CR>
+
+" alt leader shortcuts to opening/closing windows
+nnoremap                   \h :split<CR>
+nnoremap <script> <silent> \l :call ToggleLocationList()<CR>
+nnoremap                   \o :only<CR>
+nnoremap <script> <silent> \q :call ToggleQuickfixList()<CR>
+nnoremap                   \v :vsplit<CR>
 
 " ctrl normal mode
 nnoremap <C-b> :CtrlPBuffer<CR>
@@ -367,6 +373,7 @@ nnoremap <C-t> :TagbarOpen fjc<CR>
 " alt/esc normal mode
 nnoremap <Esc>a :AirlineToggle<CR>
 "        <Esc>b Ctrlp buffer
+nnoremap <Esc>h :set hlsearch!<CR>
 nnoremap <Esc>n :tabmove +1<CR>
 nnoremap <Esc>p :tabmove -1<CR>
 nnoremap <Esc>q :quitall<CR>

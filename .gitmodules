@@ -103,3 +103,6 @@
 [submodule "vim/bundle/SkyBison"]
 	path = vim/bundle/SkyBison
 	url = https://github.com/paradigm/SkyBison.git
+[submodule "vim/bundle/vim-togglelist"]
+	path = vim/bundle/vim-togglelist
+	url = https://github.com/milkypostman/vim-togglelist.git
