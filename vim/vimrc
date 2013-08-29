@@ -1,14 +1,12 @@
-" vim: foldmarker={{,}} foldlevel=0 foldnestmax=1 foldmethod=marker
-
-" Colorscheme and Pathogen {{
+" vim: foldmethod=marker
+" Colorscheme and Pathogen {{{
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 let g:rehash256=1
 "colorscheme molokai
 execute pathogen#infect()
-" }}
-
-" Misc {{
+" }}}
+" Misc {{{
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
@@ -67,10 +65,9 @@ function! NoBufChange(cmd, undo)
 endfunction
 "nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
 "nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
-" }}
-
-" Plugin Settings {{
-" airline settings
+" }}}
+" Plugin Settings {{{
+" airline settings {{{
 let g:airline_theme="simple"
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -83,27 +80,27 @@ let g:airline_section_z="%l/%L:C%c %b/0x%B"
 let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
-
-" bufferline settings
+" }}}
+" bufferline settings {{{
 let g:bufferline_echo = 0        " enable/disable display in command bar
 let g:bufferline_active_highlight = 'StatusLine'
 let g:bufferline_inactive_highlight = 'StatusLineNC'
-
-" ctrlp settings
+" }}}
+" ctrlp settings {{{
 let g:ctrlp_map = '<Esc>b'
 let g:ctrlp_mruf_case_sensitive = 0
-
-" gundo settings
+" }}}
+" gundo settings {{{
 let g:gundo_width=40
 let g:gundo_preview_height=40
-
-" latex settings
+" }}}
+" latex settings {{{
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_ViewRule_pdf = '/usr/bin/evince' " set pdf viewer for <leader>lv
 let g:Tex_ViewRule_dvi = '/usr/bin/evince' " set dvi viewer for <leader>lv
-
-" match tag filetypes
+" }}}
+" match tag settings {{{
 let g:mta_filetypes = {
     \ 'html' : 1,
     \ 'xhtml' : 1,
@@ -111,24 +108,24 @@ let g:mta_filetypes = {
     \ 'jinja' : 1,
     \ 'php' : 1,
     \}
-
-" multi-cursor settings
+" }}}
+" multi-cursor settings {{{
 let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_start_key='<C-s>'
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
-
-" nerdtree settings
+" }}}
+" nerdtree settings {{{
 let NERDTreeWinSize=40
 let NERDTreeMapOpenSplit="s"
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeShowLineNumbers=1
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
-
-" rainbow settings
+" }}}
+" rainbow settings {{{
 let g:rainbow_active = 0  " don't load automatically
 let g:rainbow_ctermfgs = ['white', 'lightblue', 'lightgreen',]
 let g:rainbow_load_separately = [
@@ -137,27 +134,27 @@ let g:rainbow_load_separately = [
  \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
  \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
  \ ]
-
-" showmarks settings
+" }}}
+" showmarks settings {{{
 let g:showmarks_enable=0
 let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
 let g:showmarks_textlower=">"
 let g:showmarks_ignore_type="h"
-
-" simplyfold settings
+" }}}
+" simplyfold settings {{{
 let g:SimplyFold_docstring_preview = 0
-
-" signify settings
+" }}}
+" signify settings {{{
 let g:signify_disable_by_default = 1  " disable run by default
 let g:signify_vcs_list = [ 'git' ]    " I only use git for now
 let g:signify_mapping_next_hunk = '<leader>gk'
 let g:signify_mapping_prev_hunk = '<leader>gi'
 let g:signify_sign_change       = '~'
-
-" singlecompile settings
+" }}}
+" singlecompile settings {{{
 let g:SingleCompile_resultheight = 10
-
-" startify settings
+" }}}
+" startify settings {{{
 let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
 let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc' ]
 let g:startify_files_number = 10
@@ -178,8 +175,8 @@ let g:startify_custom_header = [
   \ '',
   \ '',
   \ ]
-
-" syntastic settings
+" }}}
+" syntastic settings {{{
 let g:syntastic_c_compiler = 'clang'
 let g:syntastic_c_compiler_options = ' -Wall'
 let g:syntastic_cpp_compiler = 'clang++'
@@ -189,26 +186,26 @@ let g:syntastic_always_populate_loc_list=1 " always put detecter errors in locat
 let g:syntastic_error_symbol='✗✗'
 let g:syntastic_warning_symbol='⚠⚠'
 let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
-
-" taboo.vim tab name format string
+" }}}
+" taboo.vim tab name format string {{{
 let g:taboo_tab_format = "%N %1a%m "
-
-" tagbar settings
+" }}}
+" tagbar settings {{{
 let g:tagbar_left  = 1      " default is to open on right
 let g:tagbar_width = 50     " default is 40
 let g:tagbar_indent= 1      " default is 2
 let g_tagbar_autoshowtag=1  " auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort  = 0      " sort tags by position in source file, not alphabetically
-
-" togglelist settings
+" }}}
+" togglelist settings {{{
 let g:toggle_list_no_mappings=1 " don't use default mappings
-
-" ultisnips settings
+" }}}
+" ultisnips settings {{{
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
-" }}
-
-" General Settings {{
+" }}}
+" }}}
+" General Settings {{{
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
 set autochdir                  " change cwd when switching/opening buffers
@@ -249,9 +246,8 @@ set guioptions-=r              " hide gui righthand scrollbar
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
-" }}
-
-" Fold Settings {{
+" }}}
+" Fold Settings {{{
 " folding: zf#j manually folds # lines, or zf in visual mode selection.
 " zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
 " zj and zk to move between folds
@@ -267,9 +263,8 @@ augroup END
 
 " spacebar toggles folds in normal mode
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-" }}
-
-" Tab/Indent Settings {{
+" }}}
+" Tab/Indent Settings {{{
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " alternative to vi 'autoindent' that uses c indentation standard
 set smartindent     " do smart indenting with lines ending in { and other keywords
@@ -282,9 +277,8 @@ set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
 filetype plugin on
 filetype indent on
-" }}
-
-" Wildmenu Settings {{
+" }}}
+" Wildmenu Settings {{{
 if has("wildmenu")
   set wildmenu                    " turn on wildmenu
   set wildignorecase              " wildmenu doesn't care about case
@@ -294,22 +288,11 @@ if has("wildmenu")
   set wildignore+=.DS_Store,.git,.hg,.svn
   set wildignore+=*~,*.swp,*.tmp
 endif
-" }}
-
-" Keymaps {{
+" }}}
+" Keymaps {{{
+" Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
-
-" motions for selecting next/previous paren/bracket objects
-" TODO: add quotes?
-onoremap in( :<c-u>normal! f(vi(<CR>
-onoremap ip( :<c-u>normal! F)vi(<CR>
-onoremap in[ :<c-u>normal! f[vi[<CR>
-onoremap ip[ :<c-u>normal! F]vi[<CR>
-onoremap in{ :<c-u>normal! f{vi{<CR>
-onoremap ip{ :<c-u>normal! F}vi{<CR>
-onoremap in< :<c-u>normal! f<vi<<CR>
-onoremap ip< :<c-u>normal! F>vi<<CR>
 
 inoremap <C-c> <Esc><Esc>
 nmap <tab> %
@@ -322,7 +305,33 @@ nnoremap <Esc>z <Plug>IMAP_JumpForward
 nnoremap ; :
 vnoremap ; :
 
-" move motion keys to be ijkl instead of hjkl
+" shifting doesn't exit visual mode
+vnoremap < <gv
+vnoremap > >gv
+
+" up/down arrow keys go up and down by visual lines
+inoremap <up>   <C-O>gk
+inoremap <down> <C-O>gj
+nnoremap <up>        gk
+nnoremap <down>      gj
+vnoremap <up>        gk
+vnoremap <down>      gj
+" left/right arrow keys indent
+nnoremap <Left>      <<
+nnoremap <Right>     >>
+" }}}
+" motions for selecting next/previous paren/bracket objects {{{
+" TODO: add quotes?
+onoremap in( :<c-u>normal! f(vi(<CR>
+onoremap ip( :<c-u>normal! F)vi(<CR>
+onoremap in[ :<c-u>normal! f[vi[<CR>
+onoremap ip[ :<c-u>normal! F]vi[<CR>
+onoremap in{ :<c-u>normal! f{vi{<CR>
+onoremap ip{ :<c-u>normal! F}vi{<CR>
+onoremap in< :<c-u>normal! f<vi<<CR>
+onoremap ip< :<c-u>normal! F>vi<<CR>
+" }}}
+" ijkl instead of hjkl {{{
 nnoremap j h
 vnoremap j h
 nnoremap i k
@@ -336,8 +345,8 @@ nnoremap H I
 vnoremap h i
 vnoremap H I
 nnoremap I H
-
-" function keys
+" }}}
+" function keys {{{
 nnoremap <F1>   :let @+=@"<CR>
 nnoremap <F2>   :GundoToggle<CR>
 nnoremap <F6>   :set spell!<CR>
@@ -346,8 +355,8 @@ nnoremap <F9>   :SCCompileRunAsync<CR>
 nnoremap <F10>  :SCViewResultAsync<CR>
 nnoremap <F11>   zR
 nnoremap <F12>   zM
-
-" leader shortcuts to frequent commands
+" }}}
+" leader shortcuts to frequent commands {{{
 nnoremap <leader>a :set paste<CR>m`O<Esc>``:set nopaste<CR>
 nnoremap <leader>b :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
@@ -381,15 +390,15 @@ nnoremap <silent> <leader>gr :Gread<CR>:GitGutter<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
-
-" slash leader shortcuts to opening/closing windows
+" }}}
+" slash leader shortcuts to opening/closing windows {{{
 nnoremap                   \h :split<CR>
 nnoremap <script> <silent> \l :call ToggleLocationList()<CR>
 nnoremap                   \o :only<CR>
 nnoremap <script> <silent> \q :call ToggleQuickfixList()<CR>
 nnoremap                   \v :vsplit<CR>
-
-" ctrl normal mode
+" }}}
+" ctrl normal mode {{{
 nnoremap <C-b> :CtrlPBuffer<CR>
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
@@ -401,8 +410,8 @@ nnoremap <C-n> gt
 nnoremap <C-p> gT
 "        <C-s> multi_cursor_start_key
 nnoremap <C-t> :TagbarOpen fjc<CR>
-
-" alt/esc normal mode
+" }}}
+" alt/esc normal mode {{{
 nnoremap <Esc>a :AirlineToggle<CR>
 "        <Esc>b Ctrlp buffer
 nnoremap <Esc>h :set hlsearch!<CR>
@@ -423,8 +432,8 @@ nnoremap <Esc>7 7gt
 nnoremap <Esc>8 8gt
 nnoremap <Esc>9 9gt
 nnoremap <Esc>0 :tablast<CR>
-
-" alt/esc insert mode
+" }}}
+" alt/esc insert mode {{{
 inoremap <Esc>i     <Up>
 inoremap <Esc>j     <Left>
 inoremap <Esc>k     <Down>
@@ -436,19 +445,5 @@ inoremap <Esc>W     <C-Right>
 inoremap <Esc>h     <Home>
 inoremap <Esc>a     <Home>
 inoremap <Esc>e     <End>
-
-" shifting doesn't exit visual mode
-vnoremap < <gv
-vnoremap > >gv
-
-" up/down arrow keys go up and down by visual lines
-inoremap <up>   <C-O>gk
-inoremap <down> <C-O>gj
-nnoremap <up>        gk
-nnoremap <down>      gj
-vnoremap <up>        gk
-vnoremap <down>      gj
-" left/right arrow keys indent
-nnoremap <Left>      <<
-nnoremap <Right>     >>
-" }}
+" }}}
+" }}}
