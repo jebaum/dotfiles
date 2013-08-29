@@ -1,11 +1,14 @@
+" vim: foldmarker={{,}} foldlevel=0 foldnestmax=1 foldmethod=marker
+
+" Colorscheme and Pathogen {{
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
 let g:rehash256=1
 "colorscheme molokai
 execute pathogen#infect()
-"=============================================================================
-"                                 MISC
-"=============================================================================
+" }}
+
+" Misc {{
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
@@ -64,9 +67,9 @@ function! NoBufChange(cmd, undo)
 endfunction
 "nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
 "nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
-"=============================================================================
-"                             PLUGIN SETTINGS
-"=============================================================================
+" }}
+
+" Plugin Settings {{ 
 " airline settings
 let g:airline_theme="simple"
 let g:airline_left_sep = ''
@@ -198,9 +201,9 @@ let g:toggle_list_no_mappings=1 " don't use default mappings
 " ultisnips settings
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
-"=============================================================================
-"                             GERNERAL STUFF
-"=============================================================================
+" }}
+
+" General Settings {{
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
 set autochdir                  " change cwd when switching/opening buffers
@@ -240,9 +243,9 @@ set guioptions-=r              " hide gui righthand scrollbar
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
-"=============================================================================
-"                                  FOLDING
-"=============================================================================
+" }}
+
+" Fold Settings {{
 " folding: zf#j manually folds # lines, or zf in visual mode selection.
 " zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
 " zj and zk to move between folds
@@ -250,16 +253,17 @@ set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
 
 set foldnestmax=1                      " folds only one level deep
+set foldmethod=manual
 augroup SyntaxFold
-  autocmd BufEnter    * set foldmethod=syntax " define syntax folds when file loads
-  autocmd InsertEnter * set foldmethod=manual " once we start typing, using manual folds
+  autocmd BufEnter    *.c,*.cpp set foldmethod=syntax " define syntax folds when file loads
+  autocmd InsertEnter *.c,*.cpp set foldmethod=manual " once we start typing, using manual folds
 augroup END
 
 " spacebar toggles folds in normal mode
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-"=============================================================================
-"                             TAB / INDENT STUFF
-"=============================================================================
+" }}
+
+" Tab/Indent Settings {{
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " alternative to vi 'autoindent' that uses c indentation standard
 set smartindent     " do smart indenting with lines ending in { and other keywords
@@ -272,9 +276,9 @@ set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
 filetype plugin on
 filetype indent on
-"=============================================================================
-"                                 WILDMENU
-"=============================================================================
+" }}
+
+" Wildmenu Settings {{
 if has("wildmenu")
   set wildmenu                    " turn on wildmenu
   set wildignorecase              " wildmenu doesn't care about case
@@ -284,9 +288,9 @@ if has("wildmenu")
   set wildignore+=.DS_Store,.git,.hg,.svn
   set wildignore+=*~,*.swp,*.tmp
 endif
-"=============================================================================
-"                                 KEYBINDS
-"=============================================================================
+" }}
+
+" Keymaps {{
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
 
@@ -417,4 +421,4 @@ vnoremap <down>      gj
 " left/right arrow keys indent
 nnoremap <Left>      <<
 nnoremap <Right>     >>
-"=============================================================================
+" }}
