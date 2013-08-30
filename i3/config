@@ -1,4 +1,4 @@
-############################# GENERAL CONFIG ###############################
+# GENERAL CONFIG {{{
 # Mod4 = windows key, Mod1 = alt key
 set $mpdhost 192.168.1.100
 set $mod Mod4
@@ -38,8 +38,8 @@ client.unfocused           #333333       #000000         #DDDDDD         #292d2e
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 
 client.background         #000000
-############################################################################
-########################### STARTUP APPLICATIONS ###########################
+# }}}
+# STARTUP APPLICATIONS {{{
 # exec_always will run when i3 is restarted, not just initially
 exec unclutter
 exec parcellite
@@ -48,8 +48,8 @@ exec dropbox start
 exec amixer set PCM 208
 exec amixer set Master 25
 exec curl icanhazip.com > ~/Dropbox/jbaumy.com/ip.txt
-############################################################################
-################################# KEYBINDS #################################
+# }}}
+# KEYBINDS {{{
 bindsym $mod+Shift+Return exec urxvt
 bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
 bindsym $mod+Shift+Q kill
@@ -118,8 +118,8 @@ bindsym --release Print exec grab
 bindsym $mod+Print exec pasta
 bindsym $mod+q exec quickswitch.py
 bindsym $mod+Escape exec /usr/bin/lk
-############################################################################
-######################## PROGRAM SPECIFIC SETTINGS #########################
+# }}}
+# PROGRAM SPECIFIC SETTINGS {{{
 # for_window <criteria> command; command
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
@@ -135,8 +135,8 @@ for_window [instance="vdpau" class="mplayer2"] border none
 #assign     [instance="vdpau" class="mplayer2"] → 13: tv
 
 for_window [instance="firefox.exe" class="Wine"] border none
-############################################################################
-######################## WINDOW MANAGEMENT KEYBINDS ########################
+# }}}
+# WINDOW MANAGEMENT KEYBINDS {{{
   ### ijkl for moving focus
 bindsym $mod+j      focus left
 bindsym $mod+k      focus down
@@ -175,8 +175,8 @@ bindsym $mod+e layout default
   ### floating windows
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
-############################################################################
-###################### WORKSPACE MANAGEMENT KEYBINDS #######################
+# }}}
+# WORKSPACE MANAGEMENT KEYBINDS {{{
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
 workspace "1: main"   output DVI-D-1
@@ -237,8 +237,8 @@ bindsym $mod+x          exec i3-input -F 'rename workspace to "%s"' -P 'New name
 bindsym $mod+m          exec i3-input -l 1 -F 'mark "%s"' -P 'create mark: '
 bindsym $mod+u          exec i3-input -l 1 -F 'unmark "%s"' -P 'delete mark: '
 bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto mark: '
-############################################################################
-############################### RESIZE MODE ################################
+# }}}
+# RESIZE MODE {{{
   # px is pixels for floating containers, ppt is percent for tiling containers
 mode "resize" {
 # large resizes with ijkl
@@ -265,8 +265,8 @@ mode "resize" {
   bindsym Control+C mode "default"
 }
 bindsym $mod+r mode "resize"
-############################################################################
-################################### BAR ####################################
+# }}}
+# BAR {{{
 # TODO - possibly use multiple bar blocks to use conky|dzen? i3 user guide section 5
 bar {
   output DVI-D-0
@@ -293,5 +293,5 @@ bar {
     urgent_workspace   #FF0000  #904040  #FFFFFF
   }
 }
-############################################################################
-# vim:filetype=i3
+# }}}
+# vim:filetype=i3 foldmethod=marker foldlevel=0
