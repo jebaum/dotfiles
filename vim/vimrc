@@ -330,6 +330,8 @@ onoremap in{ :<c-u>normal! f{vi{<CR>
 onoremap ip{ :<c-u>normal! F}vi{<CR>
 onoremap in< :<c-u>normal! f<vi<<CR>
 onoremap ip< :<c-u>normal! F>vi<<CR>
+onoremap in" :<c-u>normal! f"vi"<CR>
+onoremap ip" :<c-u>normal! F"vi"<CR>
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h

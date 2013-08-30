@@ -83,7 +83,7 @@ hi PreProc      ctermfg=171   ctermbg=none   cterm=none   guifg=#d75fff
 hi Special      ctermfg=229   ctermbg=none   cterm=none   guifg=#ffffaf
 hi Statement    ctermfg=202   ctermbg=none   cterm=bold   guifg=#ff5f00
 hi String       ctermfg=208   ctermbg=none   cterm=none   guifg=#ff8700
-hi Todo         ctermfg=232   ctermbg=196    cterm=bold   guifg=#000000
+hi Todo         ctermfg=231   ctermbg=196    cterm=bold   guifg=#000000
 hi Type         ctermfg=46    ctermbg=none   cterm=none   guifg=#00ff00
 hi cCustomFunc  ctermfg=117   ctermbg=none   cterm=none   guifg=#87d7ff
 hi cCustomClass ctermfg=77    ctermbg=none   cterm=none   guifg=#5fd75f
