@@ -1,4 +1,4 @@
-" vim: foldmethod=marker
+" vim: foldmethod=marker foldlevel=1
 " Colorscheme and Pathogen {{{
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
@@ -26,9 +26,10 @@ augroup SyntaxNotes
   autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
 augroup END
 
-command W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
 cnoreabbrev tn tabnew
+cnoreabbrev sv source ~/.vimrc
 
 " Return to last edit position when opening files
 augroup ReturnToLast
@@ -243,6 +244,7 @@ set formatoptions-=o           " don't automatically continue comment when hitti
 set guioptions-=m              " hide gui menu bar
 set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
+set noswapfile                 " seriously who needs them
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
@@ -260,7 +262,6 @@ augroup SyntaxFold
   autocmd BufEnter    *.c,*.cpp set foldmethod=syntax " define syntax folds when file loads
   autocmd InsertEnter *.c,*.cpp set foldmethod=manual " once we start typing, using manual folds
 augroup END
-
 " spacebar toggles folds in normal mode
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " }}}
@@ -415,7 +416,7 @@ nnoremap <C-t> :TagbarOpen fjc<CR>
 " alt/esc normal mode {{{
 nnoremap <Esc>a :AirlineToggle<CR>
 "        <Esc>b Ctrlp buffer
-nnoremap <Esc>h :set hlsearch!<CR>
+nnoremap <Esc>h :nohlsearch<CR>
 nnoremap <Esc>i :resize +2<CR>
 nnoremap <Esc>j :vertical resize -2<CR>
 nnoremap <Esc>k :resize -2<CR>
