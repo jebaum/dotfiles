@@ -294,6 +294,9 @@ endif
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
+" Ctrl-space and Alt-space for going forward and back through finds
+nnoremap <C-@> ;
+nnoremap <Esc><Space> ,
 
 inoremap <C-c> <Esc><Esc>
 nmap <tab> %
