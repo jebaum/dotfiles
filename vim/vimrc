@@ -332,6 +332,19 @@ onoremap in< :<c-u>normal! f<vi<<CR>
 onoremap ip< :<c-u>normal! F>vi<<CR>
 onoremap in" :<c-u>normal! f"vi"<CR>
 onoremap ip" :<c-u>normal! F"vi"<CR>
+onoremap in' :<c-u>normal! f'vi'<CR>
+onoremap ip' :<c-u>normal! F'vi'<CR>
+" easier to reach on the keyboard
+omap inp in(
+omap ipp ip(
+omap inb in[
+omap ipb ip[
+omap inc in{
+omap ipc ip{
+omap ind in"
+omap ipd ip"
+omap ins in'
+omap ips ip'
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
