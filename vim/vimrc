@@ -322,6 +322,7 @@ nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
 " motions for selecting next/previous paren/bracket objects {{{
+onoremap h i
 onoremap in( :<c-u>normal! f(vi(<CR>
 onoremap ip( :<c-u>normal! F)vi(<CR>
 onoremap in[ :<c-u>normal! f[vi[<CR>
