@@ -39,7 +39,7 @@ augroup ReturnToLast
        \ endif
 augroup END
 
-set completeopt=longest,menuone
+set completeopt=longest,menuone " gets overwritten by youcompleteme
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -202,8 +202,17 @@ let g:tagbar_sort  = 0      " sort tags by position in source file, not alphabet
 let g:toggle_list_no_mappings=1 " don't use default mappings
 " }}}
 " ultisnips settings {{{
+let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
+" }}}
+" youcompletemt settings {{{
+let g:ycm_min_num_of_chars_for_completion = 20
+let g:ycm_register_as_syntastic_checker = 0   " don't register as syntastic checker
+let g:ycm_allow_changing_updatetime = 0       " don't change update time
+let g:ycm_collect_identifiers_from_tags_files = 0 " set to 1 to collect identifiers from tags files
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_global_ycm_extra_conf = ''          " global .ycm_extra_conf.py file
 " }}}
 " }}}
 " General Settings {{{
