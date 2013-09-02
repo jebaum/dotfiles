@@ -109,6 +109,3 @@
 [submodule "vim/bundle/SimplyFold"]
 	path = vim/bundle/SimplyFold
 	url = https://github.com/tmhedberg/SimpylFold.git
-[submodule "vim/bundle/YouCompleteMe"]
-	path = vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe.git
