@@ -24,7 +24,8 @@ hi Cursor       ctermfg=234   ctermbg=228    cterm=none   guifg=#1c1c1c   guibg=
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold   guifg=#ff0000   guibg=#000000
 hi Folded       ctermfg=103   ctermbg=237    cterm=none   guifg=#8787af   guibg=#3a3a3a
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold
-hi LineNr       ctermfg=33    ctermbg=232    cterm=none   guifg=#0087ff   guibg=#000000
+hi LineNr       ctermfg=33    ctermbg=16     cterm=none   guifg=#0087ff   guibg=#000000
+hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold
 hi Normal       ctermfg=231   ctermbg=none   cterm=none   guifg=#ffffff   guibg=#000000
 hi Search       ctermfg=231   ctermbg=52     cterm=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none   guifg=#626262   guibg=#262626
@@ -41,7 +42,7 @@ hi WarningMsg   ctermfg=203                               guifg=#ff5f55
 
 if version >= 700
 hi CursorLine   ctermfg=none  ctermbg=16     cterm=none                   guibg=#000000
-hi CursorLineNR ctermfg=226   ctermbg=232    cterm=none                   guibg=#000000
+hi CursorLineNR ctermfg=226   ctermbg=232    cterm=bold                   guibg=#000000
 hi MatchParen   ctermfg=196   ctermbg=16     cterm=bold   guifg=#eae788   guibg=#857b6f
 hi Pmenu        ctermfg=230   ctermbg=238                 guifg=#ffffd7   guibg=#444444
 hi PmenuSel     ctermfg=232   ctermbg=192                 guifg=#080808   guibg=#cae982
