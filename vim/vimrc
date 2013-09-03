@@ -89,7 +89,7 @@ let g:bufferline_inactive_highlight = 'StatusLineNC'
 " ctrlp settings {{{
 let g:ctrlp_map = '<C-b>'
 let g:ctrlp_mruf_case_sensitive = 0
-let g:ctrlp_max_files = 100
+let g:ctrlp_max_files = 500
 let g:ctrlp_max_depth = 1
 let g:ctrlp_switch_buffer=''
 " }}}
