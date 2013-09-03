@@ -109,3 +109,9 @@
 [submodule "vim/bundle/SimplyFold"]
 	path = vim/bundle/SimplyFold
 	url = https://github.com/tmhedberg/SimpylFold.git
+[submodule "vim/bundle/vim-misc"]
+	path = vim/bundle/vim-misc
+	url = https://github.com/xolox/vim-misc.git
+[submodule "vim/bundle/vim-easytags"]
+	path = vim/bundle/vim-easytags
+	url = https://github.com/xolox/vim-easytags.git

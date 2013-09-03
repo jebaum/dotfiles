@@ -28,7 +28,6 @@ augroup END
 
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
-cnoreabbrev tn tabnew
 cnoreabbrev sv source ~/.vimrc
 
 " Return to last edit position when opening files
@@ -39,7 +38,7 @@ augroup ReturnToLast
        \ endif
 augroup END
 
-set completeopt=longest,menuone " gets overwritten by youcompleteme
+set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -88,8 +87,20 @@ let g:bufferline_active_highlight = 'StatusLine'
 let g:bufferline_inactive_highlight = 'StatusLineNC'
 " }}}
 " ctrlp settings {{{
-let g:ctrlp_map = '<Esc>b'
+let g:ctrlp_map = '<C-b>'
 let g:ctrlp_mruf_case_sensitive = 0
+let g:ctrlp_max_files = 100
+let g:ctrlp_max_depth = 1
+let g:ctrlp_switch_buffer=''
+" }}}
+" easytags settings {{{
+" TODO: check back with easytags to see if recurse option supports only recursing current directory
+set tags=./tags
+let g:easytags_dynamic_files=2          " project specific tag files
+let g:easytags_updatetime_warn=0        " shut up
+let g:easytags_auto_highlight=0         " not sure
+let g:easytags_include_members=1        " include struct/class members in tags file. might be slow
+let g:easytags_suppress_ctags_warning=1 " suppress warning about ctags not being installed
 " }}}
 " gundo settings {{{
 let g:gundo_width=40
@@ -192,11 +203,12 @@ let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 let g:taboo_tab_format = "%N %1a%m "
 " }}}
 " tagbar settings {{{
-let g:tagbar_left  = 1      " default is to open on right
-let g:tagbar_width = 50     " default is 40
-let g:tagbar_indent= 1      " default is 2
-let g_tagbar_autoshowtag=1  " auto unfold any parents so highlighted tag is shown
-let g:tagbar_sort  = 0      " sort tags by position in source file, not alphabetically
+let g:tagbar_left  = 1            " default is to open on right
+let g:tagbar_width = 50           " default is 40
+let g:tagbar_indent= 1            " default is 2
+let g:tagbar_show_linenumbers = 2 " relative line numbers
+let g_tagbar_autoshowtag=1        " auto unfold any parents so highlighted tag is shown
+let g:tagbar_sort  = 0            " sort tags by position in source file, not alphabetically
 " }}}
 " togglelist settings {{{
 let g:toggle_list_no_mappings=1 " don't use default mappings
@@ -205,13 +217,6 @@ let g:toggle_list_no_mappings=1 " don't use default mappings
 let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
-" }}}
-" youcompleteme settings {{{
-let g:ycm_min_num_of_chars_for_completion = 20
-let g:ycm_register_as_syntastic_checker = 0   " don't register as syntastic checker
-let g:ycm_allow_changing_updatetime = 0       " don't change update time
-let g:ycm_collect_identifiers_from_tags_files = 0 " set to 1 to collect identifiers from tags files
-let g:ycm_global_ycm_extra_conf = ''          " global .ycm_extra_conf.py file
 " }}}
 " }}}
 " General Settings {{{
@@ -310,6 +315,8 @@ inoremap <C-c> <Esc><Esc>
 nmap <tab> %
 nnoremap Y y$
 nnoremap & v%
+" always show multiple tag options, open in new window
+nnoremap <C-]> <C-W>g<C-]>
 " junk map so latex doesn't overwrite C-j
 nnoremap <Esc>z <Plug>IMAP_JumpForward
 
@@ -376,6 +383,8 @@ nnoremap I H
 " function keys {{{
 nnoremap <F1>   :let @+=@"<CR>
 nnoremap <F2>   :GundoToggle<CR>
+" temporary solution to generate complete tags file. see easytags todo
+nnoremap <F5>   :let g:easytags_autorecurse=1<CR>:UpdateTags<CR>let g:easytags_autorecurse=0<CR>
 nnoremap <F6>   :set spell!<CR>
 nnoremap <F7>   :RainbowToggle<CR>
 nnoremap <F9>   :SCCompileRunAsync<CR>
@@ -387,11 +396,13 @@ nnoremap <F12>   zM
 nnoremap <leader>a :set paste<CR>m`O<Esc>``:set nopaste<CR>
 nnoremap <leader>b :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
+nnoremap <leader>e :<c-u>call SkyBison("")<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+nnoremap <leader>j 2:<c-u>call SkyBison("stag ")<CR>
 nnoremap <leader>l 2:<c-u>call SkyBison("sb ")<CR>
-nnoremap <leader>n :set relativenumber!<CR>
 nnoremap <leader>p :set list!<CR>
 nnoremap <leader>q :q<CR>
+nnoremap <leader>r :set relativenumber!<CR>
 nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s :!sort -f<CR>
 nnoremap <leader>t :<c-u>call SkyBison("tabedit ")<cr>
@@ -404,7 +415,7 @@ nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
-nnoremap <leader><leader>l :ls<CR>:b<space>
+nnoremap <leader><leader>l 2:<c-u>call SkyBison("b ")<CR>
 
 " potential git maps. TODO: revise
 nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -426,7 +437,6 @@ nnoremap <script> <silent> \q :call ToggleQuickfixList()<CR>
 nnoremap                   \v :vsplit<CR>
 " }}}
 " ctrl normal mode {{{
-nnoremap <C-b> :CtrlPBuffer<CR>
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
 nnoremap <C-i> <C-w><Up>
@@ -440,7 +450,6 @@ nnoremap <C-t> :TagbarOpen fjc<CR>
 " }}}
 " alt/esc normal mode {{{
 nnoremap <Esc>a :AirlineToggle<CR>
-"        <Esc>b Ctrlp buffer
 nnoremap <Esc>h :nohlsearch<CR>
 nnoremap <Esc>i :resize +2<CR>
 nnoremap <Esc>j :vertical resize -2<CR>
