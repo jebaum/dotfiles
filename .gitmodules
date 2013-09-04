@@ -16,9 +16,6 @@
 [submodule "vim/bundle/nerdcommenter"]
 	path = vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
-[submodule "vim/bundle/nerdtree"]
-	path = vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
@@ -115,3 +112,6 @@
 [submodule "vim/bundle/unite.vim"]
 	path = vim/bundle/unite.vim
 	url = https://github.com/Shougo/unite.vim.git
+[submodule "vim/bundle/vimfiler"]
+	path = vim/bundle/vimfiler
+	url = git@github.com:Shougo/vimfiler.vim.git
