@@ -88,7 +88,7 @@ let g:bufferline_inactive_highlight = 'StatusLineNC'
 " }}}
 " easytags settings {{{
 " TODO: check back with easytags to see if recurse option supports only recursing current directory
-set tags=./tags
+set tags=./.tags
 let g:easytags_dynamic_files=2          " project specific tag files
 let g:easytags_updatetime_warn=0        " shut up
 let g:easytags_auto_highlight=1         " not sure

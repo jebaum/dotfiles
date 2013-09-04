@@ -46,6 +46,7 @@ plugins=(git archlinux autojump colored-man extract web-search)
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 source ~/dotfiles/fancyprompt.zsh
+alias bd=". bd -s"
 
 setopt BRACE_CCL
 export EDITOR=vim
