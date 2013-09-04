@@ -85,9 +85,6 @@
 [submodule "vim/bundle/vim-alternate"]
 	path = vim/bundle/vim-alternate
 	url = https://github.com/dantler/vim-alternate.git
-[submodule "vim/bundle/ctrlp.vim"]
-	path = vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
 [submodule "vim/bundle/vim-showmarks"]
 	path = vim/bundle/vim-showmarks
 	url = https://github.com/vimez/vim-showmarks.git
@@ -115,3 +112,6 @@
 [submodule "vim/bundle/vim-easytags"]
 	path = vim/bundle/vim-easytags
 	url = https://github.com/xolox/vim-easytags.git
+[submodule "vim/bundle/unite.vim"]
+	path = vim/bundle/unite.vim
+	url = https://github.com/Shougo/unite.vim.git

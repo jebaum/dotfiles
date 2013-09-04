@@ -86,19 +86,12 @@ let g:bufferline_echo = 0        " enable/disable display in command bar
 let g:bufferline_active_highlight = 'StatusLine'
 let g:bufferline_inactive_highlight = 'StatusLineNC'
 " }}}
-" ctrlp settings {{{
-let g:ctrlp_map = '<C-b>'
-let g:ctrlp_mruf_case_sensitive = 0
-let g:ctrlp_max_files = 500
-let g:ctrlp_max_depth = 1
-let g:ctrlp_switch_buffer=''
-" }}}
 " easytags settings {{{
 " TODO: check back with easytags to see if recurse option supports only recursing current directory
 set tags=./tags
 let g:easytags_dynamic_files=2          " project specific tag files
 let g:easytags_updatetime_warn=0        " shut up
-let g:easytags_auto_highlight=0         " not sure
+let g:easytags_auto_highlight=1         " not sure
 let g:easytags_include_members=1        " include struct/class members in tags file. might be slow
 let g:easytags_suppress_ctags_warning=1 " suppress warning about ctags not being installed
 " }}}
@@ -214,9 +207,10 @@ let g:tagbar_sort  = 0            " sort tags by position in source file, not al
 let g:toggle_list_no_mappings=1 " don't use default mappings
 " }}}
 " ultisnips settings {{{
-let g:UltiSnipsExpandTrigger="<C-l>"
+"let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
+let g:UltiSnipsListSnippets="<C-s>"
 " }}}
 " }}}
 " General Settings {{{
@@ -298,7 +292,9 @@ if has("wildmenu")
   set wildignorecase              " wildmenu doesn't care about case
   set wildmode=longest:full,full
   set wildignore=*.o,*.a,*~,*.pyc " ignore compiled files
-  set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+  set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.mp4,*.mkv,*.avi,*.pdf,*.png,*.mp3
+  set wildignore+=*.m4v,*.flv,*.flac,*.wma,*.doc,*.docx,*.ppt,*.pptx,*.m4a,*.m2ts,*.m3u
+  set wildignore+=*:2\\,S,*:2\\,RS,*:2\\,FS,*:2\\,,*:2\\,FRS " for mutt
   set wildignore+=.DS_Store,.git,.hg,.svn
   set wildignore+=*~,*.swp,*.tmp
 endif
@@ -398,7 +394,7 @@ nnoremap <leader>b :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <leader>c :WatchForChanges!<CR>
 nnoremap <leader>e :<c-u>call SkyBison("")<CR>
 nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nnoremap <leader>j 2:<c-u>call SkyBison("stag ")<CR>
+nnoremap <leader>j :CtrlPTag<CR>
 nnoremap <leader>l 2:<c-u>call SkyBison("sb ")<CR>
 nnoremap <leader>p :set list!<CR>
 nnoremap <leader>q :q<CR>
@@ -437,6 +433,7 @@ nnoremap <script> <silent> \q :call ToggleQuickfixList()<CR>
 nnoremap                   \v :vsplit<CR>
 " }}}
 " ctrl normal mode {{{
+"        <C-b> :CtrlP
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
 nnoremap <C-i> <C-w><Up>
@@ -450,6 +447,7 @@ nnoremap <C-t> :TagbarOpen fjc<CR>
 " }}}
 " alt/esc normal mode {{{
 nnoremap <Esc>a :AirlineToggle<CR>
+nnoremap <Esc>b :CtrlPMRU<CR>
 nnoremap <Esc>h :nohlsearch<CR>
 nnoremap <Esc>i :resize +2<CR>
 nnoremap <Esc>j :vertical resize -2<CR>
