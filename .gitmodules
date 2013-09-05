@@ -124,3 +124,6 @@
 [submodule "vim/bundle/unite-locate"]
 	path = vim/bundle/unite-locate
 	url = https://github.com/ujihisa/unite-locate.git
+[submodule "vim/bundle/unite-outline"]
+	path = vim/bundle/unite-outline
+	url = https://github.com/Shougo/unite-outline.git
