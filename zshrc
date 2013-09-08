@@ -49,6 +49,8 @@ source ~/dotfiles/fancyprompt.zsh
 alias bd=". bd -s"
 
 setopt BRACE_CCL
+setopt NO_CASE_GLOB
+setopt NUMERIC_GLOB_SORT
 export EDITOR=vim
 
 export PAGER="less"
@@ -62,6 +64,8 @@ stty -ixon  # stop C-s from activating scroll lock
 GPG_TTY=$(tty)
 export GPG_TTY
 
+insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+zle -N insert-sudo insert_sudo
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
 bindkey "^[[7~" beginning-of-line   # make home key work
 bindkey "^[[8~" end-of-line         # make end key work
@@ -69,10 +73,11 @@ bindkey "^J"    backward-word       # C-j moves back a word
 bindkey "^L"    forward-word        # C-l moves forward a word
 bindkey "^[j"   backward-char       # A-j moves back a character
 bindkey "^[l"   forward-char        # A-l moves forward a character
+bindkey "^[S"   clear-screen        # Alt+Shift+S to do what ^l does by default, clear screen
 bindkey "^F"    vi-find-next-char   # C-f takes one character input, moves to next instance
 bindkey "^D"    vi-find-prev-char   # C-d takes one character input, moves to prev instance
 bindkey "^T"    vi-repeat-find      # C-t repeats last find
-bindkey "^S"    clear-screen        # C-s does what C-l does by default, clear screen
+bindkey "^S"    insert-sudo         # C-s inserts 'sudo' at beginning of line
 bindkey "^Q"    delete-word         # C-q deletes word in front of cursor, opposite C-w
 bindkey "^G"    delete-char         # C-g deletes character in front of cursor, opposite C-h
 bindkey "^B"    undo                # C-b undoes last text modification (think 'back')
