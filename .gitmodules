@@ -103,9 +103,6 @@
 [submodule "vim/bundle/vim-misc"]
 	path = vim/bundle/vim-misc
 	url = https://github.com/xolox/vim-misc.git
-[submodule "vim/bundle/vim-easytags"]
-	path = vim/bundle/vim-easytags
-	url = https://github.com/xolox/vim-easytags.git
 [submodule "vim/bundle/unite.vim"]
 	path = vim/bundle/unite.vim
 	url = https://github.com/Shougo/unite.vim.git

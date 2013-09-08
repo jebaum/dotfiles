@@ -86,15 +86,6 @@ let g:bufferline_echo = 0        " enable/disable display in command bar
 let g:bufferline_active_highlight = 'StatusLine'
 let g:bufferline_inactive_highlight = 'StatusLineNC'
 " }}}
-" easytags settings {{{
-" TODO: check back with easytags to see if recurse option supports only recursing current directory
-set tags=./.tags
-let g:easytags_dynamic_files=2          " project specific tag files
-let g:easytags_updatetime_warn=0        " shut up
-let g:easytags_auto_highlight=1         " not sure
-let g:easytags_include_members=1        " include struct/class members in tags file. might be slow
-let g:easytags_suppress_ctags_warning=1 " suppress warning about ctags not being installed
-" }}}
 " gundo settings {{{
 let g:gundo_width=40
 let g:gundo_preview_height=40
@@ -265,13 +256,22 @@ function! s:unite_my_settings()
           \ empty(unite#mappings#get_current_filters()) ?
           \ ['sorter_reverse'] : [])
 
-  map <silent><buffer><expr> <C-s>     unite#do_action('above')
-  map <silent><buffer><expr> <C-k>     unite#do_action('below')
-  map <silent><buffer><expr> <C-x>     unite#do_action('left')
-  map <silent><buffer><expr> <C-v>     unite#do_action('right')
-  map <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
-  map <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
-  map <silent><buffer><expr> <C-j>     unite#do_action('goto')
+  imap <silent><buffer><expr> <C-s>     unite#do_action('above')
+  imap <silent><buffer><expr> <C-k>     unite#do_action('below')
+  imap <silent><buffer><expr> <C-x>     unite#do_action('left')
+  imap <silent><buffer><expr> <C-v>     unite#do_action('right')
+  imap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
+  imap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
+  imap <silent><buffer><expr> <C-j>     unite#do_action('goto')
+
+  nmap <silent><buffer><expr> <C-s>     unite#do_action('above')
+  nmap <silent><buffer><expr> <C-k>     unite#do_action('below')
+  nmap <silent><buffer><expr> <C-x>     unite#do_action('left')
+  nmap <silent><buffer><expr> <C-v>     unite#do_action('right')
+  nmap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
+  nmap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
+  nmap <silent><buffer><expr> <C-j>     unite#do_action('goto')
+
   nmap <buffer> i     <Plug>(unite_loop_cursor_up)
   nmap <buffer> k     <Plug>(unite_loop_cursor_down)
   nmap <buffer> h     <Plug>(unite_insert_enter)
@@ -338,12 +338,11 @@ augroup SyntaxFold
   autocmd InsertEnter *.c,*.cpp set foldmethod=manual " once we start typing, using manual folds
 augroup END
 " ctrl+spacebar toggles folds in normal mode
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " }}}
 " Tab/Indent Settings {{{
 set autoindent      " auto indent line to match above line when hitting enter
-"set cindent        " alternative to vi 'autoindent' that uses c indentation standard
-set smartindent     " do smart indenting with lines ending in { and other keywords
+"set cindent        " newer and better smartindent
 set smarttab        " make tabs more consistent with softtabstop
 set shiftwidth=2    " amount of whitespace to insert or remove using normal mode indentation commands
 set softtabstop=2   " amount of whitespace deleted by backspace
@@ -444,8 +443,6 @@ nnoremap I H
 " function keys {{{
 nnoremap <F1>   :let @+=@"<CR>
 nnoremap <F2>   :GundoToggle<CR>
-" temporary solution to generate complete tags file. see easytags todo
-nnoremap <F5>   :let g:easytags_autorecurse=1<CR>:UpdateTags<CR>let g:easytags_autorecurse=0<CR>
 nnoremap <F6>   :set spell!<CR>
 nnoremap <F7>   :RainbowToggle<CR>
 nnoremap <F9>   :SCCompileRunAsync<CR>
@@ -466,21 +463,26 @@ nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s :!sort -f<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
-nnoremap <leader>= :Tabularize /=<CR>
 nnoremap <leader>zc :set cursorcolumn!<CR>
 nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
-" unite maps
-" TODO: unite-help
-nnoremap <leader>ua :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
-nnoremap <leader>ub :<C-u>Unite           -start-insert -buffer-name=buffers  buffer<CR>
-nnoremap <leader>uf :<C-u>Unite           -start-insert -buffer-name=files    file<CR>
-nnoremap <leader>ul :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
-nnoremap <leader>ur :<C-u>Unite           -start-insert -buffer-name=recent   file_mru<CR>
-nnoremap <leader>uy :<C-u>Unite           -start-insert -buffer-name=yanks    history/yank<CR>
-" TODO: line, line/fast, other unite sources listed starting at L:1892
+" space leader maps. unite + windows
+nnoremap <Space>a :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
+nnoremap <Space>b :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
+nnoremap <Space>f :<C-u>Unite -start-insert -buffer-name=files    file<CR>
+nnoremap <Space>h :split<CR>
+nnoremap <Space>l :call ToggleLocationList()<CR>
+nnoremap <Space>l :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
+nnoremap <Space>o :only<CR>
+nnoremap <Space>q :call ToggleQuickfixList()<CR>
+nnoremap <Space>r :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
+nnoremap <Space>v :vsplit<CR>
+nnoremap <Space>y :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
+nnoremap <Space>= :Tabularize /=<CR>
+" TODO: unite-help, line, line/fast, other unite sources listed starting at L:1892
+
 " potential git maps. TODO: revise
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -494,11 +496,6 @@ nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }}}
 " slash leader shortcuts to opening/closing windows {{{
-nnoremap                   \h :split<CR>
-nnoremap <script> <silent> \l :call ToggleLocationList()<CR>
-nnoremap                   \o :only<CR>
-nnoremap <script> <silent> \q :call ToggleQuickfixList()<CR>
-nnoremap                   \v :vsplit<CR>
 " }}}
 " ctrl normal mode {{{
 "        <C-b> :CtrlP
