@@ -175,6 +175,11 @@ bindsym $mod+e layout default
   ### floating windows
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
+
+  ### marks
+bindsym $mod+m          exec i3-input -l 1 -F 'mark "%s"' -P 'create mark: '
+bindsym $mod+u          exec i3-input -l 1 -F 'unmark "%s"' -P 'delete mark: '
+bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto mark: '
 # }}}
 # WORKSPACE MANAGEMENT KEYBINDS {{{
   ### automatically put workspace on certain screen on creation
@@ -234,9 +239,6 @@ bindsym $mod+Shift+KP_2 move workspace number 12
 bindsym $mod+Shift+KP_3 move workspace number 13: tv
 
 bindsym $mod+x          exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
-bindsym $mod+m          exec i3-input -l 1 -F 'mark "%s"' -P 'create mark: '
-bindsym $mod+u          exec i3-input -l 1 -F 'unmark "%s"' -P 'delete mark: '
-bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto mark: '
 # }}}
 # RESIZE MODE {{{
   # px is pixels for floating containers, ppt is percent for tiling containers
