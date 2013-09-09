@@ -2,8 +2,6 @@
 " Colorscheme and Pathogen {{{
 set nocompatible " use vim settings not vi
 colorscheme wombat256mod
-let g:rehash256=1
-"colorscheme molokai
 execute pathogen#infect()
 " }}}
 " Misc {{{
@@ -68,7 +66,7 @@ endfunction
 " }}}
 " Plugin Settings {{{
 " airline settings {{{
-let g:airline_theme="simple"
+let g:airline_theme="dark"
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -80,11 +78,6 @@ let g:airline_section_z="%l/%L:C%c %b/0x%B"
 let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
-" }}}
-" bufferline settings {{{
-let g:bufferline_echo = 0        " enable/disable display in command bar
-let g:bufferline_active_highlight = 'StatusLine'
-let g:bufferline_inactive_highlight = 'StatusLineNC'
 " }}}
 " gundo settings {{{
 let g:gundo_width=40
@@ -468,7 +461,7 @@ nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
-" space leader maps. unite + windows
+" space leader maps. unite + window management
 nnoremap <Space>a :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
 nnoremap <Space>b :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
 nnoremap <Space>f :<C-u>Unite -start-insert -buffer-name=files    file<CR>
@@ -495,7 +488,7 @@ nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }}}
-" slash leader shortcuts to opening/closing windows {{{
+" slash leader shortcuts (currently not using){{{
 " }}}
 " ctrl normal mode {{{
 "        <C-b> :CtrlP

@@ -74,7 +74,6 @@ hi EasyMotionTarget ctermfg=196   ctermbg=16
 
 
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
-" TODO: add groups for easytags
 hi Comment      ctermfg=244   ctermbg=none   cterm=none   guifg=#808080
 hi Constant     ctermfg=226   ctermbg=none   cterm=none   guifg=#ffff00
 hi Function     ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff
