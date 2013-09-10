@@ -106,6 +106,14 @@ let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
 " }}}
+" neocomplete settings {{{
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" TODO: get neocomplete to not set completeopt-=longest
+inoremap <expr><C-n>    neocomplete#start_manual_complete()
+" }}}
 " nerdtree settings {{{
 let NERDTreeWinSize=40
 let NERDTreeMapOpenSplit="s"
@@ -393,6 +401,7 @@ nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
 " motions for selecting next/previous paren/bracket objects {{{
+" TODO: add 'around' motion
 onoremap h i
 onoremap in( :<c-u>normal! f(vi(<CR>
 onoremap ip( :<c-u>normal! F)vi(<CR>
