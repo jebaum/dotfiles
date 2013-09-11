@@ -121,3 +121,12 @@
 [submodule "vim/bundle/neocomplete.vim"]
 	path = vim/bundle/neocomplete.vim
 	url = https://github.com/Shougo/neocomplete.vim.git
+[submodule "vim/bundle/TaskList.vim"]
+	path = vim/bundle/TaskList.vim
+	url = https://github.com/vim-scripts/TaskList.vim.git
+[submodule "vim/bundle/unite-mark"]
+	path = vim/bundle/unite-mark
+	url = https://github.com/tacroe/unite-mark.git
+[submodule "vim/bundle/unite-qf"]
+	path = vim/bundle/unite-qf
+	url = https://github.com/sgur/unite-qf.git

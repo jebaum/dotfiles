@@ -35,7 +35,7 @@ hi TabLine      ctermfg=246   ctermbg=16     cterm=none
 hi TabLineFill  ctermfg=234
 hi TabLineSel   ctermfg=231   ctermbg=24     cterm=bold
 hi Title        ctermfg=230   ctermbg=none   cterm=bold   guifg=#ffffd7
-hi VertSplit    ctermfg=238   ctermbg=238    cterm=none   guifg=#444444   guibg=#444444
+hi VertSplit    ctermfg=22    ctermbg=22     cterm=none   guifg=#444444   guibg=#444444
 hi Visual       ctermfg=251   ctermbg=54     cterm=none   guifg=#c6c6c6   guibg=#4e4e4e
 hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none   guifg=#c6c6c6   guibg=#303030
 hi WarningMsg   ctermfg=203                               guifg=#ff5f55
