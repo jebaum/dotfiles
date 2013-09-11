@@ -401,7 +401,6 @@ nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
 " motions for selecting next/previous paren/bracket objects {{{
-" TODO: add 'around' motion
 onoremap h i
 onoremap in( :<c-u>normal! f(vi(<CR>
 onoremap ip( :<c-u>normal! F)vi(<CR>
@@ -415,6 +414,20 @@ onoremap in" :<c-u>normal! f"vi"<CR>
 onoremap ip" :<c-u>normal! F"vi"<CR>
 onoremap in' :<c-u>normal! f'vi'<CR>
 onoremap ip' :<c-u>normal! F'vi'<CR>
+
+onoremap an( :<c-u>normal! f(va(<CR>
+onoremap ap( :<c-u>normal! F)va(<CR>
+onoremap an[ :<c-u>normal! f[va[<CR>
+onoremap ap[ :<c-u>normal! F]va[<CR>
+onoremap an{ :<c-u>normal! f{va{<CR>
+onoremap ap{ :<c-u>normal! F}va{<CR>
+onoremap an< :<c-u>normal! f<va<<CR>
+onoremap ap< :<c-u>normal! F>va<<CR>
+onoremap an" :<c-u>normal! f"va"<CR>
+onoremap ap" :<c-u>normal! F"va"<CR>
+onoremap an' :<c-u>normal! f'va'<CR>
+onoremap ap' :<c-u>normal! F'va'<CR>
+
 " easier to reach on the keyboard
 omap inp in(
 omap ipp ip(
@@ -426,6 +439,17 @@ omap ind in"
 omap ipd ip"
 omap ins in'
 omap ips ip'
+
+omap anp an(
+omap app ap(
+omap anb an[
+omap apb ap[
+omap anc an{
+omap apc ap{
+omap and an"
+omap apd ap"
+omap ans an'
+omap aps ap'
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
@@ -481,10 +505,11 @@ nnoremap <Space>l :<C-u>UniteWithInput  -start-insert -buffer-name=locate   loca
 nnoremap <Space>o :only<CR>
 nnoremap <Space>q :call ToggleQuickfixList()<CR>
 nnoremap <Space>r :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
+nnoremap <Space>t :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>
 nnoremap <Space>v :vsplit<CR>
 nnoremap <Space>y :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
 nnoremap <Space>= :Tabularize /=<CR>
-" TODO: unite-help, line, line/fast, other unite sources listed starting at L:1892
+" TODO: line, line/fast, other unite sources listed starting at L:1892
 
 " potential git maps. TODO: revise
 nnoremap <silent> <leader>gs :Gstatus<CR>
