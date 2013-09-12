@@ -17,7 +17,7 @@ elif [ "$1" == "xfi" ]; then
   rmifexists
   ln -s ${XFI} ${HOME}/.asoundrc
   amixer set PCM 211
-  amixer set Master 212
+  amixer set Master 150
 
 elif [ "$1" == "hdmi" ]; then
   rmifexists
