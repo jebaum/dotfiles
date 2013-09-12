@@ -45,14 +45,13 @@ plugins=(git archlinux autojump colored-man extract web-search)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
+source ~/dotfiles/scripts/bd.zsh
 source ~/dotfiles/fancyprompt.zsh
-alias bd=". bd -s"
 
 setopt BRACE_CCL
 setopt NO_CASE_GLOB
 setopt NUMERIC_GLOB_SORT
 export EDITOR=vim
-
 export PAGER="less"
 export LESS="-R"
 if [ -f "/usr/bin/src-hilite-lesspipe.sh" ]; then
