@@ -67,6 +67,7 @@ endfunction
 " Plugin Settings {{{
 " airline settings {{{
 let g:airline_theme="simple"
+let g:airline_inactive_collapse = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -294,6 +295,8 @@ set number                     " show current line number on left instead of 0
 set backspace=indent,eol,start " allow backspace in insert mode
 set esckeys                    " make numpad work
 set autoread                   " reload files changed outside of vim
+set splitbelow                 " splits open below
+set splitright                 " vsplits open on right
 set noruler                    " don't show the ruler
 set laststatus=2               " always display the statusline
 set history=1000               " length of command history
@@ -329,7 +332,6 @@ set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 " folding: zf#j manually folds # lines, or zf in visual mode selection.
 " zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
 " zj and zk to move between folds
-" ':#,# fo' folds # through #
 " zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
 
 set foldnestmax=1                      " folds only one level deep
@@ -377,7 +379,8 @@ nmap <tab> %
 nnoremap Y y$
 nnoremap & v%
 " always show multiple tag options, open in new window
-nnoremap <C-]> <C-W>g<C-]>
+"nnoremap <C-]> <C-w>g<C-]>
+nnoremap <C-]> g<C-]>
 " junk map so latex doesn't overwrite C-j
 nnoremap <Esc>z <Plug>IMAP_JumpForward
 
