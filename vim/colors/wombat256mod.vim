@@ -26,6 +26,7 @@ hi Folded       ctermfg=103   ctermbg=237    cterm=none   guifg=#8787af   guibg=
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold
 hi LineNr       ctermfg=33    ctermbg=16     cterm=none   guifg=#0087ff   guibg=#000000
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold
+hi NonText      ctermfg=244   ctermbg=none   cterm=none
 hi Normal       ctermfg=231   ctermbg=none   cterm=none   guifg=#ffffff   guibg=#000000
 hi Search       ctermfg=231   ctermbg=52     cterm=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none   guifg=#626262   guibg=#262626
@@ -68,8 +69,8 @@ hi multiple_cursors_cursor    ctermfg=196   ctermbg=250
 hi link multiple_cursors_visual Visual
 
 " Easymotion Hilighting
-hi EasyMotionShade  ctermfg=240   ctermbg=16
-hi EasyMotionTarget ctermfg=196   ctermbg=16
+hi EasyMotionShade  ctermfg=239   ctermbg=none
+hi EasyMotionTarget ctermfg=196   ctermbg=none  cterm=bold
 
 
 
@@ -100,4 +101,3 @@ hi SyntasticWarningSign ctermfg=196   ctermbg=16    cterm=none
 
 hi! link CursorColumn CursorLine
 hi! link FoldColumn   Folded
-hi! link NonText      LineNr

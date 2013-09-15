@@ -14,4 +14,4 @@ mixer-channel = Front,0 # for xfi
 nocache=yes
 softvol=1
 softvol-max=400
-volume=90
+volume=25

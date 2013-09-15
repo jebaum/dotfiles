@@ -59,6 +59,7 @@ if [ -f "/usr/bin/src-hilite-lesspipe.sh" ]; then
 fi
 
 stty -ixon  # stop C-s from activating scroll lock
+ulimit -c unlimited
 
 GPG_TTY=$(tty)
 export GPG_TTY
