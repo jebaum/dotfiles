@@ -16,9 +16,9 @@ key_up = 259 'i'
 #
 key_down = 258 'k'
 #
-#key_up_album = '['
+key_up_album = 'I'
 #
-#key_down_album = ']'
+key_down_album = 'K'
 #
 #key_up_artist = '{'
 #
@@ -128,13 +128,13 @@ key_next_column = 261 'l'
 #
 #key_edit_tags = 'e'
 #
-#key_go_to_position = 'g'
+key_go_to_position = '0'
 #
 key_song_info = 'h'
 #
-#key_artist_info = 'I'
+key_artist_info = '0'
 #
-#key_lyrics = 'l'
+key_lyrics = '0'
 #
 #key_reverse_selection = 'v'
 #
