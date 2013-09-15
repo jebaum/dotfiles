@@ -1,4 +1,6 @@
+*~
 *.pyc
+*.elc
 *.gpg
 *.swp
 mutt/mail
