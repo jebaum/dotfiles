@@ -10,8 +10,8 @@
 color normal color255 default
 color error color193 color124
 color markers color142 color233
-color tilde color142 color233
-color status color142 color233
+color tilde color142 default
+color status color142 default     # borders and header/footer text
 
 # index stuff
 color tree color208 default       # threaded message arrows
@@ -22,8 +22,8 @@ color index color34 default ~O
 color index color124 default ~F
 
 # header stuff
-color hdrdefault color124 color233
-color header color111 color233 "^Subject"
+color hdrdefault color193 color16
+color header color142 color16 "^Subject"
 
 # gpg stuff
 color body color34 color233 "^gpg: Good signature.*"
