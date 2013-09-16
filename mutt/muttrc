@@ -13,7 +13,6 @@ set mail_check=5  # mutt checks for new mails on every keystroke, not more than 
 set beep_new = yes
 set sleep_time = 0
 set wait_key = no
-source ~/.mutt/colors/ivyleague.muttrc
 #=Folders==============================================#
 
 set date_format="%m/%d %T"
@@ -161,3 +160,4 @@ macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to s
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
+source ~/.mutt/colors/ivyleague.muttrc
