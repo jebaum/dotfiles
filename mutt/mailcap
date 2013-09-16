@@ -13,6 +13,9 @@ application/pdf; ~/.mutt/view_attachment.sh %s pdf
 
 # HTML
 text/html; ~/.mutt/view_attachment.sh %s html
+#text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/html;                      elinks %s; nametemplate=%s.html
+text/html;                      elinks -dump %s; nametemplate=%s.html; copiousoutput
 
 # Unidentified files
 application/octet-stream; ~/.mutt/view_attachment.sh %s "-"

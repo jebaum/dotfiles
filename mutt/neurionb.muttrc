@@ -1,10 +1,9 @@
 set from = "neurionb@gmail.com"
 
 # NOTE - do not end folder path with '/'
-set folder = ~/.mutt/mail/neurionb      # specifies common base path
-set spoolfile = +INBOX                  # controls what folder is in mutt on load
-set record = +sent
-set postponed = +drafts
+set spoolfile = +neurionb/INBOX                  # controls what folder is in mutt on load
+set record = +neurionb/sent
+set postponed = +neurionb/drafts
 
 set sendmail = "/usr/bin/msmtp -a neurionb"
 

@@ -116,7 +116,16 @@ macro index <F6> "<enter-command>unset wait_key<enter><enter-command>unignore me
 macro index a "<limit>all\n" "show all messages (undo limit)"
 #=Keybinds=============================================#
 
-bind attach  <return> view-mailcap
+bind  attach  <return> view-mailcap
+bind  attach  i        previous-entry
+bind  attach  k        next-entry
+macro attach  S        <save-entry><kill-line>/home/james/<return>a
+
+bind  browser  i        previous-entry
+bind  browser  k        next-entry
+bind  postpone  i        previous-entry
+bind  postpone  k        next-entry
+
 bind compose p        postpone-message # postpone message from sending screen
 bind index   p        recall-message
 
