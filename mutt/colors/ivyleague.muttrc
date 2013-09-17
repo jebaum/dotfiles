@@ -1,62 +1,63 @@
-# The chosen color selection
-# 34 - green
-# 111 - blue
-# 124 - red
-# 142 - orange
-# 193 - tan
-# 233 - black
-
-# general-doesn't-fit stuff
-color normal color255 default
-color error color193 color124
-color markers color142 color233
-color tilde color142 default
-color status color142 default     # borders and header/footer text
+# general stuff
+color  normal      color255   default
+color  error       color15    color52
+color  markers     color142   color233
+color  tilde       color142   default
+color  status      color142   default        # borders and header/footer text
 
 # index stuff
-color tree color208 default       # threaded message arrows
-color indicator color193 color16  # selected item, sidebar and index
-color index color253 default ~A   # all messages in index
-color index color34 default ~N    # new messages in index
-color index color34 default ~O
-color index color124 default ~F
+color  tree        color208   default        # threaded message arrows
+color  indicator   color193   color16        # selected item, sidebar and index
+color  index       color253   default   ~A   # all messages in index
+color  index       color34    default   ~N   # new messages in index
+color  index       color34    default   ~O   # new messages present when mutt opened
+color  index       color124   default   ~F   # flagged messages
+# ~T tagged messages
 
 # header stuff
-color hdrdefault color193 color16
-color header color142 color16 "^Subject"
+color  hdrdefault  color193   color16
+color  header      color142   color16   "^Subject"
 
 # gpg stuff
-color body color34 color233 "^gpg: Good signature.*"
-color body color193 color124 "^gpg: BAD signature.*"
-color body color142 color233 "^gpg: Can't check signature.*"
-color body color142 color233 "^-----BEGIN PGP SIGNED MESSAGE-----"
-color body color142 color233 "^-----BEGIN PGP SIGNATURE-----"
-color body color142 color233 "^-----END PGP SIGNED MESSAGE-----"
-color body color142 color233 "^-----END PGP SIGNATURE-----"
-color body color142 color233 "^Version: GnuPG.*"
-color body color142 color233 "^Comment: .*"
-#color body color142 color233 "^[[:alnum:]/\+=]+[[:space:]]+$"
+color  body  color34    color233 "^gpg: Good signature.*"
+color  body  color193   color124 "^gpg: BAD signature.*"
+color  body  color142   color233 "^gpg: Can't check signature.*"
+color  body  color142   color233 "^-----BEGIN PGP SIGNED MESSAGE-----"
+color  body  color142   color233 "^-----BEGIN PGP SIGNATURE-----"
+color  body  color142   color233 "^-----END PGP SIGNED MESSAGE-----"
+color  body  color142   color233 "^-----END PGP SIGNATURE-----"
+color  body  color142   color233 "^Version: GnuPG.*"
+color  body  color142   color233 "^Comment: .*"
 
+# Colorize diffs.
+set allow_ansi
+auto_view text/x-diff
+auto_view text/x-patch
+color body brightred    black "^-.*"
+color body brightgreen  black "^[+].*"
+color body brightwhite  black "^diff --git.*"
+color body brightwhite  black "^index [a-f0-9].*"
+color body brightyellow black "^@@.*"
 
 # url, email and web stuff
-color body color111 color233 "(finger|ftp|http|https|news|telnet)://[^ >]*"
-color body color111 color233 "<URL:[^ ]*>"
-color body color111 color233 "www\\.[-.a-z0-9]+\\.[a-z][a-z][a-z]?([-_./~a-z0-9]+)?"
-color body color111 color233 "mailto: *[^ ]+\(\\i?subject=[^ ]+\)?"
-color body color111 color233 "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color  body  color111   color233 "(finger|ftp|http|https|news|telnet)://[^ >]*"
+color  body  color111   color233 "<URL:[^ ]*>"
+color  body  color111   color233 "www\\.[-.a-z0-9]+\\.[a-z][a-z][a-z]?([-_./~a-z0-9]+)?"
+color  body  color111   color233 "mailto: *[^ ]+\(\\i?subject=[^ ]+\)?"
+color  body  color111   color233 "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
 
 # misc body stuff
-color attachment color111 color233
-color signature color142 color233
+color  attachment   color111   color233
+color  signature    color142   color233
 
 # quote levels
-color quoted color34 color233
-color quoted1 color142 color233
-color quoted2 color34 color233
-color quoted3 color142 color233
-color quoted4 color34 color233
-color quoted5 color142 color233
-color quoted6 color34 color233
-color quoted7 color142 color233
-color quoted8 color34 color233
-color quoted9 color142 color233
+color  quoted    color34    color233
+color  quoted1   color142   color233
+color  quoted2   color34    color233
+color  quoted3   color142   color233
+color  quoted4   color34    color233
+color  quoted5   color142   color233
+color  quoted6   color34    color233
+color  quoted7   color142   color233
+color  quoted8   color34    color233
+color  quoted9   color142   color233

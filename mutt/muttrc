@@ -92,19 +92,20 @@ macro index,pager \e1 "<enter-command>source ~/.mutt/neurionb.muttrc<enter><chan
 macro index,pager \e2 "<enter-command>source ~/.mutt/jebaumg.muttrc<enter><change-folder>~/.mutt/mail/jebaumg/INBOX<enter>"
 macro index,pager \e3 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter><change-folder>~/.mutt/mail/jbaumy/INBOX<enter>"
 
+macro index a "<limit>all\n" "show all messages (undo limit)"
 macro index,pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
 macro index,pager b '<enter-command>toggle sidebar_visible<enter><refresh>'
 
 macro index S "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt --prompt search<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>" \
     "notmuch: search mail"
 
-macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt thread<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter><enter-command>set wait_key<enter>" \
-    "search and reconstruct owning thread with notmuch"
+macro index <F5> "<enter-command>source ~/.mutt/colors/ivyleague.muttrc<enter>"
 
 macro index <F6> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt -- tag -inbox<enter>" \
     "remove message from inbox with notmuch"
 
-macro index a "<limit>all\n" "show all messages (undo limit)"
+macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore message-id<enter><pipe-message>notmuch-mutt thread<enter><change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter><enter-command>set wait_key<enter>" \
+    "search and reconstruct owning thread with notmuch"
 #=Keybinds=============================================#
 
 bind  attach  <return> view-mailcap
