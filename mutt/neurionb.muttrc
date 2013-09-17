@@ -6,6 +6,5 @@ set record = +neurionb/sent
 set postponed = +neurionb/drafts
 
 set sendmail = "/usr/bin/msmtp -a neurionb"
-
-color status white black
+color status color208 default
 # vim:filetype=muttrc

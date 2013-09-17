@@ -6,6 +6,5 @@ set record = +jebaumg/sent
 set postponed = +jebaumg/drafts
 
 set sendmail = "/usr/bin/msmtp -a jebaum"  # not jebaumg! use ucla's mail server
-
-color status white black
+color status color51 default
 # vim:filetype=muttrc

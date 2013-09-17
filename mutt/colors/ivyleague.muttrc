@@ -3,7 +3,7 @@ color  normal      color255   default
 color  error       color15    color52
 color  markers     color142   color233
 color  tilde       color142   default
-color  status      color142   default        # borders and header/footer text
+#color  status      color142   default       # borders and header/footer text, set in account files
 
 # index stuff
 color  tree        color208   default        # threaded message arrows

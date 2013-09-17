@@ -6,6 +6,5 @@ set record = +jbaumy/sent
 set postponed = +jbaumy/drafts
 
 set sendmail = "/usr/bin/msmtp -a jbaumy"
-
-color status white black
+color status color46 default
 # vim:filetype=muttrc

@@ -3,6 +3,7 @@
 set realname = "James Baumgarten"
 set folder=~/.mutt/mail
 source ~/.mutt/mailboxes
+source ~/.mutt/colors/ivyleague.muttrc
 set use_from = yes
 set envelope_from ="yes"
 
@@ -160,5 +161,3 @@ macro index <esc>r "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages r
 macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-
-source ~/.mutt/colors/ivyleague.muttrc
