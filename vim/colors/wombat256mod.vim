@@ -22,7 +22,7 @@ let colors_name = "wombat256mod"
 " General colors
 hi Cursor       ctermfg=234   ctermbg=228    cterm=none   guifg=#1c1c1c   guibg=#ffff87
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold   guifg=#ff0000   guibg=#000000
-hi Folded       ctermfg=44    ctermbg=233    cterm=none   guifg=#8787af   guibg=#3a3a3a
+hi Folded       ctermfg=44    ctermbg=232    cterm=none   guifg=#8787af   guibg=#3a3a3a
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold
 hi LineNr       ctermfg=33    ctermbg=16     cterm=none   guifg=#0087ff   guibg=#000000
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold
