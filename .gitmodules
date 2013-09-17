@@ -79,9 +79,6 @@
 [submodule "vim/bundle/vim-alternate"]
 	path = vim/bundle/vim-alternate
 	url = https://github.com/dantler/vim-alternate.git
-[submodule "vim/bundle/vim-showmarks"]
-	path = vim/bundle/vim-showmarks
-	url = https://github.com/vimez/vim-showmarks.git
 [submodule "vim/bundle/SingleCompile"]
 	path = vim/bundle/SingleCompile
 	url = https://github.com/vim-scripts/SingleCompile.git
