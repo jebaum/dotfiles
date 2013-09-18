@@ -3,7 +3,7 @@
 
 # Messages 
 msg_color               #FFFFFF
-msg_font                Verdana:size=16:bold
+msg_font                Verdana:size=18:bold:dpi=75
 msg_shadow_xoffset 1
 msg_shadow_yoffset 1
 msg_shadow_color   #aaaaaa
@@ -12,21 +12,21 @@ msg_shadow_color   #aaaaaa
 background_style        tile
 
 # Input controls
-input_panel_x           49%
-input_panel_y           44%
+input_panel_x           60%
+input_panel_y           56%
 input_name_x            148
 input_name_y            65
 input_pass_x            148
 input_pass_y            112
 
-input_font          	Verdana:size=12
+input_font          	Verdana:size=12:dpi=75
 input_color		#fffafa
 input_bgcolor           #000000
 input_fgcolor           #ffffff
 
 
 username_msg            user 
-username_font           Verdana:size=14:bold
+username_font           Verdana:size=14:bold:dpi=75
 username_color		#f5f4fd
 username_x              25
 username_y		65
