@@ -16,5 +16,8 @@ text/html; ~/.mutt/view_attachment.sh %s html
 text/html;   elinks %s; nametemplate=%s.html
 text/html;   elinks -dump %s; nametemplate=%s.html; copiousoutput
 
+# plain text
+text/plain; ~/.mutt/view_attachment.sh %s txt
+
 # Unidentified files
 application/octet-stream; ~/.mutt/view_attachment.sh %s "-"
