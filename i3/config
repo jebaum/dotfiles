@@ -122,6 +122,7 @@ bindsym --release Print exec grab
 bindsym $mod+Print exec pasta
 bindsym $mod+q exec quickswitch.py
 bindsym $mod+Escape exec /usr/bin/lk
+bindsym $mod+o  exec ~/dotfiles/scripts/startup.sh
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
 # for_window <criteria> command; command
