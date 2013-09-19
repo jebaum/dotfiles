@@ -1,0 +1,21 @@
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
+update_interval 2.0
+total_run_times 0
+short_units yes
+if_up_strictness address
+use_spacer left
+override_utf8_locale no
+cpu_avg_samples 2
+mpd_host 192.168.1.100
+mpd_port 6600
+
+TEXT
+
+[{ "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/weather.sh 90024} ", "color":"\#33dd55"},
+ { "full_text": " ${sysname} ${kernel} ", "color":"\#ff00ff"},
+ { "full_text": " ${time %I:%M:%S %p} "}
+],

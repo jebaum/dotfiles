@@ -61,6 +61,7 @@ bindsym $mod+p exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf bl
 bindsym $mod+Shift+R reload
 bindsym $mod+Shift+C exec killall conky; restart
 bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+b exec killall conky && killall i3bar
 
   ### Messing with borders
 bindsym $mod+t        border normal 1pixel
@@ -282,22 +283,76 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 # }}}
-# BAR {{{
-# TODO - possibly use multiple bar blocks to use conky|dzen? i3 user guide section 5
+# BAR WIDE {{{
 bar {
-  output DVI-D-0
-  output DVI-D-1
-  output VGA-0
   output HDMI-0
   mode dock
   position top
   workspace_buttons yes
   font pango:Times New Roman 9
-  status_command ~/.i3/conky
-  #status_command i3pystatus
-  #status_command conky -c ~/.i3/dzenconkyrc | dzen2 -dock -e 'sigusr1=togglehide;sigusr2=togglecollapse' -fn 'Medium:size=12' -x 100 -y 223 -w 1720 -h 19
+  status_command ~/.i3/conky/wide
   tray_output HDMI-0
 
+  colors {
+    background #000000
+    statusline #CCCCCC
+   #separator  #FF0000
+#                       border    bg      text
+    focused_workspace  #4C7899  #204060  #FFFFFF
+    active_workspace   #207020  #112011  #BBBBBB
+    inactive_workspace #444444  #222222  #A0A0A0
+    urgent_workspace   #FF0000  #904040  #FFFFFF
+  }
+}
+# }}}
+# BAR NARROW 1 {{{
+bar {
+  output VGA-0
+  mode dock
+  position top
+  workspace_buttons yes
+  font pango:Times New Roman 9
+  status_command ~/.i3/conky/narrow1
+  colors {
+    background #000000
+    statusline #CCCCCC
+   #separator  #FF0000
+#                       border    bg      text
+    focused_workspace  #4C7899  #204060  #FFFFFF
+    active_workspace   #207020  #112011  #BBBBBB
+    inactive_workspace #444444  #222222  #A0A0A0
+    urgent_workspace   #FF0000  #904040  #FFFFFF
+  }
+}
+# }}}
+# BAR NARROW 2 {{{
+bar {
+  output DVI-D-0
+  mode dock
+  position top
+  workspace_buttons yes
+  font pango:Times New Roman 9
+  status_command ~/.i3/conky/narrow2
+  colors {
+    background #000000
+    statusline #CCCCCC
+   #separator  #FF0000
+#                       border    bg      text
+    focused_workspace  #4C7899  #204060  #FFFFFF
+    active_workspace   #207020  #112011  #BBBBBB
+    inactive_workspace #444444  #222222  #A0A0A0
+    urgent_workspace   #FF0000  #904040  #FFFFFF
+  }
+}
+# }}}
+# BAR NARROW 3 {{{
+bar {
+  output DVI-D-1
+  mode dock
+  position top
+  workspace_buttons yes
+  font pango:Times New Roman 9
+  status_command ~/.i3/conky/narrow3
   colors {
     background #000000
     statusline #CCCCCC
