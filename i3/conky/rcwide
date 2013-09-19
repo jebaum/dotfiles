@@ -1,0 +1,54 @@
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
+
+# Update interval in seconds
+update_interval 2.0
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+short_units yes
+
+# How strict should if_up be when testing an interface for being up?
+# The value is one of up, link or address, to check for the interface
+# being solely up, being up and having link or being up, having link
+# and an assigned IP address.
+if_up_strictness address
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+# use_spacer should have an argument of left, right, or none
+use_spacer left
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale no
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+
+mpd_host 192.168.1.100
+mpd_port 6600
+TEXT
+
+[{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 25} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
+    ${if_match "${mpd_status}"=="Playing"}"\#ff0000"${else}"\#a71f52"${endif}},
+ { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#B58900"},
+ { "full_text": " ❤ $cpu% ${loadavg}  ","color": "\#ca55d3"},
+ { "full_text": " R: ${fs_used /}/${fs_size /} [${fs_used_perc /}%] H: ${fs_used /home}/${fs_size /home} [${fs_used_perc /home}%] ","color":"\#7996a9" },
+ { "full_text": " ≈ ${if_up enp6s0}${addr enp6s0} U/D[${upspeed enp6s0}/${downspeed enp6s0}] ${else}N/A ${endif}","color":"\#33CC99"},
+ { "full_text": " ☇ RIG5 $uptime ", "color":"\#33dd55"},
+ { "full_text": " ${time %j,%U- %a %b %d} ${time %I:%M:%S %p} "}
+],
+
+#${if_up eth0} ${addr eth0} ${endif}
+
+#orange:  \#B58900
+#red:   \#DC322F
+#green:   \#33CC99
+#purple:  \#9933CC
+#blue:    \#268BD2
