@@ -1,0 +1,12 @@
+
+LOGFILE=/var/log/cron-pacman.log
+
+# 1. minute (0-59)
+# |   2. hour (0-23)
+# |   |   3. day of month (1-31)
+# |   |   |   4. month (1-12)
+# |   |   |   |   5. day of week (0-7: 0 or 7 is Sun, or use names)
+# |   |   |   |   |   6. commandline
+# |   |   |   |   |   |
+#min hr  dom mon dow command
+24   *    *   *   *  . /etc/profile && (echo; date; yes |pacman -Sy) &>>$LOGFILE || (echo 'pacman failed!'; tail $LOGFILE; false)

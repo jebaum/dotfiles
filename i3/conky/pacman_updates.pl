@@ -1,7 +1,8 @@
 #!/usr/bin/perl
 ## script by Xyne
 ## http://bbs.archlinux.org/viewtopic.php?id=57291
-## most useful in combination with a crontab/cron.hourly script to update package database
+## most useful in combination with a root crontab script to update package database
+## see root_crontab, taken from archwiki
 use strict;
 use warnings;
 my $n = (`pacman -Qu | wc -l`);

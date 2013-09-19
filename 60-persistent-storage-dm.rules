@@ -1,0 +1,4 @@
+KERNEL=="sd*", SUBSYSTEM=="block", ATTRS{model}=="ADATA SX900     ", ATTR{partition}=="1", SYMLINK+="ssdroot"
+KERNEL=="sd*", SUBSYSTEM=="block", ATTRS{model}=="ADATA SX900     ", ATTR{partition}=="2", SYMLINK+="ssdhome"
+KERNEL=="sd*", SUBSYSTEM=="block", ATTRS{idVendor}=="2109", ATTRS{idProduct}=="0811", SYMLINK+="external"
+KERNEL=="sd*", SUBSYSTEM=="block", ATTRS{model}=="ST31000333AS    ", ATTRS{vendor}=="ATA     ", SYMLINK+="storage"

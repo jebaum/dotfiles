@@ -15,7 +15,8 @@ mpd_port 6600
 
 TEXT
 
-[ { "full_text": " SSD: ${diskio_read /dev/sda1}/${diskio_write /dev/sda1} | ${diskio_read /dev/sda2}/${diskio_write /dev/sda2}    HDD: ${diskio_read /dev/sdb}/${diskio_write /dev/sdb} ", "color":"\#6464ff"},
+# diskio stuff uses persistent symlinks created by '60-persistent-storage-dm.rules'
+[ { "full_text": " SSD: {${diskio_read /dev/ssdroot}/${diskio_write /dev/ssdroot}  ${diskio_read /dev/ssdhome}/${diskio_write /dev/ssdhome}}    HDD: ${diskio_read /dev/storage}/${diskio_write /dev/storage}    EXT: ${diskio_read /dev/external}/${diskio_write /dev/external} ", "color":"\#6464ff"},
   { "full_text": " ${running_processes}/${processes} ${running_threads}/${threads} ", "color":"\#ca55d3"},
   { "full_text": " ${totalup enp6s0}/${totaldown enp6s0} ", "color":"\#ffff00"},
   { "full_text": " ${time %I:%M:%S %p} "}
