@@ -18,7 +18,7 @@ set wait_key = no
 
 set date_format="%m/%d %T"
 #set index_format="%2C%Z (%D) %-30.30F (%-4.4c) %s"
-set index_format="%2C%Z (%D) %-30.30F  %s"
+set index_format="%2C%5Z (%D) %-30.30F  %s"
 set mbox_type=Maildir
 set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
@@ -68,7 +68,7 @@ folder-hook ~/.mutt/mail/neurionb/* source ~/.mutt/neurionb.muttrc
 #=Status Bar===========================================#
 
 set status_chars  = " *%A"
-set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+set status_format = "───[ Folder: %f ]───[%r%M messages%?V? (%V)? %L%?u? (%u new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 #=Sidebar==============================================#
 
 set sidebar_delim   = '│'
