@@ -16,6 +16,10 @@ mpd_port 6600
 TEXT
 
 [{ "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/weather.sh 90024} ", "color":"\#33dd55"},
+ { "full_text": "${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 1} -${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 2 | tail -n 1} "},
  { "full_text": " ${sysname} ${kernel} ", "color":"\#ff00ff"},
  { "full_text": " ${time %I:%M:%S %p} "}
 ],
+
+# this crashed a lot for some reason. cool idea though
+#{ "full_text": " ${scroll 80 15 ${execi 5 fortune | tr '\n' ' '}} "}
