@@ -20,10 +20,6 @@ short_units yes
 # and an assigned IP address.
 if_up_strictness address
 
-# Add spaces to keep things from moving about?  This only affects certain objects.
-# use_spacer should have an argument of left, right, or none
-use_spacer left
-
 # Force UTF8? note that UTF8 support required XFT
 override_utf8_locale no
 
@@ -38,9 +34,9 @@ TEXT
 [{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 25} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
     ${if_match "${mpd_status}"=="Playing"}"\#ff0000"${else}"\#a71f52"${endif}},
  { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#B58900"},
- { "full_text": " ❤ $cpu% ${loadavg}  ","color": "\#ca55d3"},
- { "full_text": " R: ${fs_used /}/${fs_size /} [${fs_used_perc /}%] H: ${fs_used /home}/${fs_size /home} [${fs_used_perc /home}%] ","color":"\#7996a9" },
+ { "full_text": " ❤ $cpu% ${loadavg}   ${running_processes}/${processes}  ${running_threads}/${threads} ","color": "\#ca55d3"},
  { "full_text": " ≈ ${if_up enp6s0}${addr enp6s0} U/D[${upspeed enp6s0}/${downspeed enp6s0}] ${else}N/A ${endif}","color":"\#33CC99"},
+  { "full_text": " ${totalup enp6s0}/${totaldown enp6s0} ", "color":"\#ffff00"},
  { "full_text": " ☇ RIG5 $uptime ", "color":"\#33dd55"},
  { "full_text": " ${time %j,%U- %a %b %d} ${time %I:%M:%S %p} "}
 ],

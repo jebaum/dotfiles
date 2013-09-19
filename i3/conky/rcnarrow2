@@ -16,8 +16,7 @@ mpd_port 6600
 TEXT
 
 # diskio stuff uses persistent symlinks created by '60-persistent-storage-dm.rules'
-[ { "full_text": " SSD: {${diskio_read /dev/ssdroot}/${diskio_write /dev/ssdroot}  ${diskio_read /dev/ssdhome}/${diskio_write /dev/ssdhome}}    HDD: ${diskio_read /dev/storage}/${diskio_write /dev/storage}    EXT: ${diskio_read /dev/external}/${diskio_write /dev/external} ", "color":"\#6464ff"},
-  { "full_text": " ${running_processes}/${processes} ${running_threads}/${threads} ", "color":"\#ca55d3"},
-  { "full_text": " ${totalup enp6s0}/${totaldown enp6s0} ", "color":"\#ffff00"},
+[ { "full_text": " R:${fs_used /}/${fs_size /} [${fs_used_perc /}%] H:${fs_used /home}/${fs_size /home} [${fs_used_perc /home}%] S:${fs_used /home/james/storage}/${fs_size /home/james/storage} [${fs_used_perc /home/james/storage}%] E:${fs_used /home/james/external}/${fs_size /home/james/external} [${fs_used_perc /home/james/external}%] ","color":"\#7996a9" },
+  { "full_text": " M{${diskio_read /dev/ssdroot}/${diskio_write /dev/ssdroot}  ${diskio_read /dev/ssdhome}/${diskio_write /dev/ssdhome}} S{${diskio_read /dev/storage}/${diskio_write /dev/storage}} E{${diskio_read /dev/external}/${diskio_write /dev/external}} ", "color":"\#6464ff"},
   { "full_text": " ${time %I:%M:%S %p} "}
 ],
