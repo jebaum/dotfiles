@@ -31,7 +31,7 @@ mpd_host 192.168.1.100
 mpd_port 6600
 TEXT
 
-[{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 25} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
+[{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 35} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
     ${if_match "${mpd_status}"=="Playing"}"\#ff0000"${else}"\#a71f52"${endif}},
  { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#e68a8a"},
  { "full_text": " ❤ $cpu% ${loadavg}   ${running_processes}/${processes}  ${running_threads}/${threads} ","color": "\#ca55d3"},

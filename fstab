@@ -12,8 +12,14 @@ UUID=79a67cc1-5e3d-4188-9988-73e9ce64bc49	/home     	ext4      	rw,relatime,data
 
 #storage drive
 UUID=B49269919269593E /home/james/storage ntfs auto,exec,rw,user,uid=james,gid=users,umask=002 0 0
+/home/james/storage/CBRMusic /home/everyone/music none bind 0 0
 
 #2tb external
-UUID=D4783A71783A530A /home/james/external ntfs exec,rw,user,uid=james,gid=users,umask=002 0 0
+UUID=D4783A71783A530A /home/james/external ntfs exec,rw,user,nofail,uid=james,gid=users,umask=002 0 0
+/home/james/external/Video /home/everyone/video none bind 0 0
 
-#UUID=0000-0001 /home/james/pny vfat auto,exec,rw,user,uid=james,gid=users,umask=077 0 0
+# pny usb drive
+UUID=0000-0001 /home/james/usb/pny vfat noauto,exec,rw,user,uid=james,gid=users,umask=077 0 0
+
+# emprex usb drive
+UUID=CDB9-894F /home/james/usb/emprex vfat noauto,exec,rw,user,uid=james,gid=users,umask=077 0 0
