@@ -33,11 +33,11 @@ TEXT
 
 [{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 25} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
     ${if_match "${mpd_status}"=="Playing"}"\#ff0000"${else}"\#a71f52"${endif}},
- { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#B58900"},
+ { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#e68a8a"},
  { "full_text": " ❤ $cpu% ${loadavg}   ${running_processes}/${processes}  ${running_threads}/${threads} ","color": "\#ca55d3"},
- { "full_text": " ≈ ${if_up enp6s0}${addr enp6s0} U/D[${upspeed enp6s0}/${downspeed enp6s0}] ${else}N/A ${endif}","color":"\#33CC99"},
-  { "full_text": " ${totalup enp6s0}/${totaldown enp6s0} ", "color":"\#ffff00"},
- { "full_text": " ☇ RIG5 $uptime ", "color":"\#33dd55"},
+ { "full_text": " ≈ ${if_up enp6s0}${addr enp6s0} U/D[${upspeed enp6s0}/${downspeed enp6s0}] ${else}N/A ${endif}","color":"\#3da0c5"},
+  { "full_text": " ${totalup enp6s0}/${totaldown enp6s0} ", "color":"\#69afff"},
+ { "full_text": " ☇ RIG5 $uptime ", "color":"\#4dff4d"},
  { "full_text": " ${time %j,%U- %a %b %d} ${time %I:%M:%S %p} "}
 ],
 

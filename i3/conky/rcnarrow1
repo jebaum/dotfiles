@@ -15,8 +15,10 @@ mpd_port 6600
 
 TEXT
 
-[ { "full_text" : " ♪ ${mpd_status} ${if_mpd_playing}${mpd_title 35}--${mpd_artist} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
+[ { "full_text" : " ♪ ${mpd_status} ${if_mpd_playing}${mpd_title 40}--${mpd_artist} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
     ${if_match "${mpd_status}"=="Playing"}"\#ff0000"${else}"\#b72f62"${endif}},
-{ "full_text": " UCLA  {${new_mails /home/james/.mutt/mail/jebaumg/INBOX}/${mails /home/james/.mutt/mail/jebaumg/INBOX}}  JB {${new_mails /home/james/.mutt/mail/jbaumy/INBOX}/${mails /home/james/.mutt/mail/jbaumy/INBOX}}  NB {${new_mails /home/james/.mutt/mail/neurionb/INBOX}/${mails /home/james/.mutt/mail/neurionb/INBOX}} ", "color":"\#33dd55"},
+  { "full_text": " UCLA  ${new_mails /home/james/.mutt/mail/jebaumg/INBOX}/${mails /home/james/.mutt/mail/jebaumg/INBOX} ", "color":"\#b82ee6"},
+  { "full_text": " JB ${new_mails /home/james/.mutt/mail/jbaumy/INBOX}/${mails /home/james/.mutt/mail/jbaumy/INBOX} ", "color":"\#2ebae6"},
+  { "full_text": " NB ${new_mails /home/james/.mutt/mail/neurionb/INBOX}/${mails /home/james/.mutt/mail/neurionb/INBOX} ", "color":"\#207720"},
  { "full_text": " ${time %I:%M:%S %p} "}
 ],
