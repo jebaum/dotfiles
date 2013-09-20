@@ -1,0 +1,29 @@
+background        no
+out_to_console    yes
+out_to_x      no
+update_interval   2
+total_run_times   0
+short_units     yes
+pad_percents    3
+
+override_utf8_locale yes
+
+TEXT
+[
+  {"full_text": "$memperc% ", "color":"\#268BD2"},
+  {"full_text": " $cpu% ${loadavg} $acpitemp°C ","color": "\#ca55d3"},
+  {"full_text": " ${if_up wls3}${wireless_essid wls3} [${wireless_link_qual_perc wls3}% ${upspeed wls3}/${downspeed wls3}] ${addr wls3} \
+${else}N/A ${endif}","color":"\#33CC99"},
+  {"full_text": " ${if_match ${battery_percent BAT0} <= 15}${blink ${battery_time BAT0} [${battery_percent BAT0}%]} \
+${else}${battery_time BAT0} [${battery_percent BAT0}%] ${endif}","color":"\#EC322F"},
+  {"full_text": " $uptime_short ", "color":"\#33dd55"},
+  {"full_text": " ${time %a %b %d} ${time %H:%M} "}
+],
+
+#${if_up eth0} ${addr eth0} ${endif} 
+
+#orange:  \#B58900
+#red:   \#DC322F
+#green:   \#33CC99
+#purple:  \#9933CC
+#blue:    \#268BD2
