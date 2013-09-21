@@ -43,13 +43,13 @@ client.background         #000000
 # exec_always will run when i3 is restarted, not just initially
 exec unclutter
 exec parcellite
+exec xset m 0 0
 exec nitrogen --restore
 exec dropbox start
 exec udiskie &
 exec amixer set PCM 208
 exec amixer set Master 25
 exec curl icanhazip.com > ~/Dropbox/jbaumy.com/ip.txt
-exec xset m 0 0
 exec device.sh xfi
 exec ~/dotfiles/scripts/imap_daemon.sh
 exec ~/dotfiles/scripts/startup.sh
