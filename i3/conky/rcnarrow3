@@ -1,5 +1,5 @@
-out_to_x no
-own_window no
+#out_to_x no
+#own_window no
 out_to_console yes
 background no
 max_text_width 0
@@ -8,7 +8,7 @@ total_run_times 0
 short_units yes
 if_up_strictness address
 use_spacer left
-override_utf8_locale no
+#override_utf8_locale no
 cpu_avg_samples 2
 mpd_host 192.168.1.100
 mpd_port 6600
@@ -18,8 +18,7 @@ TEXT
 [{ "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/weather.sh 90024} ", "color":"\#ff5930"},
  { "full_text": "${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 1} -${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 2 | tail -n 1} ", "color":"\#fa3ada"},
  { "full_text": " ${sysname} ${kernel} ", "color":"\#4070af"},
- { "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh} ", "color":
-    ${if_match "${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh}"=="No new packages"}"\#209030"${else}"\#00ff00"${endif}},
+ { "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh} ", "color":${if_match "${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh}"=="No new packages"}"\#209030"${else}"\#00ff00"${endif}},
  { "full_text": " ${time %I:%M:%S %p} "}
 ],
 
