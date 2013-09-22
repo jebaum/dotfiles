@@ -120,7 +120,8 @@ bindsym $mod+Control+Next  exec echo seek -600 0 > ~/.mplayer/mplayerfifo
 bindsym $mod+Control+Prior exec echo seek 600 0 > ~/.mplayer/mplayerfifo
 
   ### Script hotkeys
-bindsym --release Print exec grab
+bindsym --release Print exec imgur_auth_upload.sh
+bindsym $mod+Shift+Print exec killall dzen2
 bindsym $mod+Print exec pasta
 bindsym $mod+q exec quickswitch.py
 bindsym $mod+Escape exec /usr/bin/lk

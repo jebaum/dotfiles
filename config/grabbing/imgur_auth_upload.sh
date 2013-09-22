@@ -1,16 +1,9 @@
 #!/bin/bash
 
-# imgur_auth_upload.sh
-# 
-# Takes a screenshot.  Uploads it to imgur.  Can auth an account
-# so the image came be edited.
-
-# set -xe
-
 CONFPATH=${HOME}/.imgup.conf
 AUTH_TOKEN='x'
 REFRESH_TOKEN='x'
-DZEN_OPTS=" -bg darkslategray -fg white -xs 1 -ta l -fn 6x12 -p -u "
+DZEN_OPTS=" -bg #102210 -fg white -xs 1 -ta l -fn 6x12 -p -u -y -1"
 
 # rewrite stored token.  call with no args to clear it
 function update_tokens() {
@@ -97,8 +90,7 @@ if [[ "$AUTH_RESPONSE" != "$AUTH_TOKEN $REFRESH_TOKEN" ]] ; then
   source ${CONFPATH}
 fi
 
-# By now auth_token should be useful
-
+#By now auth_token should be useful
 IMAGE="/tmp/screenshot-$(date +'%F.%T').png"
 echo "Screenshot -> Imgur: Click a window or drag a selection." | dzen2 $DZEN_OPTS &
 PID=$!
@@ -111,8 +103,10 @@ if [ $? -eq 0 ] ; then
   response=`curl -s -X POST --header "Authorization: Bearer ${AUTH_TOKEN}" -F "image=@${IMAGE}" https://api.imgur.com/3/image`
   id=$(echo $response | jshon -e data -e id | tr -d '"')
   if [ "$id" != "" ] ; then
-    firefox http://imgur.com/$id &
-    echo "![screenshot](http://imgur.com/$id.png)"
+    #firefox http://imgur.com/$id &
+    #echo "![screenshot](http://imgur.com/$id.png)"
+    echo "http://imgur.com/${id}.png" | xclip
+    notify-send -t 1500 "http://imgur.com/${id}.png"
   fi
 fi
 
