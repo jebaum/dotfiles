@@ -17,9 +17,9 @@ TEXT
 
 [{ "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/weather.sh 90024} ", "color":"\#ff5930"},
  { "full_text": "${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 1} -${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 2 | tail -n 1} ", "color":"\#fa3ada"},
- { "full_text": " ${sysname} ${kernel} ", "color":"\#396aaa"},
- { "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/pacman_updates.pl} ", "color":
-    ${if_match "${execi 300 /home/james/dotfiles/i3/conky/pacman_updates.pl}"=="No new packages"}"\#209030"${else}"\#00ff00"${endif}},
+ { "full_text": " ${sysname} ${kernel} ", "color":"\#4070af"},
+ { "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh} ", "color":
+    ${if_match "${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh}"=="No new packages"}"\#209030"${else}"\#00ff00"${endif}},
  { "full_text": " ${time %I:%M:%S %p} "}
 ],
 
