@@ -36,8 +36,8 @@ IMGURKEY="e7bc144295297c37aa852990570435dc"
 # options would be set as follows:
 
 SCPOPTS="-P 22"
-SSHSTR="jebaum@jbaumy.com"
-SSHDIR="/home/jebaum/jbaumy.com/files/"
+SSHSTR="james@jbaumy.com"
+SSHDIR="/home/james/Dropbox/jbaumy.com/files/"
 WEBURL="http://files.jbaumy.com/"
 
 # OPTIONAL - put files with certain extensions into distinct directories
@@ -48,7 +48,7 @@ WEBURL="http://files.jbaumy.com/"
 # the above settings will be used
 
 EXTENSIONS=( \
-'txt' '/home/jebaum/jbaumy.com/files/text' 'http://files.jbaumy.com/text' \
-'jpg' '/home/jebaum/jbaumy.com/files/screens' 'http://files.jbaumy.com/screens' \
-'png' '/home/jebaum/jbaumy.com/files/screens' 'http://files.jbaumy.com/screens' \
+'txt' '/home/james/Dropbox/jbaumy.com/files/text' 'http://jbaumy.com/files/text' \
+'jpg' '/home/james/Dropbox/jbaumy.com/files/screens' 'http://jbaumy.com/files/screens' \
+'png' '/home/james/Dropbox/jbaumy.com/files/screens' 'http://jbaumy.com/files/screens' \
 )

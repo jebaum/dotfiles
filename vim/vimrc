@@ -18,6 +18,15 @@ augroup END
 
 set shell=zsh\ --login
 
+" Fix borders of fullscreen GUI
+if has('gui_gtk') && has('gui_running')
+    let s:border = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
+    exe 'silent !echo ''style "vimfix" { bg[NORMAL] = "' . escape(s:border, '#') . '" }'''.
+                \' > ~/.gtkrc-2.0'
+    exe 'silent !echo ''widget "vim-main-window.*GtkForm" style "vimfix"'''.
+                \' >> ~/.gtkrc-2.0'
+endif
+
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
@@ -114,6 +123,10 @@ let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 " TODO: get neocomplete to not set completeopt-=longest
 inoremap <expr><C-n>    neocomplete#start_manual_complete()
+" }}}
+" nerdcommenter setttings {{{
+let NERDSpaceDelims=1
+let NERDCompactSexyComs=0
 " }}}
 " nerdtree settings {{{
 let NERDTreeWinSize=40
