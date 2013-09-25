@@ -374,6 +374,7 @@ set smarttab        " make tabs more consistent with softtabstop
 set shiftwidth=2    " amount of whitespace to insert or remove using normal mode indentation commands
 set softtabstop=2   " amount of whitespace deleted by backspace
 set tabstop=2       " width of tab character
+set shiftround      " indent byh multiples of shiftwidth
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
