@@ -22,10 +22,21 @@ set shell=zsh\ --login
 if has('gui_gtk') && has('gui_running')
     let s:border = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
     exe 'silent !echo ''style "vimfix" { bg[NORMAL] = "' . escape(s:border, '#') . '" }'''.
-                \' > ~/.gtkrc-2.0'
+                \' > ~/.gtkrc-2.0.mine'
     exe 'silent !echo ''widget "vim-main-window.*GtkForm" style "vimfix"'''.
-                \' >> ~/.gtkrc-2.0'
+                \' >> ~/.gtkrc-2.0.mine'
 endif
+
+" only works on a single file. more just for fun than practicality
+function! RangerChooser()
+    exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
+    if filereadable('/tmp/chosenfile')
+        exec 'edit ' . system('cat /tmp/chosenfile')
+        call system('rm /tmp/chosenfile')
+    endif
+    redraw!
+endfun
+" map ,r :call RangerChooser()<CR>
 
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes

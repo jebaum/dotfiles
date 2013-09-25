@@ -11,5 +11,7 @@ if pgrep mplayer >/dev/null; then
   done
 else
   mplayer -input file="$FIFO" -- "$@" &>/dev/null &
+  # sleep 1
+  # i3-msg \[class="mplayer2"\] move workspace number 9:code
 fi
 
