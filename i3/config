@@ -49,7 +49,6 @@ exec dropbox start
 exec udiskie &
 exec amixer set PCM 208
 exec amixer set Master 25
-exec curl icanhazip.com > ~/Dropbox/jbaumy.com/ip.txt
 exec device.sh xfi
 exec ~/dotfiles/scripts/imap_daemon.sh
 exec ~/dotfiles/scripts/startup.sh
