@@ -104,12 +104,6 @@ let g:airline#extensions#hunks#non_zero_only = 1
 let g:gundo_width=40
 let g:gundo_preview_height=40
 " }}}
-" latex settings {{{
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
-let g:Tex_ViewRule_pdf = '/usr/bin/evince' " set pdf viewer for <leader>lv
-let g:Tex_ViewRule_dvi = '/usr/bin/evince' " set dvi viewer for <leader>lv
-" }}}
 " match tag settings {{{
 let g:mta_filetypes = {
     \ 'html' : 1,
@@ -522,6 +516,12 @@ nnoremap <leader>zc :set cursorcolumn!<CR>
 nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
+
+" LaTeX (rubber) macro for compiling
+" nnoremap <leader>ll :!rubber --pdf --warn all %<CR><CR>
+nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
+" View PDF macro; '%:r' is current file's root (base) name.
+nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 
 " space leader maps. unite + window management
 nnoremap <Space>a :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
