@@ -73,9 +73,6 @@
 [submodule "vim/bundle/vim-matchit"]
 	path = vim/bundle/vim-matchit
 	url = https://github.com/tsaleh/vim-matchit.git
-[submodule "vim/bundle/vim-alternate"]
-	path = vim/bundle/vim-alternate
-	url = https://github.com/dantler/vim-alternate.git
 [submodule "vim/bundle/SingleCompile"]
 	path = vim/bundle/SingleCompile
 	url = https://github.com/vim-scripts/SingleCompile.git
