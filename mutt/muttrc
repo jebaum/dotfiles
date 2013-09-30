@@ -112,10 +112,10 @@ macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore me
 bind  attach  <return> view-mailcap
 macro attach  S        <save-entry><kill-line>/home/james/<return>a
 
-bind  browser,postpone,alias,attach  i  previous-entry
-bind  browser,postpone,alias,attach  k  next-entry
-bind  browser,postpone,alias,attach  g  first-entry
-bind  browser,postpone,alias,attach  G  last-entry
+bind  compose,browser,postpone,alias,attach  i  previous-entry
+bind  compose,browser,postpone,alias,attach  k  next-entry
+bind  compose,browser,postpone,alias,attach  g  first-entry
+bind  compose,browser,postpone,alias,attach  G  last-entry
 
 bind compose p        postpone-message # postpone message from sending screen
 bind index   p        recall-message
