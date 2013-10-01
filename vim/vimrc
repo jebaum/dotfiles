@@ -42,6 +42,7 @@ endfun
 augroup SyntaxNotes
   autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
   autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
+  autocmd BufEnter * call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
 augroup END
 
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
