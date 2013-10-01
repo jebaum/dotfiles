@@ -52,6 +52,7 @@ alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.
 alias 'ps?'='ps ax | grep '
 alias trance='mplayer http://listen.trance.fm/1/320'
 alias trance2='mplayer http://listen.trance.fm/1/320/02'
+alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
 
 function up() {
   LIMIT=$1
@@ -77,56 +78,56 @@ function syncschool() {
 }
 
 function cptlnxsrv() { # copy to linux server
-		# 3 parameters: local location to copy from (relative to current directory) | optional folder to create for dump | flags to add (no dash)
-		# if copying one file and not folder, will be renamed to second parameter
-	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
-		echo -e "${white}takes 3 parameters:\\n\\tlocal file or directory to copy (relative to current)\\n\\toptional folder under ~/files/ to create for dump\\n\\tflags to add beyond -r (no dash)${NC}"
-	else	
-		echo -e "${white}Running: scp -r$3 $1 /u/ee/ugrad/baumgart/files/$2${NC}"
-		scp -r$3 "./$1" baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$2"
-	fi
+    # 3 parameters: local location to copy from (relative to current directory) | optional folder to create for dump | flags to add (no dash)
+    # if copying one file and not folder, will be renamed to second parameter
+  if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+    echo -e "${white}takes 3 parameters:\\n\\tlocal file or directory to copy (relative to current)\\n\\toptional folder under ~/files/ to create for dump\\n\\tflags to add beyond -r (no dash)${NC}"
+  else
+    echo -e "${white}Running: scp -r$3 $1 /u/ee/ugrad/baumgart/files/$2${NC}"
+    scp -r$3 "./$1" baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$2"
+  fi
 }
 
 function cpflnxsrv() { # copy from linux server using "files" as base directory
-		# 2 parameters: location under files to copy | flags (no dash)
-		# passing no parameters will download everything under "files" and create a "files" directory
-		# passing "*" or "." downloads only the contents of files without creating a "files" directory
-	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
-		echo -e "${white}takes 2 parameters:\\n\\tlocation under ~/files/ to copy\\n\\tflags to add beyond -r (no dash)\\n\\tpassing no parameters downloads everything in ~/files/ to SLS\\n\\tpassing * or . downloads contents of ~/files/, not parent folder${NC}"
-	else	
-		echo -e "${white}Running: scp -r$2 /u/ee/ugrad/baumgart/files/$1 Downloads/Seasnet Linux Server${NC}"
-		scp -r$2 baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$1" /cygdrive/d/Downloads/Seasnet\ Linux\ Server
-	fi
+    # 2 parameters: location under files to copy | flags (no dash)
+    # passing no parameters will download everything under "files" and create a "files" directory
+    # passing "*" or "." downloads only the contents of files without creating a "files" directory
+  if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+    echo -e "${white}takes 2 parameters:\\n\\tlocation under ~/files/ to copy\\n\\tflags to add beyond -r (no dash)\\n\\tpassing no parameters downloads everything in ~/files/ to SLS\\n\\tpassing * or . downloads contents of ~/files/, not parent folder${NC}"
+  else
+    echo -e "${white}Running: scp -r$2 /u/ee/ugrad/baumgart/files/$1 Downloads/Seasnet Linux Server${NC}"
+    scp -r$2 baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$1" /cygdrive/d/Downloads/Seasnet\ Linux\ Server
+  fi
 }
 
-function lslnxsrv() { 
-		# 2 parameters: directory to list relative to "files" | flags (no dash)
-		# passing no parameters will list the contents of "files", passing ".." will list root
-	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
-		echo -e "${white}takes 2 parameters:\\n\\tdirectory to list relative to ~/files/\\n\\tflags to add beyond -F (no dash)${NC}"
-	else
-		echo -e "${white}Listing contents of: /u/ee/ugrad/baumgart/files/$1${NC}"
-		ssh baumgart@lnxsrv.seas.ucla.edu ls -F$2 "files/$1"
-	fi
+function lslnxsrv() {
+    # 2 parameters: directory to list relative to "files" | flags (no dash)
+    # passing no parameters will list the contents of "files", passing ".." will list root
+  if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+    echo -e "${white}takes 2 parameters:\\n\\tdirectory to list relative to ~/files/\\n\\tflags to add beyond -F (no dash)${NC}"
+  else
+    echo -e "${white}Listing contents of: /u/ee/ugrad/baumgart/files/$1${NC}"
+    ssh baumgart@lnxsrv.seas.ucla.edu ls -F$2 "files/$1"
+  fi
 }
 
 function rmlnxsrv() { # removes files from lnxsrv relative to "files" directory
-		# 2 parameters: files/directory to delete | flags to add (with a dash)
-	if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
-		echo -e "${white}takes 2 parameters:\\n\\tfiles to delete relative to ~/files/\\n\\tflags to add (with dash)${NC}"
-	else
-		echo -e "${white}Removing file: /u/ee/ugrad/baumgart/files/$1${NC}"
-		ssh baumgart@lnxsrv.seas.ucla.edu rm $2 "/u/ee/ugrad/baumgart/files/$1"
-	fi
+    # 2 parameters: files/directory to delete | flags to add (with a dash)
+  if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
+    echo -e "${white}takes 2 parameters:\\n\\tfiles to delete relative to ~/files/\\n\\tflags to add (with dash)${NC}"
+  else
+    echo -e "${white}Removing file: /u/ee/ugrad/baumgart/files/$1${NC}"
+    ssh baumgart@lnxsrv.seas.ucla.edu rm $2 "/u/ee/ugrad/baumgart/files/$1"
+  fi
 }
 
-	#if [ $# == 5 ]; then
-	#	echo 5 parameters were provided
-	# if [ $# -eq -ne -lt -le -gt -ge 3 ]; then
-	#	echo Number of operators is equal to, not equal to, less than... 3
+  #if [ $# == 5 ]; then
+  # echo 5 parameters were provided
+  # if [ $# -eq -ne -lt -le -gt -ge 3 ]; then
+  # echo Number of operators is equal to, not equal to, less than... 3
 
 #function title {
-#	PROMPT_COMMAND="echo -ne \"\033]0;$1\007\""
+# PROMPT_COMMAND="echo -ne \"\033]0;$1\007\""
 #}
 
 white='\e[1;37m'
