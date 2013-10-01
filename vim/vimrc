@@ -152,6 +152,15 @@ let g:rainbow_load_separately = [
  \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
  \ ]
 " }}}
+" niji settings {{{
+let g:niji_dark_colours = [['196', '196'],
+                        \ [ '255', '255'],
+                        \ [ '226', '226'],
+                        \ [ '86', '86'],
+                        \ [ '46', '46'],
+                        \ [ '202', '202'],
+                        \ [ '201', '201']]
+" }}}
 " showmarks settings {{{
 let g:showmarks_enable=0
 let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
