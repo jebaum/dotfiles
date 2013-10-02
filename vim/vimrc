@@ -40,7 +40,7 @@ endfun
 
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
-  autocmd BufEnter * call SyntaxRange#Include('@begin=text@',   '@end=text@',   'asciidoc',   'Comment')
+  autocmd BufEnter * call SyntaxRange#Include('@begin=text@',   '@end=text@',   'text',   'Tabline')
   autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
   autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
   autocmd BufEnter * call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
