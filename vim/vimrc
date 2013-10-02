@@ -187,6 +187,7 @@ let g:SingleCompile_resultheight = 10
 " }}}
 " slimv settings {{{
 let g:slimv_leader = '\'
+let g:slimv_repl_wrap = 0 " stop j and k from getting remapped. unfortunately also stops REPL wrapping
 let g:lisp_rainbow = 1 " will get overridden by niji, but works in @begin=*@ blocks
 let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
@@ -416,6 +417,7 @@ let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
 nnoremap <Esc><Space> ;
 inoremap <C-c> <Esc><Esc>
+inoremap kj    <Esc><Esc>
 nmap <tab> %
 nnoremap Y y$
 nnoremap & v%
