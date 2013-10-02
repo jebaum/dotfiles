@@ -522,10 +522,15 @@ vnoremap <leader>s :!sort -f<CR>
 "        <leader>t TaskList.vim
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>x :wq<CR>
+
 nnoremap <leader>zc :set cursorcolumn!<CR>
 nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
+
+" prevent Drawit from making swp and rwp mappings
+nnoremap <leader>zswp <Plug>SaveWinPosn
+nnoremap <leader>zrwp <Plug>RestoreWinPosn
 
 " LaTeX (rubber) macro for compiling
 " nnoremap <leader>ll :!rubber --pdf --warn all %<CR><CR>
