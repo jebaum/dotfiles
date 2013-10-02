@@ -154,10 +154,11 @@ let g:rainbow_load_separately = [
  \ ]
 " }}}
 " niji settings {{{
+let g:niji_matching_filetypes = ['lisp']
 let g:niji_dark_colours = [['196', '196'],
-                        \ [ '255', '255'],
                         \ [ '226', '226'],
                         \ [ '86', '86'],
+                        \ [ '255', '255'],
                         \ [ '46', '46'],
                         \ [ '202', '202'],
                         \ [ '201', '201']]
@@ -182,6 +183,7 @@ let g:signify_sign_change       = '~'
 let g:SingleCompile_resultheight = 10
 " }}}
 " slimv settings {{{
+let g:lisp_rainbow = 1 " will get overridden by niji, but works in @begin=*@ blocks
 let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
