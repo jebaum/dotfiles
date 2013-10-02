@@ -163,6 +163,9 @@ let g:niji_dark_colours = [['196', '196'],
                         \ [ '202', '202'],
                         \ [ '201', '201']]
 " }}}
+" paredit settings {{{
+let g:paredit_leader = '\'
+" }}}
 " showmarks settings {{{
 let g:showmarks_enable=0
 let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
@@ -183,6 +186,7 @@ let g:signify_sign_change       = '~'
 let g:SingleCompile_resultheight = 10
 " }}}
 " slimv settings {{{
+let g:slimv_leader = '\'
 let g:lisp_rainbow = 1 " will get overridden by niji, but works in @begin=*@ blocks
 let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
@@ -537,8 +541,8 @@ nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
 " prevent Drawit from making swp and rwp mappings
-nnoremap <leader>zswp <Plug>SaveWinPosn
-nnoremap <leader>zrwp <Plug>RestoreWinPosn
+nnoremap <leader>zzswp <Plug>SaveWinPosn
+nnoremap <leader>zzrwp <Plug>RestoreWinPosn
 
 " LaTeX (rubber) macro for compiling
 " nnoremap <leader>ll :!rubber --pdf --warn all %<CR><CR>
@@ -575,6 +579,7 @@ nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }}}
 " slash leader shortcuts (currently not using){{{
+" reserved for slimv/paredit in lisp files
 " }}}
 " ctrl normal mode {{{
 "        <C-b> :CtrlP
