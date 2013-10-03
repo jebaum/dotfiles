@@ -53,6 +53,7 @@ alias 'ps?'='ps ax | grep '
 alias trance='mplayer http://listen.trance.fm/1/320'
 alias trance2='mplayer http://listen.trance.fm/1/320/02'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
+alias myip='curl icanhazip.com'
 
 function up() {
   LIMIT=$1

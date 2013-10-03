@@ -226,6 +226,10 @@ let g:syntastic_warning_symbol='⚠⚠'
 let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 let g:syntastic_ignore_files=['^/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161/Notes']
 " }}}
+" table mode settings {{{
+let g:loaded_table_mode = 1  "disable for now so it doesn't clutter <leader>t mappings
+" TODO: figure out how to toggle
+" }}}
 " taboo.vim tab name format string {{{
 let g:taboo_tab_format = "%N %1a%m "
 " }}}
