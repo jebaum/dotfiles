@@ -14,7 +14,7 @@ if ! pgrep mutt > /dev/null ; then
 fi
 
 if ! pgrep ranger > /dev/null ; then
-  urxvt -name ranger  -e ranger &
+  EDITOR=vim urxvt -name ranger  -e ranger &
 fi
 
 if [[ $(ps aux | grep "urxvt -name vps" | wc -l) != 2 ]]; then
