@@ -1,8 +1,9 @@
 set from = "jebaum@ucla.edu"
 
 # NOTE - do not end folder path with '/'
-set spoolfile = +jebaumg/INBOX             # controls what folder is in mutt on load
-set record = +jebaumg/sent
+set spoolfile = +jebaumg/INBOX   # controls what folder is in mutt on load
+# set record = +jebaumg/sent
+unset record  # avoid duplicates
 set postponed = +jebaumg/drafts
 
 set sendmail = "/usr/bin/msmtp -a jebaumg"
