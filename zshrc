@@ -47,6 +47,7 @@ plugins=(git archlinux autojump colored-man extract web-search) # zsh-syntax-hig
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 source ~/dotfiles/scripts/bd.zsh
+source ~/dotfiles/scripts/zbell.zsh
 source ~/dotfiles/fancyprompt.zsh
 
 setopt BRACE_CCL

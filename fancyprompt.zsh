@@ -132,5 +132,5 @@ ZSH_THEME_GIT_PROMPT_CLEAN="%K{16}%F{46}✔"
 PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%d%{%B%F{green}%}$(git_super_status)%E%{%f%k%b%}
 $(_prompt_char) %#%{%f%k%b%} %{%f%k%b%}'
 
-RPROMPT='%{%F{39}%}%D{%I:%M:%S}%{$(echo "\a")%}'
+RPROMPT='%{%F{39}%}%D{%I:%M:%S}'
 #RPROMPT='!%{%B%F{cyan}%}%!%{%f%k%b%}' # prints command history number
