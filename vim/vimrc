@@ -102,6 +102,11 @@ let g:airline_detect_whitespace=2 " don't display long message for trailing whit
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 " }}}
+" easymotion settings {{{
+" stop some annoying maps from getting set
+let g:EasyMotion_special_select_phrase = 0
+let g:EasyMotion_special_select_line = 0
+" }}}
 " gundo settings {{{
 let g:gundo_width=40
 let g:gundo_preview_height=40
@@ -158,8 +163,8 @@ let g:niji_matching_filetypes = ['lisp']
 let g:niji_dark_colours = [['82', '82'],
                         \ [ '198', '198'],
                         \ [ '231', '231'],
-                        \ [ '202', '202'],
-                        \ [ '86', '86']]
+                        \ [ '86', '86'],
+                        \ [ '202', '202']]
 " }}}
 " paredit settings {{{
 let g:paredit_leader = '\'
@@ -419,7 +424,6 @@ let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
 nnoremap <Esc><Space> ;
 inoremap <C-c> <Esc><Esc>
-inoremap kj    <Esc><Esc>
 nmap <tab> %
 nnoremap Y y$
 nnoremap & v%
@@ -436,6 +440,8 @@ vnoremap ; :
 " shifting doesn't exit visual mode
 vnoremap < <gv
 vnoremap > >gv
+nnoremap < <<
+nnoremap > >>
 
 " up/down arrow keys go up and down by visual lines
 inoremap <up>   <C-O>gk

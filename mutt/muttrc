@@ -110,6 +110,7 @@ macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore me
 #=Keybinds=============================================#
 
 bind  attach  <return> view-mailcap
+bind  attach  j        exit
 macro attach  S        <save-entry><kill-line>/home/james/<return>a
 
 bind  compose,browser,postpone,alias,attach  i  previous-entry
