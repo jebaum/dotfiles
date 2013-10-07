@@ -7,6 +7,7 @@ mutt/mail
 offlineimap/*
 !offlineimap/offlineimaprc
 pentadactyl/info/*
+vim/.netrwhist
 config/ranger/history
 config/ranger/bookmarks
 config/ranger/__pycache__/*
