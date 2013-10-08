@@ -2,3 +2,6 @@
 
 syn keyword lispKeyword		describe			nil						translate-logical-pathname
 hi def link lispKeyword		Keyword
+
+nnoremap <tab> %
+vnoremap <tab> %

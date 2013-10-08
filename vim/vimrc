@@ -422,20 +422,23 @@ endif
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
+" TODO: don't need this map anymore, unmapped ; from :
 nnoremap <Esc><Space> ;
+nnoremap / ,
+nnoremap n nzz
+nnoremap N Nzz
 inoremap <C-c> <Esc><Esc>
-nmap <tab> %
 nnoremap Y y$
-nnoremap & v%
+nnoremap <tab> %
+vnoremap <tab> %
+" Shift+tab selects to % motion
+nnoremap <Esc>[Z v%
+
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
 " junk map so latex doesn't overwrite C-j
 nnoremap <Esc>z <Plug>IMAP_JumpForward
-
-" use semicolon as well as colon to enter command mode
-nnoremap ; :
-vnoremap ; :
 
 " shifting doesn't exit visual mode
 vnoremap < <gv
