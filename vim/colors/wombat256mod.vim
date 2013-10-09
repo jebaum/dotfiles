@@ -37,7 +37,7 @@ hi TabLineFill  ctermfg=234   ctermbg=234    cterm=none   guifg=#1c1c1c   guibg=
 hi TabLineSel   ctermfg=231   ctermbg=24     cterm=bold   guifg=#ffffff   guibg=#005f87   gui=bold
 hi Title        ctermfg=230   ctermbg=none   cterm=bold   guifg=#ffffd7   guibg=#000000   gui=bold
 hi VertSplit    ctermfg=22    ctermbg=22     cterm=none   guifg=#444444   guibg=#444444   gui=none
-hi Visual       ctermfg=251   ctermbg=54     cterm=none   guifg=#c6c6c6   guibg=#4e4e4e   gui=none
+hi Visual       ctermfg=231   ctermbg=54     cterm=none   guifg=#ffffff   guibg=#4e4e4e   gui=none
 hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none   guifg=#c6c6c6   guibg=#303030   gui=none
 hi WarningMsg   ctermfg=203   ctermbg=none   cterm=none   guifg=#ff5f5f   guibg=#000000   gui=none
 
@@ -79,11 +79,11 @@ hi Comment      ctermfg=244   ctermbg=none   cterm=none   guifg=#808080   guibg=
 hi Constant     ctermfg=226   ctermbg=none   cterm=none   guifg=#ffff00   guibg=#000000   gui=none
 hi Function     ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff   guibg=#000000   gui=none
 hi Identifier   ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff   guibg=#000000   gui=none
-hi Keyword      ctermfg=201   ctermbg=none   cterm=none   guifg=#ff00ff   guibg=#000000   gui=none
+hi Keyword      ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff   guibg=#000000   gui=none
 hi Number       ctermfg=227   ctermbg=none   cterm=none   guifg=#ff00ff   guibg=#000000   gui=bold
 hi PreProc      ctermfg=171   ctermbg=none   cterm=none   guifg=#d75fff   guibg=#000000   gui=none
 hi Special      ctermfg=222   ctermbg=none   cterm=none   guifg=#ffffaf   guibg=#000000   gui=none
-hi Statement    ctermfg=39    ctermbg=none   cterm=none   guifg=#ff5f00   guibg=#000000   gui=bold
+hi Statement    ctermfg=162   ctermbg=none   cterm=none   guifg=#d70087   guibg=#000000   gui=bold
 hi String       ctermfg=208   ctermbg=none   cterm=none   guifg=#ff8700   guibg=#000000   gui=none
 hi Todo         ctermfg=231   ctermbg=196    cterm=bold   guifg=#000000   guibg=#ff0000   gui=bold
 hi Type         ctermfg=46    ctermbg=none   cterm=none   guifg=#00ff00   guibg=#000000   gui=none

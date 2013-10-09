@@ -161,7 +161,7 @@ let g:rainbow_load_separately = [
 " niji settings {{{
 let g:niji_matching_filetypes = ['lisp']
 let g:niji_dark_colours = [['82', '82'],
-                        \ [ '198', '198'],
+                        \ [ '39', '39'],
                         \ [ '231', '231'],
                         \ [ '86', '86'],
                         \ [ '202', '202']]
