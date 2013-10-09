@@ -28,7 +28,7 @@ alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 # command aliases
 alias playserver='mplayer --profile=hdmi > /home/everyone/log'
 alias playserverlog='watch -n 1 "cat /home/everyone/log|tail -20"'
-
+alias db='sudo sysctl -p && dropbox start'
 alias fucking='sudo'
 alias open='xdg-open'
 alias top='htop'
