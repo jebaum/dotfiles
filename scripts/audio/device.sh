@@ -12,6 +12,7 @@ if   [ "$1" == "mobo" ]; then
   rmifexists
   ln -s ${MOBO} ${HOME}/.asoundrc
   amixer set PCM 209
+  amixer set Front 35
 
 elif [ "$1" == "xfi" ]; then
   rmifexists

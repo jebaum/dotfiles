@@ -639,7 +639,8 @@ inoremap <Esc>B     <C-Left>
 inoremap <Esc>w     <S-Right>
 inoremap <Esc>W     <C-Right>
 inoremap <Esc>h     <Home>
-inoremap <Esc>a     <Home>
-inoremap <Esc>e     <End>
+" Emacs!
+inoremap <C-a>      <Home>
+inoremap <C-e>      <End>
 " }}}
 " }}}

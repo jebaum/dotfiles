@@ -5,7 +5,7 @@ dzen2*foreground: #aaaaaa
 dzen2*height: 14
 
 ! XFT
-Xft*dpi: 132
+Xft*dpi: 98
 Xft.antialias: true
 Xft.hinting: true
 Xft.hintstyle: hintfull
@@ -32,7 +32,7 @@ URxvt.matcher.button       : 1
 
 !  anti aliasing of xft fonts in urxvt makes w3m image preview in ranger misbehave, see:
 !  https://github.com/hut/ranger/issues/86
-URxvt.font     : xft:Deja Vu Sans Mono for Powerline:size=7
+URxvt.font     : xft:Deja Vu Sans Mono for Powerline:size=9.5
 !URxvt.font     : xft:Deja Vu Sans Mono:size=9
 !URxvt.font     : xft:Inconsolata-dz:size=9.5
 !URxvt.font     : xft:Ubuntu:size=8
@@ -49,7 +49,7 @@ URxvt.urgentOnBell: true
 
 URxvt.cursorBlink: 1
 URxvt.cursorUnderline: 0
-URxvt.cursorColor            : #C0C0C0
+URxvt.cursorColor            : #FFFFFF
 URxvt.pointerColorBackground : #586E75
 URxvt.pointerColorForeground : #93A1A1
 
