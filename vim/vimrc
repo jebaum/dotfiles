@@ -102,6 +102,9 @@ let g:airline_detect_whitespace=2 " don't display long message for trailing whit
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 " }}}
+" bling settings {{{
+let g:bling_time = 5
+" }}}
 " easymotion settings {{{
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
