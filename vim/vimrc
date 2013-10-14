@@ -425,9 +425,7 @@ endif
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
 set pastetoggle=<INS>
-" TODO: don't need this map anymore, unmapped ; from :
-nnoremap <Esc><Space> ;
-nnoremap / ,
+nmap     / <Plug>SneakPrevious
 nnoremap n nzz
 nnoremap N Nzz
 inoremap <C-c> <Esc><Esc>

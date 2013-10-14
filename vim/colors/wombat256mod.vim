@@ -72,7 +72,9 @@ hi link multiple_cursors_visual Visual
 hi EasyMotionShade  ctermfg=240   ctermbg=16  cterm=none  guifg=#585858   guibg=#000000   gui=none
 hi EasyMotionTarget ctermfg=196   ctermbg=16  cterm=none  guifg=#ff0000   guibg=#000000   gui=none
 
-
+" Sneak hilighting
+hi SneakPluginTarget  ctermfg=231   ctermbg=17
+hi SneakPluginScope   ctermfg=231   ctermbg=17
 
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
 hi Comment      ctermfg=244   ctermbg=none   cterm=none   guifg=#808080   guibg=#000000   gui=none
