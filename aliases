@@ -26,8 +26,6 @@ alias tf2='cd /home/james/.local/share/Steam/SteamApps/common/Team\ Fortress\ 2/
 alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 
 # command aliases
-alias playserver='mplayer --profile=hdmi > /home/everyone/log'
-alias playserverlog='watch -n 1 "cat /home/everyone/log|tail -20"'
 alias db='sudo sysctl -p && dropbox start'
 alias fucking='sudo'
 alias open='xdg-open'
@@ -36,17 +34,22 @@ alias tree='tree -C'
 alias gist='gist -c'
 alias grep='grep --color=auto -in'
 alias vim='vim -p'
-alias v='vim -p'
 alias yt='youtube-viewer'
 alias ytdl='youtube-dl'
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias mpc='mpc -h 192.168.1.100'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias 'ps?'='ps ax | grep '
-alias trance='mplayer http://listen.trance.fm/1/320'
-alias trance2='mplayer http://listen.trance.fm/1/320/02'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
 alias myip='curl icanhazip.com'
+
+function findbugs(){
+  if [[ $# != 1 ]]; then
+    echo "Please supply a .class file as an argument"
+  else
+  java -jar /opt/findbugs/lib/findbugs.jar $1
+  fi
+}
 
 function up() {
   LIMIT=$1
@@ -57,18 +60,6 @@ function up() {
   done
   cd $P
   export MPWD=$P
-}
-
-# rsyncs
-alias pushschoolec2='rsync -avzu -e ssh --delete ~/Dropbox/Documents/UCLA/Y2Q3/* jebaum@jbaumy.com:/home/jebaum/school'
-alias pullschoolec2='rsync -avzu -e ssh --delete jebaum@jbaumy.com:/home/jebaum/school/* ~/Dropbox/Documents/UCLA/Y2Q3'
-
-# rsync master
-function syncschool() {
-  echo -e "${red}Running${NC}: ${white}rsync -azu from ${yellow}local ${white}to ${blue}ec2${NC}"
-  pushschoolec2
-  echo -e "${red}Running${NC}: ${white}rsync -azu from ${yellow}ec2 ${white}to ${blue}local${NC}"
-  pullschoolec2
 }
 
 function cptlnxsrv() { # copy to linux server
@@ -115,23 +106,14 @@ function rmlnxsrv() { # removes files from lnxsrv relative to "files" directory
   fi
 }
 
-  #if [ $# == 5 ]; then
-  # echo 5 parameters were provided
-  # if [ $# -eq -ne -lt -le -gt -ge 3 ]; then
-  # echo Number of operators is equal to, not equal to, less than... 3
-
-#function title {
-# PROMPT_COMMAND="echo -ne \"\033]0;$1\007\""
-#}
-
 white='\e[1;37m'
 blue='\e[1;34m'
 green='\e[1;32m'
 red='\e[1;31m'
 purple='\e[0;35m'
 yellow='\e[1;33m'
-
 NC='\e[0m' # No Color
+
 # MORE COLOR CODES FOR ALIASING
 #Black       0;30     Dark Gray     1;30
 #Blue        0;34     Light Blue    1;34
@@ -141,5 +123,5 @@ NC='\e[0m' # No Color
 #Purple      0;35     Light Purple  1;35
 #Brown       0;33     Yellow        1;33
 #Light Gray  0;37     White         1;37
-#
+
 # vim:filetype=sh
