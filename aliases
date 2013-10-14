@@ -28,20 +28,21 @@ alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 # command aliases
 alias db='sudo sysctl -p && dropbox start'
 alias fucking='sudo'
-alias open='xdg-open'
-alias top='htop'
-alias tree='tree -C'
 alias gist='gist -c'
 alias grep='grep --color=auto -in'
-alias vim='vim -p'
-alias yt='youtube-viewer'
-alias ytdl='youtube-dl'
-alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias mpc='mpc -h 192.168.1.100'
-alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
+alias myip='curl icanhazip.com'
+alias open='xdg-open'
 alias 'ps?'='ps ax | grep '
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
-alias myip='curl icanhazip.com'
+alias top='htop'
+alias tree='tree -C'
+alias vim='vim -p'
+alias x='exit'
+alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
+alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
+alias ytdl='youtube-dl'
+alias yt='youtube-viewer'
 
 function findbugs(){
   if [[ $# != 1 ]]; then
