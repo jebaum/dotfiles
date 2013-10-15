@@ -1,7 +1,7 @@
 # GENERAL CONFIG {{{
-# Mod4 = windows key, Mod1 = alt key
 set $mpdhost 192.168.1.100
 set $mod Mod4
+set $alt Mod1
 floating_modifier $mod
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
@@ -75,10 +75,10 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
   ### switch audio device
-bindsym $mod+Mod1+Control+m   exec device.sh mobo
-bindsym $mod+Mod1+Control+x   exec device.sh xfi
-bindsym $mod+Mod1+Control+h   exec device.sh headset
-bindsym $mod+Mod1+Control+t   exec device.sh hdmi; exec hdmi.sh on
+bindsym $mod+$alt+Control+m   exec device.sh mobo
+bindsym $mod+$alt+Control+x   exec device.sh xfi
+bindsym $mod+$alt+Control+h   exec device.sh headset
+bindsym $mod+$alt+Control+t   exec device.sh hdmi; exec hdmi.sh on
 
 bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mplayer/mplayerfifo
 bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mplayer/mplayerfifo
@@ -86,24 +86,28 @@ bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.
 #bindsym XF86AudioNext         exec device.sh idk
 
   ### volume controls
-bindsym $mod+Mod1+minus       exec volume.sh 1% -
-bindsym $mod+Mod1+plus        exec volume.sh 1% +
-bindsym XF86AudioLowerVolume  exec volume.sh 1% -
-bindsym XF86AudioRaiseVolume  exec volume.sh 1% +
-bindsym $mod+Mod1+m           exec volume.sh toggle
+bindsym $mod+$alt+minus          exec volume.sh 1% -
+bindsym $mod+$alt+plus           exec volume.sh 1% +
+bindsym XF86AudioLowerVolume     exec volume.sh 1% -
+bindsym XF86AudioRaiseVolume     exec volume.sh 1% +
+bindsym $mod+Control+minus       exec volume.sh 5% -
+bindsym $mod+Control+plus        exec volume.sh 5% +
+bindsym $mod+$alt+Control+minus  exec volume.sh 10% -
+bindsym $mod+$alt+Control+plus   exec volume.sh 10% +
+bindsym $mod+$alt+m              exec volume.sh toggle
 
   ### mpc controls
-bindsym $mod+Mod1+p     exec mpc -h $mpdhost cdprev
-bindsym $mod+Mod1+n     exec mpc -h $mpdhost next
-bindsym $mod+Mod1+s     exec mpc -h $mpdhost stop
-bindsym $mod+Mod1+space exec mpc -h $mpdhost toggle
-bindsym $mod+Mod1+Left  exec mpc -h $mpdhost seek -10
-bindsym $mod+Mod1+Right exec mpc -h $mpdhost seek +10
-bindsym $mod+Mod1+Down  exec mpc -h $mpdhost seek -60
-bindsym $mod+Mod1+Up    exec mpc -h $mpdhost seek +60
-bindsym $mod+Mod1+Next  exec mpc -h $mpdhost seek -60
-bindsym $mod+Mod1+Prior exec mpc -h $mpdhost seek +60
-bindsym $mod+Mod1+t     exec killall mpd && mpd
+bindsym $mod+$alt+p     exec mpc -h $mpdhost cdprev
+bindsym $mod+$alt+n     exec mpc -h $mpdhost next
+bindsym $mod+$alt+s     exec mpc -h $mpdhost stop
+bindsym $mod+$alt+space exec mpc -h $mpdhost toggle
+bindsym $mod+$alt+Left  exec mpc -h $mpdhost seek -10
+bindsym $mod+$alt+Right exec mpc -h $mpdhost seek +10
+bindsym $mod+$alt+Down  exec mpc -h $mpdhost seek -60
+bindsym $mod+$alt+Up    exec mpc -h $mpdhost seek +60
+bindsym $mod+$alt+Next  exec mpc -h $mpdhost seek -60
+bindsym $mod+$alt+Prior exec mpc -h $mpdhost seek +60
+bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
 bindsym $mod+Control+p     exec echo playlist_prev > ~/.mpv/mpvfifo
@@ -217,7 +221,7 @@ workspace "13: tv"    output HDMI-0
 
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
-bindsym Mod1+Tab workspace back_and_forth
+bindsym $alt+Tab workspace back_and_forth
 
   ### move workspaces between outputs, also takes specific output name instead of direction (DVI-D-0)
 bindsym $mod+Control+j move workspace to output left
