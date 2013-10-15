@@ -104,7 +104,8 @@ let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 " }}}
 " bling settings {{{
-let g:bling_time = 5
+let g:bling_time = 10
+let g:blink_count = 1
 " }}}
 " easymotion settings {{{
 " stop some annoying maps from getting set
