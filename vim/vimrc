@@ -363,7 +363,7 @@ set hlsearch                   " hilight search terms
 set magic                      " change how backslashes are handled in searches
 set ignorecase                 " case insensitive search by default
 set smartcase                  " case sensitive search if search contains uppercase letter
-set nrformats=alpha,hex        " for C-a and C-x. recognize '0x' prefix as hex, work on letters
+set nrformats=hex              " for C-a and C-x. recognize '0x' prefix as hex
 set scrolljump=1               " lines to scroll when cursor leaves screen
 set scrolloff=1                " start scrolling when 8 lines away from margins
 set updatetime=50              " make CursorHold autocommand and swap writes happen more frequently
