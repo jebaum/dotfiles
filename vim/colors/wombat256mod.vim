@@ -42,7 +42,7 @@ hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none   guifg=#c6c6c6   guibg=
 hi WarningMsg   ctermfg=203   ctermbg=none   cterm=none   guifg=#ff5f5f   guibg=#000000   gui=none
 
 if version >= 700
-hi CursorLine   ctermfg=none  ctermbg=16     cterm=none   guifg=NONE      guibg=#101033   gui=none
+hi CursorLine   ctermfg=231   ctermbg=17     cterm=none   guifg=NONE      guibg=#101033   gui=none
 hi CursorLineNR ctermfg=226   ctermbg=232    cterm=bold   guifg=#ffff00   guibg=#080808   gui=bold
 hi MatchParen   ctermfg=196   ctermbg=16     cterm=bold   guifg=#ff0000   guibg=#000000   gui=bold
 hi Pmenu        ctermfg=230   ctermbg=238    cterm=none   guifg=#ffffd7   guibg=#444444   gui=none
@@ -82,12 +82,12 @@ hi Constant     ctermfg=226   ctermbg=none   cterm=none   guifg=#ffff00   guibg=
 hi Function     ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff   guibg=#000000   gui=none
 hi Identifier   ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff   guibg=#000000   gui=none
 hi Keyword      ctermfg=51    ctermbg=none   cterm=none   guifg=#00ffff   guibg=#000000   gui=none
-hi Number       ctermfg=227   ctermbg=none   cterm=none   guifg=#ff00ff   guibg=#000000   gui=bold
+hi Number       ctermfg=227   ctermbg=none   cterm=none   guifg=#ff00ff   guibg=#000000   gui=none
 hi PreProc      ctermfg=171   ctermbg=none   cterm=none   guifg=#d75fff   guibg=#000000   gui=none
 hi Special      ctermfg=222   ctermbg=none   cterm=none   guifg=#ffffaf   guibg=#000000   gui=none
-hi Statement    ctermfg=162   ctermbg=none   cterm=none   guifg=#d70087   guibg=#000000   gui=bold
+hi Statement    ctermfg=162   ctermbg=none   cterm=none   guifg=#d70087   guibg=#000000   gui=none
 hi String       ctermfg=208   ctermbg=none   cterm=none   guifg=#ff8700   guibg=#000000   gui=none
-hi Todo         ctermfg=231   ctermbg=196    cterm=bold   guifg=#000000   guibg=#ff0000   gui=bold
+hi Todo         ctermfg=231   ctermbg=196    cterm=bold   guifg=#000000   guibg=#ff0000   gui=none
 hi Type         ctermfg=46    ctermbg=none   cterm=none   guifg=#00ff00   guibg=#000000   gui=none
 hi cCustomFunc  ctermfg=117   ctermbg=none   cterm=none   guifg=#87d7ff   guibg=#000000   gui=none
 hi cCustomClass ctermfg=77    ctermbg=none   cterm=none   guifg=#5fd75f   guibg=#000000   gui=none
