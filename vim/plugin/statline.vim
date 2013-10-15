@@ -149,25 +149,6 @@ set statusline+=%3*%h%w%m%r%*
 set statusline+=%4*\ %y%*
 
 
-" ---- file format → file encoding ----
-
-if &encoding == 'utf-8'
-    let g:statline_encoding_separator = '→'
-else
-    let g:statline_encoding_separator = ':'
-endif
-
-if !exists('g:statline_show_encoding')
-    let g:statline_show_encoding = 1
-endif
-if !exists('g:statline_no_encoding_string')
-    let g:statline_no_encoding_string = 'No Encoding'
-endif
-if g:statline_show_encoding
-    set statusline+=%5*[%{&ff}%{g:statline_encoding_separator}%{strlen(&fenc)?&fenc:g:statline_no_encoding_string}]%*
-endif
-
-
 "" ---- Fugitive ----
 " put current git branch to left of space
 set statusline+=%8*%{exists('g:loaded_fugitive')?fugitive#statusline():''}%*
@@ -196,11 +177,31 @@ endif
 " show current function in statusline. optional 'p' parameter says to display full prototype with arguments
 " set statusline+=%8*%{tagbar#currenttag('[%s]\ ','','p')}%*
 
+
+
+" ---- file format → file encoding ----
+
+if &encoding == 'utf-8'
+    let g:statline_encoding_separator = '→'
+else
+    let g:statline_encoding_separator = ':'
+endif
+
+if !exists('g:statline_show_encoding')
+    let g:statline_show_encoding = 1
+endif
+if !exists('g:statline_no_encoding_string')
+    let g:statline_no_encoding_string = 'No Encoding'
+endif
+if g:statline_show_encoding
+    set statusline+=%5*[%{&ff}%{g:statline_encoding_separator}%{strlen(&fenc)?&fenc:g:statline_no_encoding_string}]%*
+endif
+
+
 " ---- current line and column ----
 
 " (-:left align, 14:minwid, l:line, L:nLines, c:column)
-set statusline+=%8*%-14(\ L%l/%L:C%c\ %)%*
-
+set statusline+=%8*%-14(\ L%l/%L:C%c%)%*
 
 " ----  scroll percent ----
 
