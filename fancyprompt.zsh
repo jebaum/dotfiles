@@ -115,7 +115,7 @@ function _prompt_char() {
 # Default values for the appearance of the prompt. Configure at will.
 ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{%K{16}%B%F{green}%}]"
-ZSH_THEME_GIT_PROMPT_SEPARATOR="%B%F{231}%K{16}|%b"
+ZSH_THEME_GIT_PROMPT_SEPARATOR="%b%F{231}%K{16}|%b"
 ZSH_THEME_GIT_PROMPT_BRANCH="%F{blue}"
 ZSH_THEME_GIT_PROMPT_STAGED="%K{16}%F{green}●"
 ZSH_THEME_GIT_PROMPT_CONFLICTS="%B%F{196}✖"
