@@ -201,13 +201,13 @@ let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/sl
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
 " startify settings {{{
-let g:startify_list_order = ['files', 'dir', 'bookmarks', 'sessions']
-let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc' ]
-let g:startify_files_number = 10
-let g:startify_session_detection = 1 " show session at top when Session.vim is found in current directory
-let g:startify_session_autoload = 0  " opening directories with a Session.vim file will have it auto loaded
+let g:startify_list_order = ['bookmarks', 'dir', 'files', 'sessions']
+let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc', '~/TODO' ]
+let g:startify_files_number = 7
+let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
+let g:startify_session_autoload = 0  " opening directories with a Session.vim will have it auto load
 let g:startify_change_to_dir = 1     " when opening file or bookmark, change to its directory
-let g:startify_custom_indices = ['f', 'g', 'h'] " shortcut keys. don't use beiqsv, navigation keys
+let g:startify_custom_indices = ['a','f','h','j','l','w','r','u','o','p','z','x','n','m']
 let g:startify_custom_header = [
   \ '  __/\\\________/\\\___/\\\\\\\\\\\___/\\\\____________/\\\\__',
   \ '   _\/\\\_______\/\\\__\/////\\\///___\/\\\\\\________/\\\\\\__',
