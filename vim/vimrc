@@ -526,6 +526,11 @@ nnoremap H I
 vnoremap h i
 vnoremap H I
 nnoremap I H
+
+" operator pending mode. biggest impact is all the 'inner' mappings use h instead of i
+onoremap j h
+onoremap i k
+onoremap k j
 " }}}
 " function keys {{{
 nnoremap <F1>   :let @+=@"<CR>
