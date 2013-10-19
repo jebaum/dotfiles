@@ -107,6 +107,11 @@ let g:airline#extensions#hunks#non_zero_only = 1
 let g:bling_time = 10
 let g:blink_count = 1
 " }}}
+" dispatch settings {{{
+augroup DISPATCH
+  autocmd FileType java let b:dispatch = 'javac %'
+augroup END
+" }}}
 " easymotion settings {{{
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
@@ -335,6 +340,9 @@ function! s:unite_my_settings()
   nmap <buffer> <C-@> <Plug>(unite_toggle_mark_current_candidate)
 endfunction
 " }}}
+" vimfiler settings {{{
+let g:vimfiler_as_default_explorer = 1
+" }}}
 " }}}
 " General Settings {{{
 set ttyfast                    " redraw screen faster
@@ -535,12 +543,11 @@ onoremap k j
 " function keys {{{
 nnoremap <F1>   :let @+=@"<CR>
 nnoremap <F2>   :GundoToggle<CR>
+nnoremap <F4>   :Copen<CR>
+nnoremap <F5>   :Dispatch!<CR>
 nnoremap <F6>   :set spell!<CR>
-nnoremap <F7>   :RainbowToggle<CR>
-nnoremap <F9>   :SCCompileRunAsync<CR>
-nnoremap <F10>  :SCViewResultAsync<CR>
-nnoremap <F11>   zR
-nnoremap <F12>   zM
+nnoremap <F11>  :SCCompileRunAsync<CR>
+nnoremap <F12>  :SCViewResultAsync<CR>
 " }}}
 " leader shortcuts to frequent commands {{{
 nnoremap <leader>a :set paste<CR>m`O<Esc>``:set nopaste<CR>
@@ -578,10 +585,10 @@ nnoremap <Space>b :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
 nnoremap <Space>f :<C-u>Unite -start-insert -buffer-name=files    file<CR>
 nnoremap <Space>h :split<CR>
 nnoremap <Space>l :call ToggleLocationList()<CR>
-nnoremap <Space>l :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
 nnoremap <Space>o :only<CR>
 nnoremap <Space>q :call ToggleQuickfixList()<CR>
 nnoremap <Space>r :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
+nnoremap <Space>s :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
 nnoremap <Space>t :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>
 nnoremap <Space>v :vsplit<CR>
 nnoremap <Space>y :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
@@ -607,7 +614,7 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 "        <C-b> :CtrlP
 nnoremap <C-f> /
 nnoremap <C-h> :NERDTreeToggle<CR>
-nnoremap <C-i> <C-w><Up>
+nnoremap <C-w>i <C-w><Up>
 nnoremap <C-j> <C-w><Left>
 nnoremap <C-k> <C-w><Down>
 nnoremap <C-l> <C-w><Right>
