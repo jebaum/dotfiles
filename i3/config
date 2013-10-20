@@ -319,6 +319,7 @@ bar {
   workspace_buttons yes
   font pango:Times New Roman 9
   status_command ~/.i3/conky/narrow1
+  tray_output none
   colors {
     background #000000
     statusline #CCCCCC
@@ -339,6 +340,7 @@ bar {
   workspace_buttons yes
   font pango:Times New Roman 9
   status_command ~/.i3/conky/narrow2
+  tray_output none
   colors {
     background #000000
     statusline #CCCCCC
@@ -359,6 +361,7 @@ bar {
   workspace_buttons yes
   font pango:Times New Roman 9
   status_command ~/.i3/conky/narrow3
+  tray_output none
   colors {
     background #000000
     statusline #CCCCCC
