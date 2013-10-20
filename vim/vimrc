@@ -16,6 +16,35 @@ augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful wa
   autocmd BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
 augroup END
 
+" Functions to flash current cursor position {{{
+function! OsseCursorBlindOn()
+" let w:orig_cursorcolumn = &cursorcolumn
+" let w:orig_cursorline = &cursorline
+" extra heinous colour jizz here if desired
+  set cursorcolumn
+  set cursorline
+  augroup OsseCursorBlind
+    au!
+    au CursorHold * call OsseCursorBlindOff()
+    au CursorMoved * call OsseCursorBlindOff()
+  augroup END
+endfunction
+
+function! OsseCursorBlindOff()
+" let &cursorcolumn = w:orig_cursorcolumn
+" let &cursorline = w:orig_cursorline
+  set nocursorline
+  set nocursorcolumn
+  augroup OsseCursorBlind
+    au!
+  augroup END
+endfunction
+
+augroup OsseCursorBlind
+  au!
+augroup END
+" }}}
+
 set shell=zsh\ --login
 
 " Fix borders of fullscreen GUI
@@ -116,6 +145,9 @@ augroup END
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
 let g:EasyMotion_special_select_line = 0
+" }}}
+" gist settings {{{
+let g:gist_post_private = 1 " gists are private by default
 " }}}
 " gundo settings {{{
 let g:gundo_width=40
@@ -546,6 +578,7 @@ nnoremap <F2>   :GundoToggle<CR>
 nnoremap <F4>   :Copen<CR>
 nnoremap <F5>   :Dispatch!<CR>
 nnoremap <F6>   :set spell!<CR>
+nnoremap <F8>   :call OsseCursorBlindOn()<CR>
 nnoremap <F11>  :SCCompileRunAsync<CR>
 nnoremap <F12>  :SCViewResultAsync<CR>
 " }}}
