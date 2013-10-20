@@ -42,7 +42,7 @@ alias ytdl='youtube-dl'
 alias yt='youtube-viewer'
 
 function findbugs(){
-  if [[ $# != 1 ]]; then
+  if [[ $# == 0 ]]; then
     echo "Please supply a .class file as an argument"
   else
   java -jar /opt/findbugs/lib/findbugs.jar $1
