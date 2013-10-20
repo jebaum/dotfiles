@@ -5,6 +5,7 @@ colorscheme wombat256mod
 execute pathogen#infect()
 " }}}
 " Misc {{{
+" mail / mutt {{{
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
@@ -15,7 +16,7 @@ augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful wa
   autocmd BufRead /tmp/mutt-* map!  <F2>  <ESC>gqqji
   autocmd BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
 augroup END
-
+" }}}
 " Functions to flash current cursor position {{{
 function! OsseCursorBlindOn()
 " let w:orig_cursorcolumn = &cursorcolumn
@@ -44,10 +45,7 @@ augroup OsseCursorBlind
   au!
 augroup END
 " }}}
-
-set shell=zsh\ --login
-
-" Fix borders of fullscreen GUI
+" Fix borders of fullscreen GUI {{{
 if has('gui_gtk') && has('gui_running')
     let s:border = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
     exe 'silent !echo ''style "vimfix" { bg[NORMAL] = "' . escape(s:border, '#') . '" }'''.
@@ -55,8 +53,8 @@ if has('gui_gtk') && has('gui_running')
     exe 'silent !echo ''widget "vim-main-window.*GtkForm" style "vimfix"'''.
                 \' >> ~/.gtkrc-2.0.mine'
 endif
-
-" only works on a single file. more just for fun than practicality
+" }}}
+" Ranger file chooser. only works on a single file. more just for fun than practicality {{{
 function! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
     if filereadable('/tmp/chosenfile')
@@ -66,7 +64,8 @@ function! RangerChooser()
     redraw!
 endfun
 " map ,r :call RangerChooser()<CR>
-
+" }}}
+" SyntaxRange {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   autocmd BufEnter * call SyntaxRange#Include('@begin=text@',   '@end=text@',   'text',   'Tabline')
@@ -74,23 +73,16 @@ augroup SyntaxNotes
   autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
   autocmd BufEnter * call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
 augroup END
-
-command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
-cnoreabbrev te tabedit
-cnoreabbrev sv source ~/.vimrc
-
-" Return to last edit position when opening files
+" }}}
+" Return to last edit position when opening files {{{
 augroup ReturnToLast
   autocmd BufReadPost *
        \ if line("'\"") > 0 && line("'\"") <= line("$") |
        \   exe "normal! g`\"" |
        \ endif
 augroup END
-
-set completeopt=longest,menuone
-" hitting enter when completion menu is visible selects item
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
+" }}}
+" Strip Trailing Whitespace {{{
 function! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -101,7 +93,8 @@ augroup StripWhitespaceOnWrite
   autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
   autocmd BufWrite *.txt :call StripTrailingWhitespaces()
 augroup END
-
+" }}}
+" Jumplist doesn't jump between files {{{
 function! NoBufChange(cmd, undo)
     let initbuf = bufnr("%")
     echo initbuf
@@ -114,6 +107,17 @@ function! NoBufChange(cmd, undo)
 endfunction
 "nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
 "nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
+" }}}
+" Commands {{{
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
+cnoreabbrev te tabedit
+cnoreabbrev sv source ~/.vimrc
+" }}}
+" Completion options {{{
+set completeopt=longest,menuone
+" hitting enter when completion menu is visible selects item
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" }}}
 " }}}
 " Plugin Settings {{{
 " airline settings {{{
@@ -377,6 +381,7 @@ let g:vimfiler_as_default_explorer = 1
 " }}}
 " }}}
 " General Settings {{{
+" Set options {{{
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
 set autochdir                  " change cwd when switching/opening buffers
@@ -463,6 +468,7 @@ if has("wildmenu")
   set wildignore+=.DS_Store,.git,.hg,.svn
   set wildignore+=*~,*.swp,*.tmp
 endif
+" }}}
 " }}}
 " Keymaps {{{
 " Misc {{{
