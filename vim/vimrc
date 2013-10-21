@@ -481,14 +481,11 @@ inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
 nnoremap <tab> %
 vnoremap <tab> %
-" Shift+tab selects to % motion
 nnoremap <Esc>[Z v%
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
-" junk map so latex doesn't overwrite C-j
-nnoremap <Esc>z <Plug>IMAP_JumpForward
 
 " shifting doesn't exit visual mode
 vnoremap < <gv
@@ -503,9 +500,14 @@ nnoremap <up>        gk
 nnoremap <down>      gj
 vnoremap <up>        gk
 vnoremap <down>      gj
+
 " left/right arrow keys indent
+" TODO: something more useful here
 nnoremap <Left>      <<
 nnoremap <Right>     >>
+
+" junk map so latex doesn't overwrite C-j
+nnoremap <Esc>z <Plug>IMAP_JumpForward
 " }}}
 " motions for selecting next/previous paren/bracket objects {{{
 onoremap h i
@@ -579,29 +581,29 @@ onoremap i k
 onoremap k j
 " }}}
 " function keys {{{
-nnoremap <F1>   :let @+=@"<CR>
-nnoremap <F2>   :GundoToggle<CR>
-nnoremap <F4>   :Copen<CR>
-nnoremap <F5>   :Dispatch!<CR>
-nnoremap <F6>   :set spell!<CR>
-nnoremap <F8>   :call OsseCursorBlindOn()<CR>
-nnoremap <F11>  :SCCompileRunAsync<CR>
-nnoremap <F12>  :SCViewResultAsync<CR>
+nnoremap <F1>       :let @+=@"<CR>
+nnoremap <F2>       :GundoToggle<CR>
+nnoremap <F4>       :Copen<CR>
+nnoremap <F5>       :Dispatch!<CR>
+nnoremap <F6>       :set spell!<CR>
+nnoremap <F8>       :call OsseCursorBlindOn()<CR>
+nnoremap <F11>      :SCCompileRunAsync<CR>
+nnoremap <F12>      :SCViewResultAsync<CR>
 " }}}
 " leader shortcuts to frequent commands {{{
-nnoremap <leader>a :set paste<CR>m`O<Esc>``:set nopaste<CR>
-nnoremap <leader>b :set paste<CR>m`o<Esc>``:set nopaste<CR>
-nnoremap <leader>c :WatchForChanges!<CR>
-nnoremap <leader>f :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nnoremap <leader>j :CtrlPTag<CR>
-nnoremap <leader>p :set list!<CR>
-nnoremap <leader>q :q<CR>
-nnoremap <leader>r :set relativenumber!<CR>
-nnoremap <leader>s :call StripTrailingWhitespaces()<CR>
-vnoremap <leader>s :!sort -f<CR>
-"        <leader>t TaskList.vim
-nnoremap <leader>w :w!<CR>
-nnoremap <leader>x :wq<CR>
+nnoremap <leader>a  :set paste<CR>m`O<Esc>``:set nopaste<CR>
+nnoremap <leader>b  :set paste<CR>m`o<Esc>``:set nopaste<CR>
+nnoremap <leader>c  :WatchForChanges!<CR>
+nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+nnoremap <leader>j  :CtrlPTag<CR>
+nnoremap <leader>p  :set list!<CR>
+nnoremap <leader>q  :q<CR>
+nnoremap <leader>r  :set relativenumber!<CR>
+nnoremap <leader>s  :call StripTrailingWhitespaces()<CR>
+vnoremap <leader>s  :!sort -f<CR>
+"        <leader>t  TaskList.vim
+nnoremap <leader>w  :w!<CR>
+nnoremap <leader>x  :wq<CR>
 
 nnoremap <leader>zc :set cursorcolumn!<CR>
 nnoremap <leader>zl :set cursorline!<CR>
@@ -624,65 +626,62 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 nnoremap <leader>zzswp <Plug>SaveWinPosn
 nnoremap <leader>zzrwp <Plug>RestoreWinPosn
 
-" LaTeX (rubber) macro for compiling
-" nnoremap <leader>ll :!rubber --pdf --warn all %<CR><CR>
+" LaTeX compiling and viewing
 nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
-" View PDF macro; '%:r' is current file's root (base) name.
 nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 " }}}
 " space leader maps. unite + window management {{{
-nnoremap <Space>a :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
-nnoremap <Space>b :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
-nnoremap <Space>f :<C-u>Unite -start-insert -buffer-name=files    file<CR>
-nnoremap <Space>h :split<CR>
-nnoremap <Space>l :call ToggleLocationList()<CR>
-nnoremap <Space>o :only<CR>
-nnoremap <Space>q :call ToggleQuickfixList()<CR>
-nnoremap <Space>r :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
-nnoremap <Space>s :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
-nnoremap <Space>t :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>
-nnoremap <Space>v :vsplit<CR>
-nnoremap <Space>y :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
-nnoremap <Space>= :Tabularize /=<CR>
+nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
+nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
+nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files    file<CR>
+nnoremap <Space>h   :split<CR>
+nnoremap <Space>l   :call ToggleLocationList()<CR>
+nnoremap <Space>o   :only<CR>
+nnoremap <Space>q   :call ToggleQuickfixList()<CR>
+nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
+nnoremap <Space>s   :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
+nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>
+nnoremap <Space>v   :vsplit<CR>
+nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
+nnoremap <Space>=   :Tabularize /=<CR>
 " TODO: line, line/fast, other unite sources listed starting at L:1892
 " }}}
-" slash leader shortcuts (currently not using){{{
+" slash leader shortcuts (CURRENTLY NOT USING){{{
 " reserved for slimv/paredit in lisp files
 " }}}
 " ctrl normal mode {{{
 "        <C-b> :CtrlP
-nnoremap <C-f> /
-nnoremap <C-h> :NERDTreeToggle<CR>
-nnoremap <C-w>i <C-w><Up>
-nnoremap <C-j> <C-w><Left>
-nnoremap <C-k> <C-w><Down>
-nnoremap <C-l> <C-w><Right>
-nnoremap <C-n> gt
-nnoremap <C-p> gT
-"        <C-s> multi_cursor_start_key
-nnoremap <C-t> :TagbarOpen fjc<CR>
+nnoremap <C-f>    /
+nnoremap <C-w>i     <C-w><Up>
+nnoremap <C-j>      <C-w><Left>
+nnoremap <C-k>      <C-w><Down>
+nnoremap <C-l>      <C-w><Right>
+nnoremap <C-n>      gt
+nnoremap <C-p>      gT
+"        <C-s>      multi_cursor_start_key
+nnoremap <C-t>      :TagbarOpen fjc<CR>
 " }}}
 " alt/esc normal mode {{{
-nnoremap <Esc>a :AirlineToggle<CR>
-nnoremap <Esc>b :CtrlPMRU<CR>
-nnoremap <Esc>h :nohlsearch<CR>
-nnoremap <Esc>i :resize +2<CR>
-nnoremap <Esc>j :vertical resize -2<CR>
-nnoremap <Esc>k :resize -2<CR>
-nnoremap <Esc>l :vertical resize +2<CR>
-nnoremap <Esc>n :tabmove +1<CR>
-nnoremap <Esc>p :tabmove -1<CR>
-nnoremap <Esc>q :quitall<CR>
-nnoremap <Esc>1 1gt
-nnoremap <Esc>2 2gt
-nnoremap <Esc>3 3gt
-nnoremap <Esc>4 4gt
-nnoremap <Esc>5 5gt
-nnoremap <Esc>6 6gt
-nnoremap <Esc>7 7gt
-nnoremap <Esc>8 8gt
-nnoremap <Esc>9 9gt
-nnoremap <Esc>0 :tablast<CR>
+nnoremap <Esc>a     :AirlineToggle<CR>
+nnoremap <Esc>b     :CtrlPMRU<CR>
+nnoremap <Esc>h     :nohlsearch<CR>
+nnoremap <Esc>i     :resize +2<CR>
+nnoremap <Esc>j     :vertical resize -2<CR>
+nnoremap <Esc>k     :resize -2<CR>
+nnoremap <Esc>l     :vertical resize +2<CR>
+nnoremap <Esc>n     :tabmove +1<CR>
+nnoremap <Esc>p     :tabmove -1<CR>
+nnoremap <Esc>q     :quitall<CR>
+nnoremap <Esc>1     1gt
+nnoremap <Esc>2     2gt
+nnoremap <Esc>3     3gt
+nnoremap <Esc>4     4gt
+nnoremap <Esc>5     5gt
+nnoremap <Esc>6     6gt
+nnoremap <Esc>7     7gt
+nnoremap <Esc>8     8gt
+nnoremap <Esc>9     9gt
+nnoremap <Esc>0     :tablast<CR>
 " }}}
 " alt/esc insert mode {{{
 inoremap <Esc>i     <Up>
