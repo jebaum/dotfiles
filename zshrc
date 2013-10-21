@@ -50,6 +50,8 @@ source ~/dotfiles/scripts/bd.zsh
 source ~/dotfiles/scripts/zbell.zsh
 source ~/dotfiles/fancyprompt.zsh
 
+export EBAY_DATA='/home/james/Dropbox/Documents/UCLA/Y3Q1/CS144/vm-shared/vmfiles/ebay-data'
+
 setopt BRACE_CCL
 setopt NO_CASE_GLOB
 setopt NUMERIC_GLOB_SORT

@@ -142,7 +142,7 @@ let g:blink_count = 1
 " }}}
 " dispatch settings {{{
 augroup DISPATCH
-  autocmd FileType java let b:dispatch = 'javac %'
+  autocmd FileType java let b:dispatch = 'ant'
 augroup END
 " }}}
 " easymotion settings {{{
@@ -608,6 +608,18 @@ nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
+" potential git maps. TODO: revise
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gr :Gread<CR>:GitGutter<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
+nnoremap <silent> <leader>ge :Gedit<CR>
+nnoremap <silent> <leader>gg :SignifyToggle<CR>
+
 " prevent Drawit from making swp and rwp mappings
 nnoremap <leader>zzswp <Plug>SaveWinPosn
 nnoremap <leader>zzrwp <Plug>RestoreWinPosn
@@ -617,8 +629,8 @@ nnoremap <leader>zzrwp <Plug>RestoreWinPosn
 nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
 " View PDF macro; '%:r' is current file's root (base) name.
 nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
-
-" space leader maps. unite + window management
+" }}}
+" space leader maps. unite + window management {{{
 nnoremap <Space>a :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
 nnoremap <Space>b :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
 nnoremap <Space>f :<C-u>Unite -start-insert -buffer-name=files    file<CR>
@@ -633,18 +645,6 @@ nnoremap <Space>v :vsplit<CR>
 nnoremap <Space>y :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
 nnoremap <Space>= :Tabularize /=<CR>
 " TODO: line, line/fast, other unite sources listed starting at L:1892
-
-" potential git maps. TODO: revise
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gr :Gread<CR>:GitGutter<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
-nnoremap <silent> <leader>ge :Gedit<CR>
-nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }}}
 " slash leader shortcuts (currently not using){{{
 " reserved for slimv/paredit in lisp files
