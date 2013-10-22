@@ -683,6 +683,7 @@ nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>
 nnoremap <Space>v   :vsplit<CR>
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
 nnoremap <Space>=   :Tabularize /=<CR>
+vnoremap <Space>=   :Tabularize /=<CR>
 " TODO: line, line/fast, other unite sources listed starting at L:1892
 " }}}
 " slash leader shortcuts (CURRENTLY NOT USING){{{
