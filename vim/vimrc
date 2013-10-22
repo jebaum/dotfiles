@@ -162,6 +162,7 @@ noremap <silent> N Nzvzz:call BlingHighight()<CR>
 " dispatch settings {{{
 augroup DISPATCH
   autocmd FileType java let b:dispatch = 'ant'
+  " autocmd FileType java let b:dispatch = 'javac %'
 augroup END
 " }}}
 " easymotion settings {{{
@@ -397,6 +398,13 @@ endfunction
 " }}}
 " vimfiler settings {{{
 let g:vimfiler_as_default_explorer = 1
+augroup vimfiler
+  autocmd FileType vimfiler call s:vimfiler_my_settings()
+augroup END
+
+function! s:vimfiler_my_settings()
+  nmap <buffer> i <Plug>(vimfiler_loop_cursor_up)
+endfunction
 " }}}
 " }}}
 " General Settings {{{

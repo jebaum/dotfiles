@@ -145,3 +145,9 @@
 [submodule "vim/bundle/vim-eunuch"]
 	path = vim/bundle/vim-eunuch
 	url = https://github.com/tpope/vim-eunuch.git
+[submodule "vim/bundle/unite-help"]
+	path = vim/bundle/unite-help
+	url = https://github.com/Shougo/unite-help.git
+[submodule "vim/bundle/vimshell.vim"]
+	path = vim/bundle/vimshell.vim
+	url = https://github.com/Shougo/vimshell.vim.git
