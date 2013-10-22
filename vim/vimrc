@@ -133,8 +133,9 @@ autocmd FileType make set noexpandtab sw=4
 " }}}
 " Plugin Settings {{{
 " airline settings {{{
-let g:loaded_airline = 1          " turn airline off for now
 let g:airline_theme="simple"
+let g:airline_detect_modified = 1
+let g:airline_detect_paste = 1
 let g:airline_inactive_collapse = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -144,9 +145,12 @@ let g:airline_branch_prefix = ' '
 let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
 let g:airline_section_z="%l/%L:C%c %b/0x%B"
-let g:airline_detect_whitespace=2 " don't display long message for trailing whitespace
+let g:airline#extensions#whitespace#symbol = 'Ξ'
+let g:airline#extensions#whitespace#trailing_format = 's[%s]'
+let g:airline#extensions#whitespace#mixed_indent_format = 't[%s]'
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
+
 " }}}
 " bling settings {{{
 let g:bling_time = 10
@@ -183,7 +187,7 @@ let g:mta_filetypes = {
 " }}}
 " multi-cursor settings {{{
 let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_key='<C-a>'
+let g:multi_cursor_start_key='<Space>m'
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
@@ -579,6 +583,8 @@ omap and an"
 omap apd ap"
 omap ans an'
 omap aps ap'
+
+" TODO: repeat letter to symbol mappings for inner stuff (which now uses h)
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
@@ -656,6 +662,7 @@ nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files    file<CR>
 nnoremap <Space>h   :split<CR>
 nnoremap <Space>l   :call ToggleLocationList()<CR>
+"        <Space>m   Multicursor trigger
 nnoremap <Space>o   :only<CR>
 nnoremap <Space>q   :call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
