@@ -534,7 +534,7 @@ endfunction
 call MapCR()
 " }}}
 " motions for selecting next/previous paren/bracket objects {{{
-onoremap h i
+omap h i
 onoremap in( :<c-u>normal! f(vi(<CR>
 onoremap ip( :<c-u>normal! F)vi(<CR>
 onoremap in[ :<c-u>normal! f[vi[<CR>
@@ -547,6 +547,8 @@ onoremap in" :<c-u>normal! f"vi"<CR>
 onoremap ip" :<c-u>normal! F"vi"<CR>
 onoremap in' :<c-u>normal! f'vi'<CR>
 onoremap ip' :<c-u>normal! F'vi'<CR>
+onoremap in` :<c-u>normal! f`vi`<CR>
+onoremap ip` :<c-u>normal! F`vi`<CR>
 
 onoremap an( :<c-u>normal! f(va(<CR>
 onoremap ap( :<c-u>normal! F)va(<CR>
@@ -558,8 +560,8 @@ onoremap an< :<c-u>normal! f<va<<CR>
 onoremap ap< :<c-u>normal! F>va<<CR>
 onoremap an" :<c-u>normal! f"va"<CR>
 onoremap ap" :<c-u>normal! F"va"<CR>
-onoremap an' :<c-u>normal! f'va'<CR>
-onoremap ap' :<c-u>normal! F'va'<CR>
+onoremap an` :<c-u>normal! f`va`<CR>
+onoremap ap` :<c-u>normal! F`va`<CR>
 
 " easier to reach on the keyboard
 omap inp in(
@@ -584,7 +586,17 @@ omap apd ap"
 omap ans an'
 omap aps ap'
 
-" TODO: repeat letter to symbol mappings for inner stuff (which now uses h)
+onoremap ip i(
+onoremap ib i[
+onoremap ic i{
+onoremap id i"
+onoremap is i'
+
+onoremap ap a(
+onoremap ab a[
+onoremap ac a{
+onoremap ad a"
+onoremap as a'
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
@@ -602,9 +614,9 @@ vnoremap H I
 nnoremap I H
 
 " operator pending mode. biggest impact is all the 'inner' mappings use h instead of i
-onoremap j h
-onoremap i k
-onoremap k j
+" onoremap j h
+" onoremap i k
+" onoremap k j
 " }}}
 " function keys {{{
 nnoremap <F1>       :let @+=@"<CR>
