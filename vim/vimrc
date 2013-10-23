@@ -755,7 +755,7 @@ nnoremap <Space>v   :vsplit<CR>
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
 nnoremap <Space>=   :Tabularize /=<CR>
 vnoremap <Space>=   :Tabularize /=<CR>
-" TODO: line, line/fast, other unite sources listed starting at L:1892
+" TODO: line, line/fast, other unite sources listed starting at L:1892. also build, sudo, help, other plugins
 " }}}
 " slash leader shortcuts (CURRENTLY NOT USING){{{
 " reserved for slimv/paredit in lisp files
