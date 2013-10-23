@@ -160,3 +160,6 @@
 [submodule "vim/bundle/unite-session"]
 	path = vim/bundle/unite-session
 	url = https://github.com/Shougo/unite-session.git
+[submodule "vim/bundle/vim-quickrun"]
+	path = vim/bundle/vim-quickrun
+	url = https://github.com/thinca/vim-quickrun.git
