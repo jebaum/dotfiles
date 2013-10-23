@@ -761,8 +761,8 @@ vnoremap <Space>=   :Tabularize /=<CR>
 " reserved for slimv/paredit in lisp files
 " }}}
 " ctrl normal mode {{{
-"        <C-b> :CtrlP
-nnoremap <C-f>    /
+nnoremap <C-b>      :VimFilerExplorer<CR>
+nnoremap <C-f>      /
 nnoremap <C-w>i     <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
 nnoremap <C-k>      <C-w><Down>
