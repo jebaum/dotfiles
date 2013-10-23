@@ -743,6 +743,8 @@ nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files    file<CR>
+nnoremap <Space>g   :QuickRun -mode n<CR>
+vnoremap <Space>g   :QuickRun -mode v<CR>
 nnoremap <Space>h   :split<CR>
 nnoremap <Space>l   :call ToggleLocationList()<CR>
 "        <Space>m   Multicursor trigger
