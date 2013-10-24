@@ -51,3 +51,5 @@
   default = simple
 [merge]
   tool = vimdiff
+[init]
+	templatedir = /home/james/.git_template
