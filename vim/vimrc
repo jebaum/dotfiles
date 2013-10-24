@@ -130,6 +130,7 @@ endif
 set nojoinspaces        " use only one space after a period when joining lines
 " }}}
 autocmd FileType make set noexpandtab sw=4
+autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
 " }}}
 " Plugin Settings {{{
 " airline settings {{{
