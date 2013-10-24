@@ -136,9 +136,6 @@
 [submodule "vim/bundle/vim-niji"]
 	path = vim/bundle/vim-niji
 	url = git://github.com/amdt/vim-niji.git
-[submodule "vim/bundle/vim-bling"]
-	path = vim/bundle/vim-bling
-	url = https://github.com/ivyl/vim-bling.git
 [submodule "vim/bundle/vim-sneak"]
 	path = vim/bundle/vim-sneak
 	url = https://github.com/justinmk/vim-sneak.git

@@ -152,13 +152,6 @@ let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 
 " }}}
-" bling settings {{{
-let g:bling_time = 10
-let g:blink_count = 1
-let g:bling_no_map = 1
-noremap <silent> n nzvzz:call BlingHighight()<CR>
-noremap <silent> N Nzvzz:call BlingHighight()<CR>
-" }}}
 " dispatch settings {{{
 augroup DISPATCH
   autocmd FileType java let b:dispatch = 'ant'
