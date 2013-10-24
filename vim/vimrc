@@ -597,12 +597,6 @@ nnoremap <Right>     >>
 
 " junk map so latex doesn't overwrite C-j
 nnoremap <Esc>z <Plug>IMAP_JumpForward
-
-" enter clears search hilight (alt-h to turn it back on)
-function! MapCR()
-  nnoremap <CR> :nohlsearch<CR>:<backspace>
-endfunction
-call MapCR()
 " }}}
 " motions for selecting next/previous paren/bracket objects {{{
 omap h i
@@ -777,7 +771,7 @@ nnoremap <C-t>      :TagbarOpen fjc<CR>
 " alt/esc normal mode {{{
 nnoremap <Esc>a     :AirlineToggle<CR>
 nnoremap <Esc>b     :CtrlPMRU<CR>
-nnoremap <Esc>h     :set hlsearch<CR>
+nnoremap <Esc>h     :nohlsearch<CR>
 nnoremap <Esc>i     :resize +2<CR>
 nnoremap <Esc>j     :vertical resize -2<CR>
 nnoremap <Esc>k     :resize -2<CR>
