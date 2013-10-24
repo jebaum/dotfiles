@@ -41,6 +41,7 @@ alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias ytdl='youtube-dl'
 alias yt='youtube-viewer'
 alias rcd='cd `xclip -o`'
+alias sokoban='clisp -i a-star.lsp -i hw3.lsp'
 
 function findbugs(){
   if [[ $# == 0 ]]; then

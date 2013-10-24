@@ -287,7 +287,7 @@ let g:syntastic_always_populate_loc_list=1 " always put detecter errors in locat
 let g:syntastic_error_symbol='✗✗'
 let g:syntastic_warning_symbol='⚠⚠'
 let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
-let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161/Notes', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework']
+let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework']
 " }}}
 " table mode settings {{{
 let g:loaded_table_mode = 1  "disable for now so it doesn't clutter <leader>t mappings
