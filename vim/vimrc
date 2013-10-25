@@ -559,7 +559,6 @@ endif
 " Keymaps {{{
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
-set pastetoggle=<INS>
 nmap     / <Plug>SneakPrevious
 inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
