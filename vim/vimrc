@@ -305,7 +305,8 @@ let g_tagbar_autoshowtag=1        " auto unfold any parents so highlighted tag i
 let g:tagbar_sort  = 0            " sort tags by position in source file, not alphabetically
 " }}}
 " togglelist settings {{{
-let g:toggle_list_no_mappings=1 " don't use default mappings
+let g:toggle_list_no_mappings=1         " don't use default mappings
+let g:toggle_list_copen_command="Copen" " use dispatch Copen wrapper
 " }}}
 " ultisnips settings {{{
 "let g:UltiSnipsExpandTrigger="<C-l>"
