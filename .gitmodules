@@ -160,3 +160,6 @@
 [submodule "vim/bundle/vim-quickrun"]
 	path = vim/bundle/vim-quickrun
 	url = https://github.com/thinca/vim-quickrun.git
+[submodule "vim/bundle/vim-unimpaired"]
+	path = vim/bundle/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
