@@ -744,7 +744,7 @@ nnoremap <Space>o   :only<CR>
 nnoremap <Space>q   :call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
 nnoremap <Space>s   :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
-nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>
+nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>a<BS>
 nnoremap <Space>v   :vsplit<CR>
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
 nnoremap <Space>=   :Tabularize /=<CR>
