@@ -562,8 +562,8 @@ set pastetoggle=<INS>
 nmap     / <Plug>SneakPrevious
 inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
-nnoremap <tab> %
-vnoremap <tab> %
+" nnoremap <tab> %
+" vnoremap <tab> %
 nnoremap <Esc>[Z v%
 
 " searching jumps to middle of scren
