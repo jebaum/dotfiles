@@ -63,6 +63,21 @@ function up() {
   export MPWD=$P
 }
 
+function to() {
+  if [[ $# -le 1 ]]; then
+    echo "Please supply the destination, and some files or directories to copy"
+  elif [[ "$1" == "server" || "$1" == "jbaumy" ]]; then
+    shift
+    scp -r $@ james@jbaumy.com:/home/james
+  elif [[ "$1" == "desktop" ]]; then
+    shift
+    scp -r $@ james@96.251.7.41:/home/james
+  elif [[ "$1" == "desktopl" || "$1" == "desktoplocal" ]]; then
+    shift
+    scp -r $@ james@192.168.1.100:/home/james
+  fi
+}
+
 function cptlnxsrv() { # copy to linux server
     # 3 parameters: local location to copy from (relative to current directory) | optional folder to create for dump | flags to add (no dash)
     # if copying one file and not folder, will be renamed to second parameter
