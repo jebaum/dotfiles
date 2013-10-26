@@ -764,7 +764,7 @@ nnoremap <C-l>      <C-w><Right>
 nnoremap <C-n>      gt
 nnoremap <C-p>      gT
 "        <C-s>      multi_cursor_start_key
-nnoremap <C-t>      :TagbarOpen fjc<CR>
+nnoremap <C-h>      :TagbarOpen fjc<CR>
 " }}}
 " alt/esc normal mode {{{
 nnoremap <Esc>a     :AirlineToggle<CR>
