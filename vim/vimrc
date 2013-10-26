@@ -111,7 +111,7 @@ endfunction
 " Command mode {{{
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoreabbrev te tabedit
-cnoreabbrev sv source ~/.vimrc
+cnoreabbrev sv source ~/.vim/vimrc
 
 cnoremap <C-a> <Home>
 cnoremap <C-p> <Up>
@@ -577,8 +577,8 @@ nnoremap <C-]> g<C-]>
 " shifting doesn't exit visual mode
 vnoremap < <gv
 vnoremap > >gv
-nnoremap < <<
-nnoremap > >>
+" nnoremap < <<
+" nnoremap > >>
 
 " up/down arrow keys go up and down by visual lines
 inoremap <up>   <C-O>gk
