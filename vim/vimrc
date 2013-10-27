@@ -121,9 +121,11 @@ command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forge
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
 
-cnoremap <C-a> <Home>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
+cnoremap <C-a>  <Home>
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
+cnoremap <C-j>  <S-Left>
+cnoremap <C-l>  <S-Right>
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
