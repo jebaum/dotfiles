@@ -109,7 +109,7 @@ hi Normal         ctermfg=15
 hi Number         ctermfg=201
 hi Operator       ctermfg=3
 hi Pmenu          ctermfg=2    ctermbg=15
-hi PmenuSel       ctermfg=NONE ctermbg=235
+hi PmenuSel       ctermfg=NONE ctermbg=52
 hi PreCondit      ctermfg=13
 hi Question       ctermfg=10   ctermbg=15
 hi Repeat         ctermfg=9
