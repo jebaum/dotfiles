@@ -129,8 +129,8 @@ endif
 
 set nojoinspaces        " use only one space after a period when joining lines
 " }}}
-autocmd FileType make set noexpandtab sw=4
-autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
+autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
+autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
 " }}}
 " Plugin Settings {{{
 " airline settings {{{
@@ -728,7 +728,7 @@ nnoremap <leader>zzswp <Plug>SaveWinPosn
 nnoremap <leader>zzrwp <Plug>RestoreWinPosn
 
 " LaTeX compiling and viewing
-nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
+nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
 nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 " }}}
 " space leader maps. unite + window management {{{
