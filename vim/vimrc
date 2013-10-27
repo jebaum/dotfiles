@@ -45,6 +45,13 @@ augroup OsseCursorBlind
   au!
 augroup END
 " }}}
+" Function to find git dir {{{
+" TODO create mapping to reload tags file using .git/hooks/ctags
+" nnoremap jj :call MyFunction()<CR>
+function! MyFunction()
+  let g:jamesthing = fugitive#extract_git_dir(expand('%:p'))
+endfunction
+" }}}
 " Fix borders of fullscreen GUI {{{
 if has('gui_gtk') && has('gui_running')
     let s:border = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
@@ -68,9 +75,9 @@ endfun
 " SyntaxRange {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
-  autocmd BufEnter * call SyntaxRange#Include('@begin=text@',   '@end=text@',   'text',   'Tabline')
-  autocmd BufEnter * call SyntaxRange#Include('@begin=c@',   '@end=c@',   'c',   'Comment')
-  autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@', '@end=cpp@', 'cpp', 'Comment')
+  autocmd BufEnter * call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
+  autocmd BufEnter * call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
+  autocmd BufEnter * call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
   autocmd BufEnter * call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
 augroup END
 " }}}
@@ -221,10 +228,9 @@ let g:rainbow_load_separately = [
 " niji settings {{{
 let g:niji_matching_filetypes = ['lisp']
 let g:niji_dark_colours = [['82', '82'],
-                        \ [ '39', '39'],
+                        \ [ '202', '202'],
                         \ [ '231', '231'],
-                        \ [ '86', '86'],
-                        \ [ '202', '202']]
+                        \ [ '201', '201']]
 " }}}
 " paredit settings {{{
 let g:paredit_leader = '\'
@@ -707,6 +713,7 @@ nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 
 nnoremap <leader>zc :set cursorcolumn!<CR>
+nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
 nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
