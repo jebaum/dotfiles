@@ -148,3 +148,5 @@ hi SyntasticErrorLine   ctermfg=none  ctermbg=234   cterm=none  guifg=NONE     g
 hi SyntasticErrorSign   ctermfg=226   ctermbg=88    cterm=bold  guifg=#ffff00  guibg=#870000   gui=none
 hi SyntasticWarningLine ctermfg=none  ctermbg=16    cterm=none  guifg=NONE     guibg=#000000   gui=none
 hi SyntasticWarningSign ctermfg=196   ctermbg=16    cterm=none  guifg=#ff0000  guibg=#000000   gui=none
+
+hi MatchTarget ctermfg=16   ctermbg=46  cterm=bold

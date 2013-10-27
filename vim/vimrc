@@ -54,6 +54,14 @@ if has('gui_gtk') && has('gui_running')
                 \' >> ~/.gtkrc-2.0.mine'
 endif
 " }}}
+" CustomMatch function {{{
+function! CustomMatch(pattern)
+  let search_string = "/" . a:pattern . "/"
+  execute 'match MatchTarget ' . search_string
+endfunction
+command! -nargs=1 MatchText call CustomMatch(<f-args>)
+cnoreabbrev mt MatchText
+" }}}
 " Ranger file chooser. only works on a single file. more just for fun than practicality {{{
 function! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
@@ -774,6 +782,7 @@ nnoremap <Esc>i     :resize +2<CR>
 nnoremap <Esc>j     :vertical resize -2<CR>
 nnoremap <Esc>k     :resize -2<CR>
 nnoremap <Esc>l     :vertical resize +2<CR>
+nnoremap <Esc>m     :match none<CR>
 nnoremap <Esc>n     :tabmove +1<CR>
 nnoremap <Esc>p     :tabmove -1<CR>
 nnoremap <Esc>q     :quitall<CR>
