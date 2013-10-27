@@ -691,6 +691,11 @@ vnoremap h i
 vnoremap H I
 nnoremap I H
 
+" motions by display line, insert at last insert mode position
+nnoremap gh gi
+nnoremap gk gj
+nnoremap gi gk
+
 " operator pending mode. biggest impact is all the 'inner' mappings use h instead of i
 " onoremap j h
 " onoremap i k
