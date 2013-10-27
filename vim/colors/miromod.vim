@@ -94,7 +94,7 @@ hi Exception      ctermfg=1
 hi Float          ctermfg=201
 hi Folded         ctermfg=6    ctermbg=0
 hi Function       ctermfg=11
-hi Identifier     ctermfg=13
+hi Identifier     ctermfg=13   cterm=none
 hi Ignore         ctermfg=8
 hi Include        ctermfg=5
 hi Keyword        ctermfg=9

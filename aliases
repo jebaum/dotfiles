@@ -43,6 +43,8 @@ alias yt='youtube-viewer'
 alias rcd='cd `xclip -o`'
 alias sokoban='clisp -i a-star.lsp -i hw3.lsp'
 alias tags='./.git/hooks/ctags >/dev/null'
+alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
+alias network='lsof -P -i -n'
 
 function findbugs(){
   if [[ $# == 0 ]]; then
