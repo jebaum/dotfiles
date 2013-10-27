@@ -81,7 +81,6 @@ hi Comment        ctermfg=244  ctermbg=none   cterm=none   guifg=#808080   guibg
 hi Conditional    ctermfg=197
 hi Constant       ctermfg=35
 hi cRepeat        ctermfg=197
-hi cSpecialCharacter     ctermfg=77
 hi CursorColumn   ctermfg=231  ctermbg=17
 hi CursorLine     ctermfg=NONE ctermbg=16
 hi CursorLineNr   ctermfg=11   ctermbg=232
@@ -119,7 +118,7 @@ hi SpecialKey     ctermfg=11
 hi Statement      ctermfg=44
 hi StorageClass   ctermfg=11
 hi String         ctermfg=208  ctermbg=none   cterm=none   guifg=#ff8700   guibg=#000000   gui=none
-hi Structure      ctermfg=40
+hi Structure      ctermfg=34
 hi Tag            ctermfg=11
 hi Title          ctermfg=3
 hi Todo           ctermfg=231  ctermbg=196    cterm=bold   guifg=#000000   guibg=#ff0000   gui=none
@@ -128,6 +127,7 @@ hi Typedef        ctermfg=6
 hi Underlined     ctermfg=4
 hi WarningMsg     ctermfg=9    ctermbg=15
 hi WildMenu       ctermfg=16   ctermbg=11
+hi cSpecialCharacter     ctermfg=77
 
 " Special for HTML ---
 hi htmlTag        ctermfg=6
