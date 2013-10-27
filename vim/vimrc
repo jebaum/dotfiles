@@ -45,13 +45,6 @@ augroup OsseCursorBlind
   au!
 augroup END
 " }}}
-" Function to find git dir {{{
-" TODO create mapping to reload tags file using .git/hooks/ctags
-" nnoremap jj :call MyFunction()<CR>
-function! MyFunction()
-  let g:jamesthing = fugitive#extract_git_dir(expand('%:p'))
-endfunction
-" }}}
 " Fix borders of fullscreen GUI {{{
 if has('gui_gtk') && has('gui_running')
     let s:border = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
