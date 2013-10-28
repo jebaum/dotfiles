@@ -34,7 +34,7 @@ hi! link FoldColumn   Folded
 if version >= 700
 hi CursorLine   ctermfg=231   ctermbg=17     cterm=none   guifg=NONE      guibg=#101033   gui=none
 hi CursorLineNR ctermfg=226   ctermbg=232    cterm=bold   guifg=#ffff00   guibg=#080808   gui=bold
-hi MatchParen   ctermfg=196   ctermbg=16     cterm=bold   guifg=#ff0000   guibg=#000000   gui=bold
+hi MatchParen   ctermfg=16    ctermbg=46     cterm=bold
 hi Pmenu        ctermfg=230   ctermbg=238    cterm=none   guifg=#ffffd7   guibg=#444444   gui=none
 hi PmenuSel     ctermfg=232   ctermbg=192    cterm=none   guifg=#080808   guibg=#d7ff87   gui=none
 endif
@@ -100,7 +100,6 @@ hi Keyword        ctermfg=9
 hi Label          ctermfg=13
 hi LineNr         ctermfg=8
 hi Macro          ctermfg=13
-hi MatchParen     ctermfg=231  ctermbg=88
 hi ModeMsg        ctermfg=13
 hi MoreMsg        ctermfg=13
 hi NonText        ctermfg=6
@@ -125,7 +124,7 @@ hi Todo           ctermfg=231  ctermbg=196    cterm=bold   guifg=#000000   guibg
 hi Type           ctermfg=40
 hi Typedef        ctermfg=6
 hi Underlined     ctermfg=4
-hi WarningMsg     ctermfg=9    ctermbg=15
+hi WarningMsg     ctermfg=226  ctermbg=232  cterm=none
 hi WildMenu       ctermfg=16   ctermbg=11
 hi cSpecialCharacter     ctermfg=77
 

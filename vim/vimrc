@@ -62,6 +62,13 @@ endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
+" Quickfix search function {{{
+function! QuickfixSearch(pattern)
+  execute 'vim ' . a:pattern . ' % | cw'
+endfunction
+command! -nargs=1 QuickfixSearch call QuickfixSearch(<f-args>)
+cnoreabbrev qf QuickfixSearch
+" }}}
 " Ranger file chooser. only works on a single file. more just for fun than practicality {{{
 function! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
@@ -725,6 +732,7 @@ nnoremap <leader>r  :set relativenumber!<CR>
 nnoremap <leader>s  :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s  :!sort -f<CR>
 "        <leader>t  TaskList.vim
+nnoremap <leader>v  :call QuickfixSearch(substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 
