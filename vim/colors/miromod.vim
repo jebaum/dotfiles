@@ -29,6 +29,7 @@ hi VertSplit    ctermfg=22    ctermbg=22     cterm=none   guifg=#444444   guibg=
 hi Visual       ctermfg=231   ctermbg=54     cterm=none   guifg=#ffffff   guibg=#4e4e4e   gui=none
 hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none   guifg=#c6c6c6   guibg=#303030   gui=none
 hi WarningMsg   ctermfg=203   ctermbg=none   cterm=none   guifg=#ff5f5f   guibg=#000000   gui=none
+hi WarningMsg     ctermfg=226  ctermbg=16   cterm=none
 hi! link FoldColumn   Folded
 
 if version >= 700
@@ -109,7 +110,7 @@ hi Operator       ctermfg=3
 hi Pmenu          ctermfg=2    ctermbg=15
 hi PmenuSel       ctermfg=NONE ctermbg=52
 hi PreCondit      ctermfg=13
-hi Question       ctermfg=10   ctermbg=15
+hi Question       ctermfg=10
 hi Repeat         ctermfg=9
 hi SpecialChar    ctermfg=9
 hi Special        ctermfg=10
@@ -124,7 +125,6 @@ hi Todo           ctermfg=231  ctermbg=196    cterm=bold   guifg=#000000   guibg
 hi Type           ctermfg=40
 hi Typedef        ctermfg=6
 hi Underlined     ctermfg=4
-hi WarningMsg     ctermfg=226  ctermbg=232  cterm=none
 hi WildMenu       ctermfg=16   ctermbg=11
 hi cSpecialCharacter     ctermfg=77
 
