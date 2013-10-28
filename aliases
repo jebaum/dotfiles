@@ -45,6 +45,7 @@ alias sokoban='clisp -i a-star.lsp -i hw3.lsp'
 alias tags='./.git/hooks/ctags >/dev/null'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias network='lsof -P -i -n'
+alias livestreamer='livestreamer -p mpv'
 
 function findbugs(){
   if [[ $# == 0 ]]; then
