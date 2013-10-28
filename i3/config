@@ -80,8 +80,8 @@ bindsym $mod+$alt+Control+x   exec device.sh xfi
 bindsym $mod+$alt+Control+h   exec device.sh headset
 bindsym $mod+$alt+Control+t   exec device.sh hdmi; exec hdmi.sh on
 
-bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mplayer/mplayerfifo
-bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mplayer/mplayerfifo
+bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mpv/mpvfifo
+bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mpv/mpvfifo
 #bindsym XF86AudioPrev         exec device.sh idk
 #bindsym XF86AudioNext         exec device.sh idk
 
