@@ -564,6 +564,7 @@ set guioptions-=m              " hide gui menu bar
 set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
 set noswapfile                 " seriously who needs them
+set tags=./.tags;              " search for .tags file upward
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
