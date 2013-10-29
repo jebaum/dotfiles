@@ -737,6 +737,11 @@ nnoremap gh gi
 nnoremap gk gj
 nnoremap gi gk
 
+" move by folds
+nnoremap zj zi
+nnoremap zk zj
+nnoremap zi zk
+
 " operator pending mode. biggest impact is all the 'inner' mappings use h instead of i
 " onoremap j h
 " onoremap i k
