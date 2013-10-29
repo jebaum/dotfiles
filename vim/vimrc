@@ -622,9 +622,9 @@ nnoremap Y y$
 " vnoremap <tab> %
 nnoremap <Esc>[Z v%
 
-" searching jumps to middle of scren
-nnoremap n nzz
-nnoremap N Nzz
+" searching jumps to middle of screen, and opens fold if in one
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
