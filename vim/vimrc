@@ -76,14 +76,14 @@ cnoreabbrev qfa QuickfixArgSearch
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
 cnoreabbrev qargs Qargs
 
-" :Qdol applies an arbitrary command to every line found by :vim (:Qdo normal @q)
+" :Qdol applies an arbitrary command to every line found by :vimgrep (:Qdo normal @q)
 command! -nargs=1 Qdol try | sil cfirst |
   \ while 1 | exec <q-args> | sil cn | endwhile |
   \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
   \ endtry
 cnoreabbrev qdol Qdol
 
-" Qdof applies arbitrary command to every file found by :vimgrep
+" :Qdof applies an arbitrary command to every file found by :vimgrep
 command! -nargs=1 Qdof try | sil cfirst |
   \ while 1 | exec <q-args> | sil cnf | endwhile |
   \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
