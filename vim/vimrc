@@ -753,7 +753,7 @@ nnoremap <F1>       :call OsseCursorBlindOn()<CR>
 nnoremap <F2>       :set spell!<CR>
 nnoremap <F5>       :Make!<CR>
 nnoremap <F6>       :Dispatch!<CR>
-nnoremap <F7>       :call ToggleQuickfixList()<CR>
+nnoremap <F7>       :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
@@ -812,7 +812,7 @@ nnoremap <Space>h   :split<CR>
 nnoremap <Space>l   :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
 "        <Space>m   Multicursor trigger
 nnoremap <Space>o   :only<CR>
-nnoremap <Space>q   :call ToggleQuickfixList()<CR>
+nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>a<BS>
 nnoremap <Space>v   :vsplit<CR>
