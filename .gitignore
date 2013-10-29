@@ -14,3 +14,4 @@ config/ranger/__pycache__/*
 config/dwb/adblock_lists/
 config/dwb/default/*
 config/gtk-youtube-viewer/*.??t
+.tags
