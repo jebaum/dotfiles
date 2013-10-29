@@ -107,6 +107,8 @@ bindsym $mod+$alt+Down  exec mpc -h $mpdhost seek -60
 bindsym $mod+$alt+Up    exec mpc -h $mpdhost seek +60
 bindsym $mod+$alt+Next  exec mpc -h $mpdhost seek -60
 bindsym $mod+$alt+Prior exec mpc -h $mpdhost seek +60
+bindsym $mod+$alt+h     exec mpc -h $mpdhost enable only headset
+bindsym $mod+$alt+x     exec mpc -h $mpdhost enable only xfi
 bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
