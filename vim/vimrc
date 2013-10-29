@@ -170,21 +170,21 @@ set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
-" Line join settings{{{
+" Line join{{{
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
 set nojoinspaces        " use only one space after a period when joining lines
 " }}}
-" FileType specific settings {{{
+" FileType specific {{{
 augroup FileTypeSettings
   autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
   autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
 augroup END
 " }}}
 " }}}
-" Plugin Settings {{{
-" airline settings {{{
+" Plugin {{{
+" airline {{{
 let g:airline_theme="simple"
 let g:airline_detect_modified = 1
 let g:airline_detect_paste = 1
@@ -212,7 +212,7 @@ let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 
 " }}}
-" dispatch settings {{{
+" dispatch {{{
 augroup DISPATCH
   autocmd FileType java      set makeprg='ant'
   autocmd FileType java      let b:dispatch = 'java ' . shellescape(expand('%:r'))
@@ -221,19 +221,19 @@ augroup DISPATCH
   autocmd FileType sh,python let b:dispatch = './' . shellescape(expand('%'))
 augroup END
 " }}}
-" easymotion settings {{{
+" easymotion {{{
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
 let g:EasyMotion_special_select_line = 0
 " }}}
-" gist settings {{{
+" gist {{{
 let g:gist_post_private = 1 " gists are private by default
 " }}}
-" gundo settings {{{
+" gundo {{{
 let g:gundo_width=40
 let g:gundo_preview_height=40
 " }}}
-" match tag settings {{{
+" match tag {{{
 let g:mta_filetypes = {
     \ 'html' : 1,
     \ 'xhtml' : 1,
@@ -242,7 +242,7 @@ let g:mta_filetypes = {
     \ 'php' : 1,
     \}
 " }}}
-" multi-cursor settings {{{
+" multi-cursor {{{
 let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_start_key='<Space>m'
 let g:multi_cursor_next_key='<C-n>'
@@ -250,7 +250,7 @@ let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
 " }}}
-" neocomplete settings {{{
+" neocomplete {{{
 let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
@@ -258,11 +258,11 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 " TODO: get neocomplete to not set completeopt-=longest
 inoremap <expr><C-n>    neocomplete#start_manual_complete()
 " }}}
-" nerdcommenter setttings {{{
+" nerdcommenter {{{
 let NERDSpaceDelims=1
 let NERDCompactSexyComs=0
 " }}}
-" nerdtree settings {{{
+" nerdtree {{{
 let NERDTreeWinSize=40
 let NERDTreeMapOpenSplit="s"
 let NERDTreeMapOpenVSplit="v"
@@ -270,7 +270,7 @@ let NERDTreeShowLineNumbers=1
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
 " }}}
-" rainbow settings {{{
+" rainbow {{{
 let g:rainbow_active = 0  " don't load automatically
 let g:rainbow_ctermfgs = ['white', 'lightblue', 'lightgreen',]
 let g:rainbow_load_separately = [
@@ -280,43 +280,43 @@ let g:rainbow_load_separately = [
  \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
  \ ]
 " }}}
-" niji settings {{{
+" niji {{{
 let g:niji_matching_filetypes = ['lisp']
 let g:niji_dark_colours = [['82', '82'],
                         \ [ '202', '202'],
                         \ [ '231', '231'],
                         \ [ '201', '201']]
 " }}}
-" paredit settings {{{
+" paredit {{{
 let g:paredit_leader = '\'
 " }}}
-" showmarks settings {{{
+" showmarks {{{
 let g:showmarks_enable=0
 let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
 let g:showmarks_textlower=">"
 let g:showmarks_ignore_type="h"
 " }}}
-" simplyfold settings {{{
+" simplyfold {{{
 let g:SimplyFold_docstring_preview = 0
 " }}}
-" signify settings {{{
+" signify {{{
 let g:signify_disable_by_default = 1  " disable run by default
 let g:signify_vcs_list = [ 'git' ]    " I only use git for now
 let g:signify_mapping_next_hunk = '<leader>gk'
 let g:signify_mapping_prev_hunk = '<leader>gi'
 let g:signify_sign_change       = '~'
 " }}}
-" singlecompile settings {{{
+" singlecompile {{{
 let g:SingleCompile_resultheight = 10
 " }}}
-" slimv settings {{{
+" slimv {{{
 let g:slimv_leader = '\'
 let g:slimv_repl_wrap = 0 " stop j and k from getting remapped. unfortunately also stops REPL wrapping
 let g:lisp_rainbow = 1 " will get overridden by niji, but works in @begin=*@ blocks
 let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
-" startify settings {{{
+" startify {{{
 let g:startify_list_order = ['bookmarks', 'dir', 'files', 'sessions']
 let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/TODO' ]
 let g:startify_files_number = 7
@@ -338,7 +338,7 @@ let g:startify_custom_header = [
   \ '',
   \ ]
 " }}}
-" syntastic settings {{{
+" syntastic {{{
 let g:syntastic_c_compiler = 'clang'
 let g:syntastic_c_compiler_options = ' -Wall'
 let g:syntastic_cpp_compiler = 'clang++'
@@ -350,14 +350,14 @@ let g:syntastic_warning_symbol='⚠⚠'
 let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework']
 " }}}
-" table mode settings {{{
+" table mode {{{
 let g:loaded_table_mode = 1  "disable for now so it doesn't clutter <leader>t mappings
 " TODO: figure out how to toggle
 " }}}
-" taboo.vim tab name format string {{{
+" taboo {{{
 let g:taboo_tab_format = "%N %1a%m "
 " }}}
-" tagbar settings {{{
+" tagbar {{{
 let g:tagbar_left  = 1            " default is to open on right
 let g:tagbar_width = 50           " default is 40
 let g:tagbar_indent= 1            " default is 2
@@ -365,17 +365,17 @@ let g:tagbar_show_linenumbers = 2 " relative line numbers
 let g_tagbar_autoshowtag=1        " auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort  = 0            " sort tags by position in source file, not alphabetically
 " }}}
-" togglelist settings {{{
+" togglelist {{{
 let g:toggle_list_no_mappings=1         " don't use default mappings
 let g:toggle_list_copen_command="Copen" " use dispatch Copen wrapper
 " }}}
-" ultisnips settings {{{
+" ultisnips {{{
 "let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-j>"
 let g:UltiSnipsListSnippets="<C-s>"
 " }}}
-" unite settings {{{
+" unite {{{
 " TODO: line ~670 of unite doc, replace grep with ag
 augroup unite
   autocmd FileType unite call s:unite_my_settings()
@@ -454,7 +454,7 @@ function! s:unite_my_settings()
   nmap <buffer> <C-@> <Plug>(unite_toggle_mark_current_candidate)
 endfunction
 " }}}
-" vimfiler settings {{{
+" vimfiler {{{
 let g:vimfiler_as_default_explorer = 1
 augroup vimfiler
   autocmd FileType vimfiler call s:vimfiler_my_settings()
@@ -528,7 +528,7 @@ function! s:vimfiler_my_settings()
 endfunction
 " }}}
 " }}}
-" General Settings {{{
+" General {{{
 " Set options {{{
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
@@ -578,7 +578,7 @@ syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 " }}}
-" Fold Settings {{{
+" Fold {{{
 " folding: zf#j manually folds # lines, or zf in visual mode selection.
 " zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
 " zj and zk to move between folds
@@ -593,7 +593,7 @@ augroup END
 " ctrl+spacebar toggles folds in normal mode
 nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " }}}
-" Tab/Indent Settings {{{
+" Tab/Indent {{{
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " newer and better smartindent
 set smarttab        " make tabs more consistent with softtabstop
@@ -607,7 +607,7 @@ set textwidth=0     " disables textwidth
 filetype plugin on
 filetype indent on
 " }}}
-" Wildmenu Settings {{{
+" Wildmenu {{{
 if has("wildmenu")
   set wildmenu                    " turn on wildmenu
   set wildignorecase              " wildmenu doesn't care about case
