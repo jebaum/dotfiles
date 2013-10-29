@@ -11,7 +11,7 @@ let colors_name = "miromod"
 " General colors
 hi Cursor       ctermfg=234   ctermbg=228    cterm=none   guifg=#1c1c1c   guibg=#ffff87   gui=none
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold   guifg=#ff0000   guibg=#000000   gui=bold
-hi Folded       ctermfg=44    ctermbg=233    cterm=none   guifg=#00d7d7   guibg=#121212   gui=none
+hi Folded       ctermfg=35    ctermbg=16     cterm=none   guifg=#00d7d7   guibg=#121212   gui=none
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold   guifg=#ffffff   guibg=#af0000   gui=bold
 hi LineNr       ctermfg=110   ctermbg=16     cterm=none   guifg=#0087ff   guibg=#000000   gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold   guifg=#ffffff   guibg=#000000   gui=bold
@@ -92,7 +92,6 @@ hi Directory      ctermfg=6
 hi ErrorMsg       ctermfg=196  ctermbg=232  cterm=bold
 hi Exception      ctermfg=1
 hi Float          ctermfg=201
-hi Folded         ctermfg=6    ctermbg=0
 hi Function       ctermfg=11
 hi Identifier     ctermfg=13   cterm=none
 hi Ignore         ctermfg=8
