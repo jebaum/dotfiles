@@ -434,7 +434,8 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-v>     unite#do_action('right')
   imap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
   imap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
-  imap <silent><buffer><expr> <C-j>     unite#do_action('goto')
+  imap <silent><buffer><expr> <C-j>     unite#do_action('tabdrop')
+  imap <silent><buffer><expr> <C-g>     unite#do_action('tabdrop')
 
   nmap <silent><buffer><expr> <C-s>     unite#do_action('above')
   nmap <silent><buffer><expr> <C-k>     unite#do_action('below')
@@ -442,7 +443,8 @@ function! s:unite_my_settings()
   nmap <silent><buffer><expr> <C-v>     unite#do_action('right')
   nmap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
   nmap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
-  nmap <silent><buffer><expr> <C-j>     unite#do_action('goto')
+  nmap <silent><buffer><expr> <C-j>     unite#do_action('tabdrop')
+  imap <silent><buffer><expr> <C-g>     unite#do_action('tabdrop')
 
   nmap <buffer> i     <Plug>(unite_loop_cursor_up)
   nmap <buffer> k     <Plug>(unite_loop_cursor_down)
@@ -771,8 +773,10 @@ nnoremap <leader>r  :set relativenumber!<CR>
 nnoremap <leader>s  :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s  :!sort -f<CR>
 "        <leader>t  TaskList.vim
-nnoremap <leader>v  :call QuickfixSearch(substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <leader>v  y:call QuickfixSearch(substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g"))<CR>
+nnoremap <leader>va :call QuickfixSearch("##", substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
+vnoremap <leader>va "*y:call QuickfixSearch("##", substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g"))<CR>
+nnoremap <leader>vb :call QuickfixSearch("%", substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
+vnoremap <leader>vb "*y:call QuickfixSearch("%", substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g"))<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 
