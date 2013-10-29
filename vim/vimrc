@@ -64,7 +64,8 @@ cnoreabbrev mt MatchText
 " }}}
 " Quickfix search function {{{
 function! QuickfixSearch(target, pattern)
-  execute 'vim /' . a:pattern . '/ ' . a:target . ' | cw'
+  " execute 'vim /' . a:pattern . '/gj ' . a:target . ' | cw'
+  execute 'vim /' . a:pattern . '/gj ' . a:target
 endfunction
 command! -nargs=1 QuickfixBufSearch call QuickfixSearch('%', <f-args>)
 command! -nargs=1 QuickfixArgSearch call QuickfixSearch('##', <f-args>)
@@ -156,6 +157,7 @@ endfunction
 " }}}
 " Command mode {{{
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
 
@@ -180,6 +182,8 @@ set nojoinspaces        " use only one space after a period when joining lines
 augroup FileTypeSettings
   autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
   autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
+  autocmd FileType tex nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
+  autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 augroup END
 " }}}
 " }}}
@@ -255,7 +259,7 @@ let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-" TODO: get neocomplete to not set completeopt-=longest
+" TODO get neocomplete to not set completeopt-=longest
 inoremap <expr><C-n>    neocomplete#start_manual_complete()
 " }}}
 " nerdcommenter {{{
@@ -342,7 +346,7 @@ let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161', '
 " }}}
 " table mode {{{
 let g:loaded_table_mode = 1  "disable for now so it doesn't clutter <leader>t mappings
-" TODO: figure out how to toggle
+" TODO figure out how to toggle
 " }}}
 " taboo {{{
 let g:taboo_tab_format = "%N %1a%m "
@@ -366,7 +370,7 @@ let g:UltiSnipsJumpBackwardTrigger="<C-j>"
 let g:UltiSnipsListSnippets="<C-s>"
 " }}}
 " unite {{{
-" TODO: line ~670 of unite doc, replace grep with ag
+" TODO line ~670 of unite doc, replace grep with ag
 augroup unite
   autocmd FileType unite call s:unite_my_settings()
 augroup END
@@ -522,7 +526,7 @@ endfunction
 " Set options {{{
 set ttyfast                    " redraw screen faster
 set restorescreen=on           " restore screen contents on exit
-set autochdir                  " change cwd when switching/opening buffers
+" set autochdir                  " change cwd when switching/opening buffers
 set clipboard=unnamedplus      " by default, use system clipboard for yanks ('+' register)
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
@@ -648,8 +652,6 @@ let mapleader = ','  " use comma instead of \ as leader
 nmap     / <Plug>SneakPrevious
 inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
-" nnoremap <tab> %
-" vnoremap <tab> %
 nnoremap <Esc>[Z v%
 
 " searching jumps to middle of screen, and opens fold if in one
@@ -663,8 +665,6 @@ nnoremap <C-]> g<C-]>
 " shifting doesn't exit visual mode
 vnoremap < <gv
 vnoremap > >gv
-" nnoremap < <<
-" nnoremap > >>
 
 " up/down arrow keys go up and down by visual lines
 inoremap <up>   <C-O>gk
@@ -675,7 +675,6 @@ vnoremap <up>        gk
 vnoremap <down>      gj
 
 " left/right arrow keys indent
-" TODO: something more useful here
 nnoremap <Left>      <<
 nnoremap <Right>     >>
 
@@ -781,34 +780,25 @@ nnoremap zi zk
 " define b:dispatch and makeprg so that F1 compiles and F2 runs
 nnoremap <F1>       :call OsseCursorBlindOn()<CR>
 nnoremap <F2>       :set spell!<CR>
+nnoremap <F3>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F5>       :Make!<CR>
 nnoremap <F6>       :Dispatch!<CR>
 nnoremap <F7>       :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
-" leader shortcuts to frequent commands {{{
-nnoremap <leader>a  :set paste<CR>m`O<Esc>``:set nopaste<CR>
-nnoremap <leader>b  :set paste<CR>m`o<Esc>``:set nopaste<CR>
-nnoremap <leader>c  :WatchForChanges!<CR>
+" defualt (comma) leader maps {{{
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nnoremap <leader>j  :CtrlPTag<CR>
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q<CR>
-nnoremap <leader>r  :set relativenumber!<CR>
-nnoremap <leader>s  :call StripTrailingWhitespaces()<CR>
+nnoremap <leader>r  :QuickRun -mode n<CR>
+vnoremap <leader>r  :QuickRun -mode v<CR>
 vnoremap <leader>s  :!sort -f<CR>
 "        <leader>t  TaskList.vim
-nnoremap <leader>va :call QuickfixSearch("##", substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <leader>va "*y:call QuickfixSearch("##", substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g"))<CR>
-nnoremap <leader>vb :call QuickfixSearch("%", substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <leader>vb "*y:call QuickfixSearch("%", substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g"))<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 
-nnoremap <leader>zc :set cursorcolumn!<CR>
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
-nnoremap <leader>zl :set cursorline!<CR>
 nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
@@ -827,32 +817,35 @@ nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " prevent Drawit from making swp and rwp mappings
 nnoremap <leader>zzswp <Plug>SaveWinPosn
 nnoremap <leader>zzrwp <Plug>RestoreWinPosn
-
-" LaTeX compiling and viewing
-nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
-nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 " }}}
-" space leader maps. unite + window management {{{
+" space leader maps. unite + tabularize + window management {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec file_rec/async:!<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers  buffer<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files    file<CR>
-nnoremap <Space>g   :QuickRun -mode n<CR>
-vnoremap <Space>g   :QuickRun -mode v<CR>
-nnoremap <Space>h   :split<CR>
 nnoremap <Space>l   :<C-u>UniteWithInput  -start-insert -buffer-name=locate   locate<CR>
 "        <Space>m   Multicursor trigger
-nnoremap <Space>o   :only<CR>
-nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent   file_mru<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags     tag<CR>a<BS>
-nnoremap <Space>v   :vsplit<CR>
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks    history/yank<CR>
+" TODO line, line/fast, other unite sources listed starting at L:1892. also build, sudo, help, etc
+
 nnoremap <Space>=   :Tabularize /=<CR>
 vnoremap <Space>=   :Tabularize /=<CR>
-" TODO: line, line/fast, other unite sources listed starting at L:1892. also build, sudo, help, other plugins
-" }}}
-" slash leader shortcuts (CURRENTLY NOT USING){{{
-" reserved for slimv/paredit in lisp files
+
+nnoremap <Space>h   :split<CR>
+nnoremap <Space>o   :only<CR>
+nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
+nnoremap <Space>v   :vsplit<CR>
+
+" Under cursor or visual selection, search Buffer or Arglist
+nnoremap <Space>ua :call QuickfixSearch("##", substitute(escape(expand("<cword>")
+                      \, '\'), '\n', '\\n', 'g'))<CR>
+vnoremap <Space>ua "*y:call QuickfixSearch("##", substitute(escape(@*, '\/.*$^~[]')
+                      \, "\n", '\\n', "g"))<CR>
+nnoremap <Space>ub :call QuickfixSearch("%", substitute(escape(expand("<cword>")
+                      \, '\'), '\n', '\\n', 'g'))<CR>
+vnoremap <Space>ub "*y:call QuickfixSearch("%", substitute(escape(@*, '\/.*$^~[]')
+                      \, "\n", '\\n', "g"))<CR>
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>
@@ -866,9 +859,12 @@ nnoremap <C-p>      gT
 "        <C-s>      multi_cursor_start_key
 nnoremap <C-h>      :TagbarOpen fjc<CR>
 " }}}
-" alt/esc normal mode {{{
+" ctrl insert mode {{{
+inoremap <C-a>      <Home>
+inoremap <C-e>      <End>
+" }}}
+" alt normal mode {{{
 nnoremap <Esc>a     :AirlineToggle<CR>
-nnoremap <Esc>b     :CtrlPMRU<CR>
 nnoremap <Esc>h     :nohlsearch<CR>
 nnoremap <Esc>i     :resize +2<CR>
 nnoremap <Esc>j     :vertical resize -2<CR>
@@ -889,7 +885,7 @@ nnoremap <Esc>8     8gt
 nnoremap <Esc>9     9gt
 nnoremap <Esc>0     :tablast<CR>
 " }}}
-" alt/esc insert mode {{{
+" alt insert mode {{{
 inoremap <Esc>i     <Up>
 inoremap <Esc>j     <Left>
 inoremap <Esc>k     <Down>
@@ -898,9 +894,8 @@ inoremap <Esc>b     <S-Left>
 inoremap <Esc>B     <C-Left>
 inoremap <Esc>w     <S-Right>
 inoremap <Esc>W     <C-Right>
-inoremap <Esc>h     <Home>
-" Emacs!
-inoremap <C-a>      <Home>
-inoremap <C-e>      <End>
+" }}}
+" slash leader maps (CURRENTLY NOT USING){{{
+" reserved for slimv/paredit in lisp files
 " }}}
 " }}}
