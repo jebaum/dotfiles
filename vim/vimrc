@@ -174,11 +174,14 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
-
 set nojoinspaces        " use only one space after a period when joining lines
 " }}}
-autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
-autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
+" FileType specific settings {{{
+augroup FileTypeSettings
+  autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
+  autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
+augroup END
+" }}}
 " }}}
 " Plugin Settings {{{
 " airline settings {{{
@@ -538,6 +541,8 @@ set esckeys                    " make numpad work
 set autoread                   " reload files changed outside of vim
 set splitbelow                 " splits open below
 set splitright                 " vsplits open on right
+set hidden                     " allows navigating away from buffers with unsaved changes
+set fillchars=""               " no dashes in folds or vertical bars in vsplits
 set noruler                    " don't show the ruler
 set laststatus=2               " always display the statusline
 set history=1000               " length of command history
