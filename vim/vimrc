@@ -63,11 +63,42 @@ command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
 " Quickfix search function {{{
-function! QuickfixSearch(pattern)
-  execute 'vim ' . a:pattern . ' % | cw'
+function! QuickfixSearch(target, pattern)
+  execute 'vim /' . a:pattern . '/ ' . a:target . ' | cw'
 endfunction
-command! -nargs=1 QuickfixSearch call QuickfixSearch(<f-args>)
-cnoreabbrev qf QuickfixSearch
+command! -nargs=1 QuickfixBufSearch call QuickfixSearch('%', <f-args>)
+command! -nargs=1 QuickfixArgSearch call QuickfixSearch('##', <f-args>)
+cnoreabbrev qfb QuickfixBufSearch
+cnoreabbrev qfa QuickfixArgSearch
+" }}}
+" Qargs, Qdof, Qdol {{{
+" :Qargs will populate the arglist with the files in the quickfix list
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+cnoreabbrev qargs Qargs
+
+" :Qdol applies an arbitrary command to every line found by :vim (:Qdo normal @q)
+command! -nargs=1 Qdol try | sil cfirst |
+  \ while 1 | exec <q-args> | sil cn | endwhile |
+  \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
+  \ endtry
+cnoreabbrev qdol Qdol
+
+" Qdof applies arbitrary command to every file found by :vimgrep
+command! -nargs=1 Qdof try | sil cfirst |
+  \ while 1 | exec <q-args> | sil cnf | endwhile |
+  \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
+  \ endtry
+cnoreabbrev qdof Qdof
+
+" implementation of Qargs
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
 " }}}
 " Ranger file chooser. only works on a single file. more just for fun than practicality {{{
 function! RangerChooser()
@@ -736,6 +767,7 @@ nnoremap <leader>s  :call StripTrailingWhitespaces()<CR>
 vnoremap <leader>s  :!sort -f<CR>
 "        <leader>t  TaskList.vim
 nnoremap <leader>v  :call QuickfixSearch(substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'))<CR>
+vnoremap <leader>v  y:call QuickfixSearch(substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g"))<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 
