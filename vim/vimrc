@@ -804,9 +804,9 @@ nnoremap zi zk
 " }}}
 " function keys {{{
 " define b:dispatch and makeprg so that F1 compiles and F2 runs
-nnoremap <F1>       :call OsseCursorBlindOn()<CR>
+nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F2>       :set spell!<CR>
-nnoremap <F3>       :call StripTrailingWhitespaces()<CR>
+nnoremap <F3>       :call OsseCursorBlindOn()<CR>
 nnoremap <F5>       :Make!<CR>
 nnoremap <F6>       :Dispatch!<CR>
 nnoremap <F7>       :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
@@ -821,15 +821,15 @@ nnoremap <leader>o  :only<CR>
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q<CR>
 nnoremap <leader>r  :QuickRun -mode n<CR>
+vnoremap <leader>r  :QuickRun -mode v<CR>
+nnoremap <leader>s  :syntax sync fromstart<CR>
+vnoremap <leader>s  :!sort -f<CR>
 "        <leader>t  TaskList.vim
 nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
-vnoremap <leader>r  :QuickRun -mode v<CR>
-vnoremap <leader>s  :!sort -f<CR>
 
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
-nnoremap <leader>zs :syntax sync fromstart<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
 " potential git maps. TODO: revise
@@ -839,8 +839,8 @@ nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gr :Gread<CR>:GitGutter<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
+nnoremap <silent> <leader>gr :Gread<CR>:SignifyToggle<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>:SignifyToggle<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
@@ -854,21 +854,26 @@ nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
 nnoremap <Space>c   :<C-u>Unite -start-insert -buffer-name=registers  register<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
 nnoremap <Space>g   :<C-u>Unite -start-insert -buffer-name=grep       grep:.<CR>
+nnoremap <Space>h   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
 nnoremap <Space>i   :Copen<CR>:cclose<CR>:<C-u>Unite -start-insert -buffer-name=quickfix   qf<CR>
 nnoremap <Space>j   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>l   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
 "        <Space>m   Multicursor trigger
 nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
+nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
+"        <Space>u*  QuickfixSearch maps, defined below
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
-nnoremap <Space>;   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 
-nnoremap <Space>=   :Tabularize /=<CR>
-vnoremap <Space>=   :Tabularize /=<CR>
-
-nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
+" Tabularize
+nnoremap <Space>=       :Tabularize /=<CR>
+vnoremap <Space>=       :Tabularize /=<CR>
+nnoremap <Space>:       :Tabularize /:\zs<CR>
+vnoremap <Space>:       :Tabularize /:\zs<CR>
+nnoremap <Space><Bar>   :Tabularize /<Bar><CR>
+vnoremap <Space><Bar>   :Tabularize /<Bar><CR>
 
 " Under cursor or visual selection, search Buffer or Arglist
 nnoremap <Space>ua :call QuickfixSearch("##", substitute(escape(expand("<cword>")
