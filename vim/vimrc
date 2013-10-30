@@ -824,7 +824,6 @@ nnoremap <leader>r  :QuickRun -mode n<CR>
 vnoremap <leader>r  :QuickRun -mode v<CR>
 nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
-"        <leader>t  TaskList.vim
 nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
