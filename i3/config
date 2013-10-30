@@ -80,8 +80,8 @@ bindsym $mod+$alt+Control+x   exec device.sh xfi
 bindsym $mod+$alt+Control+h   exec device.sh headset
 bindsym $mod+$alt+Control+t   exec device.sh hdmi; exec hdmi.sh on
 
-bindsym Pause                 exec mpc -h $mpdhost pause; exec echo pause > ~/.mpv/mpvfifo
-bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo pause > ~/.mpv/mpvfifo
+bindsym Pause                 exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
+bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo cycle pause > ~/.mpv/mpvfifo
 #bindsym XF86AudioPrev         exec device.sh idk
 #bindsym XF86AudioNext         exec device.sh idk
 
@@ -118,7 +118,7 @@ bindsym $mod+Control+p     exec echo playlist_prev > ~/.mpv/mpvfifo
 bindsym $mod+Control+n     exec echo playlist_next > ~/.mpv/mpvfifo
 bindsym $mod+Control+s     exec echo stop > ~/.mpv/mpvfifo
 bindsym $mod+Control+q     exec killall mpv
-bindsym $mod+Control+space exec echo pause > ~/.mpv/mpvfifo
+bindsym $mod+Control+space exec echo cycle pause > ~/.mpv/mpvfifo
 bindsym $mod+Control+Left  exec echo seek -10 0 > ~/.mpv/mpvfifo
 bindsym $mod+Control+Right exec echo seek 10 0 > ~/.mpv/mpvfifo
 bindsym $mod+Control+Down  exec echo seek -60 0 > ~/.mpv/mpvfifo
