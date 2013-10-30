@@ -148,9 +148,6 @@
 [submodule "vim/bundle/unite-build"]
 	path = vim/bundle/unite-build
 	url = https://github.com/Shougo/unite-build.git
-[submodule "vim/bundle/unite-sudo"]
-	path = vim/bundle/unite-sudo
-	url = https://github.com/Shougo/unite-sudo.git
 [submodule "vim/bundle/unite-session"]
 	path = vim/bundle/unite-session
 	url = https://github.com/Shougo/unite-session.git
