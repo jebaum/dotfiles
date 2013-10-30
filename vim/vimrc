@@ -70,10 +70,16 @@ endfunction
 command! -nargs=1 QuickfixBufSearch call QuickfixSearch('%', <f-args>)
 command! -nargs=1 QuickfixArgSearch call QuickfixSearch('##', <f-args>)
 command! -nargs=1 QuickfixAllSearch call QuickfixSearch('./**/*', <f-args>)
+command! -nargs=0 TodoBuf           call QuickfixSearch('%', 'TODO:*')
+command! -nargs=0 TodoArg           call QuickfixSearch('##', 'TODO:*')
+command! -nargs=0 TodoAll           call QuickfixSearch('./**/*', 'TODO:*')
 cnoreabbrev qfb QuickfixBufSearch
 cnoreabbrev qfs QuickfixBufSearch
 cnoreabbrev qfa QuickfixArgSearch
 cnoreabbrev qfall QuickfixAllSearch
+cnoreabbrev todo    TodoBuf
+cnoreabbrev todoarg TodoArg
+cnoreabbrev todoall TodoAll
 " }}}
 " Qargs, Qdof, Qdol {{{
 " :Qargs will populate the arglist with the files in the quickfix list
@@ -708,7 +714,7 @@ nnoremap <Right>     >>
 " junk map so latex doesn't overwrite C-j
 nnoremap <Esc>z <Plug>IMAP_JumpForward
 " }}}
-" motions for selecting next/previous paren/bracket objects {{{
+" next/previous paren/bracket objects {{{
 omap h i
 onoremap in( :<c-u>normal! f(vi(<CR>
 onoremap ip( :<c-u>normal! F)vi(<CR>
