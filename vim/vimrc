@@ -416,7 +416,7 @@ function! s:unite_my_settings()
   nmap <buffer> <ESC>   <Plug>(unite_exit)
   nmap <buffer> <C-c>   <Plug>(unite_exit)
   imap <buffer> <C-c>   <Plug>(unite_exit)
-  " imap <buffer> <C-c>   <Plug>(unite_insert_leave)
+  imap <buffer> <C-d>   <Plug>(unite_insert_leave)
 
   imap <buffer><expr> j unite#smart_map('j', '')
   imap <buffer> <Tab>   <Plug>(unite_select_next_line)
@@ -457,6 +457,7 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
   imap <silent><buffer><expr> <C-j>     unite#do_action('tabdrop')
   imap <silent><buffer><expr> <C-g>     unite#do_action('tabdrop')
+  imap <buffer>               <C-o>     <Plug>(unite_toggle_mark_current_candidate)
 
   nmap <silent><buffer><expr> <C-s>     unite#do_action('above')
   nmap <silent><buffer><expr> <C-k>     unite#do_action('below')
@@ -465,14 +466,14 @@ function! s:unite_my_settings()
   nmap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
   nmap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
   nmap <silent><buffer><expr> <C-j>     unite#do_action('tabdrop')
-  imap <silent><buffer><expr> <C-g>     unite#do_action('tabdrop')
+  nmap <silent><buffer><expr> <C-g>     unite#do_action('tabdrop')
+  nmap <buffer>               <C-o>     <Plug>(unite_toggle_mark_current_candidate)
 
   nmap <buffer> i     <Plug>(unite_loop_cursor_up)
   nmap <buffer> k     <Plug>(unite_loop_cursor_down)
   nmap <buffer> h     <Plug>(unite_insert_enter)
   nmap <buffer> H     <Plug>(unite_insert_head)
   nmap <buffer> l     <Plug>(unite_do_default_action)
-  nmap <buffer> <C-@> <Plug>(unite_toggle_mark_current_candidate)
 endfunction
 " }}}
 " vimfiler {{{
@@ -865,6 +866,7 @@ nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<B
 "        <Space>u*  QuickfixSearch maps, defined below
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
+nnoremap <Space><Space>   :<C-u>UniteResume<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
