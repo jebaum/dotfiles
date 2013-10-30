@@ -46,7 +46,7 @@
 [core]
   editor = vim
   pager = less
-  excludesfile = ~/.cvsignore
+  excludesfile = /home/james/.gitignore
 [push]
   default = simple
 [merge]
