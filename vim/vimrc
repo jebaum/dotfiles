@@ -70,9 +70,9 @@ endfunction
 command! -nargs=1 QuickfixBufSearch call QuickfixSearch('%', <f-args>)
 command! -nargs=1 QuickfixArgSearch call QuickfixSearch('##', <f-args>)
 command! -nargs=1 QuickfixAllSearch call QuickfixSearch('./**/*', <f-args>)
-command! -nargs=0 TodoBuf           call QuickfixSearch('%', 'TODO:*')
-command! -nargs=0 TodoArg           call QuickfixSearch('##', 'TODO:*')
-command! -nargs=0 TodoAll           call QuickfixSearch('./**/*', 'TODO:*')
+command! -nargs=0 TodoBuf           call QuickfixSearch('%', '\CTODO:*')
+command! -nargs=0 TodoArg           call QuickfixSearch('##', '\CTODO:*')
+command! -nargs=0 TodoAll           call QuickfixSearch('./**/*', '\CTODO:*')
 cnoreabbrev qfb QuickfixBufSearch
 cnoreabbrev qfs QuickfixBufSearch
 cnoreabbrev qfa QuickfixArgSearch
