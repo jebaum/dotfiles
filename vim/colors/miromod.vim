@@ -25,7 +25,7 @@ hi TabLine      ctermfg=246   ctermbg=16     cterm=none   guifg=#949494   guibg=
 hi TabLineFill  ctermfg=234   ctermbg=234    cterm=none   guifg=#1c1c1c   guibg=#000000   gui=none
 hi TabLineSel   ctermfg=231   ctermbg=24     cterm=bold   guifg=#ffffff   guibg=#005f87   gui=bold
 hi Title        ctermfg=230   ctermbg=none   cterm=bold   guifg=#ffffd7   guibg=#000000   gui=bold
-hi VertSplit    ctermfg=22    ctermbg=22     cterm=none   guifg=#444444   guibg=#444444   gui=none
+hi VertSplit    ctermfg=242   ctermbg=242    cterm=none   guifg=#444444   guibg=#444444   gui=none
 hi Visual       ctermfg=231   ctermbg=54     cterm=none   guifg=#ffffff   guibg=#4e4e4e   gui=none
 hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none   guifg=#c6c6c6   guibg=#303030   gui=none
 hi WarningMsg   ctermfg=203   ctermbg=none   cterm=none   guifg=#ff5f5f   guibg=#000000   gui=none
@@ -41,15 +41,9 @@ hi PmenuSel     ctermfg=232   ctermbg=192    cterm=none   guifg=#080808   guibg=
 endif
 
 hi DiffText           ctermfg=none  ctermbg=53    cterm=none  guifg=NONE     guibg=#5f005f  gui=none
-hi DiffAdd            ctermfg=119   ctermbg=none  cterm=bold  guifg=#87ff5f  guibg=#000000  gui=bold
-hi DiffChange         ctermfg=220   ctermbg=none  cterm=bold  guifg=#ffd700  guibg=#000000  gui=bold
-hi DiffDelete         ctermfg=167   ctermbg=none  cterm=bold  guifg=#d75f5f  guibg=#000000  gui=bold
-" Diff lines alt
-hi DiffLine       ctermbg=4
-hi DiffText       ctermfg=16
-hi DiffAdd        ctermfg=7    ctermbg=5
-hi DiffChange     ctermfg=0    ctermbg=4
-hi DiffDelete     ctermfg=0
+hi DiffAdd            ctermfg=46    ctermbg=234   cterm=bold  guifg=#87ff5f  guibg=#000000  gui=bold
+hi DiffChange         ctermfg=226   ctermbg=234   cterm=bold  guifg=#ffd700  guibg=#000000  gui=bold
+hi DiffDelete         ctermfg=196   ctermbg=234   cterm=bold  guifg=#d75f5f  guibg=#000000  gui=bold
 
 hi SignifyLineAdd     ctermfg=119   ctermbg=none  cterm=bold  guifg=#87ff5f  guibg=#000000  gui=bold
 hi SignifyLineChange  ctermfg=227   ctermbg=none  cterm=bold  guifg=#ffff5f  guibg=#000000  gui=bold
