@@ -342,9 +342,6 @@ let g:startify_custom_header = [
   \ '',
   \ ]
 " }}}
-" surrparen {{{
-let g:loaded_matchparen = 1   " don't load default matchparen plugin
-" }}}
 " syntastic {{{
 let g:syntastic_c_compiler = 'clang'
 let g:syntastic_c_compiler_options = ' -Wall'
@@ -876,6 +873,8 @@ nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<B
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
+nnoremap <Space>9   :NoSurrAll<CR>
+nnoremap <Space>(   :DoSurrAll<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
