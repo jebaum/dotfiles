@@ -1,12 +1,9 @@
 set background=dark
-if version > 580
-  hi clear
-  if exists("syntax_on")
-    syntax reset
-  endif
+hi clear
+if exists("syntax_on")
+  syntax reset
 endif
 let colors_name = "miromod"
-
 
 " General colors
 hi Cursor       ctermfg=234   ctermbg=228    cterm=none   guifg=#1c1c1c   guibg=#ffff87   gui=none
