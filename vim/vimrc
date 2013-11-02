@@ -879,6 +879,8 @@ nnoremap <Space>:       :Tabularize /:\zs<CR>
 vnoremap <Space>:       :Tabularize /:\zs<CR>
 nnoremap <Space><Bar>   :Tabularize /<Bar><CR>
 vnoremap <Space><Bar>   :Tabularize /<Bar><CR>
+nnoremap <Space>-       :Tabularize /-<CR>
+vnoremap <Space>-       :Tabularize /-<CR>
 
 " Under cursor or visual selection, search Buffer or Arglist
 nnoremap <Space>ua :call QuickfixSearch("##", substitute(escape(expand("<cword>")
