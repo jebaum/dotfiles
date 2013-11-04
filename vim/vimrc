@@ -218,7 +218,7 @@ let g:airline_right_alt_sep = ''
 let g:airline_branch_prefix = ''
 let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
-let g:airline_section_z="%l/%L:C%c"
+let g:airline_section_z="%l/%L:C%v"
 let g:airline#extensions#whitespace#symbol = 'Ξ'
 let g:airline#extensions#whitespace#trailing_format = 's[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 't[%s]'
@@ -598,6 +598,7 @@ set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
 set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
+set previewheight=20
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
@@ -684,8 +685,10 @@ nnoremap Y y$
 nnoremap <Esc>[Z v%
 
 " searching jumps to middle of screen, and opens fold if in one
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap ? :set cursorline cursorcolumn<CR>?
+nnoremap n nzv
+nnoremap N Nzv
+nnoremap coo :set cursorline! cursorcolumn!<CR>
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
@@ -810,6 +813,7 @@ nnoremap zi zk
 nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F2>       :set spell!<CR>
 nnoremap <F3>       :call OsseCursorBlindOn()<CR>
+nnoremap <F4>       :Make! <C-r>=expand('%:r')<CR><CR>
 nnoremap <F5>       :Make!<CR>
 nnoremap <F6>       :Dispatch!<CR>
 nnoremap <F7>       :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
@@ -851,7 +855,7 @@ nnoremap <leader>zzswp <Plug>SaveWinPosn
 nnoremap <leader>zzrwp <Plug>RestoreWinPosn
 " }}}
 " space leader maps. unite + tabularize {{{
-nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
+nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
 nnoremap <Space>c   :<C-u>Unite -start-insert -buffer-name=registers  register<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
@@ -894,7 +898,7 @@ vnoremap <Space>ub "*y:call QuickfixSearch("%", substitute(escape(@*, '\/.*$^~[]
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>
-nnoremap <C-f>      /
+nnoremap <C-f>      :set cursorline cursorcolumn<CR>/
 nnoremap <C-w>i     <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
 nnoremap <C-k>      <C-w><Down>
@@ -910,7 +914,7 @@ inoremap <C-e>      <End>
 " }}}
 " alt normal mode {{{
 nnoremap <Esc>a     :AirlineToggle<CR>
-nnoremap <Esc>h     :nohlsearch<CR>
+nnoremap <Esc>h     :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 nnoremap <Esc>i     :resize +2<CR>
 nnoremap <Esc>j     :vertical resize -2<CR>
 nnoremap <Esc>k     :resize -2<CR>
