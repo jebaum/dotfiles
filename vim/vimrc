@@ -77,7 +77,7 @@ cnoreabbrev qfb QuickfixBufSearch
 cnoreabbrev qfs QuickfixBufSearch
 cnoreabbrev qfa QuickfixArgSearch
 cnoreabbrev qfall QuickfixAllSearch
-cnoreabbrev todo    TodoBuf
+cnoreabbrev todob   TodoBuf
 cnoreabbrev todoarg TodoArg
 cnoreabbrev todoall TodoAll
 " }}}
