@@ -30,8 +30,9 @@ hi WarningMsg     ctermfg=226  ctermbg=16   cterm=none
 hi! link FoldColumn   Folded
 
 if version >= 700
-hi CursorLine   ctermfg=231   ctermbg=17     cterm=none   guifg=NONE      guibg=#101033   gui=none
-hi CursorLineNR ctermfg=226   ctermbg=232    cterm=bold   guifg=#ffff00   guibg=#080808   gui=bold
+hi CursorLine   ctermfg=NONE ctermbg=235     cterm=none
+hi CursorColumn ctermfg=231  ctermbg=235     cterm=none
+hi CursorLineNr ctermfg=11   ctermbg=232
 hi MatchParen   ctermfg=231   ctermbg=124    cterm=bold
 hi Pmenu        ctermfg=230   ctermbg=238    cterm=none   guifg=#ffffd7   guibg=#444444   gui=none
 hi PmenuSel     ctermfg=232   ctermbg=192    cterm=none   guifg=#080808   guibg=#d7ff87   gui=none
@@ -73,9 +74,7 @@ hi Comment        ctermfg=244  ctermbg=none   cterm=none   guifg=#808080   guibg
 hi Conditional    ctermfg=197
 hi Constant       ctermfg=35
 hi cRepeat        ctermfg=197
-hi CursorColumn   ctermfg=231  ctermbg=17
-hi CursorLine     ctermfg=NONE ctermbg=16
-hi CursorLineNr   ctermfg=11   ctermbg=232
+hi javaRepeat     ctermfg=197
 hi Debug          ctermfg=1
 hi Define         ctermfg=2
 hi Delimiter      ctermfg=12
@@ -97,7 +96,7 @@ hi NonText        ctermfg=6
 hi Normal         ctermfg=15
 hi Number         ctermfg=201
 hi Operator       ctermfg=3
-hi Pmenu          ctermfg=2    ctermbg=15
+hi Pmenu          ctermfg=2    ctermbg=16
 hi PmenuSel       ctermfg=NONE ctermbg=52
 hi PreCondit      ctermfg=13
 hi Question       ctermfg=10
