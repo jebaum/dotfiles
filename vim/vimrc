@@ -17,34 +17,6 @@ augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful wa
   autocmd BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
 augroup END
 " }}}
-" Functions to flash current cursor position {{{
-function! OsseCursorBlindOn()
-" let w:orig_cursorcolumn = &cursorcolumn
-" let w:orig_cursorline = &cursorline
-" extra heinous colour jizz here if desired
-  set cursorcolumn
-  set cursorline
-  augroup OsseCursorBlind
-    au!
-    au CursorHold * call OsseCursorBlindOff()
-    au CursorMoved * call OsseCursorBlindOff()
-  augroup END
-endfunction
-
-function! OsseCursorBlindOff()
-" let &cursorcolumn = w:orig_cursorcolumn
-" let &cursorline = w:orig_cursorline
-  set nocursorline
-  set nocursorcolumn
-  augroup OsseCursorBlind
-    au!
-  augroup END
-endfunction
-
-augroup OsseCursorBlind
-  au!
-augroup END
-" }}}
 " Fix borders of fullscreen GUI {{{
 if has('gui_gtk') && has('gui_running')
     let s:border = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
@@ -150,20 +122,6 @@ augroup StripWhitespaceOnWrite
   autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
   autocmd BufWrite *.txt :call StripTrailingWhitespaces()
 augroup END
-" }}}
-" Jumplist doesn't jump between files {{{
-function! NoBufChange(cmd, undo)
-    let initbuf = bufnr("%")
-    echo initbuf
-    execute "normal! \<esc>" . v:count1 . a:cmd
-    if initbuf != bufnr("%")
-      execute "normal! \<esc>" . v:count1 . a:undo
-      redraw
-      echo "Refused to run " . a:cmd . " because it crosses buffer boundary"
-    endif
-endfunction
-"nnoremap <C-i> :call NoBufChange("\<c-i>", "\<c-o>")<cr>
-"nnoremap <C-o> :call NoBufChange("\<c-o>", "\<c-i>")<cr>
 " }}}
 " Command mode {{{
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
@@ -276,14 +234,6 @@ inoremap <expr><C-n>    neocomplete#start_manual_complete()
 let NERDSpaceDelims=1
 let NERDCompactSexyComs=0
 " }}}
-" nerdtree {{{
-let NERDTreeWinSize=40
-let NERDTreeMapOpenSplit="s"
-let NERDTreeMapOpenVSplit="v"
-let NERDTreeShowLineNumbers=1
-let NERDTreeShowBookmarks=1
-let NERDTreeQuitOnOpen=1
-" }}}
 " niji {{{
 let g:niji_matching_filetypes = ['lisp']
 let g:niji_dark_colours = [['82', '82'],
@@ -309,9 +259,6 @@ let g:signify_vcs_list = [ 'git' ]    " I only use git for now
 let g:signify_mapping_next_hunk = '<leader>gk'
 let g:signify_mapping_prev_hunk = '<leader>gi'
 let g:signify_sign_change       = '~'
-" }}}
-" singlecompile {{{
-let g:SingleCompile_resultheight = 10
 " }}}
 " slimv {{{
 let g:slimv_leader = '\'
@@ -604,12 +551,8 @@ syntax sync minlines=256       " speed up syntax hilighting
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 " }}}
 " Fold {{{
-" folding: zf#j manually folds # lines, or zf in visual mode selection.
-" zo=open, zO=open all levels, zc=close, za=toggle.  zr=open all first level, zR = open all, mM for close all
-" zj and zk to move between folds
-" zfa}, zfa], zfa) for matching closer, works same from closers (zfa{)
-
-set foldnestmax=1                      " folds only one level deep
+" zf#j manually folds # lines, or zf in visual mode selection.
+set foldnestmax=1   " folds only one level deep
 set foldmethod=manual
 augroup SyntaxFold
   autocmd BufEnter    *.c,*.cpp set foldmethod=syntax " define syntax folds when file loads
@@ -709,9 +652,6 @@ vnoremap <down>      gj
 " left/right arrow keys indent
 nnoremap <Left>      <<
 nnoremap <Right>     >>
-
-" junk map so latex doesn't overwrite C-j
-nnoremap <Esc>z <Plug>IMAP_JumpForward
 " }}}
 " next/previous paren/bracket objects {{{
 omap h i
@@ -802,17 +742,11 @@ nnoremap gi gk
 nnoremap zj zi
 nnoremap zk zj
 nnoremap zi zk
-
-" operator pending mode. biggest impact is all the 'inner' mappings use h instead of i
-" onoremap j h
-" onoremap i k
-" onoremap k j
 " }}}
 " function keys {{{
 " define b:dispatch and makeprg so that F1 compiles and F2 runs
 nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F2>       :set spell!<CR>
-nnoremap <F3>       :call OsseCursorBlindOn()<CR>
 nnoremap <F4>       :Make! <C-r>=expand('%:r')<CR><CR>
 nnoremap <F5>       :Make!<CR>
 nnoremap <F6>       :Dispatch!<CR>
@@ -838,7 +772,7 @@ nnoremap <leader>x  :wq<CR>
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
-" potential git maps. TODO: revise
+" potential git maps. TODO revise
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
@@ -849,10 +783,6 @@ nnoremap <silent> <leader>gr :Gread<CR>:SignifyToggle<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>:SignifyToggle<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
-
-" prevent Drawit from making swp and rwp mappings
-nnoremap <leader>zzswp <Plug>SaveWinPosn
-nnoremap <leader>zzrwp <Plug>RestoreWinPosn
 " }}}
 " space leader maps. unite + tabularize {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec<CR>
