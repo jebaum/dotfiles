@@ -1,7 +1,8 @@
 " vim: foldmethod=marker foldlevel=1 textwidth=0
 " Colorscheme and Pathogen {{{
 set nocompatible " use vim settings not vi
-colorscheme miromod
+colorscheme molokai
+let g:rehash256 = 1
 execute pathogen#infect()
 " }}}
 " Misc {{{
