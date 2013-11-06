@@ -36,7 +36,7 @@ hi CursorLineNr ctermfg=11   ctermbg=232
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold
 hi Pmenu        ctermfg=2    ctermbg=16
 hi PmenuSel     ctermfg=231  ctermbg=235
-hi UniteSel     ctermfg=NONE ctermbg=52
+hi UniteSel     ctermfg=NONE ctermbg=52      cterm=bold
 endif
 
 hi DiffText           ctermfg=none  ctermbg=53    cterm=none  guifg=NONE     guibg=#5f005f  gui=none

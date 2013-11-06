@@ -45,11 +45,10 @@ command! -nargs=1 QuickfixAllSearch call QuickfixSearch('./**/*', <f-args>)
 command! -nargs=0 TodoBuf           call QuickfixSearch('%', '\CTODO:*')
 command! -nargs=0 TodoArg           call QuickfixSearch('##', '\CTODO:*')
 command! -nargs=0 TodoAll           call QuickfixSearch('./**/*', '\CTODO:*')
-cnoreabbrev qfb QuickfixBufSearch
-cnoreabbrev qfs QuickfixBufSearch
-cnoreabbrev qfa QuickfixArgSearch
+cnoreabbrev qfbuf QuickfixBufSearch
+cnoreabbrev qfarg QuickfixArgSearch
 cnoreabbrev qfall QuickfixAllSearch
-cnoreabbrev todob   TodoBuf
+cnoreabbrev todobuf TodoBuf
 cnoreabbrev todoarg TodoArg
 cnoreabbrev todoall TodoAll
 " }}}
@@ -323,6 +322,7 @@ let g:UltiSnipsJumpBackwardTrigger="<C-j>"
 let g:UltiSnipsListSnippets="<C-s>"
 " }}}
 " unite {{{
+let g:unite_cursor_line_highlight = "UniteSel"
 if executable('ag')
   " Use ag in unite grep source.
   let g:unite_source_grep_command = 'ag'
