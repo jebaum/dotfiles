@@ -26,16 +26,17 @@ hi VertSplit    ctermfg=242   ctermbg=242    cterm=none   guifg=#444444   guibg=
 hi Visual       ctermfg=231   ctermbg=54     cterm=none   guifg=#ffffff   guibg=#4e4e4e   gui=none
 hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none   guifg=#c6c6c6   guibg=#303030   gui=none
 hi WarningMsg   ctermfg=203   ctermbg=none   cterm=none   guifg=#ff5f5f   guibg=#000000   gui=none
-hi WarningMsg     ctermfg=226  ctermbg=16   cterm=none
+hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none
 hi! link FoldColumn   Folded
 
 if version >= 700
 hi CursorLine   ctermfg=NONE ctermbg=235     cterm=none
 hi CursorColumn ctermfg=231  ctermbg=235     cterm=none
 hi CursorLineNr ctermfg=11   ctermbg=232
-hi MatchParen   ctermfg=231   ctermbg=124    cterm=bold
-hi Pmenu        ctermfg=230   ctermbg=238    cterm=none   guifg=#ffffd7   guibg=#444444   gui=none
-hi PmenuSel     ctermfg=232   ctermbg=192    cterm=none   guifg=#080808   guibg=#d7ff87   gui=none
+hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold
+hi Pmenu        ctermfg=2    ctermbg=16
+hi PmenuSel     ctermfg=231  ctermbg=235
+hi UniteSel     ctermfg=NONE ctermbg=52
 endif
 
 hi DiffText           ctermfg=none  ctermbg=53    cterm=none  guifg=NONE     guibg=#5f005f  gui=none
@@ -94,10 +95,8 @@ hi ModeMsg        ctermfg=13
 hi MoreMsg        ctermfg=13
 hi NonText        ctermfg=6
 hi Normal         ctermfg=15
-hi Number         ctermfg=201
+hi Number         ctermfg=1
 hi Operator       ctermfg=3
-hi Pmenu          ctermfg=2    ctermbg=16
-hi PmenuSel       ctermfg=NONE ctermbg=52
 hi PreCondit      ctermfg=13
 hi Question       ctermfg=10
 hi Repeat         ctermfg=9
@@ -106,7 +105,7 @@ hi Special        ctermfg=10
 hi SpecialKey     ctermfg=11
 hi Statement      ctermfg=44
 hi StorageClass   ctermfg=11
-hi String         ctermfg=208  ctermbg=none   cterm=none   guifg=#ff8700   guibg=#000000   gui=none
+hi String         ctermfg=172  ctermbg=none   cterm=none   guifg=#ff8700   guibg=#000000   gui=none
 hi Structure      ctermfg=34
 hi Tag            ctermfg=11
 hi Title          ctermfg=3
@@ -123,9 +122,11 @@ hi htmlEndTag     ctermfg=6
 hi htmlTagName    ctermfg=11
 
 " Specific for vimrc / help files
-hi vimVar         ctermfg=231  cterm=none
-hi vimSet         ctermfg=136  cterm=none
-hi vimOption      ctermfg=136  cterm=none
+hi vimVar          ctermfg=231  cterm=none
+hi vimSet          ctermfg=136  cterm=none
+hi vimOption       ctermfg=136  cterm=none
+hi vimHiNmbr       ctermfg=165
+hi vimHiGuiRgb     ctermfg=165
 hi helpHyperTextJump ctermfg=11
 
 " syntastic, error = spellbad, warning = spellcap, bar on left = signcolumn

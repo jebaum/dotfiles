@@ -22,7 +22,7 @@ syn match   i3QuotedString '"[^"]\+"' contained
 syn cluster i3String contains=i3SimpleString,i3QuotedString
 
 " Config commands
-syn keyword i3ConfigCommand bind bindcode bindsym assign new_window popup_during_fullscreen font floating_modifier floating_minimum_size floating_maximum_size default_orientation workspace_layout for_window focus_folows_mouse bar position colors output tray_output workspace_buttons
+syn keyword i3ConfigCommand bind bindcode bindsym assign new_window new_float focus_follows_mouse force_focus_wrapping workspace_auto_back_and_forth force_display_urgency_hint hide_edge_borders popup_during_fullscreen font floating_modifier floating_minimum_size floating_maximum_size default_orientation workspace_layout for_window focus_folows_mouse bar position colors output tray_output workspace_buttons
 syn match   i3IpcSocket "ipc-socket" nextgroup=@i3String skipwhite
 
 " Command keywords
