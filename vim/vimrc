@@ -646,7 +646,6 @@ nnoremap <Esc>[Z v%
 nnoremap ? :set cursorline cursorcolumn<CR>?
 nnoremap n nzv
 nnoremap N Nzv
-nnoremap coo :set cursorline! cursorcolumn!<CR>
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
