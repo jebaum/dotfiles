@@ -560,9 +560,12 @@ set guioptions-=r              " hide gui righthand scrollbar
 set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
+set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
-set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
+augroup SyntaxSync
+  autocmd BufReadPost syntax sync fromstart
+augroup END
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
