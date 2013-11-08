@@ -769,6 +769,10 @@ nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
+vnoremap <leader>dg :diffget<CR>:diffupdate<CR>
+vnoremap <leader>do :diffget<CR>:diffupdate<CR>
+vnoremap <leader>dp :diffput<CR>:diffupdate<CR>
+nnoremap <leader>du :diffupdate<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nnoremap <leader>h  :split<CR>
 "        <leader>m  various showmarks mappings
@@ -782,21 +786,19 @@ vnoremap <leader>s  :!sort -f<CR>
 nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
-
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
-" potential git maps. TODO revise
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :call GitPush()<CR>
-nnoremap <silent> <leader>gr :Gread<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
+nnoremap <silent> <leader>gl :Glog<CR><CR>
+nnoremap <silent> <leader>gp :call GitPush()<CR>
+nnoremap <silent> <leader>gr :Gread<CR>
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
 " }}}
 " space leader maps. unite + tabularize {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec<CR>
