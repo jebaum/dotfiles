@@ -200,7 +200,7 @@ let g:airline#extensions#hunks#non_zero_only = 1
 " dispatch {{{
 augroup DISPATCH
   autocmd FileType java      set makeprg='ant'
-  autocmd FileType java      let b:dispatch = 'java ' . shellescape(expand('%:r'))
+  " autocmd FileType java      let b:dispatch = 'java ' . shellescape(expand('%:r'))
   autocmd FileType c,cpp     let b:dispatch = './' . shellescape(expand('%:r'))
   autocmd FileType lisp      let b:dispatch = 'clisp ' . shellescape(expand('%'))
   autocmd FileType sh,python let b:dispatch = './' . shellescape(expand('%'))
@@ -794,8 +794,8 @@ nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :call GitPush()<CR>
-nnoremap <silent> <leader>gr :Gread<CR>:SignifyToggle<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>:SignifyToggle<CR>
+nnoremap <silent> <leader>gr :Gread<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }}}
