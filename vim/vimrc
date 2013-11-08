@@ -151,7 +151,6 @@ function! GitPush()
   if !exists('b:dispatch')
     let b:dispatch = "git push"
     Dispatch!
-    echom "hi"
   else
     let foo = b:dispatch
     let b:dispatch = "git push"
