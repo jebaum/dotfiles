@@ -2,7 +2,7 @@
 import sys
 import re
 
-if len(sys.argv) != 2 :
+if len(sys.argv) != 2:
   print ("Please provide an input file")
   sys.exit()
 
@@ -267,6 +267,7 @@ colors[255]='#EEEEEE'
 inputfile = open(str(sys.argv[1]))
 file_text = inputfile.readlines()
 
+# reference matched group: \g<1>
 for i in range(0, (len(file_text))):
   clean      = re.sub("\s+gui.*", "", file_text[i])
   ctermfgnum = re.search("ctermfg=(\w*\d*)", file_text[i])
@@ -279,13 +280,13 @@ for i in range(0, (len(file_text))):
   if ctermfgnum:
     if str(ctermfgnum.group(1)).lower() == 'none' :
       final += "  guifg=NONE"
-    else :
+    else:
       final += "  guifg=" + colors[int(ctermfgnum.group(1))]
 
   if ctermbgnum:
     if str(ctermbgnum.group(1)).lower() == 'none' :
       final += "  guibg=#000000"
-    else :
+    else:
       final += "  guibg=" + colors[int(ctermbgnum.group(1))]
 
   if cterm:
