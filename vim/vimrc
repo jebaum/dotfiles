@@ -146,6 +146,20 @@ if v:version > 703 || v:version == 703 && has("patch541")
 endif
 set nojoinspaces        " use only one space after a period when joining lines
 " }}}
+" GitPush with dispatch {{{
+function! GitPush()
+  if !exists('b:dispatch')
+    let b:dispatch = "git push"
+    Dispatch!
+    echom "hi"
+  else
+    let foo = b:dispatch
+    let b:dispatch = "git push"
+    Dispatch!
+    let b:dispatch = foo
+  endif
+endfunction
+" }}}
 " FileType specific {{{
 augroup FileTypeSettings
   autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
@@ -780,7 +794,7 @@ nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gp :call GitPush()<CR>
 nnoremap <silent> <leader>gr :Gread<CR>:SignifyToggle<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>:SignifyToggle<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
