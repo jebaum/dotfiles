@@ -2,7 +2,6 @@
 " Colorscheme and Pathogen {{{
 set nocompatible " use vim settings not vi
 colorscheme miromod
-let g:rehash256 = 1
 execute pathogen#infect()
 " }}}
 " Misc {{{
