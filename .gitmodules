@@ -136,3 +136,6 @@
 [submodule "vim/bundle/vim-fugitive"]
 	path = vim/bundle/vim-fugitive
 	url = git@github.com:jebaum/vim-fugitive.git
+[submodule "scripts/fzf"]
+	path = scripts/fzf
+	url = https://github.com/junegunn/fzf.git
