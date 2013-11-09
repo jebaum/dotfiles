@@ -178,7 +178,7 @@ let g:airline_inactive_collapse = 1
 " let g:airline_right_sep = ''
 " let g:airline_right_alt_sep = ''
 " let g:airline_branch_prefix = ' '
-" let g:airline_readonly_symbol = ''
+let g:airline_readonly_symbol = ''
 " let g:airline_linecolumn_prefix = ''
 " let g:airline_section_z="%l/%L:C%c"
 let g:airline_left_sep = ''
@@ -186,7 +186,7 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_branch_prefix = ''
-let g:airline_readonly_symbol = ''
+" let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
 let g:airline_section_z="%l/%L:C%v"
 let g:airline#extensions#whitespace#symbol = 'Ξ'
@@ -209,6 +209,13 @@ augroup END
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
 let g:EasyMotion_special_select_line = 0
+" }}}
+" fugitive {{{
+autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
 " }}}
 " gist {{{
 let g:gist_post_private = 1 " gists are private by default
@@ -643,6 +650,7 @@ nmap     / <Plug>SneakPrevious
 inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
 nnoremap <Esc>[Z v%
+nnoremap dg do
 
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
@@ -771,9 +779,9 @@ nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
-vnoremap <leader>dg :diffget<CR>:diffupdate<CR>
-vnoremap <leader>do :diffget<CR>:diffupdate<CR>
-vnoremap <leader>dp :diffput<CR>:diffupdate<CR>
+vnoremap <leader>dg :diffget <Bar> diffupdate<CR>
+vnoremap <leader>do :diffget <Bar> diffupdate<CR>
+vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
 nnoremap <leader>du :diffupdate<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nnoremap <leader>h  :split<CR>
