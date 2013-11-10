@@ -45,10 +45,10 @@ command! -nargs=1 QuickfixAllSearch call QuickfixSearch('./**/*', <f-args>)
 command! -nargs=0 TodoBuf           call QuickfixSearch('%', '\CTODO:*')
 command! -nargs=0 TodoArg           call QuickfixSearch('##', '\CTODO:*')
 command! -nargs=0 TodoAll           call QuickfixSearch('./**/*', '\CTODO:*')
-cnoreabbrev qfbuf QuickfixBufSearch
-cnoreabbrev qfarg QuickfixArgSearch
-cnoreabbrev qfall QuickfixAllSearch
-cnoreabbrev todobuf TodoBuf
+cnoreabbrev qf      QuickfixBufSearch
+cnoreabbrev qfarg   QuickfixArgSearch
+cnoreabbrev qfall   QuickfixAllSearch
+cnoreabbrev todo    TodoBuf
 cnoreabbrev todoarg TodoArg
 cnoreabbrev todoall TodoAll
 " }}}
@@ -164,6 +164,7 @@ augroup FileTypeSettings
   autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
   autocmd FileType tex nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
   autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
+  autocmd BufEnter * set relativenumber  " for vimfiler
 augroup END
 " }}}
 " }}}
@@ -799,6 +800,7 @@ nnoremap <leader>x  :wq<CR>
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
+" <leader>g[ikht] taken by signify
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -808,6 +810,7 @@ nnoremap <silent> <leader>gl :Glog<CR><CR>
 nnoremap <silent> <leader>gp :call GitPush()<CR>
 nnoremap <silent> <leader>gr :Gread<CR>
 nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gv :Gitv<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>
 " }}}
 " space leader maps. unite + tabularize {{{
