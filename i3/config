@@ -128,7 +128,7 @@ bindsym $mod+Control+Prior exec echo seek 600 0 > ~/.mpv/mpvfifo
 
   ### Script hotkeys
 bindsym --release Print exec imgur_auth_upload.sh
-bindsym $mod+Shift+Print exec killall dzen2
+bindsym --release Shift+Print exec scrot -s
 bindsym $mod+Print exec pasta
 bindsym $mod+q exec quickswitch.py
 bindsym $mod+Escape exec /usr/bin/lk
