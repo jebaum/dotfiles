@@ -39,10 +39,10 @@ hi PmenuSel     ctermfg=231  ctermbg=235
 hi UniteSel     ctermfg=NONE ctermbg=52      cterm=bold
 endif
 
-hi DiffText           ctermfg=226   ctermbg=234   cterm=bold  guifg=NONE     guibg=#5f005f  gui=none
-hi DiffAdd            ctermfg=46    ctermbg=234   cterm=bold  guifg=#87ff5f  guibg=#000000  gui=bold
-hi DiffChange         ctermfg=231   ctermbg=234   cterm=none  guifg=#ffd700  guibg=#000000  gui=bold
-hi DiffDelete         ctermfg=196   ctermbg=234   cterm=bold  guifg=#d75f5f  guibg=#000000  gui=bold
+hi DiffText           ctermfg=226   ctermbg=16    cterm=bold  guifg=NONE     guibg=#5f005f  gui=none
+hi DiffChange         ctermfg=none  ctermbg=237   cterm=none  guifg=#ffd700  guibg=#000000  gui=bold
+hi DiffAdd            ctermfg=231   ctermbg=22    cterm=bold  guifg=#87ff5f  guibg=#000000  gui=bold
+hi DiffDelete         ctermfg=231   ctermbg=52    cterm=bold  guifg=#d75f5f  guibg=#000000  gui=bold
 
 hi SignifyLineAdd     ctermfg=119   ctermbg=none  cterm=bold  guifg=#87ff5f  guibg=#000000  gui=bold
 hi SignifyLineChange  ctermfg=227   ctermbg=none  cterm=bold  guifg=#ffff5f  guibg=#000000  gui=bold
