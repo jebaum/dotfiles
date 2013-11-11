@@ -61,7 +61,7 @@ URxvt.colorBD : #FFFFFF
 URxvt.colorUL : #CCCC66
 
 ! black
-URxvt.color0  : #121212
+URxvt.color0  : #0A0A0A
 URxvt.color8  : #555753
 
 ! red

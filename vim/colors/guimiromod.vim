@@ -13,7 +13,7 @@ hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#A
 hi LineNr       ctermfg=110   ctermbg=16     cterm=none  guifg=#87AFD7  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
 hi NonText      ctermfg=244   ctermbg=none   cterm=none  guifg=#808080  guibg=#000000  gui=none
-hi Normal       ctermfg=231   ctermbg=233    cterm=none  guifg=#FFFFFF  guibg=#0A0A0A  gui=none
+hi Normal       ctermfg=231   ctermbg=0      cterm=none  guifg=#FFFFFF  guibg=#0A0A0A  gui=none
 hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
 hi StatusLine   ctermfg=230   ctermbg=238    cterm=none  guifg=#FFFFD7  guibg=#444444  gui=none
@@ -30,7 +30,7 @@ hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none  guifg=#FFFF00  guibg=#0
 hi! link FoldColumn   Folded
 
 if version >= 700
-hi CursorLine   ctermfg=NONE ctermbg=235     cterm=none  guifg=NONE     guibg=#1A1A1A  gui=none
+hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1A1A1A  gui=none
 hi CursorColumn ctermfg=231  ctermbg=235     cterm=none  guifg=#FFFFFF  guibg=#1A1A1A  gui=none
 hi CursorLineNr ctermfg=11   ctermbg=232                 guifg=#E1AA5D  guibg=#080808
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
@@ -94,7 +94,6 @@ hi Macro          ctermfg=13   guifg=#FF66FF
 hi ModeMsg        ctermfg=13   guifg=#FF66FF
 hi MoreMsg        ctermfg=13   guifg=#FF66FF
 hi NonText        ctermfg=6    guifg=#33CC99
-hi Normal         ctermfg=15   guifg=#FDF6E3
 hi Number         ctermfg=1    guifg=#DC322F
 hi Operator       ctermfg=3    guifg=#FD971F
 hi PreCondit      ctermfg=13   guifg=#FF66FF
