@@ -258,10 +258,10 @@ let NERDCompactSexyComs=0
 " }}}
 " niji {{{
 let g:niji_matching_filetypes = ['lisp']
-let g:niji_dark_colours = [['82', '82'],
-                        \ [ '202', '202'],
-                        \ [ '231', '231'],
-                        \ [ '201', '201']]
+let g:niji_dark_colours = [['82', '#5Fff00'],
+                        \ [ '202', '#FF5F00'],
+                        \ [ '231', '#FFFFFF'],
+                        \ [ '201', '#FF00FF']]
 " }}}
 " paredit {{{
 let g:paredit_leader = '\'
