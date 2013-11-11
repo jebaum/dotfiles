@@ -30,13 +30,13 @@ hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none  guifg=#FFFF00  guibg=#0
 hi! link FoldColumn   Folded
 
 if version >= 700
-hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1A1A1A  gui=none
-hi CursorColumn ctermfg=231  ctermbg=234     cterm=none  guifg=#FFFFFF  guibg=#1A1A1A  gui=none
-hi CursorLineNr ctermfg=226  ctermbg=234     cterm=bold  guifg=#E1AA5D  guibg=#080808
+hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
+hi CursorColumn ctermfg=231  ctermbg=234     cterm=none  guifg=#FFFFFF  guibg=#1C1C1C  gui=none
+hi CursorLineNr ctermfg=226  ctermbg=234     cterm=bold  guifg=#FFFF00  guibg=#1C1C1C  gui=bold
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=2    ctermbg=16                  guifg=#859900  guibg=#000000
-hi PmenuSel     ctermfg=231  ctermbg=234                 guifg=#FFFFFF  guibg=#262626
-hi UniteSel     ctermfg=NONE ctermbg=234     cterm=bold  guifg=NONE     guibg=#1A1A1A  gui=bold
+hi PmenuSel     ctermfg=231  ctermbg=234                 guifg=#FFFFFF  guibg=#1C1C1C
+hi UniteSel     ctermfg=NONE ctermbg=234     cterm=bold  guifg=NONE     guibg=#1C1C1C  gui=bold
 endif
 
 hi DiffText           ctermfg=226   ctermbg=16    cterm=bold  guifg=#FFFF00  guibg=#000000  gui=bold
