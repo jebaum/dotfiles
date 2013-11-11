@@ -52,8 +52,8 @@ hi SignifySignChange  ctermfg=227   ctermbg=237   cterm=bold  guifg=#FFFF5F  gui
 hi SignifySignDelete  ctermfg=167   ctermbg=237   cterm=bold  guifg=#D75F5F  guibg=#3A3A3A  gui=bold
 
 " Showmarks Hilighting
-hi ShowMarksHLl       ctermfg=45    ctermbg=none  cterm=none  guifg=#00D7FF  guibg=#000000  gui=none
-hi ShowMarksHLm       ctermfg=202   ctermbg=none  cterm=none  guifg=#FF5F00  guibg=#000000  gui=none
+hi ShowMarksHLl       ctermfg=none  ctermbg=234   cterm=none  guifg=#00D7FF  guibg=#000000  gui=none
+hi ShowMarksHLm       ctermfg=202   ctermbg=234   cterm=none  guifg=#FF5F00  guibg=#000000  gui=none
 
 " Multiple Cursor Hilighting
 hi multiple_cursors_cursor    ctermfg=196  ctermbg=250  cterm=none  guifg=#FF0000  guibg=#BCBCBC  gui=none

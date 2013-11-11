@@ -271,6 +271,7 @@ let g:showmarks_enable=0
 let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
 let g:showmarks_textlower=">"
 let g:showmarks_ignore_type="h"
+let g:showmarks_hlline_lower=1  " hilight lines with lowercase marks
 " }}}
 " simplyfold {{{
 let g:SimplyFold_docstring_preview = 0
