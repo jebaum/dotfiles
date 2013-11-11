@@ -37,14 +37,14 @@ cnoreabbrev mt MatchText
 " vimgrep wrapper function + todo searches {{{
 function! VimGrep(target, pattern)
   " execute 'vim /' . a:pattern . '/gj ' . a:target . ' | cw'
-  execute 'vim /' . a:pattern . '/gj ' . a:target
+  execute 'silent! vim /' . a:pattern . '/gj ' . a:target
 endfunction
-command! -nargs=1 Bufsearch call VimGrep('%', <f-args>)
-command! -nargs=1 Argsearch call VimGrep('##', <f-args>)
-command! -nargs=1 Allsearch call VimGrep('./**/*', <f-args>)
-command! -nargs=0 Buftodo   call VimGrep('%', '\CTODO:*')
-command! -nargs=0 Argtodo   call VimGrep('##', '\CTODO:*')
-command! -nargs=0 Alltodo   call VimGrep('./**/*', '\CTODO:*')
+command! -nargs=1 -bar Bufsearch call VimGrep('%', <f-args>)
+command! -nargs=1 -bar Argsearch call VimGrep('##', <f-args>)
+command! -nargs=1 -bar Allsearch call VimGrep('./**/*', <f-args>)
+command! -nargs=0 -bar Buftodo   call VimGrep('%', '\CTODO:*')
+command! -nargs=0 -bar Argtodo   call VimGrep('##', '\CTODO:*')
+command! -nargs=0 -bar Alltodo   call VimGrep('./**/*', '\CTODO:*')
 cnoreabbrev bufvg  Bufsearch
 cnoreabbrev argvg  Argsearch
 cnoreabbrev allvg  Allsearch
@@ -787,7 +787,7 @@ vnoremap <leader>do :diffget <Bar> diffupdate<CR>
 vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
 nnoremap <leader>du :diffupdate<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nnoremap <leader>g  :QuickFixBufSearch
+"        <leader>g  fugitive and signify mappings
 nnoremap <leader>h  :split<CR>
 "        <leader>m  various showmarks mappings
 nnoremap <leader>o  :only<CR>
@@ -797,8 +797,8 @@ nnoremap <leader>r  :QuickRun -mode n<CR>
 vnoremap <leader>r  :QuickRun -mode v<CR>
 nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
-nnoremap <leader>tt :Buftodo<CR>:cw<CR>
-nnoremap <leader>ta :Alltodo<CR>:cw<CR>
+nnoremap <leader>tt :Buftodo <Bar> cw<CR>
+nnoremap <leader>ta :Alltodo <Bar> cw<CR>
 nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
