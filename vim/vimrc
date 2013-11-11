@@ -1,7 +1,7 @@
 " vim: foldmethod=marker foldlevel=1 textwidth=0
 " Colorscheme and Pathogen {{{
 set nocompatible " use vim settings not vi
-colorscheme miromod
+colorscheme guimiromod
 execute pathogen#infect()
 " }}}
 " Misc {{{
@@ -34,23 +34,24 @@ endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
-" Quickfix search function {{{
-function! QuickfixSearch(target, pattern)
+" vimgrep wrapper function + todo searches {{{
+function! VimGrep(target, pattern)
   " execute 'vim /' . a:pattern . '/gj ' . a:target . ' | cw'
   execute 'vim /' . a:pattern . '/gj ' . a:target
 endfunction
-command! -nargs=1 QuickfixBufSearch call QuickfixSearch('%', <f-args>)
-command! -nargs=1 QuickfixArgSearch call QuickfixSearch('##', <f-args>)
-command! -nargs=1 QuickfixAllSearch call QuickfixSearch('./**/*', <f-args>)
-command! -nargs=0 TodoBuf           call QuickfixSearch('%', '\CTODO:*')
-command! -nargs=0 TodoArg           call QuickfixSearch('##', '\CTODO:*')
-command! -nargs=0 TodoAll           call QuickfixSearch('./**/*', '\CTODO:*')
-cnoreabbrev qf      QuickfixBufSearch
-cnoreabbrev qfarg   QuickfixArgSearch
-cnoreabbrev qfall   QuickfixAllSearch
-cnoreabbrev todo    TodoBuf
-cnoreabbrev todoarg TodoArg
-cnoreabbrev todoall TodoAll
+command! -nargs=1 Bufsearch call VimGrep('%', <f-args>)
+command! -nargs=1 Argsearch call VimGrep('##', <f-args>)
+command! -nargs=1 Allsearch call VimGrep('./**/*', <f-args>)
+command! -nargs=0 Buftodo   call VimGrep('%', '\CTODO:*')
+command! -nargs=0 Argtodo   call VimGrep('##', '\CTODO:*')
+command! -nargs=0 Alltodo   call VimGrep('./**/*', '\CTODO:*')
+cnoreabbrev bufvg  Bufsearch
+cnoreabbrev argvg  Argsearch
+cnoreabbrev allvg  Allsearch
+" todobuf instead of todo for abbreviation so I can still search for plaintext 'todo'
+cnoreabbrev buftodo Buftodo
+cnoreabbrev argtodo Argtodo
+cnoreabbrev alltodo Alltodo
 " }}}
 " Qargs, Qdof, Qdol {{{
 " :Qargs will populate the arglist with the files in the quickfix list
@@ -243,7 +244,7 @@ let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
 " }}}
 " neocomplete {{{
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
@@ -319,10 +320,11 @@ let g:syntastic_always_populate_loc_list=1 " always put detecter errors in locat
 let g:syntastic_error_symbol='✗✗'
 let g:syntastic_warning_symbol='⚠⚠'
 let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
-let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework']
+let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS144/vm-shared/project/src/']
 " }}}
 " taboo {{{
-let g:taboo_tab_format = "%N %1a%m "
+" let g:taboo_tab_format = "%N %1a%m "
+let g:taboo_tab_format = "%N %f%m "
 " }}}
 " tagbar {{{
 let g:tagbar_left  = 1            " default is to open on right
@@ -583,7 +585,7 @@ augroup SyntaxFold
   autocmd BufEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
   autocmd InsertEnter *.c,*.cpp,*.java set foldmethod=manual " once we start typing, using manual folds
 augroup END
-" ctrl+spacebar toggles folds in normal mode
+" ctrl+spacebar toggles folds in normal mode, doesn't work in gvim
 nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " }}}
 " Tab/Indent {{{
@@ -785,6 +787,7 @@ vnoremap <leader>do :diffget <Bar> diffupdate<CR>
 vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
 nnoremap <leader>du :diffupdate<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+nnoremap <leader>g  :QuickFixBufSearch
 nnoremap <leader>h  :split<CR>
 "        <leader>m  various showmarks mappings
 nnoremap <leader>o  :only<CR>
@@ -794,6 +797,8 @@ nnoremap <leader>r  :QuickRun -mode n<CR>
 vnoremap <leader>r  :QuickRun -mode v<CR>
 nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
+nnoremap <leader>tt :Buftodo<CR>:cw<CR>
+nnoremap <leader>ta :Alltodo<CR>:cw<CR>
 nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
@@ -828,7 +833,7 @@ nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR
 nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
-"        <Space>u*  QuickfixSearch maps, defined below
+"        <Space>u*  VimGrep maps, defined below
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
@@ -846,13 +851,13 @@ nnoremap <Space>-       :Tabularize /-<CR>
 vnoremap <Space>-       :Tabularize /-<CR>
 
 " Under cursor or visual selection, search Buffer or Arglist
-nnoremap <Space>ua :call QuickfixSearch("##", substitute(escape(expand("<cword>")
+nnoremap <Space>ua :call VimGrep("##", substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <Space>ua "*y:call QuickfixSearch("##", substitute(escape(@*, '\/.*$^~[]')
+vnoremap <Space>ua "*y:call VimGrep("##", substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"))<CR>
-nnoremap <Space>ub :call QuickfixSearch("%", substitute(escape(expand("<cword>")
+nnoremap <Space>ub :call VimGrep("%", substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <Space>ub "*y:call QuickfixSearch("%", substitute(escape(@*, '\/.*$^~[]')
+vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"))<CR>
 " }}}
 " ctrl normal mode {{{
@@ -892,6 +897,29 @@ nnoremap <Esc>7     7gt
 nnoremap <Esc>8     8gt
 nnoremap <Esc>9     9gt
 nnoremap <Esc>0     :tablast<CR>
+
+if has("gui_running")
+  nnoremap <A-a>    :AirlineToggle<CR>
+  nnoremap <A-h>    :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
+  nnoremap <A-i>    :resize +2<CR>
+  nnoremap <A-j>    :vertical resize -2<CR>
+  nnoremap <A-k>    :resize -2<CR>
+  nnoremap <A-l>    :vertical resize +2<CR>
+  nnoremap <A-m>    :match none<CR>
+  nnoremap <A-n>    :tabmove +1<CR>
+  nnoremap <A-p>    :tabmove -1<CR>
+  nnoremap <A-q>    :quitall<CR>
+  nnoremap <A-1>    1gt
+  nnoremap <A-2>    2gt
+  nnoremap <A-3>    3gt
+  nnoremap <A-4>    4gt
+  nnoremap <A-5>    5gt
+  nnoremap <A-6>    6gt
+  nnoremap <A-7>    7gt
+  nnoremap <A-8>    8gt
+  nnoremap <A-9>    9gt
+  nnoremap <A-0>    :tablast<CR>
+endif
 " }}}
 " alt insert mode {{{
 inoremap <Esc>i     <Up>
