@@ -74,7 +74,6 @@ set status_format = "───[ Folder: %f ]───[%r%M messages%?V? (%V)? %L
 set sidebar_delim   = '│'
 set sidebar_visible = yes
 set sidebar_width   = 24
-color sidebar_new color221 color233
 set sidebar_shortpath=yes
 #=Pager================================================#
 

@@ -7,7 +7,8 @@ color  tilde       color142   default
 
 # index stuff
 color  tree        color208   default        # threaded message arrows
-color  indicator   color193   color16        # selected item, sidebar and index
+color  indicator   color192   color234       # selected item, sidebar and index
+color  sidebar_new color46    default        # inactive mailbox with new message
 color  index       color253   default   ~A   # all messages in index
 color  index       color34    default   ~N   # new messages in index
 color  index       color34    default   ~O   # new messages present when mutt opened
