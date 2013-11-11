@@ -166,6 +166,7 @@ augroup FileTypeSettings
   autocmd FileType tex nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
   autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
   autocmd BufEnter * set relativenumber  " for vimfiler
+  autocmd BufRead .tags set filetype=tags
 augroup END
 " }}}
 " }}}
