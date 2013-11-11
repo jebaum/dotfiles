@@ -147,7 +147,7 @@ for_window [instance="ncmpcpp"] border none
 assign [instance="ncmpcpp"] → 4: music
 for_window [instance="mutt"] border none
 assign [instance="mutt"] → 5: mail
-for_window [instance="ranger"] border none
+for_window [instance="ranger"] border 1pixel
 assign [instance="ranger"] → 6: files
 
 for_window [instance="Steam" class="Steam"] border none
@@ -156,7 +156,7 @@ for_window [instance="hl2_linux" class="hl2_linux"] border none
 assign     [instance="hl2_linux" class="hl2_linux"] → 12: tf2
 
 for_window [instance="vdpau" class="mplayer2"] border none
-for_window [instance="vdpau" class="mpv"] border none
+for_window [instance="vdpau" class="mpv"] border 1pixel
 #assign     [instance="vdpau" class="mplayer2"] → 13: tv
 
 for_window [instance="firefox.exe" class="Wine"] border none
