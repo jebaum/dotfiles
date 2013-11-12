@@ -657,6 +657,7 @@ inoremap <C-c> <Esc><Esc>
 nnoremap Y y$
 nnoremap <Esc>[Z v%
 nnoremap dg do
+nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
