@@ -784,6 +784,7 @@ nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
+nnoremap <leader>b  :ls<CR>:b<Space>
 vnoremap <leader>dg :diffget <Bar> diffupdate<CR>
 vnoremap <leader>do :diffget <Bar> diffupdate<CR>
 vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
@@ -813,7 +814,7 @@ nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
-nnoremap <silent> <leader>gl :Glog<CR><CR>
+nnoremap <silent> <leader>gl :Glog!<CR><CR>
 nnoremap <silent> <leader>gp :call GitPush()<CR>
 nnoremap <silent> <leader>gr :Gread<CR>
 nnoremap <silent> <leader>gs :Gstatus<CR>
