@@ -167,6 +167,7 @@ augroup FileTypeSettings
   autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
   autocmd BufEnter * set relativenumber  " for vimfiler
   autocmd BufRead .tags set filetype=tags
+autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
 augroup END
 " }}}
 " }}}
