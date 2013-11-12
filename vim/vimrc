@@ -199,6 +199,15 @@ let g:airline#extensions#whitespace#mixed_indent_format = 't[%s]'
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 
+let g:airline_theme_patch_func = 'AirlineThemePatch'
+function! AirlineThemePatch(palette)
+  if g:airline_theme == 'simple'
+    for colors in values(a:palette.inactive)
+      let colors[2] = 231  " text color of split statusline
+      let colors[3] = 58   " background color of split statusline
+    endfor
+  endif
+endfunction
 " }}}
 " dispatch {{{
 augroup DISPATCH
