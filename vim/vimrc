@@ -5,7 +5,7 @@ colorscheme guimiromod
 execute pathogen#infect()
 " }}}
 " Misc {{{
-" mail / mutt {{{
+" Mail / Mutt {{{
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
@@ -34,7 +34,7 @@ endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
-" vimgrep wrapper function + todo searches {{{
+" VimGrep wrapper function + todo searches {{{
 function! VimGrep(target, pattern)
   " execute 'vim /' . a:pattern . '/gj ' . a:target . ' | cw'
   execute 'silent! vim /' . a:pattern . '/gj ' . a:target
@@ -82,7 +82,7 @@ function! QuickfixFilenames()
   return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
 " }}}
-" Ranger file chooser. {{{
+" Ranger file chooser {{{
 " only works on a single file. more just for fun than practicality
 function! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
@@ -124,10 +124,10 @@ augroup StripWhitespaceOnWrite
 augroup END
 " }}}
 " Command mode {{{
-command! W :execute ':silent w !sudo tee % > /dev/null' | :edit! " :W when forgetting to sudo
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
+cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
 
 cnoremap <C-a>  <Home>
 cnoremap <C-p>  <Up>
@@ -140,7 +140,7 @@ set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
-" Line join{{{
+" Line join {{{
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
@@ -255,7 +255,7 @@ let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
 " }}}
 " neocomplete {{{
-let g:neocomplete#enable_at_startup = 0
+let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
