@@ -882,28 +882,28 @@ inoremap <C-a>      <Home>
 inoremap <C-e>      <End>
 " }}}
 " alt normal mode {{{
-nnoremap <Esc>a     :AirlineToggle<CR>
-nnoremap <Esc>h     :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
-nnoremap <Esc>i     :resize +2<CR>
-nnoremap <Esc>j     :vertical resize -2<CR>
-nnoremap <Esc>k     :resize -2<CR>
-nnoremap <Esc>l     :vertical resize +2<CR>
-nnoremap <Esc>m     :match none<CR>
-nnoremap <Esc>n     :tabmove +1<CR>
-nnoremap <Esc>p     :tabmove -1<CR>
-nnoremap <Esc>q     :quitall<CR>
-nnoremap <Esc>1     1gt
-nnoremap <Esc>2     2gt
-nnoremap <Esc>3     3gt
-nnoremap <Esc>4     4gt
-nnoremap <Esc>5     5gt
-nnoremap <Esc>6     6gt
-nnoremap <Esc>7     7gt
-nnoremap <Esc>8     8gt
-nnoremap <Esc>9     9gt
-nnoremap <Esc>0     :tablast<CR>
-
-if has("gui_running")
+if !has("gui_running")
+  nnoremap <Esc>a   :AirlineToggle<CR>
+  nnoremap <Esc>h   :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
+  nnoremap <Esc>i   :resize +2<CR>
+  nnoremap <Esc>j   :vertical resize -2<CR>
+  nnoremap <Esc>k   :resize -2<CR>
+  nnoremap <Esc>l   :vertical resize +2<CR>
+  nnoremap <Esc>m   :match none<CR>
+  nnoremap <Esc>n   :tabmove +1<CR>
+  nnoremap <Esc>p   :tabmove -1<CR>
+  nnoremap <Esc>q   :quitall<CR>
+  nnoremap <Esc>1   1gt
+  nnoremap <Esc>2   2gt
+  nnoremap <Esc>3   3gt
+  nnoremap <Esc>4   4gt
+  nnoremap <Esc>5   5gt
+  nnoremap <Esc>6   6gt
+  nnoremap <Esc>7   7gt
+  nnoremap <Esc>8   8gt
+  nnoremap <Esc>9   9gt
+  nnoremap <Esc>0   :tablast<CR>
+else
   nnoremap <A-a>    :AirlineToggle<CR>
   nnoremap <A-h>    :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
   nnoremap <A-i>    :resize +2<CR>
