@@ -585,6 +585,7 @@ set formatoptions-=o           " don't automatically continue comment when hitti
 set guioptions-=m              " hide gui menu bar
 set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
+set guioptions-=e              " use regular tabline
 set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
@@ -943,14 +944,25 @@ else
 endif
 " }}}
 " alt insert mode {{{
-inoremap <Esc>i     <Up>
-inoremap <Esc>j     <Left>
-inoremap <Esc>k     <Down>
-inoremap <Esc>l     <Right>
-inoremap <Esc>b     <S-Left>
-inoremap <Esc>B     <C-Left>
-inoremap <Esc>w     <S-Right>
-inoremap <Esc>W     <C-Right>
+if !has("gui_running")
+  inoremap <Esc>i   <Up>
+  inoremap <Esc>j   <Left>
+  inoremap <Esc>k   <Down>
+  inoremap <Esc>l   <Right>
+  inoremap <Esc>b   <S-Left>
+  inoremap <Esc>B   <C-Left>
+  inoremap <Esc>w   <S-Right>
+  inoremap <Esc>W   <C-Right>
+else
+  inoremap <A-i>    <Up>
+  inoremap <A-j>    <Left>
+  inoremap <A-k>    <Down>
+  inoremap <A-l>    <Right>
+  inoremap <A-b>    <S-Left>
+  inoremap <A-B>    <C-Left>
+  inoremap <A-w>    <S-Right>
+  inoremap <A-W>    <C-Right>
+endif
 " }}}
 " slash leader maps (CURRENTLY NOT USING){{{
 " reserved for slimv/paredit in lisp files
