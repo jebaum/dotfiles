@@ -173,31 +173,30 @@ augroup END
 " }}}
 " Plugin {{{
 " airline {{{
-let g:airline_theme="simple"
-let g:airline_detect_modified = 1
-let g:airline_detect_paste = 1
+let g:airline_theme             = "simple"
+let g:airline_detect_modified   = 1
+let g:airline_detect_paste      = 1
 let g:airline_inactive_collapse = 1
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
+let g:airline_readonly_symbol   = ''
+let g:airline_left_alt_sep      = ''
+let g:airline_right_alt_sep     = ''
+
+""" FANCY SETTINGS
+" let g:airline_left_sep      = ''
+" let g:airline_right_sep     = ''
 " let g:airline_branch_prefix = ' '
-let g:airline_readonly_symbol = ''
-" let g:airline_linecolumn_prefix = ''
-" let g:airline_section_z="%l/%L:C%c"
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
+" let g:airline_section_z     = "%l/%L:C%c"
+
+""" MINIMAL SETTINGS
+let g:airline_left_sep  = ''
 let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_branch_prefix = ''
-" let g:airline_readonly_symbol = ''
-let g:airline_linecolumn_prefix = ''
-let g:airline_section_z="%l/%L:C%v"
-let g:airline#extensions#whitespace#symbol = 'Ξ'
-let g:airline#extensions#whitespace#trailing_format = 's[%s]'
+let g:airline_section_z = "%l/%L:C%v"
+
+let g:airline#extensions#whitespace#symbol              = 'Ξ'
+let g:airline#extensions#whitespace#trailing_format     = 's[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 't[%s]'
-let g:airline#extensions#hunks#enabled = 1
-let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#hunks#enabled                  = 1
+let g:airline#extensions#hunks#non_zero_only            = 1
 
 let g:airline_theme_patch_func = 'AirlineThemePatch'
 function! AirlineThemePatch(palette)
@@ -221,7 +220,7 @@ augroup END
 " easymotion {{{
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
-let g:EasyMotion_special_select_line = 0
+let g:EasyMotion_special_select_line   = 0
 " }}}
 " fugitive {{{
 autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
@@ -234,8 +233,8 @@ autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from maki
 let g:gist_post_private = 1 " gists are private by default
 " }}}
 " gundo {{{
-let g:gundo_width=40
-let g:gundo_preview_height=40
+let g:gundo_width          = 40
+let g:gundo_preview_height = 40
 " }}}
 " match tag {{{
 let g:mta_filetypes = {
@@ -248,11 +247,11 @@ let g:mta_filetypes = {
 " }}}
 " multi-cursor {{{
 let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_key='<Space>m'
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<C-c>'
+let g:multi_cursor_start_key = '<Space>m'
+let g:multi_cursor_next_key  = '<C-n>'
+let g:multi_cursor_prev_key  = '<C-p>'
+let g:multi_cursor_skip_key  = '<C-x>'
+let g:multi_cursor_quit_key  = '<C-c>'
 " }}}
 " neocomplete {{{
 let g:neocomplete#enable_at_startup = 1
@@ -263,8 +262,8 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 inoremap <expr><C-n>    neocomplete#start_manual_complete()
 " }}}
 " nerdcommenter {{{
-let NERDSpaceDelims=1
-let NERDCompactSexyComs=0
+let NERDSpaceDelims     = 1
+let NERDCompactSexyComs = 0
 " }}}
 " niji {{{
 let g:niji_matching_filetypes = ['lisp']
@@ -277,38 +276,38 @@ let g:niji_dark_colours = [['82', '#5Fff00'],
 let g:paredit_leader = '\'
 " }}}
 " showmarks {{{
-let g:showmarks_enable=0
-let g:showmarks_include="abcdefghijklmnopqrstuvwxyz"
-let g:showmarks_textlower=">"
-let g:showmarks_ignore_type="h"
-let g:showmarks_hlline_lower=1  " hilight lines with lowercase marks
+let g:showmarks_enable       = 0
+let g:showmarks_include      = "abcdefghijklmnopqrstuvwxyz"
+let g:showmarks_textlower    = ">"
+let g:showmarks_ignore_type  = "h"
+let g:showmarks_hlline_lower = 1  " hilight lines with lowercase marks
 " }}}
 " simplyfold {{{
 let g:SimplyFold_docstring_preview = 0
 " }}}
 " signify {{{
-let g:signify_disable_by_default = 1  " disable run by default
-let g:signify_vcs_list = [ 'git' ]    " I only use git for now
-let g:signify_mapping_next_hunk = '<leader>gk'
-let g:signify_mapping_prev_hunk = '<leader>gi'
-let g:signify_sign_change       = '~'
+let g:signify_disable_by_default = 1            " disable run by default
+let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
+let g:signify_mapping_next_hunk  = '<leader>gk'
+let g:signify_mapping_prev_hunk  = '<leader>gi'
+let g:signify_sign_change        = '~'
 " }}}
 " slimv {{{
-let g:slimv_leader = '\'
-let g:slimv_repl_wrap = 0 " stop j and k from getting remapped. unfortunately also stops REPL wrapping
-let g:lisp_rainbow = 1 " will get overridden by niji, but works in @begin=*@ blocks
-let g:slimv_swank_cmd = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
+let g:slimv_leader        = '\'
+let g:slimv_repl_wrap     = 0 " stop j and k from getting remapped. unfortunately also stops REPL wrapping
+let g:lisp_rainbow        = 1 " will get overridden by niji, but works in @begin=*@ blocks
+let g:slimv_swank_cmd     = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
 " startify {{{
-let g:startify_list_order = ['bookmarks', 'dir', 'files', 'sessions']
-let g:startify_bookmarks = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/TODO' ]
-let g:startify_files_number = 7
+let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
+let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/TODO' ]
+let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
-let g:startify_session_autoload = 0  " opening directories with a Session.vim will have it auto load
-let g:startify_change_to_dir = 1     " when opening file or bookmark, change to its directory
-let g:startify_custom_indices = ['a','f','h','j','l','w','r','u','o','p','z','x','n','m']
-let g:startify_custom_header = [
+let g:startify_session_autoload  = 0  " opening directories with a Session.vim will have it auto load
+let g:startify_change_to_dir     = 1     " when opening file or bookmark, change to its directory
+let g:startify_custom_indices    = ['a','f','h','j','l','w','r','u','o','p','z','x','n','m']
+let g:startify_custom_header     = [
   \ '    /\\\        /\\\   /\\\\\\\\\\\   /\\\\            /\\\\  ',
   \ '    \/\\\       \/\\\  \/////\\\///   \/\\\\\\        /\\\\\\  ',
   \ '     \//\\\      /\\\       \/\\\      \/\\\//\\\    /\\\//\\\  ',
@@ -323,38 +322,41 @@ let g:startify_custom_header = [
   \ ]
 " }}}
 " syntastic {{{
-let g:syntastic_c_compiler = 'clang'
-let g:syntastic_c_compiler_options = ' -Wall'
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -Wall'
-let g:syntastic_aggregate_errors=1         " display all errors
-let g:syntastic_always_populate_loc_list=1 " always put detecter errors in location list
-let g:syntastic_error_symbol='✗✗'
-let g:syntastic_warning_symbol='⚠⚠'
-let g:syntastic_stl_format = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
-let g:syntastic_ignore_files=['/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework', '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS144/vm-shared/project/src/']
+let g:syntastic_c_compiler               = 'clang'
+let g:syntastic_c_compiler_options       = ' -Wall'
+let g:syntastic_cpp_compiler             = 'clang++'
+let g:syntastic_cpp_compiler_options     = ' -Wall'
+let g:syntastic_aggregate_errors         = 1         " display all errors
+let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
+let g:syntastic_error_symbol             = '✗✗'
+let g:syntastic_warning_symbol           = '⚠⚠'
+let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
+let g:syntastic_ignore_files = [
+    \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161',
+    \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework',
+    \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS144/vm-shared/project/src/']
 " }}}
 " taboo {{{
 " let g:taboo_tab_format = "%N %1a%m "
 let g:taboo_tab_format = "%N %f%m "
 " }}}
 " tagbar {{{
-let g:tagbar_left  = 1            " default is to open on right
-let g:tagbar_width = 50           " default is 40
-let g:tagbar_indent= 1            " default is 2
-let g:tagbar_show_linenumbers = 2 " relative line numbers
-let g_tagbar_autoshowtag=1        " auto unfold any parents so highlighted tag is shown
-let g:tagbar_sort  = 0            " sort tags by position in source file, not alphabetically
+let g:tagbar_left             = 1   " default is to open on right
+let g:tagbar_width            = 50  " default is 40
+let g:tagbar_indent           = 1   " default is 2
+let g:tagbar_show_linenumbers = 2   " relative line numbers
+let g_tagbar_autoshowtag      = 1   " auto unfold any parents so highlighted tag is shown
+let g:tagbar_sort             = 0   " sort tags by position in source file, not alphabetically
 " }}}
 " togglelist {{{
-let g:toggle_list_no_mappings=1         " don't use default mappings
-let g:toggle_list_copen_command="Copen" " use dispatch Copen wrapper
+let g:toggle_list_no_mappings   = 1       " don't use default mappings
+let g:toggle_list_copen_command = "Copen" " use dispatch Copen wrapper
 " }}}
 " ultisnips {{{
 "let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpForwardTrigger="<C-l>"
-let g:UltiSnipsJumpBackwardTrigger="<C-j>"
-let g:UltiSnipsListSnippets="<C-s>"
+let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
+let g:UltiSnipsListSnippets        = "<C-s>"
 " }}}
 " unite {{{
 let g:unite_cursor_line_highlight = "UniteSel"
@@ -383,18 +385,18 @@ let g:unite_source_outline_filetype_options = {
 augroup unite
   autocmd FileType unite call s:unite_my_settings()
 augroup END
-let g:unite_source_file_mru_long_limit = 3000
+let g:unite_source_file_mru_long_limit      = 3000
 let g:unite_source_directory_mru_long_limit = 3000
-let g:unite_enable_start_insert = 1
-let g:unite_winheight = 20
-let g:unite_split_rule = 'botright'
-let g:unite_prompt = '» '
-let g:unite_update_time=500   " in milliseconds
-let g:unite_source_rec_async_command = 'ag -g ".*"'
-let g:unite_source_history_yank_enable = 1
-let g:unite_locate_command = 'locate -i -l %d -e %s'
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
+let g:unite_enable_start_insert             = 1
+let g:unite_winheight                       = 20
+let g:unite_split_rule                      = 'botright'
+let g:unite_prompt                          = '» '
+let g:unite_update_time                     = 500   " in milliseconds
+let g:unite_source_rec_async_command        = 'ag -g ".*"'
+let g:unite_source_history_yank_enable      = 1
+let g:unite_locate_command                  = 'locate -i -l %d -e %s'
+let g:unite_enable_ignore_case              = 1
+let g:unite_enable_smart_case               = 1
 " call unite#filters#matcher_default#use(['matcher_fuzzy']) " enable fuzzy matching
 function! s:unite_my_settings()
   nmap <buffer> <ESC>   <Plug>(unite_exit)
@@ -590,8 +592,8 @@ augroup END
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
-set foldnestmax=1   " folds only one level deep
-set foldmethod=manual
+set foldnestmax = 1   " folds only one level deep
+set foldmethod  = manual
 augroup SyntaxFold
   autocmd BufEnter    *.java           set foldnestmax=2 foldlevel=1
   autocmd BufEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
@@ -604,9 +606,9 @@ nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " newer and better smartindent
 set smarttab        " make tabs more consistent with softtabstop
-set shiftwidth=2    " amount of whitespace to insert or remove using normal mode indentation commands
-set softtabstop=2   " amount of whitespace deleted by backspace
-set tabstop=2       " width of tab character
+set shiftwidth  = 2 " amount of whitespace to insert or remove using normal mode indentation commands
+set softtabstop = 2 " amount of whitespace deleted by backspace
+set tabstop     = 2 " width of tab character
 set shiftround      " indent byh multiples of shiftwidth
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
