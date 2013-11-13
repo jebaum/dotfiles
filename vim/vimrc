@@ -111,7 +111,7 @@ augroup ReturnToLast
        \ endif
 augroup END
 " }}}
-" Strip Trailing Whitespace {{{
+" StripTrailingWhitespaces {{{
 function! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -171,7 +171,7 @@ autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
 augroup END
 " }}}
 " }}}
-" Plugin {{{
+" Plugins {{{
 " airline {{{
 let g:airline_theme             = "simple"
 let g:airline_detect_modified   = 1
