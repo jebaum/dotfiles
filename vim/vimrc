@@ -267,10 +267,14 @@ let NERDCompactSexyComs = 0
 " }}}
 " niji {{{
 let g:niji_matching_filetypes = ['lisp']
-let g:niji_dark_colours = [['82', '#5Fff00'],
+let g:niji_dark_colours = [
+                        \ [ '82',  '#5Fff00'],
                         \ [ '202', '#FF5F00'],
                         \ [ '231', '#FFFFFF'],
-                        \ [ '201', '#FF00FF']]
+                        \ [ '201', '#FF00FF'],
+                        \ [ '226', '#FFFF00'],
+                        \ [ '196', '#FF0000']
+                        \ ]
 " }}}
 " paredit {{{
 let g:paredit_leader = '\'
@@ -797,7 +801,6 @@ nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
-nnoremap <leader>b  :ls<CR>:b<Space>
 vnoremap <leader>dg :diffget <Bar> diffupdate<CR>
 vnoremap <leader>do :diffget <Bar> diffupdate<CR>
 vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
@@ -805,6 +808,7 @@ nnoremap <leader>du :diffupdate<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "        <leader>g  fugitive and signify mappings
 nnoremap <leader>h  :split<CR>
+nnoremap <leader>l  :ls<CR>:b<Space>
 "        <leader>m  various showmarks mappings
 nnoremap <leader>o  :only<CR>
 nnoremap <leader>p  :set list!<CR>
