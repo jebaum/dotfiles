@@ -592,8 +592,8 @@ augroup END
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
-set foldnestmax = 1   " folds only one level deep
-set foldmethod  = manual
+set foldnestmax =1   " folds only one level deep
+set foldmethod  =manual
 augroup SyntaxFold
   autocmd BufEnter    *.java           set foldnestmax=2 foldlevel=1
   autocmd BufEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
@@ -606,9 +606,9 @@ nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " newer and better smartindent
 set smarttab        " make tabs more consistent with softtabstop
-set shiftwidth  = 2 " amount of whitespace to insert or remove using normal mode indentation commands
-set softtabstop = 2 " amount of whitespace deleted by backspace
-set tabstop     = 2 " width of tab character
+set shiftwidth  =2  " amount of whitespace to insert or remove using normal mode indentation commands
+set softtabstop =2  " amount of whitespace deleted by backspace
+set tabstop     =2  " width of tab character
 set shiftround      " indent byh multiples of shiftwidth
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
