@@ -141,11 +141,11 @@ bindsym $mod+o  exec ~/dotfiles/scripts/startup.sh
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
 
-for_window [instance="vps"] border none
+for_window [instance="vps"] border 1pixel
 assign [instance="vps"] → 3: vps
-for_window [instance="ncmpcpp"] border none
+for_window [instance="ncmpcpp"] border 1pixel
 assign [instance="ncmpcpp"] → 4: music
-for_window [instance="mutt"] border none
+for_window [instance="mutt"] border 1pixel
 assign [instance="mutt"] → 5: mail
 for_window [instance="ranger"] border 1pixel
 assign [instance="ranger"] → 6: files
