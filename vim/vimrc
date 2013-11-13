@@ -3,6 +3,7 @@
 set nocompatible " use vim settings not vi
 colorscheme guimiromod
 execute pathogen#infect()
+set guifont=DejaVuSansMonoforPowerline\ 11
 " }}}
 " Misc {{{
 " Mail / Mutt {{{
