@@ -44,6 +44,11 @@ hi DiffChange         ctermfg=none  ctermbg=237   cterm=none  guifg=NONE     gui
 hi DiffAdd            ctermfg=231   ctermbg=22    cterm=bold  guifg=#FFFFFF  guibg=#005F00  gui=bold
 hi DiffDelete         ctermfg=231   ctermbg=52    cterm=bold  guifg=#FFFFFF  guibg=#5F0000  gui=bold
 
+hi diffAdded          ctermfg=40    ctermbg=none  cterm=none  guifg=#00D700  guibg=NONE  gui=none
+hi diffRemoved        ctermfg=160   ctermbg=none  cterm=none  guifg=#D70000  guibg=NONE  gui=none
+hi diffNewFile        ctermfg=172   ctermbg=none  cterm=none  guifg=#D78700  guibg=NONE  gui=none
+hi diffFile           ctermfg=172   ctermbg=none  cterm=none  guifg=#D78700  guibg=NONE  gui=none
+
 hi SignifyLineAdd     ctermfg=119   ctermbg=none  cterm=bold  guifg=#87FF5F  guibg=#000000  gui=bold
 hi SignifyLineChange  ctermfg=227   ctermbg=none  cterm=bold  guifg=#FFFF5F  guibg=#000000  gui=bold
 hi SignifyLineDelete  ctermfg=167   ctermbg=none  cterm=bold  guifg=#D75F5F  guibg=#000000  gui=bold
