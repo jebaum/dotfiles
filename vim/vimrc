@@ -35,6 +35,25 @@ endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
+" Copy function {{{
+" complement to unimpaired Move, ]e
+function! Copy(cmd, count, map) abort
+  normal! m`
+  exe 'copy'.a:cmd.a:count
+  norm! ``
+  silent! call repeat#set("\<Plug>myCopy".a:map, a:count+1)
+endfunction
+
+nnoremap <silent> <Plug>myCopyUp   :<C-U>call Copy('--',v:count1-1,'Up')<CR>
+nnoremap <silent> <Plug>myCopyDown :<C-U>call Copy('+',v:count1-1,'Down')<CR>
+xnoremap <silent> <Plug>myCopyUp   :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy--'.v:count1<CR>``
+xnoremap <silent> <Plug>myCopyDown :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy''>+'.v:count1<CR>``
+
+nmap [z <Plug>myCopyUp
+nmap ]z <Plug>myCopyDown
+xmap [z <Plug>myCopyUp
+xmap ]z <Plug>myCopyDown
+" }}}
 " VimGrep wrapper function + todo searches {{{
 function! VimGrep(pattern, target, cw)
   echom 'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
