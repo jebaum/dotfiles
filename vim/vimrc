@@ -41,18 +41,31 @@ function! Copy(cmd, count, map) abort
   normal! m`
   exe 'copy'.a:cmd.a:count
   norm! ``
-  silent! call repeat#set("\<Plug>myCopy".a:map, a:count+1)
+  if a:map == 'MoveDown' || a:map == 'MoveUp'
+    norm! dd
+  endif
+  silent! call repeat#set("\<Plug>my".a:map, a:count)
 endfunction
 
-nnoremap <silent> <Plug>myCopyUp   :<C-U>call Copy('--',v:count1-1,'Up')<CR>
-nnoremap <silent> <Plug>myCopyDown :<C-U>call Copy('+',v:count1-1,'Down')<CR>
+nnoremap <silent> <Plug>myCopyUp   :<C-U>call Copy('--',v:count1,'CopyUp')<CR>
+nnoremap <silent> <Plug>myCopyDown :<C-U>call Copy('+',v:count1,'CopyDown')<CR>
 xnoremap <silent> <Plug>myCopyUp   :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy--'.v:count1<CR>``
 xnoremap <silent> <Plug>myCopyDown :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy''>+'.v:count1<CR>``
+
+nnoremap <silent> <Plug>myMoveUp   :<C-U>call Copy('--',v:count1,'MoveUp')<CR>
+nnoremap <silent> <Plug>myMoveDown :<C-U>call Copy('+',v:count1,'MoveDown')<CR>
+xnoremap <silent> <Plug>myMoveUp   :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy--'.v:count1<CR>``gvd
+xnoremap <silent> <Plug>myMoveDown :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy''>+'.v:count1<CR>``gvd
 
 nmap [z <Plug>myCopyUp
 nmap ]z <Plug>myCopyDown
 xmap [z <Plug>myCopyUp
 xmap ]z <Plug>myCopyDown
+
+nmap [m <Plug>myMoveUp
+nmap ]m <Plug>myMoveDown
+xmap [m <Plug>myMoveUp
+xmap ]m <Plug>myMoveDown
 " }}}
 " VimGrep wrapper function + todo searches {{{
 function! VimGrep(pattern, target, cw)
