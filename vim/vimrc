@@ -693,7 +693,6 @@ nnoremap <Esc>[Z v%
 nnoremap dg do
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
-" TODO: unimpaired style mappings, maybe ]m and ]t, for :move and :copy
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
 nnoremap n nzv
