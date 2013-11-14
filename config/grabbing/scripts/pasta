@@ -1,0 +1,22 @@
+#!/bin/bash
+
+THING=$(mktemp --suffix=.txt)
+chmod +r "${THING}"
+
+xclip -o > "${THING}"
+echo -n hold on | xclip
+
+PASTEURL=$(scpur "${THING}" txt)
+
+if [ $? -ne 0 ]; then
+  notify-send -t 500 "error uploading with scpur"
+  echo -n error | xclip
+  exit 1
+fi
+
+# make sure this gets into xclip and the clipboard
+echo -n $PASTEURL | xclip
+echo -n $PASTEURL | xclip -selection c
+
+#done
+echo read $PASTEURL into xclip

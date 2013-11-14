@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## this script guesses the appropriate suffix for a particular file by
+## looking at its mime-type
+
+if [ $# -lt 1 -o ! -f "$1" ]; then
+  echo "usage: $0 <file>" 1>&2
+  exit 1
+fi
+
+## get mime type
+MIME=$(file -ib "$1" | cut -d\; -f1)
+
+## use awk to search /etc/mime.types
+## so clean up MIME
+MIME=$(tr '/' '.' <<< $MIME)
+
+## there should only be one
+awk "\$1 ~ /^${MIME}\$/ { print \$2 }" /etc/mime.types | head -n 1

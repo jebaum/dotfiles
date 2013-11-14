@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+## load options
+if [ ! -f "$XDG_CONFIG_HOME/grabbing/config" ]; then
+  echo "please set up config file \"$XDG_CONFIG_HOME/grabbing/config\"" 1>&2
+  exit 2
+fi
+source $XDG_CONFIG_HOME/grabbing/config
+
+## make temp file
+THING=$(mktemp --suffix=.png)
+chmod +r "${THING}"
+
+## take screen shot
+scrot -s "${THING}"
+
+if [ $? -ne 0 ]; then
+  notify-send -t 500 "error taking screenshot"
+  exit 1
+fi
+
+echo -n "hold on " | xclip
+
+## upload screen shot
+IMGURL=$($UPLOADSCRIPT "${THING}")
+
+if [ $? -ne 0 ]; then
+  notify-send -t 500 "error uploading to $UPLOADSCRIPT"
+  exit 1
+fi
+
+## get the url somewhere
+echo -n "$IMGURL" | xclip
+echo -n "$IMGURL" | xclip -selection c
+
+## notify we're done
+echo read "$IMGURL" into xclip
+notify-send -t 500 "$IMGURL"

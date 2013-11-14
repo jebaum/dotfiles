@@ -1,0 +1,47 @@
+#!/bin/bash
+
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+## load options
+if [ ! -f "$XDG_CONFIG_HOME/grabbing/config" ]; then
+  echo "please set up config file \"$XDG_CONFIG_HOME/grabbing/config\"" 1>&2
+  exit 2
+fi
+source $XDG_CONFIG_HOME/grabbing/config
+
+if [ "$#" -lt 1 ]; then
+  echo "usage: $0 <file or image url>" 1>&2
+  exit 1
+fi
+
+THING="$1"
+
+## if $THING is a path to a file, then upload the file
+## or else assume $THING is a url and have imgur sideload
+## that url
+
+URL=http://api.imgur.com/2/upload.xml
+OUTPUT=/tmp/imgur.xml
+
+if [ -f $THING ]; then
+  curl -o $OUTPUT -s -F "image=@${THING}" -F "key=${IMGURKEY}" "${URL}"
+else
+  curl -o $OUTPUT -s -d "image=${THING}" -d "key=${IMGURKEY}" "${URL}"
+fi
+
+if [ $? -ne 0 ]; then
+  echo error with curl 1>&2
+  exit 1
+fi
+
+## if this turns up empty, there is likely an error
+IMGURL=$(perl -nle 'print $1 if /original>(http[^<]+)/' $OUTPUT)
+
+if [ -z "${IMGURL}" ]; then
+  echo error with imgur 1>&2
+  exit 1
+fi
+
+echo $IMGURL

@@ -7,7 +7,7 @@
 #
 # upload script to use: `imgur`, `scpur`
 
-UPLOADSCRIPT="imgur"
+UPLOADSCRIPT="scpur"
 
 # format for uploaded filename to use: `time`, `sha1sum`
 FORMAT="time"

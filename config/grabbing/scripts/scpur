@@ -1,0 +1,73 @@
+#!/bin/bash
+
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+## load options
+if [ ! -f "$XDG_CONFIG_HOME/grabbing/config" ]; then
+  echo "please set up config file \"$XDG_CONFIG_HOME/grabbing/config\"" 1>&2
+  exit 2
+fi
+
+source $XDG_CONFIG_HOME/grabbing/config
+
+if [ "$#" -lt 1 -o ! -f "$1" ]; then
+  echo "usage: $0 <file> [suffix]" 1>&2
+  exit 1
+fi
+
+THING="$1"
+
+# set default format
+if [ -z "$FORMAT" ]; then
+  FORMAT="sha1sum"
+fi
+
+# Either use sha1 or timestamp as filename on remote machine, depending on config
+if [ "${FORMAT}" = "time" ]; then
+  STAMP="$(date +"%Y-%m-%d_%H-%M-%S")"
+  RNAME=${STAMP}
+elif [ "${FORMAT}" = "sha1sum" ]; then
+  RNAME=$(sha1sum "${THING}" | awk '{ print $1 }')
+else
+  echo "No valid name format specified, please fix config file."
+  exit 3
+fi
+
+## let user specify a suffix, if not, then
+## uses mtsuf script to guess suffix of file
+if [ -z "${2}" ]; then
+  SUFFIX=$(mtsuf "${THING}")
+else
+  SUFFIX="${2}"
+fi
+
+if [ -n "${SUFFIX}" ]; then
+  RNAME="${RNAME}.${SUFFIX}"
+fi
+
+# if extensions array isn't empty, check it to see if we should use distinct directory
+if [ ${#EXTENSIONS[@]} != 0 ]; then
+  for (( i=0; i < ${#EXTENSIONS[@]}; i+=3 )) do
+    if [ "${EXTENSIONS[$i]}" = "${SUFFIX}" ]; then
+      SSHDIR="${EXTENSIONS[$i+1]}"
+      WEBURL="${EXTENSIONS[$i+2]}"
+      break
+    fi
+  done  
+fi
+
+### UPLOAD
+scp ${SCPOPTS} "${THING}" "${SSHSTR}":"${SSHDIR}/${RNAME}"
+cp "${THING}" "${SSHDIR}/${RNAME}" # works because location on server and local is the same
+
+if [ $? -ne 0 ]; then
+  echo error 1>&2
+  exit 1
+fi
+
+## change this to reflect your url and such in the config file
+IMGURL="${WEBURL}/${RNAME}"
+
+echo $IMGURL
