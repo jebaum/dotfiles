@@ -36,23 +36,22 @@ command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
 " VimGrep wrapper function + todo searches {{{
-function! VimGrep(target, pattern)
-  " execute 'vim /' . a:pattern . '/gj ' . a:target . ' | cw'
-  execute 'silent! vim /' . a:pattern . '/gj ' . a:target
+function! VimGrep(pattern, target, cw)
+  echom 'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
+  execute 'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
 endfunction
-command! -nargs=1 -bar Bufsearch call VimGrep('%', <f-args>)
-command! -nargs=1 -bar Argsearch call VimGrep('##', <f-args>)
-command! -nargs=1 -bar Allsearch call VimGrep('./**/*', <f-args>)
-command! -nargs=0 -bar Buftodo   call VimGrep('%', '\CTODO:*')
-command! -nargs=0 -bar Argtodo   call VimGrep('##', '\CTODO:*')
-command! -nargs=0 -bar Alltodo   call VimGrep('./**/*', '\CTODO:*')
-cnoreabbrev bufvg  Bufsearch
-cnoreabbrev argvg  Argsearch
-cnoreabbrev allvg  Allsearch
-" todobuf instead of todo for abbreviation so I can still search for plaintext 'todo'
-cnoreabbrev buftodo Buftodo
-cnoreabbrev argtodo Argtodo
-cnoreabbrev alltodo Alltodo
+command! -nargs=1 -bar Bufsearch call VimGrep(<f-args>,   '%',      ' | cw')
+command! -nargs=1 -bar Argsearch call VimGrep(<f-args>,   '##',     ' | cw')
+command! -nargs=1 -bar Allsearch call VimGrep(<f-args>,   './**/*', ' | cw')
+command! -nargs=0 -bar Buftodo   call VimGrep('\CTODO:*', '%',      ' | cw')
+command! -nargs=0 -bar Argtodo   call VimGrep('\CTODO:*', '##',     ' | cw')
+command! -nargs=0 -bar Alltodo   call VimGrep('\CTODO:*', './**/*', ' | cw')
+cnoreabbrev bufsearch  Bufsearch
+cnoreabbrev argsearch  Argsearch
+cnoreabbrev allsearch  Allsearch
+cnoreabbrev buftodo    Buftodo
+cnoreabbrev argtodo    Argtodo
+cnoreabbrev alltodo    Alltodo
 " }}}
 " Qargs, Qdof, Qdol {{{
 " :Qargs will populate the arglist with the files in the quickfix list
@@ -92,8 +91,7 @@ function! RangerChooser()
         call system('rm /tmp/chosenfile')
     endif
     redraw!
-endfun
-" map ,r :call RangerChooser()<CR>
+endfunction
 " }}}
 " SyntaxRange {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
@@ -118,7 +116,7 @@ function! StripTrailingWhitespaces()
     let c = col(".")
     %s/\s\+$//e
     call cursor(l, c)
-endfun
+endfunction
 augroup StripWhitespaceOnWrite
   autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
   autocmd BufWrite *.txt :call StripTrailingWhitespaces()
@@ -255,7 +253,7 @@ let g:multi_cursor_skip_key  = '<C-x>'
 let g:multi_cursor_quit_key  = '<C-c>'
 " }}}
 " neocomplete {{{
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
@@ -676,6 +674,7 @@ nnoremap <Esc>[Z v%
 nnoremap dg do
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
+" TODO: unimpaired style mappings, maybe ]m and ]t, for :move and :copy
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
 nnoremap n nzv
@@ -803,16 +802,20 @@ nnoremap <F8>       :call ToggleLocationList()<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
+nnoremap <leader>bb :Bufsearch<Space>
+nnoremap <leader>ba :Allsearch<Space>
+"        <leader>c  various nerdcommenter mappings
 vnoremap <leader>dg :diffget <Bar> diffupdate<CR>
 vnoremap <leader>do :diffget <Bar> diffupdate<CR>
 vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
 nnoremap <leader>du :diffupdate<CR>
+nnoremap <leader>e  :redraw!<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "        <leader>g  fugitive and signify mappings
 nnoremap <leader>h  :split<CR>
 nnoremap <leader>l  :ls<CR>:b<Space>
 "        <leader>m  various showmarks mappings
-nnoremap <leader>o  :only<CR>
+nnoremap <leader>o  :only<CR>:redraw!<CR>
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q<CR>
 nnoremap <leader>r  :QuickRun -mode n<CR>
