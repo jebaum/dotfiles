@@ -127,12 +127,12 @@ bindsym $mod+Control+Next  exec echo seek -600 0 > ~/.mpv/mpvfifo
 bindsym $mod+Control+Prior exec echo seek 600 0 > ~/.mpv/mpvfifo
 
   ### Script hotkeys
-bindsym --release Print exec imgur_auth_upload.sh
 bindsym --release Shift+Print exec scrot -s
-bindsym $mod+Print exec pasta
-bindsym $mod+q exec quickswitch.py
-bindsym $mod+Escape exec /usr/bin/lk
-bindsym $mod+o  exec ~/dotfiles/scripts/startup.sh
+bindsym --release Print exec grab
+bindsym $mod+Print      exec pasta
+bindsym $mod+q          exec quickswitch.py
+bindsym $mod+Escape     exec /usr/bin/lk
+bindsym $mod+o          exec ~/dotfiles/scripts/startup.sh
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
 # for_window <criteria> command; command
@@ -222,6 +222,10 @@ workspace "10: code"  output DVI-D-1
 workspace "11: steam" output HDMI-0
 workspace "12: tf2"   output HDMI-0
 workspace "13: tv"    output HDMI-0
+workspace "14"        output VGA-0
+workspace "15"        output DVI-D-0
+workspace "16"        output HDMI-0
+workspace "17"        output DVI-D-1
 
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
@@ -248,6 +252,10 @@ bindsym $mod+0    workspace number 10: code
 bindsym $mod+KP_1 workspace number 11
 bindsym $mod+KP_2 workspace number 12
 bindsym $mod+KP_3 workspace number 13: tv
+bindsym $mod+KP_4 workspace number 14
+bindsym $mod+KP_5 workspace number 15
+bindsym $mod+KP_6 workspace number 16
+bindsym $mod+KP_7 workspace number 17
   ### move focused container to workspace
 bindsym $mod+Shift+1    move workspace number 1: main
 bindsym $mod+Shift+2    move workspace number 2: web
