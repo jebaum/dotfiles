@@ -439,7 +439,7 @@ let g:unite_source_history_yank_enable      = 1
 let g:unite_locate_command                  = 'locate -i -l %d -e %s'
 let g:unite_enable_ignore_case              = 1
 let g:unite_enable_smart_case               = 1
-" call unite#filters#matcher_default#use(['matcher_fuzzy']) " enable fuzzy matching
+call unite#filters#matcher_default#use(['matcher_fuzzy']) " enable fuzzy matching
 function! s:unite_my_settings()
   nmap <buffer> <ESC>   <Plug>(unite_exit)
   nmap <buffer> <C-c>   <Plug>(unite_exit)
