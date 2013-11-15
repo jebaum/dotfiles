@@ -97,9 +97,6 @@
 [submodule "vim/bundle/unite-outline"]
 	path = vim/bundle/unite-outline
 	url = https://github.com/Shougo/unite-outline.git
-[submodule "vim/bundle/neocomplete.vim"]
-	path = vim/bundle/neocomplete.vim
-	url = https://github.com/Shougo/neocomplete.vim.git
 [submodule "vim/bundle/unite-mark"]
 	path = vim/bundle/unite-mark
 	url = https://github.com/tacroe/unite-mark.git
@@ -136,3 +133,6 @@
 [submodule "scripts/fzf"]
 	path = scripts/fzf
 	url = https://github.com/junegunn/fzf.git
+[submodule "vim/bundle/supertab"]
+	path = vim/bundle/supertab
+	url = git@github.com:ervandew/supertab.git

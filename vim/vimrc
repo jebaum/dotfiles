@@ -284,14 +284,6 @@ let g:multi_cursor_prev_key  = '<C-p>'
 let g:multi_cursor_skip_key  = '<C-x>'
 let g:multi_cursor_quit_key  = '<C-c>'
 " }}}
-" neocomplete {{{
-let g:neocomplete#enable_at_startup = 0
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#auto_completion_start_length = 20 " don't pop up all the time
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-" TODO get neocomplete to not set completeopt-=longest
-inoremap <expr><C-n>    neocomplete#start_manual_complete()
-" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
@@ -355,6 +347,21 @@ let g:startify_custom_header     = [
   \ '',
   \ '',
   \ ]
+" }}}
+" supertab {{{
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+let g:SuperTabMappingForward = '<C-n>'
+let g:SuperTabMappingBackward = '<C-p>'
+let g:SuperTabLongestEnhanced = 1
+let g:SuperTabLongestHighlight = 1
+function MyTagContext()
+  if filereadable(expand('%:p:h') . '/.tags')
+    return "\<c-x>\<c-]>"
+  endif
+  " no return will result in the evaluation of the next configured context
+endfunction
+let g:SuperTabCompletionContexts = ['MyTagContext', 's:ContextText', 's:ContextDiscover']
 " }}}
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
