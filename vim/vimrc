@@ -361,7 +361,7 @@ function MyTagContext()
   endif
   " no return will result in the evaluation of the next configured context
 endfunction
-let g:SuperTabCompletionContexts = ['MyTagContext', 's:ContextText', 's:ContextDiscover']
+" let g:SuperTabCompletionContexts = ['MyTagContext', 's:ContextText', 's:ContextDiscover']
 " }}}
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
