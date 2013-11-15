@@ -869,14 +869,14 @@ nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
 " <leader>g[ikht] taken by signify
+nnoremap <silent> <leader>ga  :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>gb  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap <silent> <leader>ge  :Gedit<CR>
 nnoremap <silent> <leader>gf  :silent Glog -- % <Bar> redraw!<CR>
 nnoremap <silent> <leader>gg  :SignifyToggle<CR>
-nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
-nnoremap <silent> <leader>glf :silent Glog <Bar> redraw!<CR>
+nnoremap <silent> <leader>gl  :silent Glog <Bar> redraw!<CR>
 nnoremap <silent> <leader>gp  :call GitPush()<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
