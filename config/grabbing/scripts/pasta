@@ -20,3 +20,4 @@ echo -n $PASTEURL | xclip -selection c
 
 #done
 echo read $PASTEURL into xclip
+notify-send -t 500 "$PASTEURL"
