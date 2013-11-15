@@ -32,9 +32,9 @@ popup_during_fullscreen smart
 
 ### default colors
 #class                     tbar bor      tbar bg        tbar text       indicator
-client.focused             #4c7899       #204060         #FFFFFF         #2e9ef4
+client.focused             #4c7899       #224488         #FFFFFF         #2e9ef4
 client.focused_inactive    #207020       #112011         #FFFFFF         #484e50
-client.unfocused           #333333       #000000         #DDDDDD         #292d2e
+client.unfocused           #555555       #3A3A3A         #DDDDDD         #292d2e
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 
 client.background         #000000
@@ -316,7 +316,7 @@ bar {
     statusline #CCCCCC
    #separator  #FF0000
 #                       border    bg      text
-    focused_workspace  #4C7899  #204060  #FFFFFF
+    focused_workspace  #4C7899  #224488  #FFFFFF
     active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF
@@ -337,7 +337,7 @@ bar {
     statusline #CCCCCC
    #separator  #FF0000
 #                       border    bg      text
-    focused_workspace  #4C7899  #204060  #FFFFFF
+    focused_workspace  #4C7899  #224488  #FFFFFF
     active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF
@@ -358,7 +358,7 @@ bar {
     statusline #CCCCCC
    #separator  #FF0000
 #                       border    bg      text
-    focused_workspace  #4C7899  #204060  #FFFFFF
+    focused_workspace  #4C7899  #224488  #FFFFFF
     active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF
@@ -379,7 +379,7 @@ bar {
     statusline #CCCCCC
    #separator  #FF0000
 #                       border    bg      text
-    focused_workspace  #4C7899  #204060  #FFFFFF
+    focused_workspace  #4C7899  #224488  #FFFFFF
     active_workspace   #207020  #112011  #BBBBBB
     inactive_workspace #444444  #222222  #A0A0A0
     urgent_workspace   #FF0000  #904040  #FFFFFF
