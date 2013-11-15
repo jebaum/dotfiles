@@ -886,6 +886,7 @@ nnoremap <silent> <leader>gw :Gwrite<CR>
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
 nnoremap <Space>c   :<C-u>Unite -start-insert -buffer-name=registers  register<CR>
+nnoremap <Space>d   :<C-u>Unite -start-insert -buffer-name=tabs       tab:no-current<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
 nnoremap <Space>g   :<C-u>Unite -start-insert -buffer-name=grep       grep:.<CR>
 nnoremap <Space>h   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
