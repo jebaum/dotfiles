@@ -898,6 +898,7 @@ nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuic
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
 "        <Space>u*  VimGrep maps, defined below
+nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-current<CR>
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
