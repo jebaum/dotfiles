@@ -28,14 +28,14 @@ popup_during_fullscreen smart
 # window class             tbar bor      tbar bg        tbar text       indicator
 client.focused             #224488       #224488         #FFFFFF         #2e9ef4
 client.focused_inactive    #113011       #113011         #FFFFFF         #484e50
-client.unfocused           #555555       #3A3A3A         #DDDDDD         #292d2e
+client.unfocused           #444444       #444444         #DDDDDD         #292d2e
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 client.background         #000000
 
 #                              class         border     bg      text
 set $focused_workspace   focused_workspace  #224488  #224488  #FFFFFF
 set $active_workspace    active_workspace   #113011  #113011  #FFFFFF
-set $inactive_workspace  inactive_workspace #3A3A3A  #3A3A3A  #A0A0A0
+set $inactive_workspace  inactive_workspace #444444  #444444  #AAAAAA
 set $urgent_workspace    urgent_workspace   #A04040  #A04040  #FFFFFF
 set $background  background  #000000
 set $statusline  statusline  #CCCCCC
