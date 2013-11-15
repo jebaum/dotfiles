@@ -28,7 +28,7 @@ popup_during_fullscreen smart
 # window class             tbar bor      tbar bg        tbar text       indicator
 client.focused             #224488       #224488         #FFFFFF         #2e9ef4
 client.focused_inactive    #113011       #113011         #FFFFFF         #484e50
-client.unfocused           #404040       #404040         #DDDDDD         #292d2e
+client.unfocused           #606060       #404040         #DDDDDD         #292d2e
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 client.background         #000000
 
