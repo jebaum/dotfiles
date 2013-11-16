@@ -12,7 +12,7 @@ hi Folded       ctermfg=35    ctermbg=16     cterm=none  guifg=#00AF5F  guibg=#0
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi LineNr       ctermfg=110   ctermbg=16     cterm=none  guifg=#87AFD7  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
-hi NonText      ctermfg=244   ctermbg=none   cterm=none  guifg=#808080  guibg=#000000  gui=none
+hi NonText      ctermfg=244   ctermbg=233    cterm=none  guifg=#808080  guibg=#121212  gui=none
 hi Normal       ctermfg=231   ctermbg=0      cterm=none  guifg=#FFFFFF  guibg=#0A0A0A  gui=none
 hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
