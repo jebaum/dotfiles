@@ -853,7 +853,8 @@ vnoremap <leader>dg :diffget <Bar> diffupdate<CR>
 vnoremap <leader>do :diffget <Bar> diffupdate<CR>
 vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
 nnoremap <leader>du :diffupdate<CR>
-nnoremap <leader>e  :redraw!<CR>
+nnoremap <leader>e  :QuickRun -mode n<CR>
+vnoremap <leader>e  :QuickRun -mode v<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "        <leader>g  fugitive and signify mappings
 nnoremap <leader>h  :split<CR>
@@ -862,8 +863,7 @@ nnoremap <leader>l  :ls<CR>:b<Space>
 nnoremap <leader>o  :only<CR>:redraw!<CR>
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q<CR>
-nnoremap <leader>r  :QuickRun -mode n<CR>
-vnoremap <leader>r  :QuickRun -mode v<CR>
+nnoremap <leader>r  :redraw!<CR>
 nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
 nnoremap <leader>tt :Buftodo <Bar> cw<CR>
