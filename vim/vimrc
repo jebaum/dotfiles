@@ -868,6 +868,7 @@ nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
 nnoremap <leader>tt :Buftodo <Bar> cw<CR>
 nnoremap <leader>ta :Alltodo <Bar> cw<CR>
+nnoremap <leader>u  yypVr
 nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
