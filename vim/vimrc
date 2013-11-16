@@ -41,7 +41,7 @@ function! Copy(cmd, count, map) abort
   normal! m`
   exe 'copy'.a:cmd.a:count
   norm! ``
-  if a:map == 'MoveDown' || a:map == 'MoveUp'
+  if a:map == 'MoveDown' || a:map == 'MoveUp' || a:map == 'MoveAbs'
     norm! dd
   endif
   silent! call repeat#set("\<Plug>my".a:map, a:count)
@@ -57,6 +57,9 @@ nnoremap <silent> <Plug>myMoveDown :<C-U>call Copy('+',v:count1,'MoveDown')<CR>
 xnoremap <silent> <Plug>myMoveUp   :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy--'.v:count1<CR>``gvd
 xnoremap <silent> <Plug>myMoveDown :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy''>+'.v:count1<CR>``gvd
 
+nnoremap <silent> <Plug>myCopyAbs  :<C-U>call Copy('',v:count1,'CopyAbs')<CR>
+nnoremap <silent> <Plug>myMoveAbs  :<C-U>call Copy('',v:count1,'MoveAbs')<CR>
+
 nmap [z <Plug>myCopyUp
 nmap ]z <Plug>myCopyDown
 xmap [z <Plug>myCopyUp
@@ -66,6 +69,9 @@ nmap [m <Plug>myMoveUp
 nmap ]m <Plug>myMoveDown
 xmap [m <Plug>myMoveUp
 xmap ]m <Plug>myMoveDown
+
+nmap [j <Plug>myCopyAbs
+nmap ]j <Plug>myMoveAbs
 " }}}
 " VimGrep wrapper function + todo searches {{{
 function! VimGrep(pattern, target, cw)
@@ -355,7 +361,7 @@ let g:SuperTabMappingForward = '<C-n>'
 let g:SuperTabMappingBackward = '<C-p>'
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
-function MyTagContext()
+function! MyTagContext()
   if filereadable(expand('%:p:h') . '/.tags')
     return "\<c-x>\<c-]>"
   endif
