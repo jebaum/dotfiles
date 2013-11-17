@@ -623,7 +623,7 @@ set ffs=unix,dos,mac           " new files use unix line endings by default
 set timeoutlen=2000            " wait for 1 second to time out leader
 set cryptmethod=blowfish       " more secure encryption for vim -x
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
-set formatoptions-=r           " don't automatically continue comment when hitting enter in insert mode
+set formatoptions-=r           " don't continue comment when hitting enter in insert mode
 set formatoptions-=o           " don't automatically continue comment when hitting o in normal mode
 set guioptions-=m              " hide gui menu bar
 set guioptions-=T              " hide gui toolbar
@@ -633,6 +633,7 @@ set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
+set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 augroup SyntaxSync
