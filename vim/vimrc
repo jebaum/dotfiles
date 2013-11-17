@@ -205,6 +205,7 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead .tags set filetype=tags
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
+  autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
 augroup END
 " }}}
 " }}}
@@ -880,7 +881,7 @@ nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 " <leader>g[ikht] taken by signify
 nnoremap <silent> <leader>ga  :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>gb  :Gblame<CR>
-nnoremap <silent> <leader>gc  :Gcommit<CR>
+nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap <silent> <leader>ge  :Gedit<CR>
 nnoremap <silent> <leader>gf  :silent Glog -- % <Bar> redraw!<CR>
