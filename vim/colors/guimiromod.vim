@@ -35,7 +35,7 @@ hi CursorColumn ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1
 hi CursorLineNr ctermfg=226  ctermbg=234     cterm=bold  guifg=#FFFF00  guibg=#1C1C1C  gui=bold
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=2    ctermbg=16                  guifg=#859900  guibg=#000000
-hi PmenuSel     ctermfg=46   ctermbg=234     cterm=bold  guifg=#FFFFFF  guibg=#1C1C1C
+hi PmenuSel     ctermfg=46   ctermbg=234     cterm=bold  guifg=#00FF00  guibg=#1C1C1C  gui=bold
 hi UniteSel     ctermfg=NONE ctermbg=234     cterm=bold  guifg=NONE     guibg=#1C1C1C  gui=bold
 endif
 
