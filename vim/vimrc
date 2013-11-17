@@ -202,7 +202,7 @@ augroup FileTypeSettings
   autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
   autocmd FileType tex nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
   autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
-  autocmd BufEnter * set relativenumber  " for vimfiler
+  autocmd FileType vimfiler set relativenumber
   autocmd BufRead .tags set filetype=tags
 autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
 augroup END
@@ -591,8 +591,8 @@ set restorescreen=on           " restore screen contents on exit
 set clipboard=unnamedplus      " by default, use system clipboard for yanks ('+' register)
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
-set relativenumber             " use relative line numbers
-set number                     " show current line number on left instead of 0
+set number                     " show line numbers
+" set relativenumber           " use relative line numbers
 set backspace=indent,eol,start " allow backspace in insert mode
 set esckeys                    " make numpad work
 set autoread                   " reload files changed outside of vim
@@ -862,7 +862,7 @@ nnoremap <leader>l  :ls<CR>:b<Space>
 "        <leader>m  various showmarks mappings
 nnoremap <leader>o  :only<CR>:redraw!<CR>
 nnoremap <leader>p  :set list!<CR>
-nnoremap <leader>q  :q<CR>
+nnoremap <leader>q  :q <Bar> redraw!<CR>
 nnoremap <leader>r  :redraw!<CR>
 nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
@@ -935,7 +935,7 @@ vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"))<CR>
 " }}}
 " ctrl normal mode {{{
-nnoremap <C-b>      :VimFilerExplorer<CR>
+nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn<CR>/
 nnoremap <C-w>i     <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
