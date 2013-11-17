@@ -27,14 +27,14 @@ popup_during_fullscreen smart
 # COLORS {{{
 # window class             tbar bor      tbar bg        tbar text       indicator
 client.focused             #224488       #224488         #FFFFFF         #2e9ef4
-client.focused_inactive    #113011       #113011         #FFFFFF         #484e50
+client.focused_inactive    #114411       #114411         #FFFFFF         #484e50
 client.unfocused           #606060       #404040         #DDDDDD         #292d2e
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 client.background         #000000
 
 #                              class         border     bg      text
 set $focused_workspace   focused_workspace  #224488  #224488  #FFFFFF
-set $active_workspace    active_workspace   #113011  #113011  #FFFFFF
+set $active_workspace    active_workspace   #114411  #114411  #FFFFFF
 set $inactive_workspace  inactive_workspace #404040  #404040  #AAAAAA
 set $urgent_workspace    urgent_workspace   #A04040  #A04040  #FFFFFF
 set $background  background  #000000
