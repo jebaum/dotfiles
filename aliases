@@ -47,6 +47,8 @@ alias tags='./.git/hooks/ctags >/dev/null'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias network='lsof -P -i -n'
 alias livestreamer='livestreamer -p mpv'
+alias vi='vim'
+alias v='vim'
 
 fkill() { ps -ef | sed 1d | fzf | awk '{print $2}' | xargs kill -${1:-9} }
 fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
