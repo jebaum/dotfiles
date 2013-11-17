@@ -339,7 +339,7 @@ let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
 let g:startify_session_autoload  = 0  " opening directories with a Session.vim will have it auto load
 let g:startify_change_to_dir     = 1     " when opening file or bookmark, change to its directory
-let g:startify_custom_indices    = ['a','f','h','j','l','w','r','u','o','p','z','x','n','m']
+let g:startify_custom_indices    = ['a','f','h','j','k','l','w','r','u','o','p','z','x','n','m']
 let g:startify_custom_header     = [
   \ '    /\\\        /\\\   /\\\\\\\\\\\   /\\\\            /\\\\  ',
   \ '    \/\\\       \/\\\  \/////\\\///   \/\\\\\\        /\\\\\\  ',
@@ -723,8 +723,8 @@ nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
-nnoremap n nzv
-nnoremap N Nzv
+nnoremap n nzv:set cursorline cursorcolumn<CR>
+nnoremap N Nzv:set cursorline cursorcolumn<CR>
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
