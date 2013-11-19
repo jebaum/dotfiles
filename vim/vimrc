@@ -120,6 +120,26 @@ function! QuickfixFilenames()
   return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
 " }}}
+" Location list loop {{{
+function! WrapCommand(direction)
+  if a:direction == "up"
+    try
+      lprevious
+    catch /^Vim\%((\a\+)\)\=:E553/
+      llast
+    endtry
+  elseif a:direction == "down"
+    try
+      lnext
+    catch /^Vim\%((\a\+)\)\=:E553/
+      lfirst
+    endtry
+  endif
+endfunction
+
+" nnoremap <Home> :call WrapCommand("up")<CR>
+" nnoremap <End>  :call WrapCommand("down")<CR>
+" }}}
 " Ranger file chooser {{{
 " only works on a single file. more just for fun than practicality
 function! RangerChooser()
