@@ -835,9 +835,11 @@ onoremap as a'
 " ijkl instead of hjkl {{{
 nnoremap j h
 vnoremap j h
-nnoremap i k
+" nnoremap i k
+nnoremap <silent> i :<C-U>execute 'normal!' (v:count > 5 ? "m'" . v:count : v:count) . 'k'<CR>
 vnoremap i k
-nnoremap k j
+" nnoremap k j
+nnoremap <silent> k :<C-U>execute 'normal!' (v:count > 5 ? "m'" . v:count : v:count) . 'j'<CR>
 vnoremap k j
 
 " since 'i' is now used for motion, make 'h' do what 'i' used to
