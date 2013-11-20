@@ -736,6 +736,7 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 nmap     / <Plug>SneakPrevious
 inoremap <C-c> <Esc><Esc>
+cnoremap <C-c> <C-c>:set nocursorline nocursorcolumn<CR>
 nnoremap Y y$
 nnoremap <Esc>[Z v%
 nnoremap dg do
