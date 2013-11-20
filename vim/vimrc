@@ -936,8 +936,6 @@ nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
-nnoremap <Space>9   :NoSurrAll<CR>
-nnoremap <Space>(   :DoSurrAll<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
@@ -961,7 +959,7 @@ vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
-nnoremap <C-f>      :set cursorline cursorcolumn<CR>/
+nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\v
 nnoremap <C-w>i     <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
 nnoremap <C-k>      <C-w><Down>
