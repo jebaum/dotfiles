@@ -745,8 +745,8 @@ nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
-nnoremap n nzv:set cursorline cursorcolumn<CR>
-nnoremap N Nzv:set cursorline cursorcolumn<CR>
+nnoremap n :set cursorline cursorcolumn<CR>nzv
+nnoremap N :set cursorline cursorcolumn<CR>Nzv
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
@@ -937,6 +937,7 @@ nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
+nnoremap <Space><CR>      :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
