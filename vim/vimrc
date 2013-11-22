@@ -741,7 +741,6 @@ cnoremap <silent> <C-c> <C-c>:set nocursorline nocursorcolumn<CR>
 nnoremap Y y$
 nnoremap <Esc>[Z v%
 nnoremap dg do
-nnoremap <CR> G
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
 " searching jumps to middle of screen, and opens fold if in one
@@ -837,9 +836,9 @@ onoremap as a'
 " ijkl instead of hjkl {{{
 nnoremap j h
 vnoremap j h
-nnoremap <silent> i :<C-U>exe 'norm!' (v:count > 5 ? "m'" . v:count : (v:count == 0 ? '1' : v:count)) . 'k'<CR>
+nnoremap <expr> i (v:count > 5 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
 vnoremap i k
-nnoremap <silent> k :<C-U>exe 'norm!' (v:count > 5 ? "m'" . v:count : (v:count == 0 ? '1' : v:count)) . 'j'<CR>
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 vnoremap k j
 
 " since 'i' is now used for motion, make 'h' do what 'i' used to
