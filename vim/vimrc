@@ -355,7 +355,7 @@ let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
-let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/TODO' ]
+let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO' ]
 let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
 let g:startify_session_autoload  = 0  " opening directories with a Session.vim will have it auto load
@@ -655,6 +655,7 @@ set tags=./.tags;              " search for .tags file upward (:h file-searching
 set previewheight=20
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
+set shell=bash
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 augroup SyntaxSync

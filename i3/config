@@ -63,6 +63,7 @@ bindsym $mod+Shift+R reload
 bindsym $mod+Shift+C exec killall conky; restart
 bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Shift+b exec killall conky && killall i3bar
+bindsym $mod+g  exec gvim
 
   ### Messing with borders
 bindsym $mod+t        border normal 1pixel
