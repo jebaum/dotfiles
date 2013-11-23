@@ -73,73 +73,73 @@ hi SneakPluginTarget  ctermfg=231   ctermbg=17  guifg=#FFFFFF  guibg=#00005F
 hi SneakPluginScope   ctermfg=231   ctermbg=17  guifg=#FFFFFF  guibg=#00005F
 
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
-hi Boolean        ctermfg=161  guifg=#D7005F
-hi cCustomClass   ctermfg=166  guifg=#D75F00
-hi Character      ctermfg=77   guifg=#5FD75F
-hi Comment        ctermfg=244  ctermbg=none    cterm=none  guifg=#808080  guibg=NONE     gui=none
-hi Conditional    ctermfg=197  guifg=#FF005F
-hi Constant       ctermfg=35   guifg=#00AF5F
-hi cRepeat        ctermfg=197  guifg=#FF005F
-hi javaRepeat     ctermfg=197  guifg=#FF005F
-hi Debug          ctermfg=1    guifg=#DC322F
-hi Define         ctermfg=2    guifg=#859900
-hi Delimiter      ctermfg=12   guifg=#6699FF
-hi Directory      ctermfg=6    guifg=#33CC99
+hi Boolean        ctermfg=161                           guifg=#D7005F
+hi cCustomClass   ctermfg=166                           guifg=#D75F00
+hi Character      ctermfg=77                            guifg=#5FD75F
+hi Comment        ctermfg=244  ctermbg=none cterm=none  guifg=#808080  guibg=NONE     gui=none
+hi Conditional    ctermfg=197                           guifg=#FF005F
+hi Constant       ctermfg=35                            guifg=#00AF5F
+hi cRepeat        ctermfg=197                           guifg=#FF005F
+hi javaRepeat     ctermfg=197                           guifg=#FF005F
+hi Debug          ctermfg=1                             guifg=#DC322F
+hi Define         ctermfg=2                             guifg=#859900
+hi Delimiter      ctermfg=12                            guifg=#6699FF
+hi Directory      ctermfg=6                             guifg=#33CC99
 hi ErrorMsg       ctermfg=196  ctermbg=232  cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
-hi Exception      ctermfg=1    guifg=#DC322F
-hi Float          ctermfg=201  guifg=#FF00FF
-hi Function       ctermfg=11   guifg=#E1AA5D
-hi Identifier     ctermfg=13   cterm=none  guifg=#FF66FF  gui=none
-hi Ignore         ctermfg=8    guifg=#555753
-hi Include        ctermfg=5    guifg=#FF33CC
-hi Keyword        ctermfg=9    guifg=#E84F4F
-hi Label          ctermfg=13   guifg=#FF66FF
-hi LineNr         ctermfg=8    guifg=#555753
-hi Macro          ctermfg=13   guifg=#FF66FF
-hi ModeMsg        ctermfg=13   guifg=#FF66FF
-hi MoreMsg        ctermfg=13   guifg=#FF66FF
-hi NonText        ctermfg=6    guifg=#33CC99
-hi Number         ctermfg=1    guifg=#DC322F
-hi Operator       ctermfg=3    guifg=#FD971F
-hi PreCondit      ctermfg=13   guifg=#FF66FF
-hi Question       ctermfg=10   guifg=#99FF66
-hi Repeat         ctermfg=9    guifg=#E84F4F
-hi SpecialChar    ctermfg=9    guifg=#E84F4F
-hi Special        ctermfg=10   guifg=#99FF66
-hi SpecialKey     ctermfg=11   guifg=#E1AA5D
-hi Statement      ctermfg=44   guifg=#00D7D7 gui=none
-hi StorageClass   ctermfg=11   guifg=#E1AA5D
-hi String         ctermfg=172  ctermbg=none    cterm=none  guifg=#D78700  guibg=NONE     gui=none
-hi Structure      ctermfg=34   guifg=#00AF00
-hi Tag            ctermfg=11   guifg=#E1AA5D
-hi Title          ctermfg=3    guifg=#FD971F
-hi Todo           ctermfg=231  ctermbg=196    cterm=bold  guifg=#FFFFFF  guibg=#FF0000  gui=bold
-hi Type           ctermfg=40   guifg=#1ABB1A gui=none
-hi Typedef        ctermfg=6    guifg=#33CC99
-hi Underlined     ctermfg=4    guifg=#268BD2
-hi WildMenu       ctermfg=16   ctermbg=11  guifg=#000000  guibg=#E1AA5D
-hi cSpecialCharacter     ctermfg=77  guifg=#5FD75F
+hi Exception      ctermfg=1                             guifg=#DC322F
+hi Float          ctermfg=201                           guifg=#FF00FF
+hi Function       ctermfg=11                            guifg=#E1AA5D
+hi Identifier     ctermfg=13                cterm=none  guifg=#FF66FF                 gui=none
+hi Ignore         ctermfg=8                             guifg=#555753
+hi Include        ctermfg=5                             guifg=#FF33CC
+hi Keyword        ctermfg=9                             guifg=#E84F4F
+hi Label          ctermfg=13                            guifg=#FF66FF
+hi LineNr         ctermfg=8                             guifg=#555753
+hi Macro          ctermfg=13                            guifg=#FF66FF
+hi ModeMsg        ctermfg=13                            guifg=#FF66FF
+hi MoreMsg        ctermfg=13                            guifg=#FF66FF
+hi NonText        ctermfg=6                             guifg=#33CC99
+hi Number         ctermfg=1                             guifg=#DC322F
+hi Operator       ctermfg=3                             guifg=#FD971F
+hi PreCondit      ctermfg=13                            guifg=#FF66FF
+hi Question       ctermfg=10                            guifg=#99FF66
+hi Repeat         ctermfg=9                             guifg=#E84F4F
+hi SpecialChar    ctermfg=9                             guifg=#E84F4F
+hi Special        ctermfg=10                            guifg=#99FF66
+hi SpecialKey     ctermfg=11                            guifg=#E1AA5D
+hi Statement      ctermfg=44                            guifg=#00D7D7                 gui=none
+hi StorageClass   ctermfg=11                            guifg=#E1AA5D
+hi String         ctermfg=172  ctermbg=none cterm=none  guifg=#D78700  guibg=NONE     gui=none
+hi Structure      ctermfg=34                            guifg=#00AF00
+hi Tag            ctermfg=11                            guifg=#E1AA5D
+hi Title          ctermfg=3                             guifg=#FD971F
+hi Todo           ctermfg=231  ctermbg=196  cterm=bold  guifg=#FFFFFF  guibg=#FF0000  gui=bold
+hi Type           ctermfg=40                            guifg=#1ABB1A                 gui=none
+hi Typedef        ctermfg=6                             guifg=#33CC99
+hi Underlined     ctermfg=4                             guifg=#268BD2
+hi WildMenu       ctermfg=16   ctermbg=11               guifg=#000000  guibg=#E1AA5D
+hi cSpecialCharacter     ctermfg=77                     guifg=#5FD75F
 
 " Special for HTML ---
-hi htmlTag        ctermfg=6  guifg=#33CC99
-hi htmlEndTag     ctermfg=6  guifg=#33CC99
+hi htmlTag        ctermfg=6   guifg=#33CC99
+hi htmlEndTag     ctermfg=6   guifg=#33CC99
 hi htmlTagName    ctermfg=11  guifg=#E1AA5D
 
 " Specific for vimrc / help files
-hi vimVar          ctermfg=231  cterm=none  guifg=#FFFFFF  gui=none
-hi vimSet          ctermfg=136  cterm=none  guifg=#AF8700  gui=none
-hi vimOption       ctermfg=136  cterm=none  guifg=#AF8700  gui=none
-hi vimHiNmbr       ctermfg=165  guifg=#D700FF
-hi vimHiGuiRgb     ctermfg=165  guifg=#D700FF
-hi helpHyperTextJump ctermfg=11  guifg=#E1AA5D
+hi vimVar            ctermfg=231  cterm=none  guifg=#FFFFFF  gui=none
+hi vimSet            ctermfg=136  cterm=none  guifg=#AF8700  gui=none
+hi vimOption         ctermfg=136  cterm=none  guifg=#AF8700  gui=none
+hi vimHiNmbr         ctermfg=165              guifg=#D700FF
+hi vimHiGuiRgb       ctermfg=165              guifg=#D700FF
+hi helpHyperTextJump ctermfg=11               guifg=#E1AA5D
 
 " syntastic, error = spellbad, warning = spellcap, bar on left = signcolumn
-hi SignColumn           ctermfg=none  ctermbg=16    cterm=none  guifg=NONE  guibg=#000000  gui=none
+hi SignColumn           ctermfg=none  ctermbg=16    cterm=none  guifg=NONE     guibg=#000000  gui=none
 hi SpellBad             ctermfg=226   ctermbg=52    cterm=bold  guifg=#FFFF00  guibg=#5F0000  gui=bold
 hi SpellCap             ctermfg=196   ctermbg=232   cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
-hi SyntasticErrorLine   ctermfg=none  ctermbg=234   cterm=none  guifg=NONE  guibg=#1C1C1C  gui=none
+hi SyntasticErrorLine   ctermfg=none  ctermbg=234   cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
 hi SyntasticErrorSign   ctermfg=226   ctermbg=88    cterm=bold  guifg=#FFFF00  guibg=#870000  gui=bold
-hi SyntasticWarningLine ctermfg=none  ctermbg=16    cterm=none  guifg=NONE  guibg=#000000  gui=none
+hi SyntasticWarningLine ctermfg=none  ctermbg=16    cterm=none  guifg=NONE     guibg=#000000  gui=none
 hi SyntasticWarningSign ctermfg=196   ctermbg=16    cterm=none  guifg=#FF0000  guibg=#000000  gui=none
 
 hi MatchTarget ctermfg=16   ctermbg=46  cterm=bold  guifg=#000000  guibg=#00FF00  gui=bold
