@@ -650,6 +650,7 @@ set guioptions-=m              " hide gui menu bar
 set guioptions-=T              " hide gui toolbar
 set guioptions-=r              " hide gui righthand scrollbar
 set guioptions-=e              " use regular tabline
+set virtualedit=block          " allow visual block mode to move to where there aren't actually characters
 set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
@@ -735,18 +736,26 @@ endif
 " Keymaps {{{
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
-nmap     / <Plug>SneakPrevious
 inoremap <C-c> <Esc><Esc>
-cnoremap <silent> <C-c> <C-c>:set nocursorline nocursorcolumn<CR>
-nnoremap Y y$
 nnoremap <Esc>[Z v%
+
+" diffget/diffobtain
 nnoremap dg do
+
+" line yanks
+nnoremap Y y$
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
+
+" c operator goes to black hole instead of unnamedplus register specified by clipboard setting
+nnoremap <expr> c v:register == '+' ? '"_c' : 'c'
+nnoremap "+c "+c
 
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
 nnoremap n :set cursorline cursorcolumn<CR>nzv
 nnoremap N :set cursorline cursorcolumn<CR>Nzv
+nmap     / <Plug>SneakPrevious
+cnoremap <silent> <C-c> <C-c>:set nocursorline nocursorcolumn<CR>
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
@@ -881,10 +890,8 @@ nnoremap <leader>e  :QuickRun -mode n<CR>
 vnoremap <leader>e  :QuickRun -mode v<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "        <leader>g  fugitive and signify mappings
-nnoremap <leader>h  :split<CR>
 nnoremap <leader>l  :ls<CR>:b<Space>
 "        <leader>m  various showmarks mappings
-nnoremap <leader>o  :only<CR>:redraw!<CR>
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q <Bar> redraw!<CR>
 nnoremap <leader>r  :redraw!<CR>
@@ -893,7 +900,6 @@ vnoremap <leader>s  :!sort -f<CR>
 nnoremap <leader>tt :Buftodo <Bar> cw<CR>
 nnoremap <leader>ta :Alltodo <Bar> cw<CR>
 nnoremap <leader>u  yypVr
-nnoremap <leader>v  :vsplit<CR>
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
@@ -960,14 +966,17 @@ vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\v
-nnoremap <C-w>i     <C-w><Up>
+nnoremap <C-h>      :TagbarOpen fjc<CR>
+nnoremap <C-i>      <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
 nnoremap <C-k>      <C-w><Down>
 nnoremap <C-l>      <C-w><Right>
 nnoremap <C-n>      gt
 nnoremap <C-p>      gT
 "        <C-s>      multi_cursor_start_key
-nnoremap <C-h>      :TagbarOpen fjc<CR>
+nnoremap <C-w>o     <C-w>o:redraw!<CR>
+nnoremap <C-w>s     <C-w>s:redraw!<CR>
+nnoremap <C-w>v     <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
 inoremap <C-a>      <Home>
