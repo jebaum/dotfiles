@@ -909,6 +909,7 @@ vnoremap <leader>s  :!sort -f<CR>
 nnoremap <leader>tt :Buftodo<CR>
 nnoremap <leader>ta :Alltodo<CR>
 nnoremap <leader>u  yypVr
+nnoremap <leader>v  :%s/\v
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
 nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
@@ -974,7 +975,7 @@ vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
-nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\v
+nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\V
 nnoremap <C-h>      :TagbarOpen fjc<CR>
 nnoremap <C-w>i     <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
