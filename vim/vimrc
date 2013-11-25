@@ -3,6 +3,7 @@
 set nocompatible " use vim settings not vi
 colorscheme guimiromod
 execute pathogen#infect()
+runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
 " }}}
 " Misc {{{
@@ -75,8 +76,9 @@ nmap ]j <Plug>myMoveAbs
 " }}}
 " VimGrep wrapper function + todo searches {{{
 function! VimGrep(pattern, target, cw)
-  echom 'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
   execute 'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
+  redraw!
+  echom   'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
 endfunction
 command! -nargs=1 -bar Bufsearch call VimGrep(<f-args>,   '%',      ' | cw')
 command! -nargs=1 -bar Argsearch call VimGrep(<f-args>,   '##',     ' | cw')
@@ -656,6 +658,7 @@ set tags=./.tags;              " search for .tags file upward (:h file-searching
 set previewheight=20
 set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
+set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
 set shell=bash
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
@@ -738,6 +741,7 @@ endif
 let mapleader = ','  " use comma instead of \ as leader
 inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
+onoremap <C-f> /\V
 
 " diffget/diffobtain
 nnoremap dg do
@@ -902,8 +906,8 @@ nnoremap <leader>q  :q <Bar> redraw!<CR>
 nnoremap <leader>r  :redraw!<CR>
 nnoremap <leader>s  :syntax sync fromstart<CR>
 vnoremap <leader>s  :!sort -f<CR>
-nnoremap <leader>tt :Buftodo <Bar> cw<CR>
-nnoremap <leader>ta :Alltodo <Bar> cw<CR>
+nnoremap <leader>tt :Buftodo<CR>
+nnoremap <leader>ta :Alltodo<CR>
 nnoremap <leader>u  yypVr
 nnoremap <leader>w  :w!<CR>
 nnoremap <leader>x  :wq<CR>
@@ -972,7 +976,7 @@ vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
 nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\v
 nnoremap <C-h>      :TagbarOpen fjc<CR>
-nnoremap <C-i>      <C-w><Up>
+nnoremap <C-w>i     <C-w><Up>
 nnoremap <C-j>      <C-w><Left>
 nnoremap <C-k>      <C-w><Down>
 nnoremap <C-l>      <C-w><Right>
