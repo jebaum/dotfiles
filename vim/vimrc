@@ -777,59 +777,64 @@ vnoremap <down>      gj
 nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
-" next/previous paren/bracket objects {{{
+" next/former objects {{{
 omap h i
 onoremap in( :<c-u>normal! f(vi(<CR>
-onoremap ip( :<c-u>normal! F)vi(<CR>
 onoremap in[ :<c-u>normal! f[vi[<CR>
-onoremap ip[ :<c-u>normal! F]vi[<CR>
 onoremap in{ :<c-u>normal! f{vi{<CR>
-onoremap ip{ :<c-u>normal! F}vi{<CR>
 onoremap in< :<c-u>normal! f<vi<<CR>
-onoremap ip< :<c-u>normal! F>vi<<CR>
 onoremap in" :<c-u>normal! f"vi"<CR>
-onoremap ip" :<c-u>normal! F"vi"<CR>
 onoremap in' :<c-u>normal! f'vi'<CR>
-onoremap ip' :<c-u>normal! F'vi'<CR>
 onoremap in` :<c-u>normal! f`vi`<CR>
-onoremap ip` :<c-u>normal! F`vi`<CR>
+
+onoremap if( :<c-u>normal! F)vi(<CR>
+onoremap if[ :<c-u>normal! F]vi[<CR>
+onoremap if{ :<c-u>normal! F}vi{<CR>
+onoremap if< :<c-u>normal! F>vi<<CR>
+onoremap if" :<c-u>normal! F"vi"<CR>
+onoremap if' :<c-u>normal! F'vi'<CR>
+onoremap if` :<c-u>normal! F`vi`<CR>
 
 onoremap an( :<c-u>normal! f(va(<CR>
-onoremap ap( :<c-u>normal! F)va(<CR>
 onoremap an[ :<c-u>normal! f[va[<CR>
-onoremap ap[ :<c-u>normal! F]va[<CR>
 onoremap an{ :<c-u>normal! f{va{<CR>
-onoremap ap{ :<c-u>normal! F}va{<CR>
 onoremap an< :<c-u>normal! f<va<<CR>
-onoremap ap< :<c-u>normal! F>va<<CR>
 onoremap an" :<c-u>normal! f"va"<CR>
-onoremap ap" :<c-u>normal! F"va"<CR>
 onoremap an` :<c-u>normal! f`va`<CR>
-onoremap ap` :<c-u>normal! F`va`<CR>
 
-" easier to reach on the keyboard
+onoremap af( :<c-u>normal! F)va(<CR>
+onoremap af[ :<c-u>normal! F]va[<CR>
+onoremap af{ :<c-u>normal! F}va{<CR>
+onoremap af< :<c-u>normal! F>va<<CR>
+onoremap af" :<c-u>normal! F"va"<CR>
+onoremap af` :<c-u>normal! F`va`<CR>
+
+" easier to reach versions of above next/former maps
 omap inp in(
-omap ipp ip(
 omap inb in[
-omap ipb ip[
 omap inc in{
-omap ipc ip{
 omap ind in"
-omap ipd ip"
 omap ins in'
-omap ips ip'
+
+omap ifp ip(
+omap ifb ip[
+omap ifc ip{
+omap ifd ip"
+omap ifs ip'
 
 omap anp an(
-omap app ap(
 omap anb an[
-omap apb ap[
 omap anc an{
-omap apc ap{
 omap and an"
-omap apd ap"
 omap ans an'
-omap aps ap'
 
+omap afp ap(
+omap afb ap[
+omap afc ap{
+omap afd ap"
+omap afs ap'
+
+" easier to reach maps for built in text objects
 onoremap ip i(
 onoremap ib i[
 onoremap ic i{
