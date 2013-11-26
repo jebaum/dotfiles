@@ -750,9 +750,15 @@ nnoremap dg do
 nnoremap Y y$
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
-" c operator goes to black hole instead of unnamedplus register specified by clipboard setting
+" c/C/x/X operators go to black hole instead of unnamedplus register specified by clipboard setting
 nnoremap <expr> c v:register == '+' ? '"_c' : 'c'
 nnoremap "+c "+c
+nnoremap <expr> C v:register == '+' ? '"_C' : 'C'
+nnoremap "+C "+C
+nnoremap <expr> x v:register == '+' ? '"_x' : 'x'
+nnoremap "+x "+x
+nnoremap <expr> X v:register == '+' ? '"_X' : 'X'
+nnoremap "+X "+X
 
 " searching jumps to middle of screen, and opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
