@@ -671,9 +671,9 @@ augroup END
 set foldnestmax =1   " folds only one level deep
 set foldmethod  =manual
 augroup SyntaxFold
-  autocmd BufEnter    *.java           set foldnestmax=2 foldlevel=1
-  autocmd BufEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
-  autocmd InsertEnter *.c,*.cpp,*.java set foldmethod=manual " once we start typing, using manual folds
+  autocmd BufWinEnter    *.java           set foldnestmax=2 foldlevel=1
+  autocmd BufWinEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
+  autocmd InsertEnter    *.c,*.cpp,*.java set foldmethod=manual " once we start typing, using manual folds
 augroup END
 " ctrl+spacebar toggles folds in normal mode, doesn't work in gvim
 nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
