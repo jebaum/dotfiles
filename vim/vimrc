@@ -820,11 +820,11 @@ omap inc in{
 omap ind in"
 omap ins in'
 
-omap ifp ip(
-omap ifb ip[
-omap ifc ip{
-omap ifd ip"
-omap ifs ip'
+omap ifp if(
+omap ifb if[
+omap ifc if{
+omap ifd if"
+omap ifs if'
 
 omap anp an(
 omap anb an[
@@ -832,11 +832,11 @@ omap anc an{
 omap and an"
 omap ans an'
 
-omap afp ap(
-omap afb ap[
-omap afc ap{
-omap afd ap"
-omap afs ap'
+omap afp af(
+omap afb af[
+omap afc af{
+omap afd af"
+omap afs af'
 
 " easier to reach maps for built in text objects
 onoremap ip i(
