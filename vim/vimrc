@@ -313,6 +313,60 @@ let g:multi_cursor_prev_key  = '<C-p>'
 let g:multi_cursor_skip_key  = '<C-x>'
 let g:multi_cursor_quit_key  = '<C-c>'
 " }}}
+" neocomplete {{{
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_refresh_always = 0  " default is zero, heavy feature
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" use dictionary words with at least 7 letters from google-10000 for completion in text files
+let g:neocomplete#sources#dictionary#dictionaries = {'text':'/home/james/dotfiles/vim/7mydict'}
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  " return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
@@ -357,7 +411,7 @@ let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
-let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO' ]
+let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO.txt' ]
 let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
 let g:startify_session_autoload  = 0  " opening directories with a Session.vim will have it auto load
@@ -377,21 +431,21 @@ let g:startify_custom_header     = [
   \ '',
   \ ]
 " }}}
-" supertab {{{
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
-let g:SuperTabMappingForward = '<C-n>'
-let g:SuperTabMappingBackward = '<C-p>'
-let g:SuperTabLongestEnhanced = 1
-let g:SuperTabLongestHighlight = 1
-function! MyTagContext()
-  if filereadable(expand('%:p:h') . '/.tags')
-    return "\<c-x>\<c-]>"
-  endif
-  " no return will result in the evaluation of the next configured context
-endfunction
-" let g:SuperTabCompletionContexts = ['MyTagContext', 's:ContextText', 's:ContextDiscover']
-" }}}
+" " supertab {{{
+" let g:SuperTabDefaultCompletionType = "context"
+" let g:SuperTabContextDefaultCompletionType = "<c-n>"
+" let g:SuperTabMappingForward = '<C-n>'
+" let g:SuperTabMappingBackward = '<C-p>'
+" let g:SuperTabLongestEnhanced = 1
+" let g:SuperTabLongestHighlight = 1
+" function! MyTagContext()
+  " if filereadable(expand('%:p:h') . '/.tags')
+    " return "\<c-x>\<c-]>"
+  " endif
+  " " no return will result in the evaluation of the next configured context
+" endfunction
+" " let g:SuperTabCompletionContexts = ['MyTagContext', 's:ContextText', 's:ContextDiscover']
+" " }}}
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
 let g:syntastic_c_compiler_options       = ' -Wall'
