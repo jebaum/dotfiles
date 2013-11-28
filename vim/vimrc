@@ -142,6 +142,17 @@ endfunction
 " nnoremap <Home> :call WrapCommand("up")<CR>
 " nnoremap <End>  :call WrapCommand("down")<CR>
 " }}}
+" VisualStarSearch {{{
+function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
+xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
+" }}}
 " Ranger file chooser {{{
 " only works on a single file. more just for fun than practicality
 function! RangerChooser()
@@ -1023,6 +1034,7 @@ nnoremap <Space>-       :Tabularize /-<CR>
 vnoremap <Space>-       :Tabularize /-<CR>
 
 " Under cursor or visual selection, search Buffer or Arglist
+" TODO: cleanup
 nnoremap <Space>ua :call VimGrep("##", substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'))<CR>
 vnoremap <Space>ua "*y:call VimGrep("##", substitute(escape(@*, '\/.*$^~[]')
@@ -1031,6 +1043,8 @@ nnoremap <Space>ub :call VimGrep("%", substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'))<CR>
 vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"))<CR>
+nnoremap <leader>* :execute 'noautocmd vimgrep /\V' . substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g') . '/ **'<CR>
+vnoremap <leader>* :<C-u>call VSetSearch()<CR>:execute 'noautocmd vimgrep /' . @/ . '/ **'<CR>
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
