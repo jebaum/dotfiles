@@ -377,6 +377,20 @@ endif
 "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 " }}}
+" neosnippet {{{
+" Plugin key-mappings.
+imap <C-l>     <Plug>(neosnippet_expand_or_jump)
+smap <C-l>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-l>     <Plug>(neosnippet_expand_target)
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/dotfiles/vim/snippets'
+" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
@@ -441,21 +455,6 @@ let g:startify_custom_header     = [
   \ '',
   \ ]
 " }}}
-" " supertab {{{
-" let g:SuperTabDefaultCompletionType = "context"
-" let g:SuperTabContextDefaultCompletionType = "<c-n>"
-" let g:SuperTabMappingForward = '<C-n>'
-" let g:SuperTabMappingBackward = '<C-p>'
-" let g:SuperTabLongestEnhanced = 1
-" let g:SuperTabLongestHighlight = 1
-" function! MyTagContext()
-  " if filereadable(expand('%:p:h') . '/.tags')
-    " return "\<c-x>\<c-]>"
-  " endif
-  " " no return will result in the evaluation of the next configured context
-" endfunction
-" " let g:SuperTabCompletionContexts = ['MyTagContext', 's:ContextText', 's:ContextDiscover']
-" " }}}
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
 let g:syntastic_c_compiler_options       = ' -Wall'
@@ -486,12 +485,6 @@ let g:tagbar_sort             = 0   " sort tags by position in source file, not 
 " togglelist {{{
 let g:toggle_list_no_mappings   = 1       " don't use default mappings
 let g:toggle_list_copen_command = "Copen" " use dispatch Copen wrapper
-" }}}
-" ultisnips {{{
-"let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
-let g:UltiSnipsListSnippets        = "<C-s>"
 " }}}
 " unite {{{
 let g:unite_cursor_line_highlight = "UniteSel"
