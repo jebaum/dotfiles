@@ -379,17 +379,15 @@ endif
 " }}}
 " neosnippet {{{
 " Plugin key-mappings.
+let g:neosnippet#snippets_directory='~/dotfiles/vim/snippets'
+
 imap <C-l>     <Plug>(neosnippet_expand_or_jump)
 smap <C-l>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-l>     <Plug>(neosnippet_expand_target)
 
-" For snippet_complete marker.
 if has('conceal')
-  set conceallevel=2 concealcursor=i
+  set conceallevel=1 concealcursor=i
 endif
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/dotfiles/vim/snippets'
 " }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
