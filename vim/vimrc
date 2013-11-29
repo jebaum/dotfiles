@@ -990,6 +990,16 @@ nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gv  :Gitv<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
+
+" Under cursor or visual selection, search Buffer or Arglist
+nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
+                      \, '\'), '\n', '\\n', 'g'), "%", " <BAR> cw")<CR>
+vnoremap <leader>* :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
+                      \, "\n", '\\n', "g"), "%", " <BAR> cw")<CR>
+nnoremap <leader># :<C-U>call VimGrep(substitute(escape(expand("<cword>")
+                      \, '\'), '\n', '\\n', 'g'), "##", " <BAR> cw")<CR>
+vnoremap <leader># :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
+                      \, "\n", '\\n', "g"), "##", " <BAR> cw")<CR>
 " }}}
 " space leader maps. unite + tabularize {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
@@ -1023,19 +1033,6 @@ nnoremap <Space><Bar>   :Tabularize /<Bar><CR>
 vnoremap <Space><Bar>   :Tabularize /<Bar><CR>
 nnoremap <Space>-       :Tabularize /-<CR>
 vnoremap <Space>-       :Tabularize /-<CR>
-
-" Under cursor or visual selection, search Buffer or Arglist
-" TODO: cleanup
-nnoremap <Space>ua :call VimGrep("##", substitute(escape(expand("<cword>")
-                      \, '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <Space>ua "*y:call VimGrep("##", substitute(escape(@*, '\/.*$^~[]')
-                      \, "\n", '\\n', "g"))<CR>
-nnoremap <Space>ub :call VimGrep("%", substitute(escape(expand("<cword>")
-                      \, '\'), '\n', '\\n', 'g'))<CR>
-vnoremap <Space>ub "*y:call VimGrep("%", substitute(escape(@*, '\/.*$^~[]')
-                      \, "\n", '\\n', "g"))<CR>
-nnoremap <leader>* :execute 'noautocmd vimgrep /\V' . substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g') . '/ **'<CR>
-vnoremap <leader>* :<C-u>call VSetSearch()<CR>:execute 'noautocmd vimgrep /' . @/ . '/ **'<CR>
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
