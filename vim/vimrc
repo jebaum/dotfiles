@@ -484,6 +484,12 @@ let g:tagbar_sort             = 0   " sort tags by position in source file, not 
 let g:toggle_list_no_mappings   = 1       " don't use default mappings
 let g:toggle_list_copen_command = "Copen" " use dispatch Copen wrapper
 " }}}
+" ultisnips {{{
+let g:UltiSnipsExpandTrigger="<C-l>"
+let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
+let g:UltiSnipsListSnippets        = "<C-j>"
+" }}}
 " unite {{{
 let g:unite_cursor_line_highlight = "UniteSel"
 if executable('ag')

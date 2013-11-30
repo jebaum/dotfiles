@@ -1,0 +1,26 @@
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
+
+snippet wh "while loop" !
+while(${1:/* condition */})
+{
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+}
+endsnippet
+
+snippet do "do...while loop (do)" !
+do
+{
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+} while(${1:/* condition */});
+endsnippet
+
+snippet el "else .. (else)" !
+else
+{
+	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
+}
+endsnippet
+
+# vim:ft=snippets:
