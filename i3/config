@@ -272,6 +272,10 @@ bindsym $mod+Shift+0    move workspace number 10: code
 bindsym $mod+Shift+KP_1 move workspace number 11
 bindsym $mod+Shift+KP_2 move workspace number 12
 bindsym $mod+Shift+KP_3 move workspace number 13: tv
+bindsym $mod+Shift+KP_4 move workspace number 14
+bindsym $mod+Shift+KP_5 move workspace number 15
+bindsym $mod+Shift+KP_6 move workspace number 16
+bindsym $mod+Shift+KP_7 move workspace number 17
 
 bindsym $mod+x          exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
 # }}}
