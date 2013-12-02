@@ -421,6 +421,9 @@ let g:lisp_rainbow        = 1 " will get overridden by niji, but works in @begin
 let g:slimv_swank_cmd     = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
 let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
+" sneak  {{{
+let g:sneak#use_ic_scs = 1
+" }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
 let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO.txt' ]
