@@ -946,10 +946,10 @@ nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
 nnoremap <leader>ac :Make! clean<CR>
-nnoremap <leader>ad :Dispatch!<CR>
 nnoremap <leader>af :Make! -j <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader>ao :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <leader>ap :Make! -j<CR>
+nnoremap <leader>ar :Dispatch!<CR>
 nnoremap <leader>bb :Bufsearch<Space>
 nnoremap <leader>ba :Allsearch<Space>
 "        <leader>c  various nerdcommenter mappings
