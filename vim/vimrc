@@ -936,8 +936,8 @@ nnoremap zi zk
 " function keys {{{
 nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F2>       :set spell!<CR>
-nnoremap <F4>       :Make! <C-r>=expand('%:r')<CR><CR>
-nnoremap <F5>       :Make!<CR>
+nnoremap <F4>       :Make! -j <C-r>=expand('%:r')<CR><CR>
+nnoremap <F5>       :Make! -j<CR>
 nnoremap <F6>       :Dispatch!<CR>
 nnoremap <F7>       :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <F8>       :call ToggleLocationList()<CR>
@@ -945,9 +945,10 @@ nnoremap <F9>       :Make! clean<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
-nnoremap <leader>aa :Make!<CR>
+nnoremap <leader>aa :Make! -j<CR>
 nnoremap <leader>ac :Make! clean<CR>
 nnoremap <leader>ae :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
+nnoremap <leader>af :Make! -j <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader>bb :Bufsearch<Space>
 nnoremap <leader>ba :Allsearch<Space>
 "        <leader>c  various nerdcommenter mappings
