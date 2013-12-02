@@ -367,18 +367,6 @@ endif
 "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 " }}}
-" neosnippet {{{
-" Plugin key-mappings.
-let g:neosnippet#snippets_directory='~/dotfiles/vim/snippets'
-
-imap <C-l>     <Plug>(neosnippet_expand_or_jump)
-smap <C-l>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-l>     <Plug>(neosnippet_expand_target)
-
-if has('conceal')
-  set conceallevel=1 concealcursor=i
-endif
-" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
