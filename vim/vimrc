@@ -934,7 +934,6 @@ nnoremap zk zj
 nnoremap zi zk
 " }}}
 " function keys {{{
-" define b:dispatch and makeprg so that F1 compiles and F2 runs
 nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F2>       :set spell!<CR>
 nnoremap <F4>       :Make! <C-r>=expand('%:r')<CR><CR>
