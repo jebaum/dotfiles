@@ -3,8 +3,8 @@ let s:source = {
       \ 'name': 'look',
       \ 'kind': 'plugin',
       \ 'mark': '[dict]',
-      \ 'max_candidates': 15,
-      \ 'min_pattern_length' : 4,
+      \ 'max_candidates': 5,
+      \ 'min_pattern_length' : 5,
       \ 'is_volatile' : 1,
       \ }
 
