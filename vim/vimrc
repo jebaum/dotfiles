@@ -917,20 +917,9 @@ nnoremap zi zk
 " function keys {{{
 nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
 nnoremap <F2>       :set spell!<CR>
-nnoremap <F4>       :Make! -j <C-r>=expand('%:r')<CR><CR>
-nnoremap <F5>       :Make! -j<CR>
-nnoremap <F6>       :Dispatch!<CR>
-nnoremap <F7>       :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
-nnoremap <F8>       :call ToggleLocationList()<CR>
-nnoremap <F9>       :Make! clean<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
-nnoremap <leader>aa :Make! -j<CR>
-nnoremap <leader>ac :Make! clean<CR>
-nnoremap <leader>af :Make! -j <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader>ar :Dispatch!<CR>
-nnoremap <leader>at :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <leader>bb :Bufsearch<Space>
 nnoremap <leader>ba :Allsearch<Space>
 "        <leader>c  various nerdcommenter mappings
@@ -1004,6 +993,14 @@ nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/ya
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
 nnoremap <Space><CR>      :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
+
+" Make
+nnoremap <Space>ma  :Make! -j<CR>
+nnoremap <Space>mc  :Make! clean<CR>
+nnoremap <Space>mf  :Make! -j <C-r>=expand('%:r')<CR><CR>
+nnoremap <Space>ml  :call ToggleLocationList()<CR>
+nnoremap <Space>mr  :Dispatch!<CR>
+nnoremap <Space>mq  :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
@@ -1100,6 +1097,5 @@ else
 endif
 " }}}
 " slash leader maps (CURRENTLY NOT USING){{{
-" reserved for slimv/paredit in lisp files
 " }}}
 " }}}
