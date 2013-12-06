@@ -194,6 +194,7 @@ augroup StripWhitespaceOnWrite
 augroup END
 " }}}
 " Command mode {{{
+command! CD cd %:p:h
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
@@ -961,7 +962,6 @@ nnoremap <silent> <leader>gl  :silent Glog <Bar> redraw!<CR>
 nnoremap <silent> <leader>gp  :call GitPush()<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
-nnoremap <silent> <leader>gv  :Gitv<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 
 " Under cursor or visual selection, search Buffer or Arglist
