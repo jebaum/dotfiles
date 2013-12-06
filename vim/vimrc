@@ -316,16 +316,6 @@ let g:mta_filetypes = {
     \ 'php' : 1,
     \}
 " }}}
-" multi-cursor {{{
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_key = '<Space>m'
-let g:multi_cursor_next_key  = 'n'
-let g:multi_cursor_prev_key  = 'p'
-let g:multi_cursor_skip_key  = 's'
-let g:multi_cursor_quit_key  = '<C-c>'
-let g:multi_cursor_exit_from_visual_mode = 0
-let g:multi_cursor_exit_from_insert_mode = 0
-" }}}
 " neocomplete {{{
 let g:neocomplete#enable_at_startup                 = 1
 let g:neocomplete#enable_smart_case                 = 1
@@ -1004,7 +994,6 @@ nnoremap <Space>h   :<C-u>Unite -start-insert -buffer-name=help       help<CR><C
 nnoremap <Space>i   :Copen<CR>:cclose<CR>:<C-u>Unite -start-insert -buffer-name=quickfix   qf<CR>
 nnoremap <Space>j   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>l   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
-"        <Space>m   Multicursor trigger
 nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
