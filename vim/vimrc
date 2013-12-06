@@ -283,7 +283,7 @@ endfunction
 augroup DISPATCH
   autocmd FileType java      set makeprg='ant'
   " autocmd FileType java      let b:dispatch = 'java ' . shellescape(expand('%:r'))
-  autocmd FileType c,cpp     let b:dispatch = './' . shellescape(expand('%:r'))
+  autocmd FileType c,cpp     let b:dispatch = shellescape(expand('%:p:r'))
   autocmd FileType lisp      let b:dispatch = 'clisp ' . shellescape(expand('%'))
   autocmd FileType sh,python let b:dispatch = './' . shellescape(expand('%'))
 augroup END
@@ -842,6 +842,7 @@ onoremap an[ :<c-u>normal! f[va[<CR>
 onoremap an{ :<c-u>normal! f{va{<CR>
 onoremap an< :<c-u>normal! f<va<<CR>
 onoremap an" :<c-u>normal! f"va"<CR>
+onoremap an' :<c-u>normal! f'va'<CR>
 onoremap an` :<c-u>normal! f`va`<CR>
 
 onoremap af( :<c-u>normal! F)va(<CR>
@@ -849,6 +850,7 @@ onoremap af[ :<c-u>normal! F]va[<CR>
 onoremap af{ :<c-u>normal! F}va{<CR>
 onoremap af< :<c-u>normal! F>va<<CR>
 onoremap af" :<c-u>normal! F"va"<CR>
+onoremap af' :<c-u>normal! F'va'<CR>
 onoremap af` :<c-u>normal! F`va`<CR>
 
 " easier to reach versions of above next/former maps
@@ -972,7 +974,7 @@ nnoremap <leader># :<C-U>call VimGrep(substitute(escape(expand("<cword>")
 vnoremap <leader># :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"), "##", " <BAR> cw")<CR>
 " }}}
-" space leader maps. unite + tabularize {{{
+" space leader maps. unite + tabularize + make {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
 nnoremap <Space>c   :<C-u>Unite -start-insert -buffer-name=registers  register<CR>
