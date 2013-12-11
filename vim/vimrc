@@ -934,7 +934,7 @@ nnoremap <leader>e  :QuickRun -mode n<CR>
 vnoremap <leader>e  :QuickRun -mode v<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "        <leader>g  fugitive and signify mappings
-nnoremap <leader>l  :ls<CR>:b<Space>
+nnoremap <leader>l  :ls<CR>:b
 "        <leader>m  various showmarks mappings
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q <Bar> redraw!<CR>
