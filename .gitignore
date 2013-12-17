@@ -6,6 +6,8 @@
 mutt/mail
 offlineimap/*
 !offlineimap/offlineimaprc
+cgdb/*
+!cgdb/cgdbrc
 pentadactyl/info/*
 vim/.netrwhist
 config/ranger/history
