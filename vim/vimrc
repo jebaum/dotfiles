@@ -142,6 +142,16 @@ endfunction
 " nnoremap <Home> :call WrapCommand("up")<CR>
 " nnoremap <End>  :call WrapCommand("down")<CR>
 " }}}
+" Visual mode increment {{{
+function! Increment()
+    let a = line('.') - line("'<")
+    let c = virtcol("'<")
+    if a > 0
+        execute 'normal! '.c.'|'.a."\<C-a>"
+    endif
+    normal `<
+  endfunction
+" }}}
 " VisualStarSearch {{{
 function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
   let temp = @s
@@ -775,6 +785,10 @@ let mapleader = ','  " use comma instead of \ as leader
 inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
+
+" increment numbers in visual mode, only search within selection
+vnoremap <C-a> :call Increment()<CR>
+xnoremap <C-f> <Esc>/\%V
 
 " diffget/diffobtain
 nnoremap dg do
