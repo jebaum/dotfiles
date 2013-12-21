@@ -38,7 +38,7 @@ IMGURKEY="e7bc144295297c37aa852990570435dc"
 SCPOPTS="-P 22"
 SSHSTR="james@jbaumy.com"
 SSHDIR="/home/james/Dropbox/jbaumy.com/files/"
-WEBURL="http://files.jbaumy.com/"
+WEBURL="http://jbaumy.com/files"
 
 # OPTIONAL - put files with certain extensions into distinct directories
 # For each extension you should have 3 consecutive entries:

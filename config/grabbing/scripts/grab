@@ -16,7 +16,7 @@ THING=$(mktemp --suffix=.png)
 chmod +r "${THING}"
 
 ## take screen shot
-scrot -s "${THING}"
+gnome-screenshot -a -f "${THING}"
 
 if [ $? -ne 0 ]; then
   notify-send -t 500 "error taking screenshot"
