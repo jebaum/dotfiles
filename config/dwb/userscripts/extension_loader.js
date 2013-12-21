@@ -31,21 +31,6 @@ extensions.load("perdomainsettings", {
 
 // Settings applied based on the second level domain
 domains : {
-        //"archlinux.org"     : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/archlinux.css" },
-        //"bitbucket.org"     : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/bitbucket.css" },
-        //"facebook.com"      : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/facebook.css" },
-        //"github.com"        : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/github.css" },
-        //"imdb.com"          : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/imdb.css" },
-        //"lifehacker.com"    : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/lifehacker.css" },
-        //"reddit.com"        : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/reddit.css" },
-        //"stackoverflow.com" : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/stackoverflow.css" },
-        //"thepiratebay.sx"   : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/tpb.css" },
-        //"twitch.tv"         : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/twitch.css" },
-        //"wikipedia.org"     : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/wiki.css" },
-        //"youtube.com"       : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/youtube.css" },
-        //"google.com"        : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/google.css" },
-        "*.tld"          : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/kathryn.css" },
-        "*.com"          : { "user-stylesheet-uri" : "file:///home/james/.config/dwb/userstyles/kathryn.css" },
 //      "example.com" : { "auto-load-images" : false },
 //      "google.tld" : { enableScripts : false, autoLoadImages : false },
 },
@@ -64,42 +49,6 @@ uris : {
 
 });
 //>perdomainsettings___SCRIPT
-//<formfiller___SCRIPT
-extensions.load("formfiller", {
-//<formfiller___CONFIG
-// shortcut that gets and saves formdata
-scGetForm : "efg",
-
-// shortcut that fills a form
-scFillForm : "eff",
-
-// path to the formdata file
-formData : data.configDir + "/forms",
-
-// whether to use a gpg-encrypted file
-useGPG : false,
-
-// your GPG key ID (leave empty to use a symmetric cipher)
-GPGKeyID : "",
-
-// whether to use a GPG agent (requires non-empty GPGKeyID to work)
-GPGAgent : false,
-
-// additional arguments passed to gpg2 when encrypting the formdata
-GPGOptEncrypt : "",
-
-// additional arguments passed to gpg2 when decrypting the formdata
-GPGOptDecrypt : "",
-
-// whether to save the password in memory when gpg is used
-keepPassword : true,
-
-// whether to save the whole formdata in memory when gpg is used
-keepFormdata : false
-
-//>formfiller___CONFIG
-});
-//>formfiller___SCRIPT
 //<unique_tabs___SCRIPT
 extensions.load("unique_tabs", {
 //<unique_tabs___CONFIG
@@ -146,7 +95,7 @@ hashMethod : ChecksumType.md5,
 // Length of the password, the minimum length is 4, the
 // maximum length depends on the hashMethod, for md5 it is
 // 24, for sha1 it is 28 and for sha256 it is 44. 
-length : 24, 
+length : 16, 
 
 // Minimum number of rehashes, in compatibility mode it is
 // set to 10
@@ -170,7 +119,6 @@ shortcutPrint :  "",
 // Whether to strip subdomains
 stripSubdomains : true
 //>supergenpass___CONFIG
-
 });
 //>supergenpass___SCRIPT
 //<adblock_subscriptions___SCRIPT
@@ -201,3 +149,40 @@ filterListDir : data.configDir + "/adblock_lists"
 //>adblock_subscriptions___CONFIG
 });
 //>adblock_subscriptions___SCRIPT
+//<formfiller___SCRIPT
+extensions.load("formfiller", {
+//<formfiller___CONFIG
+// shortcut that gets and saves formdata
+scGetForm : "efg",
+
+// shortcut that fills a form
+scFillForm : "eff",
+
+// path to the formdata file
+formData : data.configDir + "/forms",
+
+// whether to use a gpg-encrypted file
+useGPG : true,
+
+// your GPG key ID (leave empty to use a symmetric cipher)
+GPGKeyID : "",
+
+// whether to use a GPG agent (requires non-empty GPGKeyID to work)
+GPGAgent : true,
+
+// additional arguments passed to gpg2 when encrypting the formdata
+GPGOptEncrypt : "",
+
+// additional arguments passed to gpg2 when decrypting the formdata
+GPGOptDecrypt : "",
+
+// whether to save the password in memory when gpg is used
+keepPassword : true,
+
+// whether to save the whole formdata in memory when gpg is used
+keepFormdata : false
+
+//>formfiller___CONFIG
+
+});
+//>formfiller___SCRIPT
