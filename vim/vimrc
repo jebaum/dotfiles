@@ -310,6 +310,16 @@ autocmd User fugitive  " .. to go back up to parent directory when browsing git 
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
 autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
+
+function! FugitiveUnmap(key)
+  silent! exe 'nunmap <buffer> '.a:key
+endfunction
+
+augroup FugitiveCMDs
+  autocmd!
+  autocmd FileType gitcommit autocmd FugitiveCMDs CursorMoved <buffer>
+        \ call FugitiveUnmap('i') | autocmd! FugitiveCMDs * <buffer>
+augroup END
 " }}}
 " gist {{{
 let g:gist_post_private = 1 " gists are private by default
