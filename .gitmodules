@@ -121,3 +121,6 @@
 [submodule "vim/bundle/vim-exchange"]
 	path = vim/bundle/vim-exchange
 	url = git@github.com:tommcdo/vim-exchange.git
+[submodule "vim/bundle/vim-fugitive"]
+	path = vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
