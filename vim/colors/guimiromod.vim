@@ -143,3 +143,11 @@ hi SyntasticWarningLine ctermfg=none  ctermbg=16    cterm=none  guifg=NONE     g
 hi SyntasticWarningSign ctermfg=196   ctermbg=16    cterm=none  guifg=#FF0000  guibg=#000000  gui=none
 
 hi MatchTarget ctermfg=16   ctermbg=46  cterm=bold  guifg=#000000  guibg=#00FF00  gui=bold
+
+" taghighlight
+hi! link DefinedName        NONE
+hi! link EnumerationValue   NONE
+hi! link GlobalVariable     NONE
+hi DefinedName      ctermfg=77  cterm=italic  guifg=#5FD75F  gui=italic
+hi EnumerationValue ctermfg=77  cterm=italic  guifg=#5FD75F  gui=italic
+hi GlobalVariable   ctermfg=77  cterm=italic  guifg=#5FD75F  gui=italic

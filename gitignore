@@ -1,5 +1,6 @@
 .tags
 tags
 tags-ja
+*.taghl
 *.zip
 Session.vim

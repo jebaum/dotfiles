@@ -491,6 +491,14 @@ let g:tagbar_show_linenumbers = 2   " relative line numbers
 let g_tagbar_autoshowtag      = 1   " auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort             = 0   " sort tags by position in source file, not alphabetically
 " }}}
+" taghighlight {{{
+if !exists('g:TagHighlightSettings')
+  let g:TagHighlightSettings = {}
+endif
+let g:TagHighlightSettings['DoNotGenerateTags'] = 0 " don't generate tags
+let g:TagHighlightSettings['TypesFilePrefix'] = '.types' " make taghl file hidden
+let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
+" }}}
 " togglelist {{{
 let g:toggle_list_no_mappings   = 1       " don't use default mappings
 let g:toggle_list_copen_command = "Copen" " use dispatch Copen wrapper
