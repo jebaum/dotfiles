@@ -495,7 +495,8 @@ let g:tagbar_sort             = 0   " sort tags by position in source file, not 
 if !exists('g:TagHighlightSettings')
   let g:TagHighlightSettings = {}
 endif
-let g:TagHighlightSettings['DoNotGenerateTags'] = 0 " don't generate tags
+let g:TagHighlightSettings['DoNotGenerateTags'] = 1 " don't generate tags
+let g:TagHighlightSettings['TagFileName'] = '.tags'
 let g:TagHighlightSettings['TypesFilePrefix'] = '.types' " make taghl file hidden
 let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
 " }}}
