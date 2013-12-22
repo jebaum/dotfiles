@@ -10,7 +10,8 @@ ERRORSTRING='[ALERT] Too many simultaneous connections. (Failure)'
 if [[ -e "/tmp/offlineimap.log" ]]; then
   ERRORS=$(grep -F "${ERRORSTRING}" /tmp/offlineimap.log | wc -l)
 else
-  echo offlineimap.log file does not exist 1>&2
+  echo offlineimap.log file does not exist, exiting 1>&2
+  exit
 fi
 
 if [[ "${ERRORS}" == "0" ]]; then
