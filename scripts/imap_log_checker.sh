@@ -15,8 +15,8 @@ else
 fi
 
 if [[ "${ERRORS}" == "0" ]]; then
-  echo No errors found
+  echo No errors found 1>&2
 else
-  echo "Errors found (${ERRORS})"
+  echo "Errors found (${ERRORS})" 1>&2
   pkill offlineimap
 fi
