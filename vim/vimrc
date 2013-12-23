@@ -749,6 +749,8 @@ endif
 function! Altmap(char) " map a character to Alt key in both vim and gvim
   if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
+let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
+" exec 'nnoremap ' . cspace . 'a :somecommand'
 
 let mapleader = ','  " use comma instead of \ as leader
 inoremap <C-c> <Esc><Esc>
