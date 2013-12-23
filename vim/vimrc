@@ -746,6 +746,10 @@ endif
 " }}}
 " Keymaps {{{
 " Misc {{{
+function! Altmap(char) " map a character to Alt key in both vim and gvim
+  if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
+endfunction
+
 let mapleader = ','  " use comma instead of \ as leader
 inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
@@ -1012,70 +1016,36 @@ inoremap <C-a>      <Home>
 inoremap <C-e>      <End>
 " }}}
 " alt normal mode {{{
-if !has("gui_running")
-  nnoremap <Esc>a   :AirlineToggle<CR>
-  nnoremap <Esc>h   :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
-  nnoremap <Esc>i   :resize +2<CR>
-  nnoremap <Esc>j   :vertical resize -2<CR>
-  nnoremap <Esc>k   :resize -2<CR>
-  nnoremap <Esc>l   :vertical resize +2<CR>
-  nnoremap <Esc>m   :match none<CR>
-  nnoremap <Esc>n   :tabmove +1<CR>
-  nnoremap <Esc>p   :tabmove -1<CR>
-  nnoremap <Esc>q   :quitall<CR>
-  nnoremap <Esc>1   1gt
-  nnoremap <Esc>2   2gt
-  nnoremap <Esc>3   3gt
-  nnoremap <Esc>4   4gt
-  nnoremap <Esc>5   5gt
-  nnoremap <Esc>6   6gt
-  nnoremap <Esc>7   7gt
-  nnoremap <Esc>8   8gt
-  nnoremap <Esc>9   9gt
-  nnoremap <Esc>0   :tablast<CR>
-else
-  nnoremap <A-a>    :AirlineToggle<CR>
-  nnoremap <A-h>    :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
-  nnoremap <A-i>    :resize +2<CR>
-  nnoremap <A-j>    :vertical resize -2<CR>
-  nnoremap <A-k>    :resize -2<CR>
-  nnoremap <A-l>    :vertical resize +2<CR>
-  nnoremap <A-m>    :match none<CR>
-  nnoremap <A-n>    :tabmove +1<CR>
-  nnoremap <A-p>    :tabmove -1<CR>
-  nnoremap <A-q>    :quitall<CR>
-  nnoremap <A-1>    1gt
-  nnoremap <A-2>    2gt
-  nnoremap <A-3>    3gt
-  nnoremap <A-4>    4gt
-  nnoremap <A-5>    5gt
-  nnoremap <A-6>    6gt
-  nnoremap <A-7>    7gt
-  nnoremap <A-8>    8gt
-  nnoremap <A-9>    9gt
-  nnoremap <A-0>    :tablast<CR>
-endif
+exec 'nnoremap ' . Altmap('a') . ' :AirlineToggle<CR>'
+exec 'nnoremap ' . Altmap('h') . ' :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>'
+exec 'nnoremap ' . Altmap('i') . ' :resize +2<CR>'
+exec 'nnoremap ' . Altmap('j') . ' :vertical resize -2<CR>'
+exec 'nnoremap ' . Altmap('k') . ' :resize -2<CR>'
+exec 'nnoremap ' . Altmap('l') . ' :vertical resize +2<CR>'
+exec 'nnoremap ' . Altmap('m') . ' :match none<CR>'
+exec 'nnoremap ' . Altmap('n') . ' :tabmove +1<CR>'
+exec 'nnoremap ' . Altmap('p') . ' :tabmove -1<CR>'
+exec 'nnoremap ' . Altmap('q') . ' :quitall<CR>'
+exec 'nnoremap ' . Altmap('1') . ' 1gt'
+exec 'nnoremap ' . Altmap('2') . ' 2gt'
+exec 'nnoremap ' . Altmap('3') . ' 3gt'
+exec 'nnoremap ' . Altmap('4') . ' 4gt'
+exec 'nnoremap ' . Altmap('5') . ' 5gt'
+exec 'nnoremap ' . Altmap('6') . ' 6gt'
+exec 'nnoremap ' . Altmap('7') . ' 7gt'
+exec 'nnoremap ' . Altmap('8') . ' 8gt'
+exec 'nnoremap ' . Altmap('9') . ' 9gt'
+exec 'nnoremap ' . Altmap('0') . ' :tablast<CR>'
 " }}}
 " alt insert mode {{{
-if !has("gui_running")
-  inoremap <Esc>i   <Up>
-  inoremap <Esc>j   <Left>
-  inoremap <Esc>k   <Down>
-  inoremap <Esc>l   <Right>
-  inoremap <Esc>b   <S-Left>
-  inoremap <Esc>B   <C-Left>
-  inoremap <Esc>w   <S-Right>
-  inoremap <Esc>W   <C-Right>
-else
-  inoremap <A-i>    <Up>
-  inoremap <A-j>    <Left>
-  inoremap <A-k>    <Down>
-  inoremap <A-l>    <Right>
-  inoremap <A-b>    <S-Left>
-  inoremap <A-B>    <C-Left>
-  inoremap <A-w>    <S-Right>
-  inoremap <A-W>    <C-Right>
-endif
+exec 'inoremap ' . Altmap('i') . '   <Up>'
+exec 'inoremap ' . Altmap('j') . '   <Left>'
+exec 'inoremap ' . Altmap('k') . '   <Down>'
+exec 'inoremap ' . Altmap('l') . '   <Right>'
+exec 'inoremap ' . Altmap('b') . '   <S-Left>'
+exec 'inoremap ' . Altmap('B') . '   <C-Left>'
+exec 'inoremap ' . Altmap('w') . '   <S-Right>'
+exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " }}}
 " slash leader maps (CURRENTLY NOT USING){{{
 " }}}
