@@ -1,6 +1,6 @@
 " Tag Highlighter:
 "   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-" Copyright: Copyright (C) 2009-2011 A. S. Budden
+" Copyright: Copyright (C) 2009-2013 A. S. Budden
 "            Permission is hereby granted to use and distribute this code,
 "            with or without modifications, provided that this copyright
 "            notice is copied with it. Like anything else that's free,
@@ -12,7 +12,7 @@
 
 " ---------------------------------------------------------------------
 try
-	if &cp || (exists('g:loaded_TagHLFind') && (g:plugin_development_mode != 1))
+	if &cp || v:version < 700 || (exists('g:loaded_TagHLFind') && (g:plugin_development_mode != 1))
 		throw "Already loaded"
 	endif
 catch
@@ -40,6 +40,7 @@ let g:loaded_TagHLFind = 1
 "	TagFileDirModePriority:["Default"] or as above
 "	TypesFileDirModePriority:As tag file
 "	ConfigFileDirModePriority:As tag file
+"	CscopeFileDirModePriority:As tag file
 "	DefaultDirModeSearchWildcard:'' (look for tags file) or something specific (*.uvopt)?
 "	MaxDirSearchLevels: (integer)
 "
@@ -52,40 +53,63 @@ let g:loaded_TagHLFind = 1
 "    TypesPrefix:str (types)
 "    ProjectConfigFileName:str (taghl_config.txt)
 "    ProjectConfigFileDirectory:str (NONE)
+"    CscopeFileName: str (cscope.out)
+"    CscopeFileDirectory: str (NONE)
 
-function! TagHighlight#Find#LocateFile(which, suffix)
+function! TagHighlight#Find#LocateFile(which, suffix, ...)
 	call TagHLDebug("Locating file " . a:which . " with suffix " . a:suffix, 'Information')
+	
+	" Optional arguments
+	if len(a:000) > 0
+		let force_project = a:000[0]
+	else
+		let force_project = ''
+	endif
 
 	" a:which is 'TAGS', 'TYPES', 'CONFIG'
-	let default_priority = TagHighlight#Option#GetOption('DefaultDirModePriority')
+	let default_priority = TagHighlight#Option#GetOption('DefaultDirModePriority', force_project)
 	call TagHLDebug("Priority: " . string(default_priority), "Information")
-	let default_search_wildcards = TagHighlight#Option#GetOption('DefaultDirModeSearchWildcards')
+	let default_search_wildcards = TagHighlight#Option#GetOption('DefaultDirModeSearchWildcards', force_project)
 
-
-	let file = expand('<afile>')
-	if len(file) == 0
-		let file = expand('%')
+	if len(force_project) > 0
+		let file = TagHighlight#Option#GetOption('SourceDir', force_project) . '/dummy.txt'
+	else
+		let file = expand('<afile>')
+		if len(file) == 0
+			let file = expand('%')
+		endif
 	endif
 
 	if a:which == 'TAGS'
 		" Suffix is ignored here
-		let filename = TagHighlight#Option#GetOption('TagFileName')
-		let search_priority = TagHighlight#Option#GetOption('TagFileDirModePriority')
-		let explicit_location = TagHighlight#Option#GetOption('TagFileDirectory')
-		let search_wildcards = TagHighlight#Option#GetOption('TagFileSearchWildcards')
+		let filename = TagHighlight#Option#GetOption('TagFileName', force_project)
+		let search_priority = TagHighlight#Option#GetOption('TagFileDirModePriority', force_project)
+		let explicit_location = TagHighlight#Option#GetOption('TagFileDirectory', force_project)
+		let search_wildcards = TagHighlight#Option#GetOption('TagFileSearchWildcards', force_project)
 	elseif a:which == 'TYPES'
-		let filename = TagHighlight#Option#GetOption('TypesFilePrefix') . '_' .
-					\ a:suffix . "." .
-					\ TagHighlight#Option#GetOption('TypesFileExtension')
-		let search_priority = TagHighlight#Option#GetOption('TypesFileDirModePriority')
-		let explicit_location = TagHighlight#Option#GetOption('TypesFileDirectory')
-		let search_wildcards = TagHighlight#Option#GetOption('TypesFileSearchWildcards')
+		if tolower(a:suffix) == 'all'
+			let search_suffix = '*'
+		else
+			let search_suffix = a:suffix
+		endif
+		let filename = TagHighlight#Option#GetOption('TypesFilePrefix', force_project) . '_' .
+					\ search_suffix . "." .
+					\ TagHighlight#Option#GetOption('TypesFileExtension', force_project)
+		let search_priority = TagHighlight#Option#GetOption('TypesFileDirModePriority', force_project)
+		let explicit_location = TagHighlight#Option#GetOption('TypesFileDirectory', force_project)
+		let search_wildcards = TagHighlight#Option#GetOption('TypesFileSearchWildcards', force_project)
 	elseif a:which == 'CONFIG'
 		" Suffix is ignored here
-		let filename = TagHighlight#Option#GetOption('ProjectConfigFileName')
-		let search_priority = TagHighlight#Option#GetOption('ProjectConfigFileDirModePriority')
-		let explicit_location = TagHighlight#Option#GetOption('ProjectConfigFileDirectory')
-		let search_wildcards = TagHighlight#Option#GetOption('ProjectConfigFileSearchWildcards')
+		let filename = TagHighlight#Option#GetOption('ProjectConfigFileName', force_project)
+		let search_priority = TagHighlight#Option#GetOption('ProjectConfigFileDirModePriority', force_project)
+		let explicit_location = TagHighlight#Option#GetOption('ProjectConfigFileDirectory', force_project)
+		let search_wildcards = TagHighlight#Option#GetOption('ProjectConfigFileSearchWildcards', force_project)
+	elseif a:which == 'CSCOPE'
+		" Suffix is ignored here
+		let filename = TagHighlight#Option#GetOption('CscopeFileName', force_project)
+		let search_priority = TagHighlight#Option#GetOption('CscopeFileDirModePriority', force_project)
+		let explicit_location = TagHighlight#Option#GetOption('CscopeFileDirectory', force_project)
+		let search_wildcards = TagHighlight#Option#GetOption('CscopeFileSearchWildcards', force_project)
 	else
 		throw "Unrecognised file"
 	endif
@@ -105,6 +129,31 @@ function! TagHighlight#Find#LocateFile(which, suffix)
 
 	" Result contains 'Found','FullPath','Directory','Filename','Exists']
 	let result = {}
+
+	if TagHighlight#Option#GetOption('UseProjectRepository', force_project)
+		call TagHLDebug("UseProjectRepository is set", "Information")
+		let repository = TagHighlight#Option#GetOption('ProjectRepository', force_project)
+		if len(repository) > 0 && tolower(repository) != "none"
+			if len(force_project) > 0 || (has_key(b:TagHighlightPrivate, 'InProject') && b:TagHighlightPrivate['InProject'])
+				if len(force_project) > 0
+					let project_name = force_project
+				else
+					let project_name = b:TagHighlightPrivate['ProjectName']
+				endif
+				let project_folder = repository
+							\ . '/'
+							\ . s:SanitiseName(project_name)
+				if ! isdirectory(project_folder)
+					" At the moment, if the repository setting is garbage,
+					" this will throw up an error message, but I'm not sure
+					" whether it can be caught with try...catch...endtry
+					call mkdir(project_folder, 'p')
+				endif
+				let search_priority = ['Explicit']
+				let explicit_location = project_folder
+			endif
+		endif
+	endif
 
 	for search_mode in search_priority
 		if search_mode == 'Explicit' && explicit_location != 'None'
@@ -129,24 +178,41 @@ function! TagHighlight#Find#LocateFile(which, suffix)
 				let result['Filename'] = filename
 			endif
 		elseif search_mode == 'CurrentDirectory'
-			call TagHLDebug('Using current directory', 'Information')
+			call TagHLDebug('Using current directory: ' . fnamemodify('.', ':p:h'), 'Information')
 			let result['Directory'] = fnamemodify('.',':p:h')
 			let result['Filename'] = filename
 		elseif search_mode == 'FileDirectory'
-			call TagHLDebug('Using file directory', 'Information')
+			call TagHLDebug('Using file directory: ' . fnamemodify(file, ':p:h'), 'Information')
 			let result['Directory'] = fnamemodify(file,':p:h')
 			let result['Filename'] = filename
 		endif
 		if has_key(result, 'Directory')
 			let result['FullPath'] = result['Directory'] . '/' . result['Filename']
 			let result['Found'] = 1
-			call TagHLDebug('Found file location', 'Information')
+			call TagHLDebug('Found file location: ' . result['FullPath'], 'Information')
 			if filereadable(result['FullPath'])
 				call TagHLDebug('File exists', 'Information')
 				let result['Exists'] = 1
 			else
-				call TagHLDebug('File does not exist', 'Information')
-				let result['Exists'] = 0
+				" Handle wildcards
+				let expansion = split(glob(result['FullPath'], 1), '\n')
+				let wildcard_match = 0
+				if len(expansion) > 0
+					for entry in expansion
+						if filereadable(entry)
+							let result['FullPath'] = entry
+							let result['Exists'] = 1
+							let result['AllEntries'] = expansion
+							let wildcard_match = 1
+							break
+						endif
+					endfor
+				endif
+
+				if wildcard_match == 0
+					call TagHLDebug('File does not exist', 'Information')
+					let result['Exists'] = 0
+				endif
 			endif
 			break
 		endif
@@ -215,4 +281,9 @@ function! s:ScanUp(dir, wildcards)
 		call TagHLDebug("Reached root directory and stopped", "Information")
 	endif
 	return result
+endfunction
+
+function! s:SanitiseName(name)
+	let validChars = '-a-zA-Z0-9_'
+	return substitute(a:name, '[^'.validChars.']', '_', 'g')
 endfunction

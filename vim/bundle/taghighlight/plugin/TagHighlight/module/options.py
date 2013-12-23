@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Tag Highlighter:
 #   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-# Copyright: Copyright (C) 2009-2011 A. S. Budden
+# Copyright: Copyright (C) 2009-2013 A. S. Budden
 #            Permission is hereby granted to use and distribute this code,
 #            with or without modifications, provided that this copyright
 #            notice is copied with it. Like anything else that's free,
@@ -23,13 +23,16 @@ def LoadOptionSpecification():
     RequiredKeys = ['CommandLineSwitches', 'Type', 'Default', 'Help']
 
     global AllOptions
-    AllOptions = LoadDataFile('options.txt', ListKeys)
+    AllOptions = LoadDataFile('options.txt')
 
     for dest in AllOptions.keys():
+        for key in ListKeys:
+            if key in AllOptions and not isinstance(AllOptions[key], list):
+                AllOptions[key] = [AllOptions[key]]
         # Check we've got all of the required keys
         for key in RequiredKeys:
             if key not in AllOptions[dest]:
-                if 'VimOptionMap' in AllOptions[dest]:
+                if 'CommandLineSwitches' not in AllOptions[dest]:
                     # This is probably just a Vim option: ignore
                     pass
                 else:
@@ -43,7 +46,7 @@ def LoadOptionSpecification():
         elif AllOptions[dest]['Type'] == 'list':
             if AllOptions[dest]['Default'] == '[]':
                 AllOptions[dest]['Default'] = []
-            else:
+            elif not isinstance(AllOptions[dest]['Default'], list):
                 AllOptions[dest]['Default'] = AllOptions[dest]['Default'].split(',')
 
 LoadOptionSpecification()

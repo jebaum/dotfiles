@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Tag Highlighter:
 #   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-# Copyright: Copyright (C) 2009-2011 A. S. Budden
+# Copyright: Copyright (C) 2009-2013 A. S. Budden
 #            Permission is hereby granted to use and distribute this code,
 #            with or without modifications, provided that this copyright
 #            notice is copied with it. Like anything else that's free,
@@ -16,7 +16,7 @@ from __future__ import print_function
 
 import os
 
-debug_log_levels = ('Critical', 'Error', 'Warning', 'Status', 'Information', 'None')
+debug_log_levels = ('None', 'Critical', 'Error', 'Warning', 'Status', 'Information')
 debug_log_file = None
 debug_log_level = 'None'
 

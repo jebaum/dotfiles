@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Tag Highlighter:
 #   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-# Copyright: Copyright (C) 2009-2011 A. S. Budden
+# Copyright: Copyright (C) 2009-2013 A. S. Budden
 #            Permission is hereby granted to use and distribute this code,
 #            with or without modifications, provided that this copyright
 #            notice is copied with it. Like anything else that's free,
@@ -56,23 +56,39 @@ class SetDict(dict):
         else:
             super(SetDict, self).__setitem__(key, set([value]))
 
-class DictDict(dict):
+class TagDB(dict):
     """Customised version of a dictionary that auto-creates non-existent keys as SetDicts."""
     def __getitem__(self, key):
         if key not in self:
             self[key] = SetDict()
-        return super(DictDict, self).__getitem__(key)
+        return super(TagDB, self).__getitem__(key)
 
     def __setitem__(self, key, value):
         if isinstance(value, SetDict):
-            super(DictDict, self).__setitem__(key, value)
+            super(TagDB, self).__setitem__(key, value)
+        else:
+            raise NotImplementedError
+
+class FileTagDB(dict):
+    """Customised version of a dictionary that auto-creates non-existent keys as TagDBs."""
+    def __getitem__(self, key):
+        if key not in self:
+            self[key] = TagDB()
+        return super(FileTagDB, self).__getitem__(key)
+
+    def __setitem__(self, key, value):
+        if isinstance(value, TagDB):
+            super(FileTagDB, self).__setitem__(key, value)
         else:
             raise NotImplementedError
 
 def GenerateValidKeywordRange(iskeyword):
     # Generally obeys Vim's iskeyword setting, but
     # only allows characters in ascii range
-    ValidKeywordSets = iskeyword.split(',')
+    if isinstance(iskeyword, list):
+        ValidKeywordSets = iskeyword
+    else:
+        ValidKeywordSets = iskeyword.split(',')
     rangeMatcher = re.compile('^(?P<from>(?:\d+|\S))-(?P<to>(?:\d+|\S))$')
     falseRangeMatcher = re.compile('^^(?P<from>(?:\d+|\S))-(?P<to>(?:\d+|\S))$')
     validList = []
@@ -126,23 +142,38 @@ def GenerateValidKeywordRange(iskeyword):
         else:
             raise ValueError('Unrecognised iskeyword part: ' + valid)
 
-    return validList
+    kRE = re.compile(r'^['+re.escape(''.join(validList))+r']+$')
+    return kRE
 
 
 def IsValidKeyword(keyword, iskeyword):
-    for char in keyword:
-        if not char in iskeyword:
-            return False
-    return True
+    if iskeyword.match(keyword) is not None:
+        return True
+    return False
 
+def rglob(path, pattern):
+    # Tweaked version of the stackoverflow answer:
+    # http://stackoverflow.com/questions/2186525/use-a-glob-to-find-files-recursively-in-python#2186565
+    import os, fnmatch
+    matches = []
+    for root, dirnames, filenames in os.walk(path):
+        matches += [os.path.join(root, i) for i in fnmatch.filter(filenames, pattern)]
+    return matches
 
 if __name__ == "__main__":
-    import pprint
-    test_obj = SetDict()
-    # Should be able to add an item to the list
-    pprint.pprint(test_obj)
-    test_obj['MyIndex'].add('Hello')
-    test_obj['SetList'] = ['This', 'Is', 'A', 'List']
-    test_obj['SetString'] = 'This is a string'
-    # These should all be lists:
-    pprint.pprint(test_obj)
+    with open(__file__, 'r') as fh:
+        keywords = fh.read().split()
+    isk = GenerateValidKeywordRange('@,48-57,_,192-255')
+
+def _keyword_test():
+    import timeit
+    # Get some random keywords
+    global keywords, isk
+    print("Timing GVKR:")
+    print(timeit.timeit("GenerateValidKeywordRange('@,48-57,_,192-255')", number=10000, setup="from __main__ import GenerateValidKeywordRange"))
+    isk = GenerateValidKeywordRange('@,48-57,_,192-255')
+    print("Timing IVK:")
+    print(timeit.timeit("for k in keywords: IsValidKeyword(k, isk)", number=1000, setup="from __main__ import IsValidKeyword, isk, keywords"))
+
+if __name__ == "__main__":
+    _keyword_test()

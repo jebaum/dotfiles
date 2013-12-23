@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Tag Highlighter:
 #   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-# Copyright: Copyright (C) 2009-2011 A. S. Budden
+# Copyright: Copyright (C) 2009-2013 A. S. Budden
 #            Permission is hereby granted to use and distribute this code,
 #            with or without modifications, provided that this copyright
 #            notice is copied with it. Like anything else that's free,
@@ -17,7 +17,7 @@ import subprocess
 import os
 import re
 import glob
-from .utilities import DictDict
+from .utilities import TagDB, FileTagDB, rglob
 from .languages import Languages
 from .debug import Debug
 
@@ -26,7 +26,7 @@ r'''
     ^                 # Start of the line
     (?P<keyword>.*?)  # Capture the first field: everything up to the first tab
     \t                # Field separator: a tab character
-    .*?               # Second field (uncaptured): everything up to the next tab
+    (?P<filename>.*?) # Second field (filename): everything up to the next tab
     \t                # Field separator: a tab character
     (?P<search>.*?)   # Any character at all, but as few as necessary (i.e. catch everything up to the ;")
     ;"                # The end of the search specifier (see http://ctags.sourceforge.net/FORMAT)
@@ -35,19 +35,41 @@ r'''
                       # Also catch the tab character from the previous line as there MUST be a tab before the field
     (kind:)?          # This is the "kind" field; "kind:" is optional
     (?P<kind>\w)      # The kind is a single character: catch it
-    (\t|$)            # It must be followed either by a tab or by the end of the line
-    .*                # If it is followed by a tab, soak up the rest of the line; replace with the syntax keyword line
+    (?=\t|$)          # It must be followed either by a tab or by the end of the line (but don't include that in the match)
+    (?P<other>        # Catch anything in between the kind and the scope indicator
+        \t            # Each block is a tab, followed by
+        (?!file:)     # NOT file: (as this is the scope indicator)
+        [^\t]+        # One or more non-tab characters
+    )*                # This block can repeat
+    (?P<scope>        # Look for a file-scope indicator
+        \t            # Preceded by a tab character
+        file:         # This is the file-scope indicator
+        (?=\t|$)      # Must be followed by a tab character or the end of line (but don't include it in the match)
+    )?                # The file-scope identifier is optional
+    .*                # Soak up the rest of the line
 ''', re.VERBOSE)
+
 field_const = re.compile(r'\bconst\b')
 
 def GenerateTags(options):
     Debug("Generating Tags", "Information")
 
-    args = GetCommandArgs(options)
+    # Change the working directory to the source root
+    # now so that argument globs work correctly.
+    os.chdir(options['SourceDir'])
 
-    os.chdir(options['source_root'])
+    if 'CtagsArguments' in options['ManuallySetOptions']:
+        args = options['CtagsArguments']
+    else:
+        if 'CtagsVariant' in options['ManuallySetOptions']:
+            variant = options['CtagsVariant']
+        else:
+            variant = 'exuberant'
+        args = ctags_variant_args[variant](options)
 
-    ctags_cmd = [options['ctags_exe_full']] + args
+    ctags_cmd = [options['CtagsExeFull']] + args
+
+    Debug("ctags command is " + repr(ctags_cmd), "Information")
 
     #subprocess.call(" ".join(ctags_cmd), shell = (os.name != 'nt'))
     # shell=True stops the command window popping up
@@ -61,14 +83,14 @@ def GenerateTags(options):
             )#, shell=True)
     (sout, serr) = process.communicate()
 
-    tagFile = open(os.path.join(options['ctags_file_dir'], options['ctags_file']), 'r')
+    tagFile = open(os.path.join(options['CtagsFileLocation'], options['TagFileName']), 'r')
     tagLines = [line.strip() for line in tagFile]
     tagFile.close()
 
     # Also sort the file a bit better (tag, then kind, then filename)
     tagLines.sort(key=ctags_key)
 
-    tagFile = open(os.path.join(options['ctags_file_dir'],options['ctags_file']), 'w')
+    tagFile = open(os.path.join(options['CtagsFileLocation'],options['TagFileName']), 'w')
     for line in tagLines:
         tagFile.write(line + "\n")
     tagFile.close()
@@ -78,11 +100,13 @@ def ParseTags(options):
 
     Each entry is a list of tags with all the required details.
     """
-    languages = options['language_handler']
+    languages = options['LanguageHandler']
     kind_list = languages.GetKindList()
 
     # Language: {Type: set([keyword, keyword, keyword])}
-    ctags_entries = DictDict()
+    ctags_entries = TagDB()
+    # Language: {File: {Type: set([keyword, keyword, keyword])}}
+    file_entries = FileTagDB()
 
     lineMatchers = {}
     for key in languages.GetAllLanguages():
@@ -91,7 +115,7 @@ def ParseTags(options):
                 languages.GetLanguageHandler(key)['PythonExtensionMatcher'] +
                 ')\t')
 
-    p = open(os.path.join(options['ctags_file_dir'],options['ctags_file']), 'r')
+    p = open(os.path.join(options['CtagsFileLocation'],options['TagFileName']), 'r')
     while 1:
         try:
             line = p.readline()
@@ -106,39 +130,61 @@ def ParseTags(options):
                 m = field_processor.match(line.strip())
                 if m is not None:
                     try:
+                        new_entry = None
                         short_kind = 'ctags_' + m.group('kind')
                         kind = kind_list[key][short_kind]
                         keyword = m.group('keyword')
-                        if options['parse_constants'] and \
+                        if options['ParseConstants'] and \
                                 (key == 'c') and \
                                 (kind == 'CTagsGlobalVariable'):
                             if field_const.search(m.group('search')) is not None:
                                 kind = 'CTagsConstant'
-                        if short_kind not in languages.GetLanguageHandler(key)['SkipList']:
-                            ctags_entries[key][kind].add(keyword)
+                        if key in options['LanguageTagTypes']:
+                            if m.group('kind') in options['LanguageTagTypes'][key]:
+                                new_entry = keyword
+                        elif m.group('kind') not in languages.GetLanguageHandler(key)['SkipList']:
+                            new_entry = keyword
+
+                        if new_entry is None:
+                            continue
+
+                        if m.group('scope') is None or options['IgnoreFileScope']:
+                            ctags_entries[key][kind].add(new_entry)
+                        else:
+                            if m.group('filename') not in file_entries:
+                                file_entries[m.group('filename')] = TagDB()
+                            file_entries[key][m.group('filename')][kind].add(new_entry)
+
                     except KeyError:
                         Debug("Unrecognised kind '{kind}' for language {language}".format(kind=m.group('kind'), language=key), "Error")
     p.close()
 
-    return ctags_entries
+    return ctags_entries, file_entries
 
-def GetCommandArgs(options):
+def ExuberantGetCommandArgs(options):
     args = []
 
-    ctags_languages = [l['CTagsName'] for l in options['language_handler'].GetAllLanguageHandlers()]
+    ctags_languages = [l['CTagsName'] for l in options['LanguageHandler'].GetAllLanguageHandlers()]
     if 'c' in ctags_languages:
         ctags_languages.append('c++')
     args += ["--languages=" + ",".join(ctags_languages)]
 
-    if options['ctags_file']:
-        args += ['-f', os.path.join(options['ctags_file_dir'], options['ctags_file'])]
+    # Vim assumes that tags are relative to the tag file location,
+    # so make sure they are!
+    if options['TagRelative']:
+        args += ['--tag-relative=yes']
+    else:
+        args += ['--tag-relative=no']
 
-    if not options['include_docs']:
+    if options['TagFileName']:
+        args += ['-f', os.path.join(options['CtagsFileLocation'], options['TagFileName'])]
+
+    if not options['IncludeDocs']:
         args += ["--exclude=docs", "--exclude=Documentation"]
 
-    if options['include_locals']:
+    if options['IncludeLocals']:
         Debug("Including local variables in tag generation", "Information")
-        kinds = options['language_handler'].GetKindList()
+        kinds = options['LanguageHandler'].GetKindList()
         def FindLocalVariableKinds(language_kinds):
             """Finds the key associated with a value in a dictionary.
 
@@ -154,16 +200,54 @@ def GetCommandArgs(options):
             else:
                 Debug("Skipping language: " + language, "Information")
 
-    # Must be last as it includes the file list:
-    if options['recurse']:
+    if options['Recurse']:
         args += ['--recurse']
+
+    args += ['--fields=+iaSszt']
+    args += ['--c-kinds=+p', '--c++-kinds=+p']
+    args += ['--extra=+q']
+
+    # If user specified extra arguments are required, add them
+    # immediately before the file list
+    if 'CtagsExtraArguments' in options:
+        args += options['CtagsExtraArguments']
+
+    # Must be last as it includes the file list:
+    if options['Recurse']:
         args += ['.']
     else:
-        args += glob.glob(os.path.join(options['source_root'],'*'))
+        args += glob.glob(os.path.join(options['SourceDir'],'*'))
 
     Debug("Command arguments: " + repr(args), "Information")
 
     return args
+
+def JSCtagsGetCommandArgs(options):
+    args = []
+    if options['TagFileName']:
+        args += ['-f', os.path.join(options['CtagsFileLocation'], options['TagFileName'])]
+
+    # If user specified extra arguments are required, add them
+    # immediately before the file list
+    if 'CtagsExtraArguments' in options:
+        args += options['CtagsExtraArguments']
+
+    # jsctags isn't very ctags-compatible: if you give it a directory
+    # and expect it to recurse, it fails on the first non-javascript
+    # file.  Therefore, we have to assume all javascript files have .js
+    # extensions and we have to find them ourselves.  This may well fail
+    # on Windows if there are a lot of them due to the limited command
+    # length on Windows.
+    if options['Recurse']:
+        args += rglob('.', '*.js')
+    else:
+        args += glob.glob('*.js')
+    return args
+
+ctags_variant_args = {
+        'exuberant': ExuberantGetCommandArgs,
+        'jsctags': JSCtagsGetCommandArgs,
+        }
 
 key_regexp = re.compile('^(?P<keyword>.*?)\t(?P<remainder>.*\t(?P<kind>[a-zA-Z])(?:\t|$).*)')
 

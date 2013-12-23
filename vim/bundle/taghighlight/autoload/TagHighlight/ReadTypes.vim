@@ -1,6 +1,6 @@
 " Tag Highlighter:
 "   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-" Copyright: Copyright (C) 2009-2011 A. S. Budden
+" Copyright: Copyright (C) 2009-2013 A. S. Budden
 "            Permission is hereby granted to use and distribute this code,
 "            with or without modifications, provided that this copyright
 "            notice is copied with it. Like anything else that's free,
@@ -12,7 +12,7 @@
 
 " ---------------------------------------------------------------------
 try
-	if &cp || (exists('g:loaded_TagHLReadTypes') && (g:plugin_development_mode != 1))
+	if &cp || v:version < 700 || (exists('g:loaded_TagHLReadTypes') && (g:plugin_development_mode != 1))
 		throw "Already loaded"
 	endif
 catch
@@ -23,6 +23,13 @@ let g:loaded_TagHLReadTypes = 1
 let s:all_ft_methods = ['Extension', 'Syntax', 'FileType']
 
 function! TagHighlight#ReadTypes#ReadTypesByOption()
+	let file = expand('<afile>')
+	if len(file) == 0
+		let file = expand('%')
+	endif
+	call TagHighlight#Projects#LoadProjectOptions(file)
+	call TagHighlight#Option#LoadOptionFileIfPresent()
+
 	let ft_methods = TagHighlight#Option#GetOption('LanguageDetectionMethods')
 	for method in ft_methods
 		if index(s:all_ft_methods, method) == -1
@@ -39,6 +46,7 @@ function! TagHighlight#ReadTypes#ReadTypesByOption()
 endfunction
 
 function! TagHighlight#ReadTypes#ReadTypesByExtension()
+	call TagHLDebug("Reading Types by Extension", "Information")
 	if ! s:MethodListed('Extension')
 		call TagHLDebug("Read Types by Extension not specified", "Information")
 		return 0
@@ -54,6 +62,7 @@ function! TagHighlight#ReadTypes#ReadTypesByExtension()
 endfunction
 
 function! TagHighlight#ReadTypes#ReadTypesBySyntax()
+	call TagHLDebug("Reading Types by Syntax", "Information")
 	if ! s:MethodListed('Syntax')
 		call TagHLDebug("Read Types by Syntax not specified", "Information")
 		return 0
@@ -69,6 +78,7 @@ function! TagHighlight#ReadTypes#ReadTypesBySyntax()
 endfunction
 
 function! TagHighlight#ReadTypes#ReadTypesByFileType()
+	call TagHLDebug("Reading Types by FileType", "Information")
 	if ! s:MethodListed('FileType')
 		call TagHLDebug("Read Types by FileType not specified", "Information")
 		return 0
@@ -108,10 +118,11 @@ endfunction
 
 function! s:ReadTypesImplementation(type, lookup, reference, check_function)
 	let result = 0
-	if TagHighlight#Debug#DebugLevelIncludes('Information')
-		call TagHLDebug("Reading types with " . a:lookup . " at " . strftime("%Y%m%d-%H%M%S"), "Information")
-	endif
 	let user_overrides = TagHighlight#Option#GetOption(a:type . 'LanguageOverrides')
+	if TagHighlight#Debug#DebugLevelIncludes('Information')
+		call TagHLDebug("Reading types with " . a:lookup . " with ref '" . a:reference . "' at " . strftime("%Y%m%d-%H%M%S"), "Information")
+		call TagHLDebug("User overrides: " . string(user_overrides), "Information")
+	endif
 	for dictionary in [user_overrides, g:TagHighlightPrivate[a:lookup]]
 		for key in keys(dictionary)
 			if eval(a:check_function . '(a:reference, key)') == 1
@@ -130,15 +141,18 @@ endfunction
 function! s:ReadTypes(suffix)
 	let savedView = winsaveview()
 
-	call TagHighlight#Option#LoadOptionFileIfPresent()
-
-	if len(a:suffix) == 0
-		return
-	endif
+	call TagHighlight#TagManager#InitialiseBufferTags()
 
 	let file = expand('<afile>')
 	if len(file) == 0
 		let file = expand('%')
+	endif
+
+	call TagHighlight#Projects#LoadProjectOptions(file)
+	call TagHighlight#Option#LoadOptionFileIfPresent()
+
+	if len(a:suffix) == 0
+		return
 	endif
 
 	call TagHLDebug("Reading types of suffix " . a:suffix . " for file " . file, "Information")
@@ -148,11 +162,13 @@ function! s:ReadTypes(suffix)
 		return
 	endif
 
-	let fullname = expand(file . ':p')
+	let fullname = fnamemodify(file, ':p')
 
 	let skiplist = TagHighlight#Option#GetOption('ParsingSkipList')
+	call TagHLDebug("Skip List is " . string(skiplist) . " (length " . len(skiplist) . ")", 'Information')
 	if len(skiplist) > 0
-		let basename = expand(file . ':p:t')
+		let basename = fnamemodify(file, ':p:t')
+		call TagHLDebug("Checking skip list against b(".basename.");f(".fullname.")", "Information")
 		if index(skiplist, basename) != -1
 			call TagHLDebug("Skipping file due to basename match", 'Status')
 			return
@@ -180,8 +196,22 @@ function! s:ReadTypes(suffix)
 	let b:TagHighlightLoadedLibraries = []
 	
 	let type_files = TagHighlight#ReadTypes#FindTypeFiles(a:suffix)
+	let source_dir = TagHighlight#Option#GetOption('SourceDir')
 	for fname in type_files
 		call TagHLDebug("Loading type highlighter file " . fname, 'Information')
+		let types_path = fnamemodify(fname, ':p:h')
+		let old_dir = getcwd()
+
+		if source_dir =~ "None"
+			exe 'cd' types_path
+		else
+			exe 'cd' source_dir
+		endif
+		let b:TagHighlightPrivate['NormalisedPath'] = substitute(
+					\ fnamemodify(fullname, ':.'),
+					\ '\\', '/', 'g')
+		exe 'cd' old_dir
+
 		exe 'so' fname
 		let b:TagHighlightLoadedLibraries +=
 					\ [{
@@ -207,6 +237,9 @@ function! s:ReadTypes(suffix)
 		let b:TagHighlightLoadedLibraries += [lib]
 	endfor
 
+	" Set up tags for all loaded libraries
+	call TagHighlight#TagManager#ConfigureTags()
+
 	" Handle any special cases
 	if has_key(g:TagHighlightPrivate['SpecialSyntaxHandlers'], a:suffix)
 		for handler in g:TagHighlightPrivate['SpecialSyntaxHandlers'][a:suffix]
@@ -222,6 +255,30 @@ function! s:ReadTypes(suffix)
 		exe 'call' postread_hook . '(fullname, a:suffix)'
 	endfor
 
+	if TagHighlight#Option#GetOption('SetWorkingDir') == 1
+		if source_dir =~ "None"
+			for entry in b:TagHighlightLoadedLibraries
+				if entry['Name'] == 'Local'
+					let lcdpath = fnamemodify(entry['Path'], ':h')
+					call TagHLDebug("Setting local working directory to " . lcdpath, "Information")
+					exe 'lcd' lcdpath
+					break
+				endif
+			endfor
+		else
+			exe 'lcd' source_dir
+		endif
+	endif
+
+	let reload_colours = TagHighlight#Option#GetOption('ReloadColourScheme')
+	if reload_colours
+		exe "colorscheme" g:colors_name
+	endif
+
+	if has_key(b:TagHighlightPrivate, 'NormalisedPath')
+		let b:TagHighlightPrivate['ReadTypesCompleted'] = 1
+	endif
+
 	" Restore the view
 	call winrestview(savedView)
 	call TagHLDebug("ReadTypes complete", "Information")
@@ -231,7 +288,11 @@ function! TagHighlight#ReadTypes#FindTypeFiles(suffix)
 	let results = []
 	let search_result = TagHighlight#Find#LocateFile('TYPES', a:suffix)
 	if search_result['Found'] == 1 && search_result['Exists'] == 1
-		let results += [search_result['FullPath']]
+		if tolower(a:suffix) == "all"
+			let results += search_result['AllEntries']
+		else
+			let results += [search_result['FullPath']]
+		endif
 	endif
 	return results
 endfunction

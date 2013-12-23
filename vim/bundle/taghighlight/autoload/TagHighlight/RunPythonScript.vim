@@ -1,6 +1,6 @@
 " Tag Highlighter:
 "   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-" Copyright: Copyright (C) 2009-2011 A. S. Budden
+" Copyright: Copyright (C) 2009-2013 A. S. Budden
 "            Permission is hereby granted to use and distribute this code,
 "            with or without modifications, provided that this copyright
 "            notice is copied with it. Like anything else that's free,
@@ -12,7 +12,7 @@
 
 " ---------------------------------------------------------------------
 try
-	if &cp || (exists('g:loaded_TagHLRunPythonScript') && (g:plugin_development_mode != 1))
+	if &cp || v:version < 700 || (exists('g:loaded_TagHLRunPythonScript') && (g:plugin_development_mode != 1))
 		throw "Already loaded"
 	endif
 catch
@@ -72,6 +72,56 @@ function! s:RunShellCommand(args)
 	return result
 endfunction
 
+function! s:GetVarType(value)
+	if type(a:value) == type(0)
+		return "int"
+	elseif type(a:value) == type("")
+		return "string"
+	elseif type(a:value) == type([])
+		return "list"
+	elseif type(a:value) == type({})
+		return "dict"
+	elseif type(a:value) == type(function("tr"))
+		return "function"
+	elseif type(a:value) == type(0.0)
+		return "float"
+	endif
+endfunction
+
+function! s:SetPyVariable(PY, pyoption, type, value)
+	let handled_option = 0
+	if a:type == 'bool'
+		let handled_option = 1
+		if (a:value == 1) || (a:value == 'True')
+			exe a:PY a:pyoption '= True'
+		else
+			exe a:PY a:pyoption '= False'
+		endif
+	elseif a:type == 'string'
+		let handled_option = 1
+		exe a:PY a:pyoption '= r"""'.a:value.'"""'
+	elseif a:type == 'int'
+		let handled_option = 1
+		exe a:PY a:pyoption '= ' . a:value
+	elseif a:type == 'list'
+		let handled_option = 1
+		exe a:PY a:pyoption '= []'
+		for entry in a:value
+			exe a:PY a:pyoption '+= [r"""' . entry . '"""]'
+		endfor
+	elseif a:type == 'dict'
+		let handled_option = 1
+		exe a:PY a:pyoption '= {}'
+		for key in keys(a:value)
+			call s:SetPyVariable(a:PY,
+						\ a:pyoption.'[r"""'.key.'"""]',
+						\ s:GetVarType(a:value[key]),
+						\ a:value[key])
+		endfor
+	endif
+	return handled_option
+endfunction
+
 function! TagHighlight#RunPythonScript#RunGenerator(options)
 	" Will only actually load the options once
 	call TagHighlight#Option#LoadOptions()
@@ -91,49 +141,33 @@ function! TagHighlight#RunPythonScript#RunGenerator(options)
 		let handled_options = []
 		" We're using the custom interpreter: create an options object
 		" All options supported by both Vim and the Python script must
-		" have VimOptionMap and CommandLineSwitches keys
+		" have CommandLineSwitches key and not have PythonOnly set to True
 		for option in g:TagHighlightPrivate['PluginOptions']
-			if has_key(option, 'VimOptionMap') && 
-						\ has_key(option, 'CommandLineSwitches') &&
-						\ has_key(a:options, option['VimOptionMap'])
+			if has_key(option, 'CommandLineSwitches') &&
+						\ has_key(a:options, option['Destination'])
 				" We can handle this one automatically
 				let pyoption = 'options["'.option['Destination'].'"]'
-				if option['Type'] == 'bool'
-					let handled_options += [option['VimOptionMap']]
-					let value = a:options[option['VimOptionMap']]
-					if (value == 1) || (value == 'True')
-						exe PY pyoption '= True'
-					else
-						exe PY pyoption '= False'
-					endif
-				elseif option['Type'] == 'string'
-					let handled_options += [option['VimOptionMap']]
-					exe PY pyoption '= r"""'.a:options[option['VimOptionMap']].'"""'
-				elseif option['Type'] == 'int'
-					let handled_options += [option['VimOptionMap']]
-					exe PY pyoption '= ' . a:options[option['VimOptionMap']]
-				elseif option['Type'] == 'list'
-					let handled_options += [option['VimOptionMap']]
-					exe PY pyoption '= []'
-					for entry in a:options[option['VimOptionMap']]
-						exe PY pyoption '+= [r"""' . entry . '"""]'
-					endfor
+				let result = s:SetPyVariable(PY, pyoption,
+							\ option['Type'],
+							\ a:options[option['Destination']])
+				if result != 0
+					let handled_options += [option['Destination']]
 				endif
 			endif
 		endfor
+		exe PY 'manually_set = ' string(handled_options)
 		for check_opt in keys(a:options)
 			if index(handled_options, check_opt) == -1
 				call TagHLDebug("Unhandled run option: " . check_opt, "Information")
 			endif
 		endfor
-		exe PY 'RunWithOptions(options)'
+		exe PY 'RunWithOptions(options, manually_set)'
 	elseif index(["python","compiled"], s:python_variant) != -1
 		let args = s:python_cmd[:]
 		" We're calling the script externally, build a list of arguments
 		for option in g:TagHighlightPrivate['PluginOptions']
-			if has_key(option, 'VimOptionMap') && 
-						\ has_key(option, 'CommandLineSwitches') &&
-						\ has_key(a:options, option['VimOptionMap'])
+			if has_key(option, 'CommandLineSwitches') &&
+						\ has_key(a:options, option['Destination'])
 				if type(option['CommandLineSwitches']) == type([])
 					let switch = option['CommandLineSwitches'][0]
 				else
@@ -144,11 +178,11 @@ function! TagHighlight#RunPythonScript#RunGenerator(options)
 				elseif switch[:0] == "-"
 					let as_one = 0
 				else
-					call TagHLDebug("Invalid configuration for option " . option['VimOptionMap'], "Error")
+					call TagHLDebug("Invalid configuration for option " . option['Destination'], "Error")
 				endif
 				" We can handle this one automatically
 				if option['Type'] == 'bool'
-					if (a:options[option['VimOptionMap']] == 1) || (a:options[option['VimOptionMap']] == 'True')
+					if (a:options[option['Destination']] == 1) || (a:options[option['Destination']] == 'True')
 						let bvalue = 1
 					else
 						let bvalue = 0
@@ -159,24 +193,29 @@ function! TagHighlight#RunPythonScript#RunGenerator(options)
 					endif
 				elseif option['Type'] == 'string'
 					if as_one == 1
-						let args += [switch . '=' . a:options[option['VimOptionMap']]]
+						let args += [switch . '=' . a:options[option['Destination']]]
 					else
-						let args += [switch, a:options[option['VimOptionMap']]]
+						let args += [switch, a:options[option['Destination']]]
 					endif
 				elseif option['Type'] == 'int'
 					if as_one == 1
-						let args += [switch . '=' . a:options[option['VimOptionMap']]]
+						let args += [switch . '=' . a:options[option['Destination']]]
 					else
-						let args += [switch, a:options[option['VimOptionMap']]]
+						let args += [switch, a:options[option['Destination']]]
 					endif
 				elseif option['Type'] == 'list'
-					for entry in a:options[option['VimOptionMap']]
+					for entry in a:options[option['Destination']]
 						if as_one == 1
 							let args += [switch . '=' . entry]
 						else
 							let args += [switch, entry]
 						endif
 					endfor
+				elseif option['Type'] == 'dict'
+					" Not sure how robust this is likely to be...
+					" or for that matter how likely it is that the result
+					" will be the same as the if_pyth version...
+					let args += [switch, string(a:options[option['Destination']])]
 				endif
 			endif
 		endfor
@@ -194,7 +233,7 @@ function! TagHighlight#RunPythonScript#FindExeInPath(file)
 		endif
 	endif
 	let short_file = fnamemodify(full_file, ':p:t')
-	let file_exe_list = split(globpath(s:GetPath(), short_file), '\n')
+	let file_exe_list = split(globpath(s:GetPath(), short_file, 1), '\n')
 	
 	if len(file_exe_list) > 0 && executable(file_exe_list[0])
 		let file_exe = file_exe_list[0]
@@ -323,7 +362,7 @@ function! TagHighlight#RunPythonScript#FindPython()
 					" See if there's a compiled executable version of the
 					" highlighter
 					if has("win32")
-						let compiled_highlighter = split(globpath(&rtp, "plugin/TagHighlight/Compiled/Win32/TagHighlight.exe"), "\n")
+						let compiled_highlighter = split(globpath(&rtp, "plugin/TagHighlight/Compiled/Win32/TagHighlight.exe", 1), "\n")
 						if len(compiled_highlighter) > 0  && executable(compiled_highlighter[0])
 							let s:python_variant = 'compiled'
 							let s:python_version = 'Compiled Highlighter'

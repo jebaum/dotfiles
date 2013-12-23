@@ -1,6 +1,6 @@
 " Tag Highlighter:
 "   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-" Copyright: Copyright (C) 2009-2011 A. S. Budden
+" Copyright: Copyright (C) 2009-2013 A. S. Budden
 "            Permission is hereby granted to use and distribute this code,
 "            with or without modifications, provided that this copyright
 "            notice is copied with it. Like anything else that's free,
@@ -12,7 +12,7 @@
 
 " ---------------------------------------------------------------------
 try
-	if &cp || (exists('g:loaded_TagHLGeneration') && (g:plugin_development_mode != 1))
+	if &cp || v:version < 700 || (exists('g:loaded_TagHLGeneration') && (g:plugin_development_mode != 1))
 		throw "Already loaded"
 	endif
 catch
@@ -20,7 +20,7 @@ catch
 endtry
 let g:loaded_TagHLGeneration = 1
 
-function! TagHighlight#Generation#UpdateTypesFile()
+function! s:UpdateTypesFile()
 	" Load the version information if we haven't already
 	call TagHighlight#Version#LoadVersionInfo()
 
@@ -47,13 +47,6 @@ function! TagHighlight#Generation#UpdateTypesFile()
 		call TagHLDebug("Project config file does not exist", "Information")
 	endif
 	
-	" Call any PreUpdate hooks
-	let preupdate_hooks = TagHighlight#Option#GetOption('PreUpdateHooks')
-	for preupdate_hook in preupdate_hooks
-		call TagHLDebug("Calling pre-update hook " . preupdate_hook, "Information")
-		exe 'call' preupdate_hook . '()'
-	endfor
-	
 	" Most simple options are automatic.  The options below are
 	" handled manually.
 	
@@ -73,6 +66,10 @@ function! TagHighlight#Generation#UpdateTypesFile()
 		" in the path
 		call TagHLDebug("CtagsExecutable set without path delimiter, searching in path", "Information")
 		let b:TagHighlightSettings['CtagsExeFull'] = TagHighlight#RunPythonScript#FindExeInPath(ctags_option)
+	endif
+	
+	if TagHighlight#Option#GetOption('EnableCscope')
+		call TagHighlight#Cscope#FindCscopeExe()
 	endif
 
 	let tag_file_info = TagHighlight#Find#LocateFile('TAGS', '')
@@ -116,17 +113,68 @@ function! TagHighlight#Generation#UpdateTypesFile()
 	else
 		call TagHLDebug("Source dir set explicitly to " . TagHighlight#Option#GetOption("SourceDir"), "Information")
 	endif
+
+	" If a types file does not exist and this option is set, just quit now
+	if TagHighlight#Option#GetOption('OnlyGenerateTypesIfPresent') == 1
+		if types_file_info['Exists'] == 0
+			call TagHLDebug("Types file does not exist, not generating new files", "Information")
+			return
+		endif
+	endif
+
+	if tag_file_info['Exists'] == 1
+		if TagHighlight#Option#GetOption('DoNotGenerateTagsIfPresent') == 1
+			" This will be unset in UpdateAndRead
+			call TagHLDebug("Tag file doesn't exist and DoNotGenerateTagsIfPresent set, not generating new tag file", "Information")
+			let b:TagHighlightSettings['DoNotGenerateTags'] = 1
+		endif
+	elseif TagHighlight#Option#GetOption('DoNotGenerateTags') == 1
+		echoerr "Cannot create types file without generating tags: tags file does not exist"
+		return
+	endif
+
+	" Call any PreUpdate hooks
+	let preupdate_hooks = TagHighlight#Option#GetOption('PreUpdateHooks')
+	for preupdate_hook in preupdate_hooks
+		call TagHLDebug("Calling pre-update hook " . preupdate_hook, "Information")
+		exe 'call' preupdate_hook . '()'
+	endfor
 	
+	if TagHighlight#Option#GetOption('EnableCscope')
+		call TagHighlight#Cscope#PauseCscope()
+		if ! has_key(b:TagHighlightPrivate, 'CscopeFileInfo')
+			let b:TagHighlightPrivate['CscopeFileInfo'] = TagHighlight#Find#LocateFile('CSCOPE', '')
+		endif
+		if b:TagHighlightPrivate['CscopeFileInfo']['Found'] == 1
+			let b:TagHighlightSettings['CscopeFileLocation'] = b:TagHighlightPrivate['CscopeFileInfo']['Directory']
+		endif
+	endif
+
+
+	let RunOptions = TagHighlight#Option#CopyOptions()
+	let RunOptions['TagRelative'] = &tagrelative
+	if TagHighlight#Option#GetOption('EnableCscope')
+		if TagHighlight#Option#GetOption('CscopeOnlyIfPresent')
+			if ! b:TagHighlightPrivate['CscopeFileInfo']['Exists']
+				let RunOptions['EnableCscope'] = 1
+			endif
+		endif
+	endif
+
 	call TagHLDebug("Running generator with options:", "Information")
-	for var in ["g:TagHighlightSettings","b:TagHighlightConfigFileOptions","b:TagHighlightSettings"]
+	for var in ["g:TagHighlightSettings","b:TagHighlightConfigFileOptions","b:TagHighlightSettings", "RunOptions"]
 		if exists(var)
 			call TagHLDebug(" - " . var . ": " . string(eval(var)), "Information")
 		else
 			call TagHLDebug(" - " . var . ": UNSET", "Information")
 		endif
 	endfor
-	let RunOptions = TagHighlight#Option#CopyOptions()
+
 	call TagHighlight#RunPythonScript#RunGenerator(RunOptions)
+
+	if TagHighlight#Option#GetOption('EnableCscope')
+		call TagHighlight#Cscope#ResumeCscope()
+	endif
 
 	let postupdate_hooks = TagHighlight#Option#GetOption('PostUpdateHooks')
 	for postupdate_hook in postupdate_hooks
@@ -153,7 +201,7 @@ function! TagHighlight#Generation#UpdateAndRead(skiptags)
 		let b:TagHighlightSettings['DoNotGenerateTags'] = 1
 	endif
 	
-	call TagHighlight#Generation#UpdateTypesFile()
+	call s:UpdateTypesFile()
 	let SavedTabNr = tabpagenr()
 	let SavedWinNr = winnr()
 	tabdo windo call TagHighlight#ReadTypes#ReadTypesByOption()

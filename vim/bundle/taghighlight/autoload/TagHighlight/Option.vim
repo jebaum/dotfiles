@@ -1,6 +1,6 @@
 " Tag Highlighter:
 "   Author:  A. S. Budden <abudden _at_ gmail _dot_ com>
-" Copyright: Copyright (C) 2009-2011 A. S. Budden
+" Copyright: Copyright (C) 2009-2013 A. S. Budden
 "            Permission is hereby granted to use and distribute this code,
 "            with or without modifications, provided that this copyright
 "            notice is copied with it. Like anything else that's free,
@@ -12,7 +12,7 @@
 
 " ---------------------------------------------------------------------
 try
-	if &cp || (exists('g:loaded_TagHLOption') && (g:plugin_development_mode != 1))
+	if &cp || v:version < 700 || (exists('g:loaded_TagHLOption') && (g:plugin_development_mode != 1))
 		throw "Already loaded"
 	endif
 catch
@@ -28,6 +28,7 @@ function! TagHighlight#Option#LoadOptionFileIfPresent()
 
 	" Check whether we've found the option file
 	if ! option_file['Exists']
+		call TagHLDebug("No project config file", "Information")
 		return
 	endif
 
@@ -43,38 +44,54 @@ function! TagHighlight#Option#LoadOptions()
 	endif
 
 	let g:TagHighlightPrivate['PluginOptions'] = []
+	let g:TagHighlightPrivate['FullOptionList'] = []
 	let options = TagHighlight#LoadDataFile#LoadDataFile('options.txt')
 
 	for option_dest in keys(options)
-		if has_key(options[option_dest], 'VimOptionMap')
+		if has_key(options[option_dest], 'PythonOnly')
+			if (options[option_dest]['PythonOnly'] == 'True') || (options[option_dest]['PythonOnly'] == 1)
+				" Skip this one
+				continue
+			endif
+		else
 			let option = deepcopy(options[option_dest])
 			let option['Destination'] = option_dest
 			let g:TagHighlightPrivate['PluginOptions'] += [option]
+			let g:TagHighlightPrivate['FullOptionList'] += [option_dest]
 		endif
 	endfor
+
 endfunction
 
-function! TagHighlight#Option#GetOption(name)
+function! TagHighlight#Option#GetOption(name, ...)
 	" Check we've loaded the options
 	call TagHighlight#Option#LoadOptions()
 
-	" Check this option exists
-	let found = 0
-	for option in g:TagHighlightPrivate['PluginOptions']
-		if option['VimOptionMap'] == a:name
-			let found = 1
-			break
-		endif
-	endfor
-	if ! found
-		throw "Unrecognised option:" .a:name
+	" Optional arguments
+	if len(a:000) > 0
+		let force_project = a:000[0]
+	else
+		let force_project = ''
 	endif
 
+	" Check this option exists
+	let opt_index = index(g:TagHighlightPrivate['FullOptionList'], a:name)
+	if opt_index < 0
+		throw "Unrecognised option:" .a:name
+	endif
+	let option = g:TagHighlightPrivate['PluginOptions'][opt_index]
+
 	" Option priority (highest first):
+	" * project options (if force_project specified)
 	" * buffer dictionary,
 	" * config file dictionary
 	" * global dictionary,
-	for var in ["g:TagHighlightSettings","b:TagHighlightConfigFileOptions","b:TagHighlightSettings"]
+	let option_priority = ["g:TagHighlightSettings","b:TagHighlightConfigFileOptions","b:TagHighlightSettings"]
+	if len(force_project) > 0
+		let project_options = TagHighlight#Projects#GetProject(force_project)
+		let option_priority = ["project_options"] + option_priority
+	endif
+	for var in option_priority
 		if exists(var)
 			exe 'let present = has_key(' . var . ', a:name)'
 			if present
