@@ -615,8 +615,10 @@ function! s:unite_my_settings()
 endfunction
 " }}}
 " vimfiler {{{
-let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_as_default_explorer  = 1
 let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_ignore_pattern       = '\.o\|^\.'  " ignore object files and dotfiles
+let g:vimfiler_explorer_columns     = ""
 augroup vimfiler
   autocmd FileType vimfiler call s:vimfiler_my_settings()
 augroup END
@@ -1078,7 +1080,7 @@ nnoremap <Space>-       :Tabularize /-<CR>
 vnoremap <Space>-       :Tabularize /-<CR>
 " }}}
 " ctrl normal mode {{{
-nnoremap <C-w><C-b> :VimFilerExplorer -simple<CR>:redraw!<CR>
+nnoremap <C-w><C-b> :VimFilerExplorer<CR>:redraw!<CR>
 nnoremap <C-b>      :VimFiler<CR>:redraw!<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\V
 nnoremap <C-h>      :TagbarOpen fjc<CR>
