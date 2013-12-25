@@ -317,7 +317,7 @@ endfunction
 
 augroup FugitiveCMDs
   autocmd!
-  autocmd FileType gitcommit autocmd FugitiveCMDs CursorMoved <buffer>
+  autocmd FileType gitcommit,git autocmd FugitiveCMDs CursorMoved <buffer>
         \ call FugitiveUnmap('i') | autocmd! FugitiveCMDs * <buffer>
 augroup END
 " }}}
@@ -1042,12 +1042,15 @@ nnoremap <Space>d   :<C-u>Unite -start-insert -buffer-name=tabs       tab:no-cur
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
 nnoremap <Space>g   :<C-u>Unite -start-insert -buffer-name=grep       grep:.<CR>
 nnoremap <Space>h   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
-nnoremap <Space>i   :Copen<CR>:cclose<CR>:<C-u>Unite -start-insert -buffer-name=quickfix   qf<CR>
-nnoremap <Space>j   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
-nnoremap <Space>l   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
+nnoremap <Space>i   <C-w><Up>
+nnoremap <Space>j   <C-w><Left>
+nnoremap <Space>k   <C-w><Down>
+nnoremap <Space>l   <C-w><Right>
+nnoremap <Space>n   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
+nnoremap <Space>s   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
 "        <Space>u*  VimGrep maps, defined below
 nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-current<CR>
@@ -1075,13 +1078,10 @@ nnoremap <Space>-       :Tabularize /-<CR>
 vnoremap <Space>-       :Tabularize /-<CR>
 " }}}
 " ctrl normal mode {{{
-nnoremap <C-b>      :VimFilerExplorer<CR>:redraw!<CR>
+nnoremap <C-w><C-b> :VimFilerExplorer -simple<CR>:redraw!<CR>
+nnoremap <C-b>      :VimFiler<CR>:redraw!<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\V
 nnoremap <C-h>      :TagbarOpen fjc<CR>
-nnoremap <C-w>i     <C-w><Up>
-nnoremap <C-j>      <C-w><Left>
-nnoremap <C-k>      <C-w><Down>
-nnoremap <C-l>      <C-w><Right>
 nnoremap <C-n>      gt
 nnoremap <C-p>      gT
 nnoremap <C-w>o     <C-w>o:redraw!<CR>
