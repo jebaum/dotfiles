@@ -52,6 +52,10 @@ if !exists("Cscope_OpenQuickfixWindow")
   let Cscope_OpenQuickfixWindow = 1
 endif
 
+if !exists("Cscope_FocusQuickfixWindow")
+  let Cscope_FocusQuickfixWindow = 0
+endif
+
 if !exists("Cscope_JumpError")
   let Cscope_JumpError = 0
 endif
@@ -72,6 +76,9 @@ function! s:RunCscope(...)
   let cscope_opt = a:1
   let pattern = a:2
   let openwin = g:Cscope_OpenQuickfixWindow
+  let focuswin= g:Cscope_FocusQuickfixWindow
+  let l = line(".")
+  let c = col(".")
   let jumperr =  g:Cscope_JumpError
   if cscope_opt == '0' || cscope_opt == 's'
     let cmd = "cscope -L -0 " . pattern
@@ -139,8 +146,16 @@ function! s:RunCscope(...)
   let &efm = old_efm
 
   " Open the cscope output window
+  if focuswin == 1
+    call cursor(l, c)
+  endif
+
   if openwin == 1
     botright copen
+    if focuswin == 0
+      execute "normal! \<C-w>p"
+      call cursor(l, c)
+    endif
   endif
 
   " Jump to the first error
