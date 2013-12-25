@@ -127,3 +127,6 @@
 [submodule "vim/bundle/vim-obsession"]
 	path = vim/bundle/vim-obsession
 	url = https://github.com/tpope/vim-obsession.git
+[submodule "vim/bundle/vimfiler.vim"]
+	path = vim/bundle/vimfiler.vim
+	url = https://github.com/Shougo/vimfiler.vim.git
