@@ -130,3 +130,6 @@
 [submodule "vim/bundle/vimfiler.vim"]
 	path = vim/bundle/vimfiler.vim
 	url = https://github.com/Shougo/vimfiler.vim.git
+[submodule "vim/bundle/vinarise.vim"]
+	path = vim/bundle/vinarise.vim
+	url = https://github.com/Shougo/vinarise.vim.git
