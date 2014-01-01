@@ -2,6 +2,7 @@
 set $mpdhost 192.168.1.100
 set $mod Mod4
 set $alt Mod1
+set $barfont font pango:Times New Roman 5
 floating_modifier $mod
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
@@ -10,7 +11,7 @@ new_window normal
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
-font pango:DejaVu Sans Mono 9
+font pango:DejaVu Sans Mono 5
 
 # MISC SETTINGS
 focus_follows_mouse no
@@ -313,10 +314,9 @@ bar {
   mode dock
   position top
   workspace_buttons yes
-  font pango:Times New Roman 9
+  $barfont
   status_command ~/.i3/conky/wide
   tray_output HDMI-0
-
   colors {
     $background
     $statusline
@@ -333,7 +333,7 @@ bar {
   mode dock
   position top
   workspace_buttons yes
-  font pango:Times New Roman 9
+  $barfont
   status_command ~/.i3/conky/narrow1
   tray_output none
   colors {
@@ -352,7 +352,7 @@ bar {
   mode dock
   position top
   workspace_buttons yes
-  font pango:Times New Roman 9
+  $barfont
   status_command ~/.i3/conky/narrow2
   tray_output none
   colors {
@@ -371,7 +371,7 @@ bar {
   mode dock
   position top
   workspace_buttons yes
-  font pango:Times New Roman 9
+  $barfont
   status_command ~/.i3/conky/narrow3
   tray_output none
   colors {
