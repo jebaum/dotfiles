@@ -19,4 +19,7 @@ config/gtk-youtube-viewer/*.??t
 vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc++/libc++_tags
 vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc++/tmp.h
 vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc_posix/libc_posix_tags
+packages/i3/*
+!packages/i3/PKGBUILD
+!packages/i3/smart-border.patch
 .tags
