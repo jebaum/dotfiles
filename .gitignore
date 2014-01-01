@@ -22,4 +22,6 @@ vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc_posix/libc_p
 packages/i3/*
 !packages/i3/PKGBUILD
 !packages/i3/smart-border.patch
+packages/dwb/*
+!packages/dwb/PKGBUILD
 .tags
