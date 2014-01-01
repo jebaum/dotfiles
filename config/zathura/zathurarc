@@ -1,0 +1,8 @@
+map i scroll up
+map j scroll left
+map k scroll down
+map l scroll right
+map I navigate previous
+map K navigate next
+
+map h focus_inputbar
