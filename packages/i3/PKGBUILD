@@ -37,8 +37,8 @@ prepare() {
 
 build() {
   cd "$_gitname"
-  make
-  make -C man
+  make -j4
+  make -C man -j4
 }
 
 package() {
