@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# http://addamhardy.com/blog/2013/06/05/good-commit-messages-and-enforcing-them-with-git-hooks/
+
+# exec < /dev/tty
+# .git/hooks/validate-commit.py $1
