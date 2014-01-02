@@ -3,7 +3,7 @@
 
 pkgname=dwb-james
 _gitname=dwb
-pkgver=2014.01.01.gc34051b
+pkgver=2014.01.01.ga14d2dc
 pkgrel=1
 pkgdesc="A webkit web browser with vi-like keyboard shortcuts, latest git-pull" 
 url="http://portix.bitbucket.org/dwb-git"

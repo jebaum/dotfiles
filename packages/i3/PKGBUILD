@@ -1,8 +1,9 @@
 # Maintainer: jebaum <jebaum at ucla dot edu>
-pkgname=i3-james
+
+pkgname=i3-smart-border
 pkgver=4.7.52.g3ebc665
 pkgrel=1
-pkgdesc="i3 window manager with my patches in it"
+pkgdesc="i3 window manager with smart-border patch applied"
 arch=('i686' 'x86_64')
 url="http://i3wm.org"
 license=('BSD')
@@ -11,7 +12,7 @@ conflicts=('i3-wm' 'i3bar' 'i3bar-git')
 groups=('i3-vcs')
 depends=('xcb-util-keysyms' 'xcb-util-wm' 'libev' 'yajl'
          'startup-notification' 'pango' 'perl' 'xcb-util-cursor')
-makedepends=('git' 'pkgconfig')
+makedepends=('git' 'asciidoc' 'docbook-xsl' 'pkgconfig')
 optdepends=('rxvt-unicode: The terminal emulator used in the default config.'
             'dmenu: As menu.'
             'i3lock: For locking your screen.'
@@ -19,8 +20,8 @@ optdepends=('rxvt-unicode: The terminal emulator used in the default config.'
             'perl-json-xs: For i3-save-tree'
             'perl-anyevent-i3: For i3-save-tree')
 options=('docs' '!strip')
-source=('git://code.i3wm.org/i3#branch=master')
-sha1sums=('SKIP')
+source=('git://code.i3wm.org/i3#branch=master' 'smart-border.patch')
+sha1sums=('SKIP' '2030beec27b57c765daf7a1908bd3a28368c7b27')
 
 _gitname='i3'
 
@@ -31,7 +32,7 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/$_gitname"
-  git apply "/home/james/dotfiles/packages/i3/smart-border.patch"
+  git apply "../smart-border.patch"
 }
 
 
@@ -76,5 +77,3 @@ package() {
 
   make clean
 }
-
-
