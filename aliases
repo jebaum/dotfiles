@@ -57,6 +57,10 @@ alias yt='youtube-viewer'
 fkill() { ps -ef | sed 1d | fzf | awk '{print $2}' | xargs kill -${1:-9} }
 fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
 
+function connect() {
+  sudo iwconfig wls3 essid "$1"
+}
+
 function findbugs(){
   if [[ $# == 0 ]]; then
     echo "Please supply a .class file as an argument"

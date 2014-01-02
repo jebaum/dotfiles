@@ -1,5 +1,5 @@
-" vim: foldmethod=marker foldlevel=1 textwidth=0
-" Colorscheme and Pathogen {{{
+" Initial setup {{{
+" Colorscheme and font {{{
 colorscheme guimiromod
 runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
@@ -14,7 +14,7 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim' " Let NeoBundle manage NeoBundle
 
-NeoBundle 'Shougo/vimproc', {
+NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'make -f make_mingw32.mak',
 \     'cygwin' : 'make -f make_cygwin.mak',
@@ -64,8 +64,8 @@ NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'xolox/vim-misc'
 
-
 NeoBundleCheck
+" }}}
 " }}}
 " Misc {{{
 " Mail / Mutt {{{
@@ -1195,3 +1195,4 @@ exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " slash leader maps (CURRENTLY NOT USING){{{
 " }}}
 " }}}
+" vim: foldmethod=marker foldlevel=1 textwidth=0
