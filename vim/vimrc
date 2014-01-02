@@ -1,9 +1,7 @@
 " Initial setup {{{
-" Colorscheme and font {{{
 colorscheme guimiromod
 runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
-" }}}
 " NeoBundle {{{
 if has('vim_starting')
   set nocompatible               " Be iMproved
@@ -28,7 +26,6 @@ NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'kshenoy/vim-signature'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
@@ -475,13 +472,6 @@ let g:niji_dark_colours = [
 " }}}
 " paredit {{{
 let g:paredit_leader = '\'
-" }}}
-" showmarks {{{
-let g:showmarks_enable       = 0
-let g:showmarks_include      = "abcdefghijklmnopqrstuvwxyz"
-let g:showmarks_textlower    = ">"
-let g:showmarks_ignore_type  = "h"
-let g:showmarks_hlline_lower = 1  " hilight lines with lowercase marks
 " }}}
 " simplyfold {{{
 let g:SimplyFold_docstring_preview = 0
@@ -1063,7 +1053,7 @@ vnoremap <leader>e  :QuickRun -mode v<CR>
 nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "        <leader>g  fugitive and signify mappings
 nnoremap <leader>l  :ls<CR>:b
-"        <leader>m  various showmarks mappings
+"        <leader>m  make mappings
 nnoremap <leader>p  :set list!<CR>
 nnoremap <leader>q  :q <Bar> redraw!<CR>
 nnoremap <leader>r  :redraw!<CR>
@@ -1092,6 +1082,14 @@ nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 
+" Make
+nnoremap <leader>ma  :Make! -j<CR>
+nnoremap <leader>mc  :Make! clean<CR>
+nnoremap <leader>mf  :Make! -j <C-r>=expand('%:r')<CR><CR>
+nnoremap <leader>ml  :call ToggleLocationList()<CR>
+nnoremap <leader>mr  :Dispatch!<CR>
+nnoremap <leader>mq  :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
+
 " Under cursor or visual selection, search Buffer or Arglist
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'), "%", " <BAR> cw")<CR>
@@ -1102,7 +1100,7 @@ nnoremap <leader># :<C-U>call VimGrep(substitute(escape(expand("<cword>")
 vnoremap <leader># :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"), "##", " <BAR> cw")<CR>
 " }}}
-" space leader maps. unite + tabularize + make {{{
+" space leader maps. unite + tabularize {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
 nnoremap <Space>c   :<C-u>Unite -start-insert -buffer-name=registers  register<CR>
@@ -1126,14 +1124,6 @@ nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/ya
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
 nnoremap <Space><CR>      :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
-
-" Make
-nnoremap <Space>ma  :Make! -j<CR>
-nnoremap <Space>mc  :Make! clean<CR>
-nnoremap <Space>mf  :Make! -j <C-r>=expand('%:r')<CR><CR>
-nnoremap <Space>ml  :call ToggleLocationList()<CR>
-nnoremap <Space>mr  :Dispatch!<CR>
-nnoremap <Space>mq  :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
