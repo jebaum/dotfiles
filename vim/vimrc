@@ -3,23 +3,20 @@ colorscheme guimiromod
 runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
 " NeoBundle {{{
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+let s:neobundle_dir=expand('~/.vim/bundle/neobundle.vim')
+if !isdirectory(s:neobundle_dir)
+  execute 'silent !git clone https://github.com/Shougo/neobundle.vim.git ' . s:neobundle_dir
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+if has('vim_starting')
+  set nocompatible
+  execute 'set runtimepath^=' . s:neobundle_dir
+endif
 
-NeoBundleFetch 'Shougo/neobundle.vim' " Let NeoBundle manage NeoBundle
+call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
 
-NeoBundle 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'make -f make_mingw32.mak',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'unix' : 'make -f make_unix.mak',
-\    },
-\ }
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'gcmt/taboo.vim'
