@@ -144,6 +144,9 @@ bindsym $mod+o          exec ~/dotfiles/scripts/startup.sh
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
 
+for_window [instance="dwb" class="Dwb"] border none
+assign     [instance="dwb" class="Dwb"] → 2: web
+
 for_window [instance="vps"] border 1pixel
 assign [instance="vps"] → 3: vps
 for_window [instance="ncmpcpp"] border 1pixel
