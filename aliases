@@ -43,6 +43,7 @@ alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias sokoban='clisp -i a-star.lsp -i hw3.lsp'
 alias tags='./.git/hooks/ctags >/dev/null'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
+alias tmux='tmux -u'
 alias top='htop'
 alias tree='tree -C'
 alias vim='vim -p'
