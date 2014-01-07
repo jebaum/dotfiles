@@ -348,6 +348,28 @@ function! AirlineThemePatch(palette)
   endif
 endfunction
 " }}}
+" calendar {{{
+let g:calendar_google_calendar=1
+let g:calendar_google_task=1
+augroup calendar
+  autocmd FileType calendar call s:calendar_my_settings()
+augroup END
+
+function! s:calendar_my_settings()
+  nmap <buffer> i <Plug>(calendar_up)
+  nmap <buffer> j <Plug>(calendar_left)
+  nmap <buffer> k <Plug>(calendar_down)
+  nmap <buffer> l <Plug>(calendar_right)
+  nmap <buffer> h <Plug>(calendar_start_insert)
+  nmap <buffer> H <Plug>(calendar_start_insert_head)
+
+  nmap <buffer> <BS> <Plug>(calendar_left)
+  nmap <buffer> <C-h> <Plug>(calendar_left)
+
+  nmap <buffer> <C-n> <Plug>(calendar_view_right)
+  nmap <buffer> <C-p> <Plug>(calendar_view_left)
+endfunction
+" }}}
 " dispatch {{{
 augroup DISPATCH
   autocmd FileType java      set makeprg='ant'
