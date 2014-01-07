@@ -61,6 +61,7 @@ NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'xolox/vim-misc'
 
+NeoBundle 'bitbucket:abudden/TagHighlight'
 NeoBundleCheck
 " }}}
 " }}}

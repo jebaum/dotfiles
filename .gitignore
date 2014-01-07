@@ -23,10 +23,6 @@ config/gtk-youtube-viewer/*.??t
 
 vim/.netrwhist
 vim/bundle/*
-!vim/bundle/taghighlight
-vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc++/libc++_tags
-vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc++/tmp.h
-vim/bundle/taghighlight/plugin/TagHighlight/standard_libraries/libc_posix/libc_posix_tags
 
 packages/i3/*
 !packages/i3/PKGBUILD
