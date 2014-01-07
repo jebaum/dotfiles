@@ -18,10 +18,12 @@ call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'amdt/vim-niji'
+NeoBundle 'benmills/vimux'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
+NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'majutsushi/tagbar'
