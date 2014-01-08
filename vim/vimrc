@@ -769,6 +769,11 @@ function! s:vimfiler_my_settings()
   nmap <buffer> I         <Plug>(vimfiler_cd_input_directory)
 endfunction
 " }}}
+" vimux {{{
+let g:VimuxHeight = "25"      " default 20
+let g:VimuxOrientation = "v"  " default v, backward from how vim defines v and h
+let g:VimuxPromptString = "$ "
+" }}}
 " }}}
 " General {{{
 " Set options {{{
@@ -1205,7 +1210,39 @@ exec 'inoremap ' . Altmap('B') . '   <C-Left>'
 exec 'inoremap ' . Altmap('w') . '   <S-Right>'
 exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " }}}
-" slash leader maps (CURRENTLY NOT USING){{{
+" slash leader maps. vimux {{{
+function! VimuxSendLines(count, direction)
+  let l = line(".")
+  let c = col(".")
+
+  if a:count == 0
+    execute 'normal! "vyy'
+  else
+    execute 'normal! "vy' . a:count . a:direction
+  endif
+
+  call VimuxSendText(@v)
+  call cursor(l, c)
+endfunction
+
+nnoremap \a :call VimuxSendKeys("^U")<CR>:call VimuxSendText("clear")<CR>:call VimuxSendKeys("Enter")<CR>
+nnoremap \c :call VimuxInterruptRunner()<CR>
+nnoremap \d :call VimuxSendKeys("^D")<CR>
+nnoremap \i :<C-U>call VimuxSendLines(v:count, "k")<CR>
+nnoremap \k :<C-U>call VimuxSendLines(v:count, "j")<CR>
+nnoremap \l :call VimuxRunLastCommand()<CR>
+nnoremap \o :call VimuxOpenRunner()<CR>
+nnoremap \p :call VimuxPromptCommand()<CR>
+nnoremap \q :call VimuxCloseRunner()<CR>
+vnoremap \s "vy :call VimuxSendText(@v)<CR>
+nnoremap \r :call VimuxRunCommand(b:dispatch)<CR>
+nnoremap \y :call VimuxInspectRunner()<CR>
+
+nmap \s vip\s<CR>
+
+nnoremap <silent> \\ :call VimuxSendKeys("Enter")<CR>
+nnoremap <silent> \<CR> :call VimuxSendText(getline('.'))<CR>:call VimuxSendKeys("Enter")<CR>
+nnoremap \<Space> :call VimuxSendText(getline('.'))<CR>
 " }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1 textwidth=0
