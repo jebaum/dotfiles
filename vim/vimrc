@@ -18,7 +18,6 @@ call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'amdt/vim-niji'
-NeoBundle 'benmills/vimux'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'gcmt/taboo.vim'
@@ -31,6 +30,7 @@ NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
+NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'milkypostman/vim-togglelist'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
@@ -574,6 +574,16 @@ let g:TagHighlightSettings['TagFileName'] = '.tags'
 let g:TagHighlightSettings['TypesFilePrefix'] = '.types' " make taghl file hidden
 let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
 " }}}
+" tmuxify {{{
+let g:tmuxify_custom_command = 'tmux split-window -dp 25'
+let g:tmuxify_map_prefix = ''
+" TODO: add C/C++ one off + make file config
+let g:tmuxify_run = {
+    \ 'sh': 'bash %',
+    \ 'python': 'python %',
+    \ 'ocaml': 'ocaml %',
+    \}
+" }}}
 " togglelist {{{
 let g:toggle_list_no_mappings   = 1       " don't use default mappings
 let g:toggle_list_copen_command = "Copen" " use dispatch Copen wrapper
@@ -768,11 +778,6 @@ function! s:vimfiler_my_settings()
   nmap <buffer> T         <Plug>(vimfiler_expand_tree_recursive)
   nmap <buffer> I         <Plug>(vimfiler_cd_input_directory)
 endfunction
-" }}}
-" vimux {{{
-let g:VimuxHeight = "25"      " default 20
-let g:VimuxOrientation = "v"  " default v, backward from how vim defines v and h
-let g:VimuxPromptString = "$ "
 " }}}
 " }}}
 " General {{{
@@ -1210,8 +1215,8 @@ exec 'inoremap ' . Altmap('B') . '   <C-Left>'
 exec 'inoremap ' . Altmap('w') . '   <S-Right>'
 exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " }}}
-" slash leader maps. vimux {{{
-function! VimuxSendLines(count, direction)
+" slash leader maps. tmuxify {{{
+function! TmuxifySendLines(count, direction)
   let l = line(".")
   let c = col(".")
 
@@ -1221,28 +1226,22 @@ function! VimuxSendLines(count, direction)
     execute 'normal! "vy' . a:count . a:direction
   endif
 
-  call VimuxSendText(@v)
+  TxSend(@v)
   call cursor(l, c)
 endfunction
 
-nnoremap \a :call VimuxSendKeys("^U")<CR>:call VimuxSendText("clear")<CR>:call VimuxSendKeys("Enter")<CR>
-nnoremap \c :call VimuxInterruptRunner()<CR>
-nnoremap \d :call VimuxSendKeys("^D")<CR>
-nnoremap \i :<C-U>call VimuxSendLines(v:count, "k")<CR>
-nnoremap \k :<C-U>call VimuxSendLines(v:count, "j")<CR>
-nnoremap \l :call VimuxRunLastCommand()<CR>
-nnoremap \o :call VimuxOpenRunner()<CR>
-nnoremap \p :call VimuxPromptCommand()<CR>
-nnoremap \q :call VimuxCloseRunner()<CR>
-vnoremap \s "vy :call VimuxSendText(@v)<CR>
-nnoremap \r :call VimuxRunCommand(b:dispatch)<CR>
-nnoremap \y :call VimuxInspectRunner()<CR>
-
-nmap \s vip\s<CR>
-
-nnoremap <silent> \\ :call VimuxSendKeys("Enter")<CR>
-nnoremap <silent> \<CR> :call VimuxSendText(getline('.'))<CR>:call VimuxSendKeys("Enter")<CR>
-nnoremap \<Space> :call VimuxSendText(getline('.'))<CR>
+nnoremap <silent> \a :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
+nnoremap <silent> \c :TxSigInt<CR>
+nnoremap <silent> \d :call tmuxify#pane_send_raw('C-d')<CR>
+nnoremap <silent> \i :call TmuxifySendLines(v:count, "k")<CR>
+nnoremap <silent> \k :call TmuxifySendLines(v:count, "j")<CR>
+nnoremap <silent> \o :TxCreate<CR>
+nnoremap <silent> \p :TxSend<CR>
+nnoremap <silent> \q :TxKill<CR>
+nnoremap <silent> \r :TxRun<CR>
+nnoremap <silent> \t :TxSetPane<CR>
+vnoremap <silent> \v "vy:TxSend(@v)<CR>
+nnoremap <silent> \y "vyy:TxSend(@v)<CR>
 " }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1 textwidth=0
