@@ -1272,6 +1272,7 @@ function! TmuxifyBuild()
 endfunction
 
 nnoremap <silent> \a  :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
+nnoremap <silent> \b  :TxRun<CR>
 nnoremap <silent> \c  :TxSigInt<CR>
 nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
 nnoremap <silent> \i  :call TmuxifySendLines(v:count, "k")<CR>
@@ -1281,6 +1282,7 @@ nnoremap <silent> \o  :TxCreate<CR>
 nnoremap <silent> \q  :TxKill<CR>
 nnoremap <silent> \r  :TxRun<CR>
 nnoremap <silent> \s  :TxSend<CR>
+nnoremap <silent> \\  :TxSend<CR>
 nnoremap <silent> \t  :TxSetPane<CR>
 vnoremap <silent> \v  "vy:TxSend(@v)<CR>
 nnoremap <silent> \y  "vyy:TxSend(@v)<CR>
