@@ -148,6 +148,6 @@ hi MatchTarget ctermfg=16   ctermbg=46  cterm=bold  guifg=#000000  guibg=#00FF00
 hi! link DefinedName        NONE
 hi! link EnumerationValue   NONE
 hi! link GlobalVariable     NONE
-hi DefinedName      ctermfg=228  cterm=italic  guifg=#FFFF87  gui=italic
-hi EnumerationValue ctermfg=228  cterm=italic  guifg=#FFFF87  gui=italic
-hi GlobalVariable   ctermfg=228  cterm=italic  guifg=#FFFF87  gui=italic
+hi DefinedName      ctermfg=228  guifg=#FFFF87  gui=italic
+hi EnumerationValue ctermfg=228  guifg=#FFFF87  gui=italic
+hi GlobalVariable   ctermfg=228  guifg=#FFFF87  gui=italic
