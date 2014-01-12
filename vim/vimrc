@@ -311,6 +311,28 @@ augroup FileTypeSettings
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
 augroup END
 " }}}
+" GenerateRunCommand function {{{
+function! GenerateRunCommand(...)
+  if a:0 == 1
+    let ftype = a:1
+  else
+    let ftype = &filetype
+  endif
+
+  if ftype == 'c' || ftype == 'cpp'
+    return shellescape(expand('%:p:r'))
+  elseif ftype == 'sh'
+    return 'bash ' . shellescape(expand('%'))
+  elseif ftype == 'python'
+    return 'python ' . shellescape(expand('%'))
+  elseif ftype == 'ocaml'
+    return 'ocaml ' . shellescape(expand('%'))
+  elseif ftype == 'lisp'
+    return 'clisp ' . shellescape(expand('%'))
+  endif
+
+endfunction
+" }}}
 " }}}
 " Plugins {{{
 " airline {{{
@@ -373,11 +395,7 @@ endfunction
 " }}}
 " dispatch {{{
 augroup DISPATCH
-  autocmd FileType java      set makeprg='ant'
-  " autocmd FileType java      let b:dispatch = 'java ' . shellescape(expand('%:r'))
-  autocmd FileType c,cpp     let b:dispatch = shellescape(expand('%:p:r'))
-  autocmd FileType lisp      let b:dispatch = 'clisp ' . shellescape(expand('%'))
-  autocmd FileType sh,python let b:dispatch = './' . shellescape(expand('%'))
+  autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
 augroup END
 " }}}
 " easymotion {{{
@@ -577,11 +595,13 @@ let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
-" TODO: add C/C++ one off + make file config
 let g:tmuxify_run = {
-    \ 'sh': 'bash %',
-    \ 'python': 'python %',
-    \ 'ocaml': 'ocaml %',
+    \ 'c':      GenerateRunCommand('c'),
+    \ 'cpp':    GenerateRunCommand('cpp'),
+    \ 'sh':     GenerateRunCommand('sh'),
+    \ 'python': GenerateRunCommand('python'),
+    \ 'ocaml':  GenerateRunCommand('ocaml'),
+    \ 'lisp':   GenerateRunCommand('lisp'),
     \}
 " }}}
 " togglelist {{{
@@ -1123,6 +1143,11 @@ nnoremap <leader>ml  :call ToggleLocationList()<CR>
 nnoremap <leader>mr  :Dispatch!<CR>
 nnoremap <leader>mq  :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
 
+nnoremap <leader><leader>ma  :Make -j<CR>
+nnoremap <leader><leader>mc  :Make clean<CR>
+nnoremap <leader><leader>mf  :Make -j <C-r>=expand('%:r')<CR><CR>
+nnoremap <leader><leader>mr  :Dispatch<CR>
+
 " Under cursor or visual selection, search Buffer or Arglist
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'), "%", " <BAR> cw")<CR>
@@ -1147,6 +1172,8 @@ nnoremap <Space>k   <C-w><Down>
 nnoremap <Space>l   <C-w><Right>
 nnoremap <Space>n   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
+nnoremap <Space>pl  :<C-u>Unite -no-start-insert neobundle/log<CR>
+nnoremap <Space>pu  :<C-u>Unite -no-start-insert neobundle/update<CR>
 nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
 nnoremap <Space>s   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
@@ -1230,18 +1257,34 @@ function! TmuxifySendLines(count, direction)
   call cursor(l, c)
 endfunction
 
-nnoremap <silent> \a :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
-nnoremap <silent> \c :TxSigInt<CR>
-nnoremap <silent> \d :call tmuxify#pane_send_raw('C-d')<CR>
-nnoremap <silent> \i :call TmuxifySendLines(v:count, "k")<CR>
-nnoremap <silent> \k :call TmuxifySendLines(v:count, "j")<CR>
-nnoremap <silent> \o :TxCreate<CR>
-nnoremap <silent> \p :TxSend<CR>
-nnoremap <silent> \q :TxKill<CR>
-nnoremap <silent> \r :TxRun<CR>
-nnoremap <silent> \t :TxSetPane<CR>
-vnoremap <silent> \v "vy:TxSend(@v)<CR>
-nnoremap <silent> \y "vyy:TxSend(@v)<CR>
+function! TmuxifyBuild()
+  if &filetype == 'c'
+    let compiler = 'gcc'
+  elseif &filetype == 'cpp'
+    let compiler = 'g++'
+  elseif &filetype == 'ocaml'
+    let compiler = 'ocamlc'
+  endif
+  TxSend(compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r')))
+endfunction
+
+nnoremap <silent> \a  :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
+nnoremap <silent> \c  :TxSigInt<CR>
+nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
+nnoremap <silent> \i  :call TmuxifySendLines(v:count, "k")<CR>
+nnoremap <silent> \k  :call TmuxifySendLines(v:count, "j")<CR>
+"                 \m  make mappings
+nnoremap <silent> \o  :TxCreate<CR>
+nnoremap <silent> \q  :TxKill<CR>
+nnoremap <silent> \r  :TxRun<CR>
+nnoremap <silent> \s  :TxSend<CR>
+nnoremap <silent> \t  :TxSetPane<CR>
+vnoremap <silent> \v  "vy:TxSend(@v)<CR>
+nnoremap <silent> \y  "vyy:TxSend(@v)<CR>
+
+nnoremap <silent> \ma :TxSend('make')<CR>
+nnoremap <silent> \mc :TxSend('make clean')<CR>
+nnoremap <silent> \mf :call TmuxifyBuild()<CR>
 " }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1 textwidth=0
