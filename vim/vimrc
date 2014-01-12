@@ -595,14 +595,17 @@ let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
-let g:tmuxify_run = {
-    \ 'c':      GenerateRunCommand('c'),
-    \ 'cpp':    GenerateRunCommand('cpp'),
-    \ 'sh':     GenerateRunCommand('sh'),
-    \ 'python': GenerateRunCommand('python'),
-    \ 'ocaml':  GenerateRunCommand('ocaml'),
-    \ 'lisp':   GenerateRunCommand('lisp'),
-    \}
+let g:tmuxify_run = {}
+
+function! SetTmuxifyRun()
+  if &filetype != ''
+    execute 'let g:tmuxify_run.' . &filetype . '="' . GenerateRunCommand() . '"'
+  endif
+endfunction
+
+augroup TMUXIFY
+  autocmd BufEnter * call SetTmuxifyRun()
+augroup END
 " }}}
 " togglelist {{{
 let g:toggle_list_no_mappings   = 1       " don't use default mappings
@@ -1285,6 +1288,7 @@ nnoremap <silent> \y  "vyy:TxSend(@v)<CR>
 nnoremap <silent> \ma :TxSend('make')<CR>
 nnoremap <silent> \mc :TxSend('make clean')<CR>
 nnoremap <silent> \mf :call TmuxifyBuild()<CR>
+nnoremap <silent> \mr :TxRun<CR>
 " }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1 textwidth=0
