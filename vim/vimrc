@@ -333,6 +333,19 @@ function! GenerateRunCommand(...)
 
 endfunction
 " }}}
+" GenerateBuildCommand function {{{
+function! GenerateBuildCommand()
+  if &filetype == 'c'
+    let my_compiler = 'gcc'
+  elseif &filetype == 'cpp'
+    let my_compiler = 'g++'
+  elseif &filetype == 'ocaml'
+    let my_compiler = 'ocamlc'
+  endif
+
+  return my_compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r'))
+endfunction
+" }}}
 " }}}
 " Plugins {{{
 " airline {{{
@@ -402,6 +415,10 @@ augroup END
 " stop some annoying maps from getting set
 let g:EasyMotion_special_select_phrase = 0
 let g:EasyMotion_special_select_line   = 0
+" }}}
+" exchange {{{
+" default is cx, this prevents map lag when hitting 'c' in visual mode
+vmap s <Plug>(Exchange)
 " }}}
 " fugitive {{{
 autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
@@ -533,6 +550,7 @@ let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " }}}
 " sneak  {{{
 let g:sneak#use_ic_scs = 1
+xmap <nop> <Plug>VSneakForward
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -1260,19 +1278,8 @@ function! TmuxifySendLines(count, direction)
   call cursor(l, c)
 endfunction
 
-function! TmuxifyBuild()
-  if &filetype == 'c'
-    let compiler = 'gcc'
-  elseif &filetype == 'cpp'
-    let compiler = 'g++'
-  elseif &filetype == 'ocaml'
-    let compiler = 'ocamlc'
-  endif
-  TxSend(compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r')))
-endfunction
-
 nnoremap <silent> \a  :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
-nnoremap <silent> \b  :TxRun<CR>
+nnoremap <silent> \b  :TxSend(GenerateBuildCommand())<CR>
 nnoremap <silent> \c  :TxSigInt<CR>
 nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
 nnoremap <silent> \i  :call TmuxifySendLines(v:count, "k")<CR>
@@ -1289,7 +1296,7 @@ nnoremap <silent> \y  "vyy:TxSend(@v)<CR>
 
 nnoremap <silent> \ma :TxSend('make')<CR>
 nnoremap <silent> \mc :TxSend('make clean')<CR>
-nnoremap <silent> \mf :call TmuxifyBuild()<CR>
+nnoremap <silent> \mf :TxSend(GenerateBuildCommand())<CR>
 nnoremap <silent> \mr :TxRun<CR>
 " }}}
 " }}}
