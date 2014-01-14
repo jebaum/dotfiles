@@ -351,6 +351,35 @@ function! GenerateBuildCommand()
   return my_compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r'))
 endfunction
 " }}}
+" Run shell command, put output in split {{{
+function! s:ExecuteInShell(command, bang)
+  let _ = a:bang != '' ? s:_ : a:command == '' ? '' : join(map(split(a:command), 'expand(v:val)'))
+  if (_ != '')
+    let s:_ = _
+    let bufnr = bufnr('%')
+    let winnr = bufwinnr('^' . _ . '$')
+    silent! execute  winnr < 0 ? 'belowright new ' . fnameescape(_) : winnr . 'wincmd w'
+    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile wrap number
+    silent! :%d
+    let message = 'Execute ' . _ . '...'
+    call append(0, message)
+    echo message
+    silent! 2d | resize 1 | redraw
+    silent! execute 'silent! %!'. _
+    silent! execute 'resize ' . line('$')
+    silent! execute 'syntax on'
+    silent! execute 'autocmd BufUnload <buffer> execute bufwinnr(' . bufnr . ') . ''wincmd w'''
+    silent! execute 'autocmd BufEnter <buffer> execute ''resize '' .  line(''$'')'
+    silent! execute 'nnoremap <silent> <buffer> <CR> :call <SID>ExecuteInShell(''' . _ . ''', '''')<CR>'
+    silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . _ . ''', '''')<CR>'
+    silent! execute 'nnoremap <silent> <buffer> <LocalLeader>g :execute bufwinnr(' . bufnr . ') . ''wincmd w''<CR>'
+    nnoremap <silent> <buffer> <C-W>_ :execute 'resize ' . line('$')<CR>
+    silent! syntax on
+  endif
+endfunction
+
+command! -complete=shellcmd -nargs=* -bang Shell call s:ExecuteInShell(<q-args>, '<bang>')
+" }}}
 " }}}
 " Plugins {{{
 " airline {{{
@@ -1148,14 +1177,14 @@ nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "
 nnoremap <leader>zv :tabedit $MYVIMRC<CR>
 
 " <leader>g[ikht] taken by signify
-nnoremap <silent> <leader>ga  :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>gb  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap <silent> <leader>ge  :Gedit<CR>
-nnoremap <silent> <leader>gf  :silent Glog -- % <Bar> redraw!<CR>
+nnoremap <silent> <leader>gf  :silent Glog <Bar> redraw!<CR>
 nnoremap <silent> <leader>gg  :SignifyToggle<CR>
-nnoremap <silent> <leader>gl  :silent Glog <Bar> redraw!<CR>
+nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
+nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
 nnoremap <silent> <leader>gp  :call GitPush()<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
