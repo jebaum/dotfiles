@@ -310,10 +310,8 @@ augroup FileTypeSettings
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
 
-  autocmd FileType ocaml nnoremap <F11> :15split /tmp/ocaml \| %d \|setlocal ft=omlet \| setlocal autowrite \| r!ocaml < #<CR>:normal ggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
-  autocmd FileType ocaml nnoremap <F12> :dr /tmp/ocaml \| %d \|setlocal ft=omlet \|setlocal autowrite \| r!ocaml < #<CR>:normal ggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
-  autocmd FileType ocaml vnoremap <F11> y:15split /tmp/ocaml \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=omlet \| setlocal autowrite \| r!ocaml < %<CR>:normal! jdGggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
-  autocmd FileType ocaml vnoremap <F12> y:dr /tmp/ocaml \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=omlet \| setlocal autowrite \| r!ocaml < %<CR>:normal! jdGggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
+  autocmd FileType ocaml nnoremap <leader>e :silent! bdelete /tmp/ocaml<CR>:15split /tmp/ocaml \| %d \|setlocal ft=omlet \| setlocal autowrite \| r!ocaml < #<CR>:normal ggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
+  autocmd FileType ocaml vnoremap <leader>e y:silent! bdelete /tmp/ocaml<CR>:15split /tmp/ocaml \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=omlet \| setlocal autowrite \| r!ocaml < %<CR>:normal! jdGggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
 augroup END
 " }}}
 " GenerateRunCommand function {{{
@@ -1238,7 +1236,7 @@ nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 nnoremap <Space><Space>   :<C-u>UniteResume<CR>
-nnoremap <Space><CR>      :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
+nnoremap <silent> <Space><CR>      :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
@@ -1266,26 +1264,26 @@ inoremap <C-a>      <Home>
 inoremap <C-e>      <End>
 " }}}
 " alt normal mode {{{
-exec 'nnoremap ' . Altmap('a') . ' :AirlineToggle<CR>'
-exec 'nnoremap ' . Altmap('h') . ' :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>'
-exec 'nnoremap ' . Altmap('i') . ' :resize +2<CR>'
-exec 'nnoremap ' . Altmap('j') . ' :vertical resize -2<CR>'
-exec 'nnoremap ' . Altmap('k') . ' :resize -2<CR>'
-exec 'nnoremap ' . Altmap('l') . ' :vertical resize +2<CR>'
-exec 'nnoremap ' . Altmap('m') . ' :match none<CR>'
-exec 'nnoremap ' . Altmap('n') . ' :tabmove +1<CR>'
-exec 'nnoremap ' . Altmap('p') . ' :tabmove -1<CR>'
-exec 'nnoremap ' . Altmap('q') . ' :quitall<CR>'
-exec 'nnoremap ' . Altmap('1') . ' 1gt'
-exec 'nnoremap ' . Altmap('2') . ' 2gt'
-exec 'nnoremap ' . Altmap('3') . ' 3gt'
-exec 'nnoremap ' . Altmap('4') . ' 4gt'
-exec 'nnoremap ' . Altmap('5') . ' 5gt'
-exec 'nnoremap ' . Altmap('6') . ' 6gt'
-exec 'nnoremap ' . Altmap('7') . ' 7gt'
-exec 'nnoremap ' . Altmap('8') . ' 8gt'
-exec 'nnoremap ' . Altmap('9') . ' 9gt'
-exec 'nnoremap ' . Altmap('0') . ' :tablast<CR>'
+exec 'nnoremap <silent> ' . Altmap('a') . ' :AirlineToggle<CR>'
+exec 'nnoremap <silent> ' . Altmap('h') . ' :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>'
+exec 'nnoremap <silent> ' . Altmap('i') . ' :resize +2<CR>'
+exec 'nnoremap <silent> ' . Altmap('j') . ' :vertical resize -2<CR>'
+exec 'nnoremap <silent> ' . Altmap('k') . ' :resize -2<CR>'
+exec 'nnoremap <silent> ' . Altmap('l') . ' :vertical resize +2<CR>'
+exec 'nnoremap <silent> ' . Altmap('m') . ' :match none<CR>'
+exec 'nnoremap <silent> ' . Altmap('n') . ' :tabmove +1<CR>'
+exec 'nnoremap <silent> ' . Altmap('p') . ' :tabmove -1<CR>'
+exec 'nnoremap <silent> ' . Altmap('q') . ' :quitall<CR>'
+exec 'nnoremap <silent> ' . Altmap('1') . ' 1gt'
+exec 'nnoremap <silent> ' . Altmap('2') . ' 2gt'
+exec 'nnoremap <silent> ' . Altmap('3') . ' 3gt'
+exec 'nnoremap <silent> ' . Altmap('4') . ' 4gt'
+exec 'nnoremap <silent> ' . Altmap('5') . ' 5gt'
+exec 'nnoremap <silent> ' . Altmap('6') . ' 6gt'
+exec 'nnoremap <silent> ' . Altmap('7') . ' 7gt'
+exec 'nnoremap <silent> ' . Altmap('8') . ' 8gt'
+exec 'nnoremap <silent> ' . Altmap('9') . ' 9gt'
+exec 'nnoremap <silent> ' . Altmap('0') . ' :tablast<CR>'
 " }}}
 " alt insert mode {{{
 exec 'inoremap ' . Altmap('i') . '   <Up>'
