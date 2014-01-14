@@ -309,6 +309,11 @@ augroup FileTypeSettings
   autocmd BufRead .tags set filetype=tags
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
+
+  autocmd FileType ocaml nnoremap <F11> :15split /tmp/ocaml \| %d \|setlocal ft=omlet \| setlocal autowrite \| r!ocaml < #<CR>:normal ggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
+  autocmd FileType ocaml nnoremap <F12> :dr /tmp/ocaml \| %d \|setlocal ft=omlet \|setlocal autowrite \| r!ocaml < #<CR>:normal ggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
+  autocmd FileType ocaml vnoremap <F11> y:15split /tmp/ocaml \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=omlet \| setlocal autowrite \| r!ocaml < %<CR>:normal! jdGggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
+  autocmd FileType ocaml vnoremap <F12> y:dr /tmp/ocaml \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=omlet \| setlocal autowrite \| r!ocaml < %<CR>:normal! jdGggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
 augroup END
 " }}}
 " GenerateRunCommand function {{{
