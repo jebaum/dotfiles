@@ -1153,32 +1153,49 @@ nnoremap <F2>       :set spell!<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
-nnoremap <leader>bb :Bufsearch<Space>
-nnoremap <leader>ba :Allsearch<Space>
-"        <leader>c  various nerdcommenter mappings
-vnoremap <leader>dg :diffget <Bar> diffupdate<CR>
-vnoremap <leader>do :diffget <Bar> diffupdate<CR>
-vnoremap <leader>dp :diffput <Bar> diffupdate<CR>
-nnoremap <leader>du :diffupdate<CR>
-nnoremap <leader>e  :QuickRun -mode n<CR>
-vnoremap <leader>e  :QuickRun -mode v<CR>
-nnoremap <leader>f  :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-"        <leader>g  fugitive and signify mappings
-nnoremap <leader>l  :ls<CR>:b
-"        <leader>m  make mappings
-nnoremap <leader>p  :set list!<CR>
-nnoremap <leader>q  :q <Bar> redraw!<CR>
-nnoremap <leader>r  :redraw!<CR>
-nnoremap <leader>s  :syntax sync fromstart<CR>
-vnoremap <leader>s  :!sort -f<CR>
-nnoremap <leader>tt :Buftodo<CR>
-nnoremap <leader>ta :Alltodo<CR>
-nnoremap <leader>u  yyp^v$r
-nnoremap <leader>v  :%s/\v
-nnoremap <leader>w  :w!<CR>
-nnoremap <leader>x  :wq<CR>
-nnoremap <leader>zh :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
-nnoremap <leader>zv :tabedit $MYVIMRC<CR>
+nnoremap <silent> <leader>a    :redraw!<CR>
+nnoremap <silent> <leader>bb   :Bufsearch<Space>
+nnoremap <silent> <leader>ba   :Allsearch<Space>
+"        <silent> <leader>c    nerdcommenter maps
+vnoremap <silent> <leader>dg   :diffget <Bar> diffupdate<CR>
+vnoremap <silent> <leader>do   :diffget <Bar> diffupdate<CR>
+vnoremap <silent> <leader>dp   :diffput <Bar> diffupdate<CR>
+nnoremap <silent> <leader>du   :diffupdate<CR>
+nnoremap <silent> <leader>e    :QuickRun -mode n<CR>
+vnoremap <silent> <leader>e    :QuickRun -mode v<CR>
+nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+"                         g    fugitive and signify maps
+nnoremap <silent> <leader>l    :ls<CR>:b
+"                         m    make maps
+nnoremap <silent> <leader>p    :set list!<CR>
+nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
+nnoremap <silent> <leader>r    :Dispatch!<CR>
+nnoremap <silent> <leader>s    :syntax sync fromstart<CR>
+vnoremap <silent> <leader>s    :!sort -f<CR>
+nnoremap <silent> <leader>ta   :Alltodo<CR>
+nnoremap <silent> <leader>tl   :call ToggleLocationList()<CR>
+nnoremap <silent> <leader>tq   :let g:toggle_list_copen_command="copen"<CR>
+                              \:call ToggleQuickfixList()<CR>
+nnoremap <silent> <leader>tQ   :let g:toggle_list_copen_command="Copen"<CR>
+                              \:call ToggleQuickfixList()<CR>
+nnoremap <silent> <leader>tt   :Buftodo<CR>
+nnoremap <silent> <leader>u    yyp^v$r
+"                         v    search/replace maps
+nnoremap <silent> <leader>w    :w!<CR>
+nnoremap <silent> <leader>x    :wq<CR>
+nnoremap <silent> <leader>zh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
+nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
+nnoremap <silent> <leader><CR> :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
+
+nnoremap <silent> <leader><leader>r  :Dispatch<CR>
+
+" search/replace maps
+nnoremap <leader>v          :s/\v
+vnoremap <leader>v          :s/\v
+nnoremap <leader>V          :s/\V
+vnoremap <leader>V          :s/\V
+nnoremap <leader><leader>v  :%s/\v
+nnoremap <leader><leader>V  :%s/\V
 
 " <leader>g[ikht] taken by signify
 nnoremap <silent> <leader>gb  :Gblame<CR>
@@ -1195,17 +1212,12 @@ nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 
 " Make
-nnoremap <leader>ma  :Make! -j<CR>
-nnoremap <leader>mc  :Make! clean<CR>
-nnoremap <leader>mf  :Make! -j <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader>ml  :call ToggleLocationList()<CR>
-nnoremap <leader>mr  :Dispatch!<CR>
-nnoremap <leader>mq  :let g:toggle_list_copen_command="Copen"<CR>:call ToggleQuickfixList()<CR>
-
-nnoremap <leader><leader>ma  :Make -j<CR>
-nnoremap <leader><leader>mc  :Make clean<CR>
-nnoremap <leader><leader>mf  :Make -j <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader><leader>mr  :Dispatch<CR>
+nnoremap <leader>ma          :Make! -j4<CR>
+nnoremap <leader><leader>ma  :Make  -j4<CR>
+nnoremap <leader>mc          :Make! clean<CR>
+nnoremap <leader><leader>mc  :Make  clean<CR>
+nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
+nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
 
 " Under cursor or visual selection, search Buffer or Arglist
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
@@ -1233,16 +1245,12 @@ nnoremap <Space>n   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>pl  :<C-u>Unite -no-start-insert neobundle/log<CR>
 nnoremap <Space>pu  :<C-u>Unite -no-start-insert neobundle/update<CR>
-nnoremap <Space>q   :let g:toggle_list_copen_command="copen"<CR>:call ToggleQuickfixList()<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
 nnoremap <Space>s   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
-"        <Space>u*  VimGrep maps, defined below
 nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-current<CR>
 nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
-nnoremap <Space><Space>   :<C-u>UniteResume<CR>
-nnoremap <silent> <Space><CR>      :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 
 " Tabularize
 nnoremap <Space>=       :Tabularize /=<CR>
@@ -1333,10 +1341,11 @@ nnoremap <silent> \ts :TxSetPane<CR>
 nnoremap <silent> \td :TxSetPane<CR>0<CR>1<CR>1<CR>:echo 'attached to 0:0:1'<CR>
 nnoremap <silent> \\  :TxSend<CR>
 
+nnoremap <silent> \<CR> :call tmuxify#pane_send_raw('C-m')<CR>
+
 nnoremap <silent> \ma :TxSend('make')<CR>
 nnoremap <silent> \mc :TxSend('make clean')<CR>
 nnoremap <silent> \mf :TxSend(GenerateBuildCommand())<CR>
-nnoremap <silent> \mr :TxRun<CR>
 " }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1 textwidth=0
