@@ -240,6 +240,7 @@ augroup SyntaxNotes
   autocmd BufEnter *.txt call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
   autocmd BufEnter *.txt call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
   autocmd BufEnter *.txt call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
+  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=ocaml@', '@end=ocaml@', 'ocaml', 'Comment')
 augroup END
 " }}}
 " Return to last edit position when opening files {{{
@@ -1316,6 +1317,7 @@ nnoremap <silent> \c  :TxSigInt<CR>
 nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
 nnoremap <silent> \i  :call TmuxifySendLines(v:count, "k")<CR>
 nnoremap <silent> \k  :call TmuxifySendLines(v:count, "j")<CR>
+nnoremap <silent> \l  :call tmuxify#pane_send_raw('C-l')<CR>
 "                 \m  make mappings
 nnoremap <silent> \o  :TxCreate<CR>
 nnoremap <silent> \q  :TxKill<CR>
