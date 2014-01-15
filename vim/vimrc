@@ -87,6 +87,71 @@ if has('gui_gtk') && has('gui_running')
                 \' >> ~/.gtkrc-2.0.mine'
 endif
 " }}}
+" Return to last edit position when opening files {{{
+augroup ReturnToLast
+  autocmd BufReadPost *
+       \ if line("'\"") > 0 && line("'\"") <= line("$") |
+       \   exe "normal! g`\"" |
+       \ endif
+augroup END
+" }}}
+" StripTrailingWhitespace function {{{
+function! StripTrailingWhitespace()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfunction
+" }}}
+" Line join {{{
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j  " delete comment character when joining commented lines
+endif
+set nojoinspaces        " use only one space after a period when joining lines
+" }}}
+" Command mode maps and abbreviations {{{
+command! CD cd %:p:h
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
+cnoreabbrev te tabedit
+cnoreabbrev sv source ~/.vim/vimrc
+cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
+
+cnoremap <C-a>  <Home>
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
+cnoremap <C-j>  <S-Left>
+cnoremap <C-l>  <S-Right>
+" }}}
+" SyntaxRange autocmds {{{
+" last parameter is optional and can be any highlight group, determines delimiter colors
+augroup SyntaxNotes
+  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=text@',  '@end=text@',  'text',  'Tabline')
+  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=c@',     '@end=c@',     'c',     'Comment')
+  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=cpp@',   '@end=cpp@',   'cpp',   'Comment')
+  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=lisp@',  '@end=lisp@',  'lisp',  'Comment')
+  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=ocaml@', '@end=ocaml@', 'ocaml', 'Comment')
+augroup END
+" }}}
+" FileType autocmds {{{
+augroup FileTypeSettings
+  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text
+          \ autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
+
+  autocmd FileType tex nnoremap <leader>w :w!<CR>
+                  \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
+                  \:call system("killall -HUP mupdf")<CR>
+  autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
+
+  autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
+  autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
+  autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
+  autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
+  autocmd FileType vimfiler set relativenumber
+  autocmd BufRead  .tags set filetype=tags
+augroup END
+" }}}
+" }}}
+" Functions {{{
 " CustomMatch function {{{
 function! CustomMatch(pattern)
   let search_string = "/" . a:pattern . "/"
@@ -181,7 +246,7 @@ function! QuickfixFilenames()
   return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
 " }}}
-" Location list loop {{{
+" Location list loop function {{{
 function! WrapCommand(direction)
   if a:direction == "up"
     try
@@ -201,17 +266,17 @@ endfunction
 " nnoremap <Home> :call WrapCommand("up")<CR>
 " nnoremap <End>  :call WrapCommand("down")<CR>
 " }}}
-" Visual mode increment {{{
+" Visual mode increment function {{{
 function! Increment()
-    let a = line('.') - line("'<")
-    let c = virtcol("'<")
-    if a > 0
-        execute 'normal! '.c.'|'.a."\<C-a>"
-    endif
-    normal `<
-  endfunction
+  let a = line('.') - line("'<")
+  let c = virtcol("'<")
+  if a > 0
+    execute 'normal! '.c.'|'.a."\<C-a>"
+  endif
+  normal `<
+endfunction
 " }}}
-" VisualStarSearch {{{
+" VisualStarSearch function and maps {{{
 function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
   let temp = @s
   norm! gv"sy
@@ -222,7 +287,7 @@ endfunction
 xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 " }}}
-" Ranger file chooser {{{
+" Ranger file chooser function {{{
 " only works on a single file. more just for fun than practicality
 function! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
@@ -233,61 +298,7 @@ function! RangerChooser()
     redraw!
 endfunction
 " }}}
-" SyntaxRange {{{
-" last parameter is optional and can be any highlight group, determines delimiter colors
-augroup SyntaxNotes
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=ocaml@', '@end=ocaml@', 'ocaml', 'Comment')
-augroup END
-" }}}
-" Return to last edit position when opening files {{{
-augroup ReturnToLast
-  autocmd BufReadPost *
-       \ if line("'\"") > 0 && line("'\"") <= line("$") |
-       \   exe "normal! g`\"" |
-       \ endif
-augroup END
-" }}}
-" StripTrailingWhitespaces {{{
-function! StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfunction
-augroup StripWhitespaceOnWrite
-  autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
-  autocmd BufWrite *.txt :call StripTrailingWhitespaces()
-augroup END
-" }}}
-" Command mode {{{
-command! CD cd %:p:h
-cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
-cnoreabbrev te tabedit
-cnoreabbrev sv source ~/.vim/vimrc
-cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
-
-cnoremap <C-a>  <Home>
-cnoremap <C-p>  <Up>
-cnoremap <C-n>  <Down>
-cnoremap <C-j>  <S-Left>
-cnoremap <C-l>  <S-Right>
-" }}}
-" Completion options {{{
-set completeopt=longest,menuone
-" hitting enter when completion menu is visible selects item
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" }}}
-" Line join {{{
-if v:version > 703 || v:version == 703 && has("patch541")
-  set formatoptions+=j  " delete comment character when joining commented lines
-endif
-set nojoinspaces        " use only one space after a period when joining lines
-" }}}
-" GitPush with dispatch {{{
+" GitPush with dispatch function {{{
 function! GitPush()
   if !exists('b:dispatch')
     let b:dispatch = "git push"
@@ -299,19 +310,6 @@ function! GitPush()
     let b:dispatch = foo
   endif
 endfunction
-" }}}
-" FileType specific {{{
-augroup FileTypeSettings
-  autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
-  autocmd FileType tex nnoremap <leader>w :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
-  autocmd FileType tex nnoremap <leader>ll :call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
-  autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
-  autocmd FileType vimfiler set relativenumber
-  autocmd BufRead .tags set filetype=tags
-  autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
-  autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
-  autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
-augroup END
 " }}}
 " GenerateRunCommand function {{{
 function! GenerateRunCommand(...)
@@ -348,7 +346,7 @@ function! GenerateBuildCommand()
   return my_compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r'))
 endfunction
 " }}}
-" Run shell command, put output in split {{{
+" Run shell command, put output in split function {{{
 function! s:ExecuteInShell(command, bang)
   let _ = a:bang != '' ? s:_ : a:command == '' ? '' : join(map(split(a:command), 'expand(v:val)'))
   if (_ != '')
@@ -377,7 +375,7 @@ endfunction
 
 command! -complete=shellcmd -nargs=* -bang Shell call s:ExecuteInShell(<q-args>, '<bang>')
 " }}}
-" Run buffer or visual selection through interpreter {{{
+" Create maps to run buffer/visual selection through interpreter {{{
 function! MapInterpreter(ftype, interpreter)
   execute 'nnoremap <leader>i :silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d \|setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < #<CR>:normal ggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>w'
 
@@ -919,6 +917,11 @@ augroup SyntaxSync
   autocmd BufReadPost syntax sync fromstart
 augroup END
 " }}}
+" Completion options {{{
+set completeopt=longest,menuone
+" hitting enter when completion menu is visible selects item
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
 set foldnestmax =1   " folds only one level deep
@@ -1148,7 +1151,7 @@ nnoremap zk zj
 nnoremap zi zk
 " }}}
 " function keys {{{
-nnoremap <F1>       :call StripTrailingWhitespaces()<CR>
+nnoremap <F1>       :call StripTrailingWhitespace()<CR>
 nnoremap <F2>       :set spell!<CR>
 nnoremap <F12>      :GundoToggle<CR>
 " }}}
