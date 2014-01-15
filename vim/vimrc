@@ -310,9 +310,7 @@ augroup FileTypeSettings
   autocmd BufRead .tags set filetype=tags
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
-
-  autocmd FileType ocaml nnoremap <leader>e :silent! bdelete /tmp/ocaml<CR>:15split /tmp/ocaml \| %d \|setlocal ft=omlet \| setlocal autowrite \| r!ocaml < #<CR>:normal ggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
-  autocmd FileType ocaml vnoremap <leader>e y:silent! bdelete /tmp/ocaml<CR>:15split /tmp/ocaml \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=omlet \| setlocal autowrite \| r!ocaml < %<CR>:normal! jdGggdd<CR>:silent w \| echo 'did some caml'<CR><C-w>w
+  autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
 augroup END
 " }}}
 " GenerateRunCommand function {{{
@@ -378,6 +376,13 @@ function! s:ExecuteInShell(command, bang)
 endfunction
 
 command! -complete=shellcmd -nargs=* -bang Shell call s:ExecuteInShell(<q-args>, '<bang>')
+" }}}
+" Run buffer or visual selection through interpreter {{{
+function! MapInterpreter(ftype, interpreter)
+  execute 'nnoremap <leader>i :silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d \|setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < #<CR>:normal ggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>w'
+
+  execute 'vnoremap <leader>i y:silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < %<CR>:normal! jdGggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>w'
+endfunction
 " }}}
 " }}}
 " Plugins {{{
@@ -1322,11 +1327,11 @@ nnoremap <silent> \l  :call tmuxify#pane_send_raw('C-l')<CR>
 nnoremap <silent> \o  :TxCreate<CR>
 nnoremap <silent> \q  :TxKill<CR>
 nnoremap <silent> \r  :TxRun<CR>
-nnoremap <silent> \s  :TxSend<CR>
+nnoremap <silent> \s  "vyy:TxSend(@v)<CR>
+vnoremap <silent> \s  "vy:TxSend(@v)<CR>
+nnoremap <silent> \ts :TxSetPane<CR>
+nnoremap <silent> \td :TxSetPane<CR>0<CR>1<CR>1<CR>:echo 'attached to 0:0:1'<CR>
 nnoremap <silent> \\  :TxSend<CR>
-nnoremap <silent> \t  :TxSetPane<CR>
-vnoremap <silent> \v  "vy:TxSend(@v)<CR>
-nnoremap <silent> \y  "vyy:TxSend(@v)<CR>
 
 nnoremap <silent> \ma :TxSend('make')<CR>
 nnoremap <silent> \mc :TxSend('make clean')<CR>
