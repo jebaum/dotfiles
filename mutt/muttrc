@@ -35,7 +35,7 @@ set sort_browser=reverse-date
 set sort_aux=reverse-last-date-received
 #=Editor / Composition=================================#
 
-set editor = 'vim "+:silent" "+:noh" "+:normal! Go" "+:normal! o" "+:startinsert"'
+set editor = 'vim "+:normal! gg}o" "+:normal! o" "+:normal! k" "+:startinsert"'
 set edit_headers=yes  # See the headers when editing
 set include=yes                      # include message in replies
 set forward_quote=yes                # include message in forwards
