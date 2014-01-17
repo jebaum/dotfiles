@@ -21,6 +21,7 @@ alias y2q1='cd ~/Dropbox/Documents/UCLA/Y2Q1'
 alias y2q2='cd ~/Dropbox/Documents/UCLA/Y2Q2'
 alias y2q3='cd ~/Dropbox/Documents/UCLA/Y2Q3'
 alias y3q1='cd ~/Dropbox/Documents/UCLA/Y3Q1'
+alias y3q2='cd ~/Dropbox/Documents/UCLA/Y3Q2'
 alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 
 # command aliases
