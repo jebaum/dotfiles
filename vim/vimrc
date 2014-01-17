@@ -916,6 +916,7 @@ syntax sync minlines=256       " speed up syntax hilighting
 augroup SyntaxSync
   autocmd BufReadPost syntax sync fromstart
 augroup END
+let g:no_ocaml_maps = 1
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
