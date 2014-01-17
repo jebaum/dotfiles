@@ -32,6 +32,7 @@ NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'milkypostman/vim-togglelist'
+NeoBundle 'mtth/scratch.vim'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'sgur/unite-qf'
@@ -1245,8 +1246,8 @@ nnoremap <Space>i   <C-w><Up>
 nnoremap <Space>j   <C-w><Left>
 nnoremap <Space>k   <C-w><Down>
 nnoremap <Space>l   <C-w><Right>
-nnoremap <Space>n   :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
-nnoremap <Space>o   :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
+nnoremap <Space>ol  :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
+nnoremap <Space>oo  :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>pl  :<C-u>Unite -no-start-insert neobundle/log<CR>
 nnoremap <Space>pu  :<C-u>Unite -no-start-insert neobundle/update<CR>
 nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
