@@ -1006,6 +1006,15 @@ let mapleader = ','  " use comma instead of \ as leader
 inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
+nnoremap <CR> :
+nnoremap M %
+onoremap M %
+
+" TODO: still can be mapped
+" <Space>,
+" ,<Space>
+" <Space><CR>
+" <S-Space>
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
@@ -1159,8 +1168,8 @@ nnoremap <F12>      :GundoToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
 nnoremap <silent> <leader>a    :redraw!<CR>
-nnoremap <silent> <leader>bb   :Bufsearch<Space>
-nnoremap <silent> <leader>ba   :Allsearch<Space>
+nnoremap          <leader>bb   :Bufsearch<Space>
+nnoremap          <leader>ba   :Allsearch<Space>
 "        <silent> <leader>c    nerdcommenter maps
 vnoremap <silent> <leader>dg   :diffget <Bar> diffupdate<CR>
 vnoremap <silent> <leader>do   :diffget <Bar> diffupdate<CR>
@@ -1170,7 +1179,7 @@ nnoremap <silent> <leader>e    :QuickRun -mode n<CR>
 vnoremap <silent> <leader>e    :QuickRun -mode v<CR>
 nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
-nnoremap <silent> <leader>l    :ls<CR>:b
+nnoremap          <leader>l    :ls<CR>:b
 "                         m    make maps
 nnoremap <silent> <leader>p    :set list!<CR>
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
