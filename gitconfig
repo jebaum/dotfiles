@@ -21,7 +21,7 @@
   lp    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit -p
   la    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset' --abbrev-commit
   ldate = log --pretty=format:"%C(red)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
-  lnc   = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  lnc   = log --color --graph --pretty=format:'%h -%d %s (%cr)' --abbrev-commit
   last  = log -p --stat --abbrev-commit --max-count 1
 
   r   = rebase
