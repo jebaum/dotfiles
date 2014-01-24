@@ -10,6 +10,7 @@ alias rig5local='mosh 192.168.1.100'
 alias sshl='ssh jebaum@linux.ucla.edu'
 alias 144='ssh cs144@192.168.56.10'
 alias 118='ssh cs118@192.168.57.10'
+alias 133='ssh baumgart@cs133.seas.ucla.edu'
 
 # folder aliases
 alias lab1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/1'

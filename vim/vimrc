@@ -614,6 +614,16 @@ let g:startify_custom_header     = [
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
 let g:syntastic_c_compiler_options       = ' -Wall'
+
+function! SyntasticOpenMP()
+  let g:syntastic_c_compiler = 'gcc'
+  let g:syntastic_c_compiler_options = ' -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -fopenmp -Wall'
+endfunction
+
+augroup OPENMP
+  autocmd BufEnter /home/james/Dropbox/Documents/UCLA/Y3Q2/CS133/* call SyntasticOpenMP()
+augroup END
+
 let g:syntastic_cpp_compiler             = 'clang++'
 let g:syntastic_cpp_compiler_options     = ' -Wall'
 let g:syntastic_aggregate_errors         = 1         " display all errors
@@ -1007,6 +1017,7 @@ inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
 nnoremap <CR> :
+vnoremap <CR> :
 nnoremap M %
 onoremap M %
 
