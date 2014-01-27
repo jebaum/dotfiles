@@ -613,11 +613,11 @@ let g:startify_custom_header     = [
 " }}}
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
-let g:syntastic_c_compiler_options       = ' -Wall'
+let g:syntastic_c_compiler_options       = ' -Wall -Wextra'
 
 function! SyntasticOpenMP()
-  let g:syntastic_c_compiler = 'gcc'
-  let g:syntastic_c_compiler_options = ' -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -fopenmp -Wall'
+  let g:syntastic_c_compiler         = 'gcc'
+  let g:syntastic_c_compiler_options = ' -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -fopenmp -Wall -Wextra'
 endfunction
 
 augroup OPENMP
