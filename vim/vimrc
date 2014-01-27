@@ -950,9 +950,9 @@ nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " newer and better smartindent
 set smarttab        " make tabs more consistent with softtabstop
-set shiftwidth  =2  " amount of whitespace to insert or remove using normal mode indentation commands
-set softtabstop =2  " amount of whitespace deleted by backspace
-set tabstop     =2  " width of tab character
+set shiftwidth  =4  " amount of whitespace to insert or remove using normal mode indentation commands
+set softtabstop =4  " amount of whitespace deleted by backspace
+set tabstop     =4  " width of tab character
 set shiftround      " indent by multiples of shiftwidth
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
