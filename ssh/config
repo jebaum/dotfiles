@@ -12,3 +12,8 @@ Host jbaumy
   HostName jbaumy.com
   Port 22
   User james
+
+Host lnxsrv
+  HostName lnxsrv.seas.ucla.edu
+  Port 22
+  User baumgart
