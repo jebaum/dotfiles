@@ -8,8 +8,6 @@ alias jbaumy='mosh james@jbaumy.com'
 alias rig5='mosh james@96.251.7.41'
 alias rig5local='mosh 192.168.1.100'
 alias sshl='ssh jebaum@linux.ucla.edu'
-alias 144='ssh cs144@192.168.56.10'
-alias 118='ssh cs118@192.168.57.10'
 alias 133='ssh baumgart@cs133.seas.ucla.edu'
 
 # folder aliases
@@ -31,11 +29,12 @@ alias db='sudo sysctl -p && dropbox start'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
 alias gist='gist -c -p'
 alias grep='grep --color=auto'
-alias gs='git status'
 alias gv='gvim'
 alias livestreamer='livestreamer -p mpv'
 alias make='make -j4'
 alias mpc='mpc -h 192.168.1.100'
+alias mvim='vim -u ~/dotfiles/vim/minimalvimrc'
+alias mgvim='gvim -u ~/dotfiles/vim/minimalvimrc'
 alias myip='curl icanhazip.com'
 alias network='lsof -P -i -n'
 alias ocaml='rlwrap -m ocaml'
@@ -43,7 +42,6 @@ alias open='xdg-open'
 alias 'p?'='ps aux | grep -i '
 alias rcd='cd "`xclip -o`"'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
-alias sokoban='clisp -i a-star.lsp -i hw3.lsp'
 alias tags='./.git/hooks/ctags >/dev/null'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
 alias tmux='tmux -u'
@@ -65,14 +63,6 @@ function connect() {
   sudo iwconfig wls3 essid "$1"
 }
 
-function findbugs(){
-  if [[ $# == 0 ]]; then
-    echo "Please supply a .class file as an argument"
-  else
-  java -jar /opt/findbugs/lib/findbugs.jar $1
-  fi
-}
-
 function up() {
   LIMIT=$1
   P=$PWD
@@ -82,44 +72,6 @@ function up() {
   done
   cd $P
   export MPWD=$P
-}
-
-function to() {
-  if [[ $# -le 1 ]]; then
-    echo "Please supply the destination, and some files or directories to copy"
-  elif [[ "$1" == "server" || "$1" == "jbaumy" ]]; then
-    shift
-    scp -r $@ james@jbaumy.com:/home/james
-  elif [[ "$1" == "desktop" ]]; then
-    shift
-    scp -r $@ james@96.251.7.41:/home/james
-  elif [[ "$1" == "desktopl" || "$1" == "desktoplocal" ]]; then
-    shift
-    scp -r $@ james@192.168.1.100:/home/james
-  fi
-}
-
-function cptlnxsrv() { # copy to linux server
-    # 3 parameters: local location to copy from (relative to current directory) | optional folder to create for dump | flags to add (no dash)
-    # if copying one file and not folder, will be renamed to second parameter
-  if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
-    echo -e "${white}takes 3 parameters:\\n\\tlocal file or directory to copy (relative to current)\\n\\toptional folder under ~/files/ to create for dump\\n\\tflags to add beyond -r (no dash)${NC}"
-  else
-    echo -e "${white}Running: scp -r$3 $1 /u/ee/ugrad/baumgart/files/$2${NC}"
-    scp -r$3 "./$1" baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$2"
-  fi
-}
-
-function cpflnxsrv() { # copy from linux server using "files" as base directory
-    # 2 parameters: location under files to copy | flags (no dash)
-    # passing no parameters will download everything under "files" and create a "files" directory
-    # passing "*" or "." downloads only the contents of files without creating a "files" directory
-  if [ "$1" = "-h" -o "$1" = "-help" -o "$1" = "--help" ]; then
-    echo -e "${white}takes 2 parameters:\\n\\tlocation under ~/files/ to copy\\n\\tflags to add beyond -r (no dash)\\n\\tpassing no parameters downloads everything in ~/files/ to SLS\\n\\tpassing * or . downloads contents of ~/files/, not parent folder${NC}"
-  else
-    echo -e "${white}Running: scp -r$2 /u/ee/ugrad/baumgart/files/$1 Downloads/Seasnet Linux Server${NC}"
-    scp -r$2 baumgart@lnxsrv.seas.ucla.edu:"/u/ee/ugrad/baumgart/files/$1" /cygdrive/d/Downloads/Seasnet\ Linux\ Server
-  fi
 }
 
 function lslnxsrv() {
