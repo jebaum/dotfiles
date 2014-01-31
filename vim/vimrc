@@ -149,6 +149,7 @@ augroup FileTypeSettings
   autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
+  autocmd BufRead,BufNewFile *.md set filetype=markdown
 augroup END
 " }}}
 " }}}
@@ -625,7 +626,7 @@ augroup OPENMP
 augroup END
 
 let g:syntastic_cpp_compiler             = 'clang++'
-let g:syntastic_cpp_compiler_options     = ' -Wall'
+let g:syntastic_cpp_compiler_options     = ' -Wall -Wextra'
 let g:syntastic_aggregate_errors         = 1         " display all errors
 let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
 let g:syntastic_error_symbol             = '✗✗'
