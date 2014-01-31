@@ -40,7 +40,7 @@ ZSH=$HOME/.oh-my-zsh
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git archlinux autojump colored-man extract web-search) # zsh-syntax-highlighting)
+plugins=(git archlinux autojump colored-man extract web-search sudo) # zsh-syntax-highlighting)
 # ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 # left off on git
 
@@ -66,8 +66,6 @@ ulimit -c unlimited
 GPG_TTY=$(tty)
 export GPG_TTY
 
-insert_sudo () { zle beginning-of-line; zle -U "sudo " }
-zle -N insert-sudo insert_sudo
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
 bindkey "^[[7~" beginning-of-line   # make home key work
 bindkey "^[[8~" end-of-line         # make end key work
@@ -79,7 +77,7 @@ bindkey "^[S"   clear-screen        # Alt+Shift+S to do what ^l does by default,
 bindkey "^F"    vi-find-next-char   # C-f takes one character input, moves to next instance
 bindkey "^D"    vi-find-prev-char   # C-d takes one character input, moves to prev instance
 bindkey "^T"    vi-repeat-find      # C-t repeats last find
-bindkey "^S"    insert-sudo         # C-s inserts 'sudo' at beginning of line
+bindkey "^S"    sudo-command-line   # C-s inserts 'sudo' at beginning of line. oh-my-zsh plugin
 bindkey "^Q"    delete-word         # C-q deletes word in front of cursor, opposite C-w
 bindkey "^G"    delete-char         # C-g deletes character in front of cursor, opposite C-h
 bindkey "^B"    undo                # C-b undoes last text modification (think 'back')
