@@ -28,6 +28,7 @@ NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mbbill/undotree'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'mhinz/vim-tmuxify'
@@ -44,7 +45,6 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'SirVer/ultisnips'
-NeoBundle 'sjl/gundo.vim'
 NeoBundle 'tacroe/unite-mark'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tmhedberg/SimpylFold'
@@ -479,10 +479,6 @@ augroup END
 " gist {{{
 let g:gist_post_private = 1 " gists are private by default
 " }}}
-" gundo {{{
-let g:gundo_width          = 40
-let g:gundo_preview_height = 40
-" }}}
 " match tag {{{
 let g:mta_filetypes = {
     \ 'html' : 1,
@@ -712,6 +708,16 @@ let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
 let g:UltiSnipsListSnippets        = "<C-j>"
+" }}}
+" undotree {{{
+let g:undotree_WindowLayout = 2
+let g:undotree_SplitWidth = 40
+let g:undotree_DiffpanelHeight = 15
+
+function g:undotree_CustomMap()
+   map <c-n> J
+   map <c-p> K
+endfunction
 " }}}
 " unite {{{
 let g:unite_cursor_line_highlight = "UniteSel"
@@ -1183,7 +1189,7 @@ nnoremap zi zk
 " function keys {{{
 nnoremap <F1>       :call StripTrailingWhitespace()<CR>
 nnoremap <F2>       :set spell!<CR>
-nnoremap <F12>      :GundoToggle<CR>
+nnoremap <F12>      :UndotreeToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
 nnoremap <silent> <leader>a    :redraw!<CR>
