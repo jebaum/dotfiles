@@ -33,6 +33,7 @@ NeoBundle 'mhinz/vim-startify'
 NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'milkypostman/vim-togglelist'
 NeoBundle 'mtth/scratch.vim'
+NeoBundle 'paradigm/TextObjectify'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'sgur/unite-qf'
@@ -658,6 +659,35 @@ let g:TagHighlightSettings['TagFileName'] = '.tags'
 let g:TagHighlightSettings['TypesFilePrefix'] = '.types' " make taghl file hidden
 let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
 " }}}
+" textobjectify {{{
+" add 1, 2, 3 text objects for searching backward for ", ', and `
+let g:textobjectify = {
+    \'(': {'left': '(', 'right': ')', 'same': 0, 'seek': 1, 'line': 0},
+    \')': {'left': '(', 'right': ')', 'same': 0, 'seek': 2, 'line': 0},
+    \'{': {'left': '{', 'right': '}', 'same': 0, 'seek': 1, 'line': 0},
+    \'}': {'left': '{', 'right': '}', 'same': 0, 'seek': 2, 'line': 0},
+    \'[': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 1, 'line': 0},
+    \']': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 2, 'line': 0},
+    \'<': {'left': '<', 'right': '>', 'same': 0, 'seek': 1, 'line': 0},
+    \'>': {'left': '<', 'right': '>', 'same': 0, 'seek': 2, 'line': 0},
+    \'"': {'left': '"', 'right': '"', 'same': 1, 'seek': 1, 'line': 0},
+    \'1': {'left': '"', 'right': '"', 'same': 1, 'seek': 2, 'line': 0},
+    \"'": {'left': "'", 'right': "'", 'same': 1, 'seek': 1, 'line': 0},
+    \"2": {'left': "'", 'right': "'", 'same': 1, 'seek': 2, 'line': 0},
+    \'`': {'left': '`', 'right': '`', 'same': 1, 'seek': 1, 'line': 0},
+    \'3': {'left': '`', 'right': '`', 'same': 1, 'seek': 2, 'line': 0},
+    \'V': {'left': '^\s*\(if\|for\|function\|try\|while\)\>',
+        \'right': '^\s*end', 'same': 0, 'seek': 1, 'line': 1},
+    \"\<cr>": {'left': '\%^', 'right': '\%$', 'same': 0, 'seek': 0,
+    \'line': 0},
+    \}
+
+" stop TextObjcetify from stealing 'i' in visual mode
+augroup TextObjectify
+    autocmd BufEnter * vnoremap i k
+augroup END
+xnoremap <silent> h <esc>:<c-u>call TextObjectify(visualmode(),'i')<cr>
+" }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
@@ -1076,77 +1106,54 @@ vnoremap <down>      gj
 nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
-" next/former objects {{{
+" Text Object / TextObjectify maps {{{
 omap h i
-onoremap in( :<c-u>normal! f(vi(<CR>
-onoremap in[ :<c-u>normal! f[vi[<CR>
-onoremap in{ :<c-u>normal! f{vi{<CR>
-onoremap in< :<c-u>normal! f<vi<<CR>
-onoremap in" :<c-u>normal! f"vi"<CR>
-onoremap in' :<c-u>normal! f'vi'<CR>
-onoremap in` :<c-u>normal! f`vi`<CR>
 
-onoremap if( :<c-u>normal! F)vi(<CR>
-onoremap if[ :<c-u>normal! F]vi[<CR>
-onoremap if{ :<c-u>normal! F}vi{<CR>
-onoremap if< :<c-u>normal! F>vi<<CR>
-onoremap if" :<c-u>normal! F"vi"<CR>
-onoremap if' :<c-u>normal! F'vi'<CR>
-onoremap if` :<c-u>normal! F`vi`<CR>
+" normal mode
+omap ip i(
+omap ib i[
+omap ic i{
+omap id i"
+omap is i'
 
-onoremap an( :<c-u>normal! f(va(<CR>
-onoremap an[ :<c-u>normal! f[va[<CR>
-onoremap an{ :<c-u>normal! f{va{<CR>
-onoremap an< :<c-u>normal! f<va<<CR>
-onoremap an" :<c-u>normal! f"va"<CR>
-onoremap an' :<c-u>normal! f'va'<CR>
-onoremap an` :<c-u>normal! f`va`<CR>
+omap ap a(
+omap ab a[
+omap ac a{
+omap ad a"
+omap as a'
 
-onoremap af( :<c-u>normal! F)va(<CR>
-onoremap af[ :<c-u>normal! F]va[<CR>
-onoremap af{ :<c-u>normal! F}va{<CR>
-onoremap af< :<c-u>normal! F>va<<CR>
-onoremap af" :<c-u>normal! F"va"<CR>
-onoremap af' :<c-u>normal! F'va'<CR>
-onoremap af` :<c-u>normal! F`va`<CR>
+omap ifp i)
+omap ifb i]
+omap ifc i}
+omap if< i>
+omap ifd i1
+omap if" i1
+omap ifs i2
+omap if' i2
+omap if` i3
 
-" easier to reach versions of above next/former maps
-omap inp in(
-omap inb in[
-omap inc in{
-omap ind in"
-omap ins in'
+omap afp a)
+omap afb a]
+omap afc a}
+omap af< a>
+omap afd a1
+omap af" a1
+omap afs a2
+omap af' a2
+omap af` a3
 
-omap ifp if(
-omap ifb if[
-omap ifc if{
-omap ifd if"
-omap ifs if'
+" visual mode
+vmap hp h(
+vmap hb h[
+vmap hc h{
+vmap hd h"
+vmap hs h'
 
-omap anp an(
-omap anb an[
-omap anc an{
-omap and an"
-omap ans an'
-
-omap afp af(
-omap afb af[
-omap afc af{
-omap afd af"
-omap afs af'
-
-" easier to reach maps for built in text objects
-onoremap ip i(
-onoremap ib i[
-onoremap ic i{
-onoremap id i"
-onoremap is i'
-
-onoremap ap a(
-onoremap ab a[
-onoremap ac a{
-onoremap ad a"
-onoremap as a'
+vmap ap a(
+vmap ab a[
+vmap ac a{
+vmap ad a"
+vmap as a'
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
