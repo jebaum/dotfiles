@@ -33,7 +33,7 @@ NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'milkypostman/vim-togglelist'
-NeoBundle 'mtth/scratch.vim'
+NeoBundle 'paradigm/SkyBison'
 NeoBundle 'paradigm/TextObjectify'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
@@ -123,6 +123,7 @@ cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
 cnoremap <C-j>  <S-Left>
 cnoremap <C-l>  <S-Right>
+cnoremap <C-b>  <c-r>=SkyBison("")<cr><cr>
 " }}}
 " SyntaxRange autocmds {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
