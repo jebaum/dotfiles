@@ -1054,8 +1054,6 @@ let mapleader = ','  " use comma instead of \ as leader
 inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
-nnoremap <CR> :
-vnoremap <CR> :
 nnoremap M %
 onoremap M %
 
@@ -1064,6 +1062,7 @@ onoremap M %
 " ,<Space>
 " <Space><CR>
 " <S-Space>
+" <CR>
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
@@ -1193,10 +1192,11 @@ nnoremap <F2>       :set spell!<CR>
 nnoremap <F12>      :UndotreeToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
+" Main {{{
 nnoremap <silent> <leader>a    :redraw!<CR>
 nnoremap          <leader>bb   :Bufsearch<Space>
 nnoremap          <leader>ba   :Allsearch<Space>
-"        <silent> <leader>c    nerdcommenter maps
+"                         c    nerdcommenter maps
 vnoremap <silent> <leader>dg   :diffget <Bar> diffupdate<CR>
 vnoremap <silent> <leader>do   :diffget <Bar> diffupdate<CR>
 vnoremap <silent> <leader>dp   :diffput <Bar> diffupdate<CR>
@@ -1207,37 +1207,28 @@ nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<
 "                         g    fugitive and signify maps
 nnoremap          <leader>l    :ls<CR>:b
 "                         m    make maps
+nnoremap          <leader>oe   :<c-u>call SkyBison("e ")<CR>
+nnoremap          <leader>ot   :<c-u>call SkyBison("tabedit ")<CR>
 nnoremap <silent> <leader>p    :set list!<CR>
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 nnoremap <silent> <leader>r    :Dispatch!<CR>
-nnoremap <silent> <leader>s    :syntax sync fromstart<CR>
-vnoremap <silent> <leader>s    :!sort -f<CR>
+"                         s    search mappings
 nnoremap <silent> <leader>ta   :Alltodo<CR>
 nnoremap <silent> <leader>tl   :call ToggleLocationList()<CR>
 nnoremap <silent> <leader>tq   :let g:toggle_list_copen_command="copen"<CR>
                               \:call ToggleQuickfixList()<CR>
-nnoremap <silent> <leader>tQ   :let g:toggle_list_copen_command="Copen"<CR>
-                              \:call ToggleQuickfixList()<CR>
 nnoremap <silent> <leader>tt   :Buftodo<CR>
 nnoremap <silent> <leader>u    yyp^v$r
-"                         v    search/replace maps
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :wq<CR>
 nnoremap <silent> <leader>zh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
+nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader><CR> :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 
 nnoremap <silent> <leader><leader>r  :Dispatch<CR>
-
-" search/replace maps
-nnoremap <leader>v          :s/\v
-vnoremap <leader>v          :s/\v
-nnoremap <leader>V          :s/\V
-vnoremap <leader>V          :s/\V
-nnoremap <leader><leader>v  :%s/\v
-nnoremap <leader><leader>V  :%s/\V
-
-" <leader>g[ikht] taken by signify
+" }}}
+" <leader>g[ikht] signify {{{
 nnoremap <silent> <leader>gb  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
@@ -1250,16 +1241,26 @@ nnoremap <silent> <leader>gp  :call GitPush()<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
-
-" Make
+" }}}
+" <leader>m[acfq] Make {{{
 nnoremap <leader>ma          :Make! -j4<CR>
 nnoremap <leader><leader>ma  :Make  -j4<CR>
 nnoremap <leader>mc          :Make! clean<CR>
 nnoremap <leader><leader>mc  :Make  clean<CR>
 nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
-
-" Under cursor or visual selection, search Buffer or Arglist
+nnoremap <leader>mq          :let g:toggle_list_copen_command="Copen"<CR>
+                             \:call ToggleQuickfixList()<CR>
+" }}}
+" <leader>s search/replace maps {{{
+nnoremap <leader>s          :s/\v
+vnoremap <leader>s          :s/\v
+nnoremap <leader>S          :s/\V
+vnoremap <leader>S          :s/\V
+nnoremap <leader><leader>s  :%s/\v
+nnoremap <leader><leader>S  :%s/\V
+" }}}
+" <leader>[#*] Under cursor or visual selection, search Buffer or Arglist {{{
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'), "%", " <BAR> cw")<CR>
 vnoremap <leader>* :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
@@ -1268,6 +1269,7 @@ nnoremap <leader># :<C-U>call VimGrep(substitute(escape(expand("<cword>")
                       \, '\'), '\n', '\\n', 'g'), "##", " <BAR> cw")<CR>
 vnoremap <leader># :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
                       \, "\n", '\\n', "g"), "##", " <BAR> cw")<CR>
+" }}}
 " }}}
 " space leader maps. unite + tabularize {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
