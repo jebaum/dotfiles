@@ -1164,9 +1164,9 @@ vmap as a'
 " ijkl instead of hjkl {{{
 nnoremap j h
 vnoremap j h
-nnoremap <expr> i (v:count > 5 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
+nnoremap <expr> i (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
 vnoremap i k
-nnoremap <expr> k (v:count > 5 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
+nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 vnoremap k j
 
 " since 'i' is now used for motion, make 'h' do what 'i' used to
