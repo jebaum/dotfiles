@@ -587,6 +587,20 @@ let g:slimv_swank_clojure = '! urxvt -e lein swank &'
 " sneak  {{{
 let g:sneak#use_ic_scs = 1
 xmap <nop> <Plug>VSneakForward
+"replace 'f' with inclusive 1-char Sneak
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+"replace 't' with exclusive 1-char Sneak
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -1056,6 +1070,7 @@ nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
 nnoremap M %
 onoremap M %
+nnoremap ; :
 
 " TODO: still can be mapped
 " <Space>,
@@ -1063,6 +1078,7 @@ onoremap M %
 " <Space><CR>
 " <S-Space>
 " <CR>
+" ; or :
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
@@ -1085,11 +1101,10 @@ nnoremap "+x "+x
 nnoremap <expr> X v:register == '+' ? '"_X' : 'X'
 nnoremap "+X "+X
 
-" searching jumps to middle of screen, and opens fold if in one
+" searching opens fold if in one
 nnoremap ? :set cursorline cursorcolumn<CR>?
 nnoremap n :set cursorline cursorcolumn<CR>nzv
 nnoremap N :set cursorline cursorcolumn<CR>Nzv
-nmap     / <Plug>SneakPrevious
 cnoremap <silent> <C-c> <C-c>:set nocursorline nocursorcolumn<CR>
 
 " always show multiple tag options, open in new window
