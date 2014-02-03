@@ -137,13 +137,8 @@ augroup END
 " }}}
 " FileType autocmds {{{
 augroup FileTypeSettings
-  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text
+  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text,markdown
           \ autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
-
-  autocmd FileType tex nnoremap <leader>w :w!<CR>
-                  \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
-                  \:call system("killall -HUP mupdf")<CR>
-  autocmd FileType tex nnoremap <leader>lv :!mupdf %:r.pdf &<CR><CR>
 
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
@@ -152,6 +147,17 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
+  autocmd FileType markdown nnoremap <buffer> <leader>mf :w!<CR>
+                  \:call system("pandoc -V geometry:margin=0.5in " . shellescape(expand('%:p')) .
+                  \" -o " . shellescape(expand('%:p:r')) . ".pdf")<CR>
+                  \:call system("killall -HUP mupdf")<CR><CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>
+                  \:call system("pandoc " . shellescape(expand('%:p')) .
+                  \" -o " . shellescape(expand('%:p:r')) . ".html")<CR>
+  autocmd FileType tex nnoremap <buffer> <leader>mf :w!<CR>
+                  \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
+                  \:call system("killall -HUP mupdf")<CR>
+  autocmd FileType tex,markdown nnoremap <buffer> <leader>mr :!mupdf %:r.pdf &<CR><CR>
 augroup END
 " }}}
 " }}}
