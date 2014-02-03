@@ -20,6 +20,7 @@ config/dwb/adblock_lists/
 config/dwb/default/*
 
 config/gtk-youtube-viewer/*.??t
+config/youtube-viewer/*.cat
 
 vim/.netrwhist
 vim/bundle/*
