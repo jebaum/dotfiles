@@ -1275,12 +1275,12 @@ nnoremap <leader>mq          :let g:toggle_list_copen_command="Copen"<CR>
                              \:call ToggleQuickfixList()<CR>
 " }}}
 " <leader>s search/replace maps {{{
-nnoremap <leader>s          :s/\v
-vnoremap <leader>s          :s/\v
-nnoremap <leader>S          :s/\V
-vnoremap <leader>S          :s/\V
-nnoremap <leader><leader>s  :%s/\v
-nnoremap <leader><leader>S  :%s/\V
+nnoremap <leader>s          :smagic/
+vnoremap <leader>s          :smagic/
+nnoremap <leader>S          :snomagic/
+vnoremap <leader>S          :snomagic/
+nnoremap <leader><leader>s  :%smagic/
+nnoremap <leader><leader>S  :%snomagic/
 " }}}
 " <leader>[#*] Under cursor or visual selection, search Buffer or Arglist {{{
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
