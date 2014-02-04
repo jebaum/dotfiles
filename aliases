@@ -35,6 +35,8 @@ alias network='lsof -P -i -n'
 alias ocaml='rlwrap -m ocaml'
 alias open='xdg-open'
 alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
+alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
+alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
 alias pandocunicode='pandoc --latex-engine=xelatex -V geometry:margin=0.5in -f markdown+hard_line_breaks' # requires texlive-latexextra on arch
 alias 'p?'='ps aux | grep -i '
 alias rcd='cd "`xclip -o`"'

@@ -7,4 +7,47 @@ snippet nonumbers "no page numbers" !
 \pagenumbering{gobble}
 $0
 endsnippet
+
+snippet code "block of code" b
+\`\`\`
+$1
+\`\`\`
+$0
+endsnippet
+
+snippet codenumbered "line numbered block of code" b
+~~~ {.${1:LANGUAGE} .numberLines startFrom="${2:START NUMBER}"}
+$3
+~~~
+$0
+endsnippet
+
+snippet comment "insert markdown comment" b
+<!--
+$1
+-->
+$0
+endsnippet
+
+snippet title "Title block" b
+% ${1:`!v Filename('', 'title')`}
+% ${2:`!v g:snips_author`}
+% ${3:`!v strftime("%d %b %Y")`}
+
+$0
+endsnippet
+
+snippet define "Definition" b
+${1:term}
+  ~  ${2:definition}
+endsnippet
+
+snippet [
+[${1:link}](http://${2:url} "${3:title}")$0
+endsnippet
+
+snippet [@
+[${1:link}](mailto:${2:email})${3}
+endsnippet
+
 # vim:ft=snippets:

@@ -155,19 +155,20 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
+  autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownLineBreakToggle()<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>md :w!<CR>:silent call Markdown('deleted','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownHighlightToggle()<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mv :call Markdown('open', 'pdf')<CR>
+  autocmd FileType tex nnoremap      <buffer> <leader>mv :!mupdf shellescape(expand('%:p:r')).'.pdf' &<CR><CR>
                   \:echo b:pdfstuff_message<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>r :w!<CR>:silent call Markdown('built','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
-  autocmd FileType tex nnoremap <buffer> <leader>r :w!<CR>
+  autocmd FileType tex nnoremap      <buffer> <leader>r :w!<CR>
                   \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
                   \:call system("killall -HUP mupdf")<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mv :call Markdown('open', 'pdf')<CR>
-  autocmd FileType tex nnoremap <buffer> <leader>mv :!mupdf shellescape(expand('%:p:r')).'.pdf' &<CR><CR>
 augroup END
-
 " }}}
 " }}}
 " Functions {{{
@@ -392,7 +393,29 @@ function! MapInterpreter(ftype, interpreter)
   execute 'vnoremap <leader>i y:silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < %<CR>:normal! jdGggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>p'
 endfunction
 " }}}
-" Markdown function {{{
+" Markdown functions {{{
+let b:markdown_highlight = ''  " highlighting on by default
+function MarkdownHighlightToggle()
+  if b:markdown_highlight == '--no-highlight '
+    let b:markdown_highlight = ''
+    echo "turned on highlighting"
+  else
+    let b:markdown_highlight = '--no-highlight '
+    echo "turned off highlighting"
+  endif
+endfunction
+
+let b:markdown_linebreak = '+hard_line_breaks '
+function MarkdownLineBreakToggle()
+  if b:markdown_linebreak == ' '
+    let b:markdown_linebreak = '+hard_line_breaks '
+    echo "turned on hard line breaks"
+  else
+    let b:markdown_linebreak = ' '
+    echo "turned off hard line breaks"
+  endif
+endfunction
+
 function Markdown(action, output)
   if &filetype == 'markdown'
     let dir_fullpath       = expand('%:p:h')
@@ -400,7 +423,7 @@ function Markdown(action, output)
     let base_name          = expand('%:p:t:r')
     let input_file         = expand('%:p')
     let output_file        = shellescape(dir_fullpath).'/'.a:output.'/'.shellescape(base_name).'.'.a:output
-    let pandoc_command     = 'pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks '
+    let pandoc_command     = 'pandoc -V geometry:margin=0.5in -f markdown' . b:markdown_linebreak . b:markdown_highlight
     let b:pdfstuff_message = a:action.' '.a:output.'/'.base_name.'.'.a:output
 
     if !isdirectory(dir_fullpath.'/'.a:output)
@@ -730,6 +753,7 @@ let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
 let g:UltiSnipsListSnippets        = "<C-j>"
+let g:snips_author = 'James Baumgarten'
 " }}}
 " undotree {{{
 let g:undotree_WindowLayout = 2
