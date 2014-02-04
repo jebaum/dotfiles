@@ -129,17 +129,19 @@ cnoremap <C-b>  <c-r>=SkyBison("")<cr><cr>
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   " for backward compatibility
-  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
   au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
   au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
   au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
   au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ocaml@','@end=ocaml@','ocaml','Comment')
+  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
 
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```text',  '```',  'text',  'Tabline')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```c',     '```',  'c',     'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```cpp',   '```',  'cpp',   'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```lisp',  '```',  'lisp',  'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```ocaml', '```',  'ocaml', 'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```c',      '```',  'c',     'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```cpp',    '```',  'cpp',   'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```lisp',   '```',  'lisp',  'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```ocaml',  '```',  'ocaml', 'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```prolog', '```',  'prolog', 'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```python', '```',  'python', 'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```text',   '```',  'text',  'Tabline')
 augroup END
 " }}}
 " FileType autocmds {{{
@@ -402,7 +404,7 @@ function Markdown(action, output)
 
     if !isdirectory(dir_fullpath.'/'.a:output)
       if dir_current == "notes"
-        call system('mkdir '.shellescape(dir_fullpath).'/' a:output)
+        call system('mkdir '.shellescape(dir_fullpath).'/'.a:output)
       else
         let output_file        = shellescape(dir_fullpath).'/'.shellescape(base_name).'.'.a:output
         let b:pdfstuff_message = a:action.' '.base_name.'.'.a:output
