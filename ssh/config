@@ -1,9 +1,9 @@
-Host desktop
+Host rig
   HostName 96.251.7.41
   Port 22
   User james
 
-Host desktopl
+Host rigl
   HostName 192.168.1.100
   Port 22
   User james
@@ -15,5 +15,10 @@ Host jbaumy
 
 Host lnxsrv
   HostName lnxsrv.seas.ucla.edu
+  Port 22
+  User baumgart
+
+Host 133
+  HostName cs133.seas.ucla.edu
   Port 22
   User baumgart

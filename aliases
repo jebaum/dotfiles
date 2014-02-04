@@ -3,12 +3,7 @@ alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
 alias aliases='vim ~/.aliases && reload'
 
 # ssh aliases
-alias lnxsrv='ssh baumgart@lnxsrv.seas.ucla.edu'
-alias jbaumy='mosh james@jbaumy.com'
-alias rig5='mosh james@96.251.7.41'
-alias rig5local='mosh 192.168.1.100'
 alias sshl='ssh jebaum@linux.ucla.edu'
-alias 133='ssh baumgart@cs133.seas.ucla.edu'
 
 # folder aliases
 alias lab1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/1'
