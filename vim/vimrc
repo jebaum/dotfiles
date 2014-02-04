@@ -146,7 +146,6 @@ augroup END
 augroup FileTypeSettings
   autocmd FileType c,cpp,java,php,ruby,ocaml,python,text,markdown
           \ autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
-
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
@@ -154,17 +153,18 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-
-  autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>
-                  \:call system("pandoc -f markdown+hard_line_breaks " . shellescape(expand('%:p')) .
-                  \" -o " . shellescape(expand('%:p:r')) . ".html")<CR>
-  autocmd FileType tex,markdown nnoremap <buffer> <leader>r :w!<CR>:silent Dispatch!<CR>
-                  \:echo "built " . shellescape(expand('%:p:r')) . ".pdf"<CR>
-  autocmd FileType tex,markdown nnoremap <buffer> <leader>md :w!<CR>
-                  \:call system("rm " . shellescape(expand('%:p:r')) . ".pdf")<CR>
-                  \:echo "deleted " . shellescape(expand('%:p:r')) . ".pdf"<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>md :w!<CR>:silent call Markdown('deleted','pdf')<CR>
+                  \:echo b:pdfstuff_message<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
+                  \:echo b:pdfstuff_message<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>r :w!<CR>:silent call Markdown('built','pdf')<CR>
+                  \:echo b:pdfstuff_message<CR>
+  autocmd FileType tex nnoremap <buffer> <leader>r :w!<CR>
+                  \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
+                  \:call system("killall -HUP mupdf")<CR>
   autocmd FileType tex,markdown nnoremap <buffer> <leader>mv :!mupdf %:r.pdf &<CR><CR>
 augroup END
+
 " }}}
 " }}}
 " Functions {{{
@@ -346,10 +346,6 @@ function! GenerateRunCommand(...)
     return 'ocaml ' . shellescape(expand('%'))
   elseif ftype == 'lisp'
     return 'clisp ' . shellescape(expand('%'))
-  elseif ftype == 'markdown'
-      return 'pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r')) . '.pdf && killall -HUP mupdf'
-  elseif ftype == 'tex'
-      return 'rubber --pdf --warn all ' . shellescape(expand('%:p')) . ' && killall -HUP mupdf'
   endif
 
 endfunction
@@ -402,6 +398,37 @@ function! MapInterpreter(ftype, interpreter)
   execute 'nnoremap <leader>i :silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d \|setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < #<CR>:normal ggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>p'
 
   execute 'vnoremap <leader>i y:silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < %<CR>:normal! jdGggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>p'
+endfunction
+" }}}
+" Markdown function {{{
+function Markdown(action, output)
+  if &filetype == 'markdown'
+    let dir_fullpath       = expand('%:p:h')
+    let dir_current        = expand('%:p:h:t')
+    let base_name          = expand('%:p:t:r')
+    let input_file         = expand('%:p')
+    let output_file        = shellescape(dir_fullpath).'/'.a:output.'/'.shellescape(base_name).'.'.a:output
+    let pandoc_command     = 'pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks '
+    let b:pdfstuff_message = a:action.' '.a:output.'/'.base_name.'.'.a:output
+
+    if !isdirectory(dir_fullpath.'/'.a:output)
+      if dir_current == "notes"
+        call system('mkdir '.shellescape(dir_fullpath).'/' a:output)
+      else
+        let output_file        = shellescape(dir_fullpath).'/'.shellescape(base_name).'.'.a:output
+        let b:pdfstuff_message = a:action.' '.base_name.'.'.a:output
+      endif
+    endif
+
+    if a:action == 'built'
+      call system(pandoc_command.shellescape(input_file).' -o '.output_file)
+        if a:output == 'pdf'
+          call system('killall -HUP mupdf')
+        endif
+    elseif a:action == 'deleted'
+      call system('rm '.output_file)
+    endif
+  endif
 endfunction
 " }}}
 " }}}
@@ -466,7 +493,7 @@ endfunction
 " }}}
 " dispatch {{{
 augroup DISPATCH
-  autocmd FileType c,cpp,sh,python,ocaml,lisp,markdown     let b:dispatch = GenerateRunCommand()
+  autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
 augroup END
 " }}}
 " easymotion {{{
