@@ -1,37 +1,38 @@
-snippet notes "Plaintext syntax block" b
-@begin=text@
-$1
-@end=text@
-$0
-endsnippet
-
 snippet notesc "C syntax block" b
-@begin=c@
+\`\`\`c
 $1
-@end=c@
+\`\`\`
 $0
 endsnippet
 
 snippet notescpp "C++ syntax block" b
-@begin=cpp@
+\`\`\`cpp
 $1
-@end=cpp@
+\`\`\`
 $0
 endsnippet
 
 snippet noteslisp "Lisp syntax block" b
-@begin=lisp@
+\`\`\`lisp
 $1
-@end=lisp@
+\`\`\`
 $0
 endsnippet
 
 snippet notesocaml "OCaml syntax block" b
-@begin=ocaml@
+\`\`\`ocaml
 $1
-@end=ocaml@
+\`\`\`
 $0
 endsnippet
+
+snippet notestext "Plaintext syntax block" b
+\`\`\`text
+$1
+\`\`\`
+$0
+endsnippet
+
 
 snippet date
 `!v strftime("%Y-%m-%d")`

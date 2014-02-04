@@ -128,11 +128,18 @@ cnoremap <C-b>  <c-r>=SkyBison("")<cr><cr>
 " SyntaxRange autocmds {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=text@',  '@end=text@',  'text',  'Tabline')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=c@',     '@end=c@',     'c',     'Comment')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=cpp@',   '@end=cpp@',   'cpp',   'Comment')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=lisp@',  '@end=lisp@',  'lisp',  'Comment')
-  autocmd BufEnter *.txt call SyntaxRange#Include('@begin=ocaml@', '@end=ocaml@', 'ocaml', 'Comment')
+  " for backward compatibility
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@',  '@end=text@',  'text',  'Tabline')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',     '@end=c@',     'c',     'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',   '@end=cpp@',   'cpp',   'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@',  '@end=lisp@',  'lisp',  'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ocaml@', '@end=ocaml@', 'ocaml', 'Comment')
+
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```text',  '```',  'text',  'Tabline')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```c',     '```',  'c',     'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```cpp',   '```',  'cpp',   'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```lisp',  '```',  'lisp',  'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```ocaml', '```',  'ocaml', 'Comment')
 augroup END
 " }}}
 " FileType autocmds {{{
@@ -147,17 +154,16 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd FileType markdown nnoremap <buffer> <leader>mf :w!<CR>
-                  \:call system("pandoc -V geometry:margin=0.5in " . shellescape(expand('%:p')) .
-                  \" -o " . shellescape(expand('%:p:r')) . ".pdf")<CR>
-                  \:call system("killall -HUP mupdf")<CR><CR>
+
   autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>
-                  \:call system("pandoc " . shellescape(expand('%:p')) .
+                  \:call system("pandoc -f markdown+hard_line_breaks " . shellescape(expand('%:p')) .
                   \" -o " . shellescape(expand('%:p:r')) . ".html")<CR>
-  autocmd FileType tex nnoremap <buffer> <leader>mf :w!<CR>
-                  \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
-                  \:call system("killall -HUP mupdf")<CR>
-  autocmd FileType tex,markdown nnoremap <buffer> <leader>mr :!mupdf %:r.pdf &<CR><CR>
+  autocmd FileType tex,markdown nnoremap <buffer> <leader>r :w!<CR>:silent Dispatch!<CR>
+                  \:echo "built " . shellescape(expand('%:p:r')) . ".pdf"<CR>
+  autocmd FileType tex,markdown nnoremap <buffer> <leader>md :w!<CR>
+                  \:call system("rm " . shellescape(expand('%:p:r')) . ".pdf")<CR>
+                  \:echo "deleted " . shellescape(expand('%:p:r')) . ".pdf"<CR>
+  autocmd FileType tex,markdown nnoremap <buffer> <leader>mv :!mupdf %:r.pdf &<CR><CR>
 augroup END
 " }}}
 " }}}
@@ -322,6 +328,7 @@ function! GitPush()
 endfunction
 " }}}
 " GenerateRunCommand function {{{
+" an autocmd sets b:dispatch to the output of this command for certain filetypes
 function! GenerateRunCommand(...)
   if a:0 == 1
     let ftype = a:1
@@ -339,11 +346,16 @@ function! GenerateRunCommand(...)
     return 'ocaml ' . shellescape(expand('%'))
   elseif ftype == 'lisp'
     return 'clisp ' . shellescape(expand('%'))
+  elseif ftype == 'markdown'
+      return 'pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r')) . '.pdf && killall -HUP mupdf'
+  elseif ftype == 'tex'
+      return 'rubber --pdf --warn all ' . shellescape(expand('%:p')) . ' && killall -HUP mupdf'
   endif
 
 endfunction
 " }}}
 " GenerateBuildCommand function {{{
+" used for tmuxify build mapping
 function! GenerateBuildCommand()
   if &filetype == 'c'
     let my_compiler = 'gcc'
@@ -454,7 +466,7 @@ endfunction
 " }}}
 " dispatch {{{
 augroup DISPATCH
-  autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
+  autocmd FileType c,cpp,sh,python,ocaml,lisp,markdown     let b:dispatch = GenerateRunCommand()
 augroup END
 " }}}
 " easymotion {{{

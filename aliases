@@ -39,6 +39,7 @@ alias myip='curl icanhazip.com'
 alias network='lsof -P -i -n'
 alias ocaml='rlwrap -m ocaml'
 alias open='xdg-open'
+alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias 'p?'='ps aux | grep -i '
 alias rcd='cd "`xclip -o`"'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
