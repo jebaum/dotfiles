@@ -129,11 +129,11 @@ cnoremap <C-b>  <c-r>=SkyBison("")<cr><cr>
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   " for backward compatibility
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@',  '@end=text@',  'text',  'Tabline')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',     '@end=c@',     'c',     'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',   '@end=cpp@',   'cpp',   'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@',  '@end=lisp@',  'lisp',  'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ocaml@', '@end=ocaml@', 'ocaml', 'Comment')
+  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
+  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
+  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
+  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
+  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ocaml@','@end=ocaml@','ocaml','Comment')
 
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```text',  '```',  'text',  'Tabline')
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```c',     '```',  'c',     'Comment')
@@ -302,17 +302,6 @@ endfunction
 
 xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
-" }}}
-" Ranger file chooser function {{{
-" only works on a single file. more just for fun than practicality
-function! RangerChooser()
-    exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
-    if filereadable('/tmp/chosenfile')
-        exec 'edit ' . system('cat /tmp/chosenfile')
-        call system('rm /tmp/chosenfile')
-    endif
-    redraw!
-endfunction
 " }}}
 " GitPush with dispatch function {{{
 function! GitPush()
@@ -496,11 +485,6 @@ augroup DISPATCH
   autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
 augroup END
 " }}}
-" easymotion {{{
-" stop some annoying maps from getting set
-let g:EasyMotion_special_select_phrase = 0
-let g:EasyMotion_special_select_line   = 0
-" }}}
 " exchange {{{
 " default is cx, this prevents map lag when hitting 'c' in visual mode
 vmap s <Plug>(Exchange)
@@ -609,12 +593,6 @@ let g:niji_dark_colours = [
                         \ [ '196', '#FF0000']
                         \ ]
 " }}}
-" paredit {{{
-let g:paredit_leader = '\'
-" }}}
-" simplyfold {{{
-let g:SimplyFold_docstring_preview = 0
-" }}}
 " signify {{{
 let g:signify_disable_by_default = 1            " disable run by default
 let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
@@ -622,30 +600,9 @@ let g:signify_mapping_next_hunk  = '<leader>gk'
 let g:signify_mapping_prev_hunk  = '<leader>gi'
 let g:signify_sign_change        = '~'
 " }}}
-" slimv {{{
-let g:slimv_leader        = '\'
-let g:slimv_repl_wrap     = 0 " stop j and k from getting remapped. unfortunately also stops REPL wrapping
-let g:lisp_rainbow        = 1 " will get overridden by niji, but works in @begin=*@ blocks
-let g:slimv_swank_cmd     = '! urxvt -e sbcl --load /usr/share/common-lisp/source/slime/start-swank.lisp &'
-let g:slimv_swank_clojure = '! urxvt -e lein swank &'
-" }}}
 " sneak  {{{
 let g:sneak#use_ic_scs = 1
 xmap <nop> <Plug>VSneakForward
-"replace 'f' with inclusive 1-char Sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-"replace 't' with exclusive 1-char Sneak
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -672,6 +629,8 @@ let g:startify_custom_header     = [
 " syntastic {{{
 let g:syntastic_c_compiler               = 'clang'
 let g:syntastic_c_compiler_options       = ' -Wall -Wextra'
+let g:syntastic_cpp_compiler             = 'clang++'
+let g:syntastic_cpp_compiler_options     = ' -Wall -Wextra'
 
 function! SyntasticOpenMP()
   let g:syntastic_c_compiler         = 'gcc'
@@ -682,8 +641,6 @@ augroup OPENMP
   autocmd BufEnter /home/james/Dropbox/Documents/UCLA/Y3Q2/CS133/* call SyntasticOpenMP()
 augroup END
 
-let g:syntastic_cpp_compiler             = 'clang++'
-let g:syntastic_cpp_compiler_options     = ' -Wall -Wextra'
 let g:syntastic_aggregate_errors         = 1         " display all errors
 let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
 let g:syntastic_error_symbol             = '✗✗'
