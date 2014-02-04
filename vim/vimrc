@@ -164,7 +164,8 @@ augroup FileTypeSettings
   autocmd FileType tex nnoremap <buffer> <leader>r :w!<CR>
                   \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
                   \:call system("killall -HUP mupdf")<CR>
-  autocmd FileType tex,markdown nnoremap <buffer> <leader>mv :!mupdf %:r.pdf &<CR><CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mv :call Markdown('open', 'pdf')<CR>
+  autocmd FileType tex nnoremap <buffer> <leader>mv :!mupdf shellescape(expand('%:p:r')).'.pdf' &<CR><CR>
 augroup END
 
 " }}}
@@ -418,6 +419,8 @@ function Markdown(action, output)
         endif
     elseif a:action == 'deleted'
       call system('rm '.output_file)
+    elseif a:action == 'open'
+      call system('mupdf ' . output_file . '&')
     endif
   endif
 endfunction
