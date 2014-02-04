@@ -525,7 +525,7 @@ endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-inoremap <expr> <C-k>    neocomplete#undo_completion()
+" inoremap <expr> <C-k>    neocomplete#undo_completion()
 inoremap <expr> <C-f>    neocomplete#complete_common_string()
 inoremap <expr> <TAB>    pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <CR>     pumvisible() ? neocomplete#close_popup() : "\<CR>"
