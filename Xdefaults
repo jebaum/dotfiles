@@ -17,7 +17,7 @@ urxvt*background: [90]#0a0a0a
 URxvt.perl-ext-common : default,,keyboard-select,url-select,clipboard
 
 URxvt*transparent:true
-URxvt*shading:10
+URxvt*shading:15
 
 URxvt.keysym.M-x           : perl:keyboard-select:activate
 URxvt.keysym.M-u           : perl:url-select:select_next
@@ -77,7 +77,7 @@ URxvt.color3  : #fd971f
 URxvt.color11 : #E1AA5D
 
 ! blue
-URxvt.color4  : #268BD2
+URxvt.color4  : #224488
 URxvt.color12 : #6699FF
 
 ! magenta
