@@ -10,9 +10,9 @@ hardstatus alwayslastline
 #hardstatus string '%{= kG}[V %?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}]'
 
 #hardstatus string "%{.kG}%-Lw%{.KW}%n%f %t%{-}%+Lw %=%{..G} %H %{..W} %d/%m %C%a "
-escape ^Ff
+escape ^Gg
 
-hardstatus string '%{= kg}[%{R}F%{-} %{G}%H%{-} ][%= %{w}%-Lw%{R}(%{-}%{W}%n*%f %t%{-}%{R})%{-}%+Lw%{-} %=] [ %{y}%0c %Y-%m-%d%{-} %{M}%l%{-} ]%{= dd}'
+hardstatus string '%{= kg}[%{R}G%{-} %{G}%H%{-} ][%= %{w}%-Lw%{R}(%{-}%{W}%n*%f %t%{-}%{R})%{-}%+Lw%{-} %=] [ %{y}%0c %Y-%m-%d%{-} %{M}%l%{-} ]%{= dd}'
 
 startup_message off
 attrcolor b ".I"
