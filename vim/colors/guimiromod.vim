@@ -10,10 +10,10 @@ hi Cursor       ctermfg=234   ctermbg=228    cterm=none  guifg=#1C1C1C  guibg=#F
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
 hi Folded       ctermfg=35    ctermbg=16     cterm=none  guifg=#00AF5F  guibg=#000000  gui=none
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
-hi LineNr       ctermfg=110   ctermbg=16     cterm=none  guifg=#87AFD7  guibg=#000000  gui=none
+hi LineNr       ctermfg=242   ctermbg=16     cterm=none  guifg=#6C6C6C  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
 hi NonText      ctermfg=244   ctermbg=233    cterm=none  guifg=#808080  guibg=#121212  gui=none
-hi Normal       ctermfg=231   ctermbg=0      cterm=none  guifg=#FFFFFF  guibg=#0A0A0A  gui=none
+hi Normal       ctermfg=231   ctermbg=232    cterm=none  guifg=#FFFFFF  guibg=#080808  gui=none
 hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
 hi StatusLine   ctermfg=230   ctermbg=238    cterm=none  guifg=#FFFFD7  guibg=#444444  gui=none
@@ -30,9 +30,9 @@ hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none  guifg=#FFFF00  guibg=#0
 hi! link FoldColumn   Folded
 
 if version >= 700
-hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
-hi CursorColumn ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
-hi CursorLineNr ctermfg=226  ctermbg=234     cterm=bold  guifg=#FFFF00  guibg=#1C1C1C  gui=bold
+hi CursorLine   ctermfg=NONE ctermbg=233     cterm=none  guifg=NONE     guibg=#121212  gui=none
+hi CursorColumn ctermfg=NONE ctermbg=233     cterm=none  guifg=NONE     guibg=#121212  gui=none
+hi CursorLineNr ctermfg=231  ctermbg=4       cterm=bold  guifg=#FFFFFF  guibg=#224488  gui=bold
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=2    ctermbg=16                  guifg=#859900  guibg=#000000
 hi PmenuSel     ctermfg=46   ctermbg=234     cterm=bold  guifg=#00FF00  guibg=#1C1C1C  gui=bold
@@ -94,7 +94,6 @@ hi Ignore         ctermfg=8                             guifg=#555753
 hi Include        ctermfg=5                             guifg=#FF33CC
 hi Keyword        ctermfg=9                             guifg=#E84F4F
 hi Label          ctermfg=13                            guifg=#FF66FF
-hi LineNr         ctermfg=8                             guifg=#555753
 hi Macro          ctermfg=13                            guifg=#FF66FF
 hi ModeMsg        ctermfg=13                            guifg=#FF66FF
 hi MoreMsg        ctermfg=13                            guifg=#FF66FF
