@@ -50,7 +50,7 @@ URxvt.urgentOnBell: true
 
 URxvt.cursorBlink: 1
 URxvt.cursorUnderline: 0
-URxvt.cursorColor            : #FFFFFF
+URxvt.cursorColor            : #FFFF87
 URxvt.pointerColorBackground : #586E75
 URxvt.pointerColorForeground : #93A1A1
 
