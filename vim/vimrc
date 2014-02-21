@@ -151,7 +151,7 @@ augroup FileTypeSettings
           \ autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
-  autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
+  autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
   autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
