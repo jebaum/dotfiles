@@ -38,7 +38,9 @@ alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
 alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
 alias pandocunicode='pandoc --latex-engine=xelatex -V geometry:margin=0.5in -f markdown+hard_line_breaks' # requires texlive-latexextra on arch
+alias pong='ping 8.8.8.8 -c 4'
 alias prolog='gprolog'
+alias publish='python3 -m http.server 8080'
 alias 'p?'='ps aux | grep -i '
 alias rcd='cd "`xclip -o`"'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
@@ -62,6 +64,9 @@ fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
 function connect() {
   sudo iwconfig wls3 essid "$1"
 }
+
+
+function say() { echo mpv -really-quiet "http://translate.google.com/translate_tts?tl=en\&q=$*" | sed 's/ /+/3g' | sh 2>/dev/null; }
 
 function up() {
   LIMIT=$1
