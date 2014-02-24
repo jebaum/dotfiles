@@ -113,6 +113,7 @@ set nojoinspaces        " use only one space after a period when joining lines
 " }}}
 " Command mode maps and abbreviations {{{
 command! CD cd %:p:h
+command! SearchCount %s///gn
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
@@ -123,7 +124,13 @@ cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
 cnoremap <C-j>  <S-Left>
 cnoremap <C-l>  <S-Right>
-cnoremap <C-b>  <c-r>=SkyBison("")<cr><cr>
+
+" allows incsearch highlighting for range commands
+cnoremap $t <CR>:t''<CR>
+cnoremap $T <CR>:''t.<CR>
+cnoremap $m <CR>:m''<CR>
+cnoremap $M <CR>:''m.<CR>
+cnoremap $d <CR>:d<CR>``
 " }}}
 " SyntaxRange autocmds {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
@@ -305,8 +312,8 @@ function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
   let @s = temp
 endfunction
 
-xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
+xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>N
+xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>N
 " }}}
 " GitPush with dispatch function {{{
 function! GitPush()
@@ -1103,6 +1110,8 @@ onoremap <C-f> /\V
 nnoremap M %
 onoremap M %
 nnoremap ; :
+nnoremap * *N
+nnoremap # #N
 
 " TODO: still can be mapped
 " <Space>,
@@ -1299,13 +1308,13 @@ nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader>mq          :let g:toggle_list_copen_command="Copen"<CR>
                              \:call ToggleQuickfixList()<CR>
 " }}}
-" <leader>s search/replace maps {{{
-nnoremap <leader>s          :smagic/
-vnoremap <leader>s          :smagic/
-nnoremap <leader>S          :snomagic/
-vnoremap <leader>S          :snomagic/
-nnoremap <leader><leader>s  :%smagic/
-nnoremap <leader><leader>S  :%snomagic/
+" <leader>{1,2}s search/replace maps {{{
+nnoremap <leader>s          :s/\V
+vnoremap <leader>s          :s/\V
+nnoremap <leader>S          :s/\v
+vnoremap <leader>S          :s/\v
+nnoremap <leader><leader>s  :%s/\V
+nnoremap <leader><leader>S  :%s/\v
 " }}}
 " <leader>[#*] Under cursor or visual selection, search Buffer or Arglist {{{
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
