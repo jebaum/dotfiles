@@ -22,38 +22,36 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'itchyny/calendar.vim'
-NeoBundle 'jamessan/vim-gnupg'
+NeoBundle 'jamessan/vim-gnupg'                  " rarely used
 NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'majutsushi/tagbar'
+NeoBundle 'majutsushi/tagbar'                   " rarely used
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mbbill/undotree'
-NeoBundle 'mhinz/vim-signify'
-NeoBundle 'mhinz/vim-startify'
+NeoBundle 'mbbill/undotree'                     " rarely used
+NeoBundle 'mhinz/vim-signify'                   " rarely used
+NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'milkypostman/vim-togglelist'
-NeoBundle 'paradigm/SkyBison'
 NeoBundle 'paradigm/TextObjectify'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sgur/unite-qf'
+NeoBundle 'sgur/unite-qf'                       " rarely used
 NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/unite-help'
-NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/unite-help'                   " rarely used
+NeoBundle 'Shougo/unite-outline'                " rarely used
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'Shougo/vinarise.vim'
+NeoBundle 'Shougo/vinarise.vim'                 " rarely used
 NeoBundle 'SirVer/ultisnips'
-NeoBundle 'tacroe/unite-mark'
-NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'tacroe/unite-mark'                   " rarely used
+NeoBundle 'thinca/vim-quickrun'                 " rarely used, maybe should use more
 NeoBundle 'tmhedberg/SimpylFold'
 NeoBundle 'tommcdo/vim-exchange'
-NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-abolish'                   " rarely used, but should use more
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-obsession'
+NeoBundle 'tpope/vim-obsession'                 " rarely used, but should use more
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
@@ -1263,8 +1261,6 @@ nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<
 "                         g    fugitive and signify maps
 nnoremap          <leader>l    :ls<CR>:b
 "                         m    make maps
-nnoremap          <leader>oe   :<c-u>call SkyBison("e ")<CR>
-nnoremap          <leader>ot   :<c-u>call SkyBison("tabedit ")<CR>
 nnoremap <silent> <leader>p    :set list!<CR>
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 nnoremap <silent> <leader>r    :Dispatch!<CR>
