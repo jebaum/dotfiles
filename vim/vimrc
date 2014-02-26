@@ -32,7 +32,6 @@ NeoBundle 'mhinz/vim-signify'                   " rarely used
 NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'milkypostman/vim-togglelist'
-NeoBundle 'paradigm/TextObjectify'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'sgur/unite-qf'                       " rarely used
@@ -59,6 +58,7 @@ NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'ujihisa/unite-locate'
 NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
+NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
 
 NeoBundle 'bitbucket:abudden/TagHighlight'
@@ -706,35 +706,6 @@ let g:TagHighlightSettings['TagFileName'] = '.tags'
 let g:TagHighlightSettings['TypesFilePrefix'] = '.types' " make taghl file hidden
 let g:TagHighlightSettings['ProjectConfigFileName'] = '.taghl_config.txt'
 " }}}
-" textobjectify {{{
-" add 1, 2, 3 text objects for searching backward for ", ', and `
-let g:textobjectify = {
-    \'(': {'left': '(', 'right': ')', 'same': 0, 'seek': 1, 'line': 0},
-    \')': {'left': '(', 'right': ')', 'same': 0, 'seek': 2, 'line': 0},
-    \'{': {'left': '{', 'right': '}', 'same': 0, 'seek': 1, 'line': 0},
-    \'}': {'left': '{', 'right': '}', 'same': 0, 'seek': 2, 'line': 0},
-    \'[': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 1, 'line': 0},
-    \']': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 2, 'line': 0},
-    \'<': {'left': '<', 'right': '>', 'same': 0, 'seek': 1, 'line': 0},
-    \'>': {'left': '<', 'right': '>', 'same': 0, 'seek': 2, 'line': 0},
-    \'"': {'left': '"', 'right': '"', 'same': 1, 'seek': 1, 'line': 0},
-    \'1': {'left': '"', 'right': '"', 'same': 1, 'seek': 2, 'line': 0},
-    \"'": {'left': "'", 'right': "'", 'same': 1, 'seek': 1, 'line': 0},
-    \"2": {'left': "'", 'right': "'", 'same': 1, 'seek': 2, 'line': 0},
-    \'`': {'left': '`', 'right': '`', 'same': 1, 'seek': 1, 'line': 0},
-    \'3': {'left': '`', 'right': '`', 'same': 1, 'seek': 2, 'line': 0},
-    \'V': {'left': '^\s*\(if\|for\|function\|try\|while\)\>',
-        \'right': '^\s*end', 'same': 0, 'seek': 1, 'line': 1},
-    \"\<cr>": {'left': '\%^', 'right': '\%$', 'same': 0, 'seek': 0,
-    \'line': 0},
-    \}
-
-" stop TextObjcetify from stealing 'i' in visual mode
-augroup TextObjectify
-    autocmd BufEnter * vnoremap i k
-augroup END
-xnoremap <silent> h <esc>:<c-u>call TextObjectify(visualmode(),'i')<cr>
-" }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
@@ -1166,54 +1137,88 @@ vnoremap <down>      gj
 nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
-" Text Object / TextObjectify maps {{{
+" Text Object / targets.vim maps {{{
+" TODO: stop targets.vim from mapping 'i' in visual mode
 omap h i
 
-" normal mode
-omap ip i(
-omap ib i[
-omap ic i{
-omap id i"
-omap is i'
+" make () work with 'p'arentheses
+omap ip  i(
+omap inp in(
+omap ilp il(
+omap Ip  I(
+omap Inp In(
+omap Ilp Il(
+omap ap  a(
+omap anp an(
+omap alp al(
+omap Ap  A(
+omap Anp An(
+omap Alp Al(
 
-omap ap a(
-omap ab a[
-omap ac a{
-omap ad a"
-omap as a'
+" make {} work with 'c'urly
+omap ic  i{
+omap inc in{
+omap ilc il{
+omap Ic  I{
+omap Inc In{
+omap Ilc Il{
+omap ac  a{
+omap anc an{
+omap alc al{
+omap Ac  A{
+omap Anc An{
+omap Alc Al{
 
-omap ifp i)
-omap ifb i]
-omap ifc i}
-omap if< i>
-omap ifd i1
-omap if" i1
-omap ifs i2
-omap if' i2
-omap if` i3
+" make "" work with 'd'ouble quotes
+omap id  i"
+omap ind in"
+omap iNd iN"
+omap ild il"
+omap iLd iL"
+omap Id  I"
+omap Ind In"
+omap INd IN"
+omap Ild Il"
+omap ILd IL"
+omap ad  a"
+omap and an"
+omap aNd aN"
+omap ald al"
+omap aLd aL"
 
-omap afp a)
-omap afb a]
-omap afc a}
-omap af< a>
-omap afd a1
-omap af" a1
-omap afs a2
-omap af' a2
-omap af` a3
+" make '' work with 's'ingle quotes
+omap is  i'
+omap ins in'
+omap iNs iN'
+omap ils il'
+omap iLs iL'
+omap Is  I'
+omap Ins In'
+omap INs IN'
+omap Ils Il'
+omap ILs IL'
+omap as  a'
+omap ans an'
+omap aNs aN'
+omap als al'
+omap aLs aL'
 
-" visual mode
-vmap hp h(
-vmap hb h[
-vmap hc h{
-vmap hd h"
-vmap hs h'
-
-vmap ap a(
-vmap ab a[
-vmap ac a{
-vmap ad a"
-vmap as a'
+" make `` work with e. mnemonic is 'execute' cause backticks execute subshells
+omap ie  i`
+omap ine in`
+omap iNe iN`
+omap ile il`
+omap iLe iL`
+omap Ie  I`
+omap Ine In`
+omap INe IN`
+omap Ile Il`
+omap ILe IL`
+omap ae  a`
+omap ane an`
+omap aNe aN`
+omap ale al`
+omap aLe aL`
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
