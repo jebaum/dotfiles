@@ -58,7 +58,8 @@ NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'ujihisa/unite-locate'
 NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
-NeoBundle 'wellle/targets.vim'
+" NeoBundle 'wellle/targets.vim'
+NeoBundle 'jebaum/targets.vim'
 NeoBundle 'xolox/vim-misc'
 
 NeoBundle 'bitbucket:abudden/TagHighlight'
@@ -490,28 +491,6 @@ function! AirlineThemePatch(palette)
       let colors[3] = 58   " background color of split statusline
     endfor
   endif
-endfunction
-" }}}
-" calendar {{{
-let g:calendar_google_calendar=1
-let g:calendar_google_task=1
-augroup calendar
-  autocmd FileType calendar call s:calendar_my_settings()
-augroup END
-
-function! s:calendar_my_settings()
-  nmap <buffer> i <Plug>(calendar_up)
-  nmap <buffer> j <Plug>(calendar_left)
-  nmap <buffer> k <Plug>(calendar_down)
-  nmap <buffer> l <Plug>(calendar_right)
-  nmap <buffer> h <Plug>(calendar_start_insert)
-  nmap <buffer> H <Plug>(calendar_start_insert_head)
-
-  nmap <buffer> <BS> <Plug>(calendar_left)
-  nmap <buffer> <C-h> <Plug>(calendar_left)
-
-  nmap <buffer> <C-n> <Plug>(calendar_view_right)
-  nmap <buffer> <C-p> <Plug>(calendar_view_left)
 endfunction
 " }}}
 " dispatch {{{
@@ -1140,6 +1119,7 @@ nnoremap <Right>     >>
 " Text Object / targets.vim maps {{{
 " TODO: stop targets.vim from mapping 'i' in visual mode
 omap h i
+let g:targets_alternate_visual_inner_key = 'h'
 
 " make () work with 'p'arentheses
 omap ip  i(
