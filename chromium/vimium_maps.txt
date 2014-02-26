@@ -1,0 +1,13 @@
+map k scrollDown
+map i scrollUp
+map h enterInsertMode
+
+map J goBack
+map I nextTab
+map K previousTab
+
+map d removeTab
+map u restoreTab
+
+map <c-d> scrollPageDown
+map <c-u> scrollPageUp
