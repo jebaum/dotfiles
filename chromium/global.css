@@ -46,12 +46,12 @@ TD[style*="inset"][class="alt2"]   { background-color: #00090F !important }
 HEADER, #header {background: -moz-linear-gradient(#333,#141414) transparent !important;}
 #header h1 {background-color: transparent !important;}
 
-H1, H2  { 
+H1, H2  {
 
 background: none #28313E !important;
 border-radius: 5px !important;
 -moz-border-radius: 5px !important;
--webkit-border-radius: 5px !important;} 
+-webkit-border-radius: 5px !important;}
 
 
 H3, H4 {
@@ -59,7 +59,7 @@ H3, H4 {
 background: none #2A3731 !important;
 border-radius: 5px !important;
 -moz-border-radius: 5px !important;
--webkit-border-radius: 5px !important;} 
+-webkit-border-radius: 5px !important;}
 
 H5, H6 {background: none #372A2A !important}
 
@@ -100,7 +100,7 @@ INPUT *, TEXTAREA * {color: #DDD !important;} /* anonymous divs */
 HTML BODY INPUT:not([type="image"]), button,
 HTML BODY TEXTAREA {
 
-background: none #353535 !important; 
+background: none #353535 !important;
 -moz-appearance: none !important;
 -webkit-appearance: none !important;
 color:  #DDD  !important;
@@ -170,7 +170,7 @@ IMG[src*="spacer"]:empty,
 
 /* Menus and Navigation */
 
-NAV, 
+NAV,
 MENU,
 
 /*Common naming conventions - in case previous declarations fail to give solid BG*/
@@ -183,7 +183,7 @@ HTML BODY [class*="dropdown"],
 HTML BODY [id*="menu"]:not(SELECT),
 HTML BODY [class*="menu"]:NOT(SELECT),
 HTML BODY [class*="tooltip"],
-HTML BODY [class*="popup"], 
+HTML BODY [class*="popup"],
 HTML BODY [id*="popup"],
 
 /* Notes, details, etc.  Maybe useful */
@@ -215,7 +215,7 @@ HTML:root BODY #imageContainer {background-color: transparent !important}
 /* Universal - sets color of text, border */
 
 * {
-color: #CCC !important; 
+color: #CCC !important;
 border-color: #444 !important;
 outline-color: #444 !important;
 text-shadow: none !important;}
@@ -231,19 +231,19 @@ background: none transparent !important}
 /* Link */
 
 a:link,
-a:link *:not(IMG){ 
+a:link *:not(IMG){
 
 color: #B1CBF7 !important;
 background-color: transparent !important;
 border-color: #666 !important;}
 
-a:visited, 
+a:visited,
 a:visited * {color: #CDB4E7 !important;}
 
 a:hover,
 a:hover *:not(IMG){
 
-color: #FFE900 !important; 
+color: #FFE900 !important;
 background-color: #363037 !important;
 border-color: #999 !important}
 
@@ -283,7 +283,7 @@ svg {background: none #666 !important;}
 div.vsc:hover > .vspi, div.vso > .vspi {background: none transparent !important; border: none !important;}
 
 
-    
+
 div > .vimiumHintMarker {
 /* linkhint boxes
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF785), color-stop(100%,#FFC542)); */
@@ -300,4 +300,27 @@ font-size: 12px !important;
 
 div > .vimiumHintMarker > .matchingCharacter {
 color: #E32323 !important;
+}
+
+#vomnibar ul { /* non selected search entries */
+  background-color: #000000 !important;
+  border-radius: 0 0 4px 4px;
+  list-style: none;
+  padding: 10px 0;
+  padding-top: 0;
+}
+
+#vomnibar li .vomnibarUrl { /* the URL portion of each entry */
+  white-space: nowrap;
+  color: #99BBFF !important;
+}
+
+#vomnibar li .vomnibarMatch { /* portion of entry matching current search */
+  font-weight: bold;
+  color: #00DDDD !important;
+}
+
+#vomnibar li.vomnibarSelected { /* currently selected entry */
+  background-color: #051405 !important;
+  font-weight: normal;
 }
