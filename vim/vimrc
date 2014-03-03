@@ -497,10 +497,6 @@ augroup DISPATCH
   autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
 augroup END
 " }}}
-" exchange {{{
-" default is cx, this prevents map lag when hitting 'c' in visual mode
-vmap s <Plug>(Exchange)
-" }}}
 " fugitive {{{
 autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
@@ -614,7 +610,18 @@ let g:signify_sign_change        = '~'
 " }}}
 " sneak  {{{
 let g:sneak#use_ic_scs = 1
-xmap <nop> <Plug>VSneakForward
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+" omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+" nmap t <Plug>Sneak_t
+" nmap T <Plug>Sneak_T
+" xmap t <Plug>Sneak_t
+" xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+" omap T <Plug>Sneak_T
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -1059,6 +1066,8 @@ onoremap M %
 nnoremap ; :
 nnoremap * *N
 nnoremap # #N
+nnoremap - 10jzz
+nnoremap _ 10kzz
 
 " TODO: still can be mapped
 " <Space>,
@@ -1165,7 +1174,6 @@ nnoremap <F12>      :UndotreeToggle<CR>
 " }}}
 " defualt (comma) leader maps {{{
 " Main {{{
-nnoremap <silent> <leader>a    :redraw!<CR>
 nnoremap          <leader>bb   :Bufsearch<Space>
 nnoremap          <leader>ba   :Allsearch<Space>
 "                         c    nerdcommenter maps
@@ -1196,6 +1204,7 @@ nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader><CR> :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 
+nnoremap <silent> <leader><leader>a  :redraw!<CR>
 nnoremap <silent> <leader><leader>r  :Dispatch<CR>
 " }}}
 " <leader>g[ikht] signify {{{
