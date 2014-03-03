@@ -58,8 +58,7 @@ NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'ujihisa/unite-locate'
 NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
-" NeoBundle 'wellle/targets.vim'
-NeoBundle 'jebaum/targets.vim'
+NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
 
 NeoBundle 'bitbucket:abudden/TagHighlight'
@@ -1117,88 +1116,22 @@ nnoremap <Left>      <<
 nnoremap <Right>     >>
 " }}}
 " Text Object / targets.vim maps {{{
-" TODO: stop targets.vim from mapping 'i' in visual mode
-omap h i
-let g:targets_alternate_visual_inner_key = 'h'
+let g:targets_aiAI        = 'ahAI'
+let g:targets_pairs       = '()p {}c []r <>a'
+let g:targets_quotes      = "\"d 's `e"
 
-" make () work with 'p'arentheses
-omap ip  i(
-omap inp in(
-omap ilp il(
-omap Ip  I(
-omap Inp In(
-omap Ilp Il(
-omap ap  a(
-omap anp an(
-omap alp al(
-omap Ap  A(
-omap Anp An(
-omap Alp Al(
+function! Append(type, ...)
+    call feedkeys("`]a", 'n')
+endfunction
 
-" make {} work with 'c'urly
-omap ic  i{
-omap inc in{
-omap ilc il{
-omap Ic  I{
-omap Inc In{
-omap Ilc Il{
-omap ac  a{
-omap anc an{
-omap alc al{
-omap Ac  A{
-omap Anc An{
-omap Alc Al{
+function! Insert(type, ...)
+    call feedkeys("`[i", 'n')
+endfunction
 
-" make "" work with 'd'ouble quotes
-omap id  i"
-omap ind in"
-omap iNd iN"
-omap ild il"
-omap iLd iL"
-omap Id  I"
-omap Ind In"
-omap INd IN"
-omap Ild Il"
-omap ILd IL"
-omap ad  a"
-omap and an"
-omap aNd aN"
-omap ald al"
-omap aLd aL"
-
-" make '' work with 's'ingle quotes
-omap is  i'
-omap ins in'
-omap iNs iN'
-omap ils il'
-omap iLs iL'
-omap Is  I'
-omap Ins In'
-omap INs IN'
-omap Ils Il'
-omap ILs IL'
-omap as  a'
-omap ans an'
-omap aNs aN'
-omap als al'
-omap aLs aL'
-
-" make `` work with e. mnemonic is 'execute' cause backticks execute subshells
-omap ie  i`
-omap ine in`
-omap iNe iN`
-omap ile il`
-omap iLe iL`
-omap Ie  I`
-omap Ine In`
-omap INe IN`
-omap Ile Il`
-omap ILe IL`
-omap ae  a`
-omap ane an`
-omap aNe aN`
-omap ale al`
-omap aLe aL`
+omap i h
+onoremap iw iw
+onoremap iW iW
+onoremap it it
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap j h
@@ -1346,6 +1279,8 @@ nnoremap <C-w><C-b> :VimFilerExplorer -find<CR>:redraw!<CR>
 nnoremap <C-b>      :VimFiler -find<CR>:redraw!<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\V
 nnoremap <C-h>      :TagbarOpen fjc<CR>
+nnoremap <silent> <C-j> :set opfunc=Insert<CR>g@
+nnoremap <silent> <C-k> :set opfunc=Append<CR>g@
 nnoremap <C-n>      gt
 nnoremap <C-p>      gT
 nnoremap <C-w>o     <C-w>o:redraw!<CR>
