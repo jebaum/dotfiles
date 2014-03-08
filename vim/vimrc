@@ -148,6 +148,7 @@ augroup SyntaxNotes
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```prolog', '```', 'prolog', 'Comment')
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```python', '```', 'python', 'Comment')
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```text',   '```', 'text',   'Tabline')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```javascript',   '```', 'javascript',   'Comment')
 augroup END
 " }}}
 " FileType autocmds {{{
@@ -162,6 +163,7 @@ augroup FileTypeSettings
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownLineBreakToggle()<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownPresentationToggle()<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>md :w!<CR>:silent call Markdown('deleted','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
@@ -422,6 +424,17 @@ function MarkdownLineBreakToggle()
   endif
 endfunction
 
+let b:markdown_presentation = ' '
+function MarkdownPresentationToggle()
+  if b:markdown_presentation == ' '
+    let b:markdown_presentation = ' -t beamer --slide-level=2 -V theme:Copenhagen '
+    echo "using beamer with Copenhagen theme, slide level 2"
+  else
+    let b:markdown_presentation = ' '
+    echo "not using beamer"
+  endif
+endfunction
+
 function Markdown(action, output)
   if &filetype == 'markdown'
     let dir_fullpath       = expand('%:p:h')
@@ -429,7 +442,7 @@ function Markdown(action, output)
     let base_name          = expand('%:p:t:r')
     let input_file         = expand('%:p')
     let output_file        = shellescape(dir_fullpath).'/'.a:output.'/'.shellescape(base_name).'.'.a:output
-    let pandoc_command     = 'pandoc -V geometry:margin=0.5in -f markdown' . b:markdown_linebreak . b:markdown_highlight
+    let pandoc_command     = 'pandoc -V geometry:margin=0.5in -f markdown' . b:markdown_linebreak . b:markdown_presentation . b:markdown_highlight
     let b:pdfstuff_message = a:action.' '.a:output.'/'.base_name.'.'.a:output
 
     if !isdirectory(dir_fullpath.'/'.a:output)
