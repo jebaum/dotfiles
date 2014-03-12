@@ -542,7 +542,7 @@ let g:mta_filetypes = {
 " neocomplete {{{
 let g:neocomplete#enable_at_startup                 = 1
 let g:neocomplete#enable_smart_case                 = 1
-let g:neocomplete#enable_auto_select                = 1
+let g:neocomplete#enable_auto_select                = 0
 let g:neocomplete#enable_refresh_always             = 0  " default is zero, heavy feature
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern          = '\*ku\*'
@@ -675,6 +675,7 @@ augroup END
 
 let g:syntastic_aggregate_errors         = 1         " display all errors
 let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
+let g:syntastic_check_on_wq              = 0
 let g:syntastic_error_symbol             = '✗✗'
 let g:syntastic_warning_symbol           = '⚠⚠'
 let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
@@ -959,10 +960,12 @@ set nostartofline              " don't reset cursor to start of line when moving
 set nrformats=hex              " for C-a and C-x. recognize '0x' prefix as hex
 set scrolljump=1               " lines to scroll when cursor leaves screen
 set scrolloff=1                " start scrolling when 8 lines away from margins
-set updatetime=50              " make CursorHold autocommand and swap writes happen more frequently
+set updatetime=4000            " swap file writes and CursorHold autocmd. weird fold closing problem
 set encoding=utf8              " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
-set timeoutlen=2000            " wait for 1 second to time out leader
+set timeout
+set timeoutlen=3000
+set ttimeoutlen=100
 set cryptmethod=blowfish       " more secure encryption for vim -x
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
 set formatoptions-=r           " don't continue comment when hitting enter in insert mode
