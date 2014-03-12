@@ -17,11 +17,13 @@ call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'unix' : 'make -f make_unix.mak', }, }
+" NeoBundle 'Valloric/YouCompleteMe.git' , { 'build' : { 'unix' : './install.sh --clang-completer --system-libclang' }, }
 NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 'jamessan/vim-gnupg'                  " rarely used
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'majutsushi/tagbar'                   " rarely used
@@ -627,14 +629,14 @@ nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
 xmap f <Plug>Sneak_f
 xmap F <Plug>Sneak_F
-" omap f <Plug>Sneak_f
+omap f <Plug>Sneak_f
 omap F <Plug>Sneak_F
-" nmap t <Plug>Sneak_t
-" nmap T <Plug>Sneak_T
-" xmap t <Plug>Sneak_t
-" xmap T <Plug>Sneak_T
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
-" omap T <Plug>Sneak_T
+omap T <Plug>Sneak_T
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -925,6 +927,19 @@ function! s:vimfiler_my_settings()
   nmap <buffer> T         <Plug>(vimfiler_expand_tree_recursive)
   nmap <buffer> I         <Plug>(vimfiler_cd_input_directory)
 endfunction
+" }}}
+" youcompleteme {{{
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf                  = 0
+let g:ycm_global_ycm_extra_conf               = '/home/james/dotfiles/ycm_extra_conf.py'
+let g:ycm_filetype_blacklist = {
+    \ 'tagbar' : 1,
+    \ 'qf' : 1,
+    \ 'notes' : 1,
+    \ 'unite' : 1,
+    \ 'vimwiki' : 1,
+    \ 'pandoc' : 1
+    \}
 " }}}
 " }}}
 " General {{{
