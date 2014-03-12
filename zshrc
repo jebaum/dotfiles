@@ -49,6 +49,7 @@ source ~/.aliases
 source ~/dotfiles/scripts/bd.zsh
 source ~/dotfiles/scripts/zbell.zsh
 source ~/dotfiles/prompt.zsh
+export PATH=$PATH:/home/james/.gem/ruby/2.1.0/bin:/home/james/.gem/ruby/2.0.0/bin
 
 setopt BRACE_CCL
 setopt NO_CASE_GLOB
