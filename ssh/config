@@ -22,3 +22,8 @@ Host 133
   HostName cs133.seas.ucla.edu
   Port 22
   User baumgart
+
+Host acm
+  HostName acm.cs.ucla.edu
+  Port 22
+  User james
