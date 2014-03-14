@@ -120,6 +120,7 @@ cnoreabbrev sv source ~/.vim/vimrc
 cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
 
 cnoremap <C-a>  <Home>
+cnoremap <silent> <C-c> <C-c>:set nocursorcolumn<CR>
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
 cnoremap <C-j>  <S-Left>
@@ -945,6 +946,7 @@ let g:ycm_filetype_blacklist = {
 " General {{{
 " Set options {{{
 set ttyfast                    " redraw screen faster
+set lazyredraw                 " don't redraw the screen while executing macros
 set restorescreen=on           " restore screen contents on exit
 set clipboard=unnamedplus      " by default, use system clipboard for yanks ('+' register)
 set titlestring=%t\            " file name
@@ -1089,7 +1091,6 @@ let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
 " exec 'nnoremap ' . cspace . 'a :somecommand'
 
 let mapleader = ','  " use comma instead of \ as leader
-inoremap <C-c> <Esc><Esc>
 nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
 nnoremap M %
@@ -1099,6 +1100,8 @@ nnoremap * *N
 nnoremap # #N
 nnoremap - 10jzz
 nnoremap _ 10kzz
+nnoremap <silent><expr> <CR> ':set hls' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
+nmap     <silent>       <C-c> cou
 
 " TODO: still can be mapped
 " <Space>,
@@ -1107,6 +1110,7 @@ nnoremap _ 10kzz
 " <S-Space>
 " <CR>
 " ; or :
+" <C-c> just does cou for now
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
@@ -1119,21 +1123,20 @@ nnoremap dg do
 nnoremap Y y$
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 
-" c/C/x/X operators go to black hole instead of unnamedplus register specified by clipboard setting
-nnoremap <expr> c v:register == '+' ? '"_c' : 'c'
+" c/C/x/X operators go to their own registers instead of unnamedplus register specified by clipboard setting
+nnoremap <expr> c v:register == '+' ? '"cc' : 'c'
 nnoremap "+c "+c
-nnoremap <expr> C v:register == '+' ? '"_C' : 'C'
+nnoremap <expr> C v:register == '+' ? '"cC' : 'C'
 nnoremap "+C "+C
-nnoremap <expr> x v:register == '+' ? '"_x' : 'x'
+nnoremap <expr> x v:register == '+' ? '"xx' : 'x'
 nnoremap "+x "+x
-nnoremap <expr> X v:register == '+' ? '"_X' : 'X'
+nnoremap <expr> X v:register == '+' ? '"xX' : 'X'
 nnoremap "+X "+X
 
 " searching opens fold if in one
-nnoremap ? :set cursorline cursorcolumn<CR>?
-nnoremap n :set cursorline cursorcolumn<CR>nzv
-nnoremap N :set cursorline cursorcolumn<CR>Nzv
-cnoremap <silent> <C-c> <C-c>:set nocursorline nocursorcolumn<CR>
+nnoremap ? :set cursorline cursorcolumn hlsearch<CR>?
+nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv
+nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
@@ -1233,7 +1236,6 @@ nnoremap <silent> <leader>x    :wq<CR>
 nnoremap <silent> <leader>zh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
-nnoremap <silent> <leader><CR> :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>
 
 nnoremap <silent> <leader><leader>a  :redraw!<CR>
 nnoremap <silent> <leader><leader>r  :Dispatch<CR>
@@ -1317,7 +1319,7 @@ vnoremap <Space>-       :Tabularize /-<CR>
 " ctrl normal mode {{{
 nnoremap <C-w><C-b> :VimFilerExplorer -find<CR>:redraw!<CR>
 nnoremap <C-b>      :VimFiler -find<CR>:redraw!<CR>
-nnoremap <C-f>      :set cursorline cursorcolumn<CR>/\V
+nnoremap <C-f>      :set cursorline cursorcolumn hlsearch<CR>/\V
 nnoremap <C-h>      :TagbarOpen fjc<CR>
 nnoremap <silent> <C-j> :set opfunc=Insert<CR>g@
 nnoremap <silent> <C-k> :set opfunc=Append<CR>g@
@@ -1329,6 +1331,7 @@ nnoremap <C-w>v     <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
 inoremap <C-a>      <Home>
+inoremap <C-c> <Esc><Esc>
 inoremap <C-e>      <End>
 " }}}
 " alt normal mode {{{

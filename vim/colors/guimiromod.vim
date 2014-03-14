@@ -12,7 +12,7 @@ hi Folded       ctermfg=35    ctermbg=16     cterm=none  guifg=#00AF5F  guibg=#0
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi LineNr       ctermfg=242   ctermbg=16     cterm=none  guifg=#6C6C6C  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
-hi NonText      ctermfg=244   ctermbg=233    cterm=none  guifg=#808080  guibg=#121212  gui=none
+hi NonText      ctermfg=6     ctermbg=233    cterm=none  guifg=#33CC99  guibg=#121212  gui=none
 hi Normal       ctermfg=231   ctermbg=232    cterm=none  guifg=#FFFFFF  guibg=#080808  gui=none
 hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
@@ -73,6 +73,7 @@ hi SneakPluginTarget  ctermfg=16    ctermbg=250 guifg=#000000  guibg=#BCBCBC
 hi SneakPluginScope   ctermfg=231   ctermbg=19  guifg=#FFFFFF  guibg=#0000AF
 
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
+" 0, 7, 14, 15 are unused
 hi Boolean        ctermfg=161                           guifg=#D7005F
 hi cCustomClass   ctermfg=166                           guifg=#D75F00
 hi Character      ctermfg=77                            guifg=#5FD75F
@@ -97,7 +98,6 @@ hi Label          ctermfg=13                            guifg=#FF66FF
 hi Macro          ctermfg=13                            guifg=#FF66FF
 hi ModeMsg        ctermfg=13                            guifg=#FF66FF
 hi MoreMsg        ctermfg=13                            guifg=#FF66FF
-hi NonText        ctermfg=6                             guifg=#33CC99
 hi Number         ctermfg=1                             guifg=#DC322F
 hi Operator       ctermfg=3                             guifg=#FD971F
 hi PreCondit      ctermfg=13                            guifg=#FF66FF
@@ -136,9 +136,9 @@ hi helpHyperTextJump ctermfg=11               guifg=#E1AA5D
 hi SignColumn           ctermfg=none  ctermbg=16    cterm=none  guifg=NONE     guibg=#000000  gui=none
 hi SpellBad             ctermfg=226   ctermbg=52    cterm=bold  guifg=#FFFF00  guibg=#5F0000  gui=bold
 hi SpellCap             ctermfg=196   ctermbg=232   cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
-hi SyntasticErrorLine   ctermfg=none  ctermbg=234   cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
+hi SyntasticErrorLine   ctermfg=none  ctermbg=52    cterm=none  guifg=NONE     guibg=#3A0000  gui=none
 hi SyntasticErrorSign   ctermfg=226   ctermbg=88    cterm=bold  guifg=#FFFF00  guibg=#870000  gui=bold
-hi SyntasticWarningLine ctermfg=none  ctermbg=16    cterm=none  guifg=NONE     guibg=#000000  gui=none
+hi SyntasticWarningLine ctermfg=none  ctermbg=238   cterm=none  guifg=NONE     guibg=#303000  gui=none
 hi SyntasticWarningSign ctermfg=196   ctermbg=16    cterm=none  guifg=#FF0000  guibg=#000000  gui=none
 
 hi MatchTarget ctermfg=16   ctermbg=46  cterm=bold  guifg=#000000  guibg=#00FF00  gui=bold
