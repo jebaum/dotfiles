@@ -965,7 +965,7 @@ set showmode                   " show what mode we're in on the bottom line
 set showcmd                    " show current command or visual selection info in bottom line
 set showmatch                  " flash to matching paren when typing
 set matchtime=3                " tenths of a second to flash to matching paren
-set nocursorline               " don't hilight cursor line
+set cursorline                 " hilight cursor line
 set incsearch                  " find as you type
 set hlsearch                   " hilight search terms
 set magic                      " change how backslashes are handled in searches

@@ -30,8 +30,8 @@ hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none  guifg=#FFFF00  guibg=#0
 hi! link FoldColumn   Folded
 
 if version >= 700
-hi CursorLine   ctermfg=NONE ctermbg=233     cterm=none  guifg=NONE     guibg=#121212  gui=none
-hi CursorColumn ctermfg=NONE ctermbg=233     cterm=none  guifg=NONE     guibg=#121212  gui=none
+hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
+hi CursorColumn ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
 hi CursorLineNr ctermfg=231  ctermbg=4       cterm=bold  guifg=#FFFFFF  guibg=#224488  gui=bold
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=2    ctermbg=16                  guifg=#859900  guibg=#000000
@@ -69,7 +69,7 @@ hi EasyMotionShade  ctermfg=240   ctermbg=16  cterm=none  guifg=#585858  guibg=#
 hi EasyMotionTarget ctermfg=196   ctermbg=16  cterm=none  guifg=#FF0000  guibg=#000000  gui=none
 
 " Sneak hilighting
-hi SneakPluginTarget  ctermfg=231   ctermbg=19  guifg=#FFFFFF  guibg=#0000AF
+hi SneakPluginTarget  ctermfg=16    ctermbg=250 guifg=#000000  guibg=#BCBCBC
 hi SneakPluginScope   ctermfg=231   ctermbg=19  guifg=#FFFFFF  guibg=#0000AF
 
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
