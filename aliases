@@ -52,6 +52,7 @@ alias tree='tree -C'
 alias vim='vim -p'
 alias vi='vim'
 alias v='vim'
+alias wifi='wicd-curses'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias x='exit'
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
@@ -62,7 +63,7 @@ fkill() { ps -ef | sed 1d | fzf | awk '{print $2}' | xargs kill -${1:-9} }
 fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
 
 function connect() {
-  sudo iwconfig wls3 essid "$1"
+  sudo iwconfig wlp3s0 essid "$1"
 }
 
 
