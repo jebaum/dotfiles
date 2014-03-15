@@ -626,6 +626,9 @@ omap T <Plug>Sneak_T
 nmap ; <Plug>SneakNext
 omap ; <Plug>SneakNext
 xmap ; <Plug>VSneakNext
+
+nmap ,<Space> <Plug>(SneakStreak)
+nmap <Space>, <Plug>(SneakStreakBackward)
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -1078,7 +1081,7 @@ augroup FancyCR
   autocmd FileType qf nnoremap <buffer> <CR> <CR>zv
 augroup END
 
-" TODO: still can be mapped: <Space>,  ,<Space>  <Space><CR>  <S-Space>
+" TODO: still can be mapped: <Space><CR>  <S-Space>
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
