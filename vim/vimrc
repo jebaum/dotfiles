@@ -29,7 +29,6 @@ NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'majutsushi/tagbar'                   " rarely used
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mbbill/undotree'                     " rarely used
 NeoBundle 'mhinz/vim-signify'                   " rarely used
 NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'mhinz/vim-tmuxify'
@@ -97,14 +96,6 @@ augroup ReturnToLast
        \ endif
 augroup END
 " }}}
-" StripTrailingWhitespace function {{{
-function! StripTrailingWhitespace()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
-endfunction
-" }}}
 " Line join {{{
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
@@ -114,11 +105,11 @@ set nojoinspaces        " use only one space after a period when joining lines
 " Command mode maps and abbreviations {{{
 command! CD cd %:p:h
 command! SearchCount %s///gn
-cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
 cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
 
+cnoremap %%     <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoremap <C-a>  <Home>
 cnoremap <silent> <C-c> <C-c>:set nocursorcolumn<CR>
 cnoremap <C-p>  <Up>
@@ -182,6 +173,14 @@ augroup END
 " }}}
 " }}}
 " Functions {{{
+" StripTrailingWhitespace function {{{
+function! StripTrailingWhitespace()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfunction
+" }}}
 " CustomMatch function {{{
 function! CustomMatch(pattern)
   let search_string = "/" . a:pattern . "/"
@@ -351,20 +350,6 @@ function! GenerateRunCommand(...)
     return 'clisp ' . shellescape(expand('%'))
   endif
 
-endfunction
-" }}}
-" GenerateBuildCommand function {{{
-" used for tmuxify build mapping
-function! GenerateBuildCommand()
-  if &filetype == 'c'
-    let my_compiler = 'gcc'
-  elseif &filetype == 'cpp'
-    let my_compiler = 'g++'
-  elseif &filetype == 'ocaml'
-    let my_compiler = 'ocamlc'
-  endif
-
-  return my_compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r'))
 endfunction
 " }}}
 " Run shell command, put output in split function {{{
@@ -686,9 +671,8 @@ let g:syntastic_error_symbol             = '✗✗'
 let g:syntastic_warning_symbol           = '⚠⚠'
 let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 let g:syntastic_ignore_files = [
-    \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS161',
     \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework',
-    \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS144/vm-shared/project/src/']
+    \ '\m\.tex']
 " }}}
 " taboo {{{
 " let g:taboo_tab_format = "%N %1a%m "
@@ -728,24 +712,13 @@ augroup END
 " }}}
 " togglelist {{{
 let g:toggle_list_no_mappings   = 1       " don't use default mappings
-let g:toggle_list_copen_command = "Copen" " use dispatch Copen wrapper
 " }}}
 " ultisnips {{{
-let g:UltiSnipsExpandTrigger="<C-l>"
+let g:UltiSnipsExpandTrigger       = "<C-l>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
 let g:UltiSnipsListSnippets        = "<C-j>"
-let g:snips_author = 'James Baumgarten'
-" }}}
-" undotree {{{
-let g:undotree_WindowLayout = 2
-let g:undotree_SplitWidth = 40
-let g:undotree_DiffpanelHeight = 15
-
-function g:undotree_CustomMap()
-   map <c-n> J
-   map <c-p> K
-endfunction
+let g:snips_author                 = 'James Baumgarten'
 " }}}
 " unite {{{
 let g:unite_cursor_line_highlight = "UniteSel"
@@ -1012,8 +985,8 @@ let g:no_ocaml_maps = 1
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
-" hitting enter when completion menu is visible selects item
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" hitting enter when completion menu is visible selects item, not used right now due to neocomplete
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
@@ -1024,8 +997,6 @@ augroup SyntaxFold
   autocmd BufWinEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
   autocmd InsertEnter    *.c,*.cpp,*.java set foldmethod=manual " once we start typing, using manual folds
 augroup END
-" ctrl+spacebar toggles folds in normal mode, doesn't work in gvim
-nnoremap <silent> <C-@> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " }}}
 " Tab/Indent {{{
 set autoindent      " auto indent line to match above line when hitting enter
@@ -1094,7 +1065,6 @@ let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
 " exec 'nnoremap ' . cspace . 'a :somecommand'
 
 let mapleader = ','  " use comma instead of \ as leader
-nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
 nnoremap M %
 onoremap M %
@@ -1102,20 +1072,13 @@ nnoremap * *N
 nnoremap # #N
 nnoremap - 10jzz
 nnoremap _ 10kzz
+
 nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
 augroup FancyCR
   autocmd FileType qf nnoremap <buffer> <CR> <CR>zv
 augroup END
-nnoremap <silent> <C-c> :set nocursorcolumn<CR>
 
-" TODO: still can be mapped
-" <Space>,
-" ,<Space>
-" <Space><CR>
-" <S-Space>
-" <CR>
-" ; or :
-" <C-c> just does cou for now
+" TODO: still can be mapped: <Space>,  ,<Space>  <Space><CR>  <S-Space>
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
@@ -1139,9 +1102,9 @@ nnoremap <expr> X v:register == '+' ? '"xX' : 'X'
 nnoremap "+X "+X
 
 " searching opens fold if in one
-nnoremap ? :set cursorline cursorcolumn hlsearch<CR>?
 nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv
 nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv
+nnoremap ? :set cursorline cursorcolumn hlsearch<CR>?
 
 " always show multiple tag options, open in new window
 "nnoremap <C-]> <C-w>g<C-]>
@@ -1270,6 +1233,7 @@ nnoremap <leader>mq          :let g:toggle_list_copen_command="Copen"<CR>
                              \:call ToggleQuickfixList()<CR>
 " }}}
 " <leader>{1,2}s search/replace maps {{{
+" TODO I never seem to actually use these, put something more useful here?
 nnoremap <leader>s          :s/\V
 vnoremap <leader>s          :s/\V
 nnoremap <leader>S          :s/\v
@@ -1324,6 +1288,7 @@ vnoremap <Space>-       :Tabularize /-<CR>
 " ctrl normal mode {{{
 nnoremap <C-w><C-b> :VimFilerExplorer -find<CR>:redraw!<CR>
 nnoremap <C-b>      :VimFiler -find<CR>:redraw!<CR>
+nnoremap <silent> <C-c> :set nocursorcolumn<CR>
 nnoremap <C-f>      :set cursorline cursorcolumn hlsearch<CR>/\V
 nnoremap <C-h>      :TagbarOpen fjc<CR>
 nnoremap <silent> <C-j> :set opfunc=Insert<CR>g@
@@ -1372,6 +1337,18 @@ exec 'inoremap ' . Altmap('w') . '   <S-Right>'
 exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " }}}
 " slash leader maps. tmuxify {{{
+function! GenerateBuildCommand()
+  if &filetype == 'c'
+    let my_compiler = 'gcc'
+  elseif &filetype == 'cpp'
+    let my_compiler = 'g++'
+  elseif &filetype == 'ocaml'
+    let my_compiler = 'ocamlc'
+  endif
+
+  return my_compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r'))
+endfunction
+
 function! TmuxifySendLines(count, direction)
   let l = line(".")
   let c = col(".")
