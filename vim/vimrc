@@ -637,6 +637,10 @@ xmap t <Plug>Sneak_t
 xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
+
+nmap ; <Plug>SneakNext
+omap ; <Plug>SneakNext
+xmap ; <Plug>VSneakNext
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
@@ -1094,13 +1098,15 @@ nnoremap <Esc>[Z v%
 onoremap <C-f> /\V
 nnoremap M %
 onoremap M %
-nnoremap ; :
 nnoremap * *N
 nnoremap # #N
 nnoremap - 10jzz
 nnoremap _ 10kzz
-nnoremap <silent><expr> <CR> ':set hls' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
-nmap     <silent>       <C-c> cou
+nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
+augroup FancyCR
+  autocmd FileType qf nnoremap <buffer> <CR> <CR>zv
+augroup END
+nnoremap <silent> <C-c> :set nocursorcolumn<CR>
 
 " TODO: still can be mapped
 " <Space>,
