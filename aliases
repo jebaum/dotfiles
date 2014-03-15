@@ -52,7 +52,6 @@ alias tree='tree -C'
 alias vim='vim -p'
 alias vi='vim'
 alias v='vim'
-alias wifi='wicd-curses'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias x='exit'
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
@@ -66,6 +65,13 @@ function connect() {
   sudo iwconfig wlp3s0 essid "$1"
 }
 
+function wifi() {
+  if [ ! -e /var/run/wicd/wicd.pid ]; then
+    echo "starting wicd..."
+    sudo wicd
+  fi
+  wicd-curses
+}
 
 function say() { echo mpv -really-quiet "http://translate.google.com/translate_tts?tl=en\&q=$*" | sed 's/ /+/3g' | sh 2>/dev/null; }
 
