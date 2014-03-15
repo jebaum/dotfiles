@@ -69,7 +69,7 @@ hi EasyMotionShade  ctermfg=240   ctermbg=16  cterm=none  guifg=#585858  guibg=#
 hi EasyMotionTarget ctermfg=196   ctermbg=16  cterm=none  guifg=#FF0000  guibg=#000000  gui=none
 
 " Sneak hilighting
-hi SneakPluginTarget  ctermfg=16    ctermbg=250 guifg=#000000  guibg=#BCBCBC
+hi SneakPluginTarget  ctermfg=16    ctermbg=244 guifg=#000000  guibg=#808080
 hi SneakPluginScope   ctermfg=231   ctermbg=19  guifg=#FFFFFF  guibg=#0000AF
 
 " Syntax highlighting. cterm options are bold, underline, reverse, italic, none
