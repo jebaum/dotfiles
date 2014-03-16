@@ -1093,6 +1093,7 @@ nnoremap dg do
 " line yanks
 nnoremap Y y$
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
+nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>
 
 " c/C/x/X operators go to their own registers instead of unnamedplus register specified by clipboard setting
 nnoremap <expr> c v:register == '+' ? '"cc' : 'c'
