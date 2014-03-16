@@ -135,6 +135,7 @@ bindsym --release Print exec grab
 bindsym $mod+Print      exec pasta
 bindsym $mod+q          exec quickswitch.py
 bindsym $mod+Escape     exec /usr/bin/lk
+bindsym $mod+c          exec ~/dotfiles/chromium/vimtmp.sh
 bindsym $mod+o          exec ~/dotfiles/scripts/startup.sh
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
@@ -143,19 +144,21 @@ bindsym $mod+o          exec ~/dotfiles/scripts/startup.sh
 
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
+
 for_window [instance="chromium" class="Chromium"] border none
+assign     [instance="chromevim"] → 3: vps
 
 for_window [instance="dwb" class="Dwb"] border none
 assign     [instance="dwb" class="Dwb"] → 2: web
 
 for_window [instance="vps"] border 1pixel
-assign [instance="vps"] → 3: vps
+assign     [instance="vps"] → 3: vps
 for_window [instance="ncmpcpp"] border 1pixel
-assign [instance="ncmpcpp"] → 4: music
+assign     [instance="ncmpcpp"] → 4: music
 for_window [instance="mutt"] border 1pixel
-assign [instance="mutt"] → 5: mail
+assign     [instance="mutt"] → 5: mail
 for_window [instance="ranger"] border 1pixel
-assign [instance="ranger"] → 6: files
+assign     [instance="ranger"] → 6: files
 
 for_window [instance="Steam" class="Steam"] border none
 assign     [instance="Steam" class="Steam"] → 11: steam
