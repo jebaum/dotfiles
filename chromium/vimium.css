@@ -393,12 +393,25 @@ body.vimiumFindMode ::selection {
   font-weight: normal;
 }
 
-
-
 div#vimiumFlash {
   box-shadow: 0px 0px 4px 2px #4183C4;
   padding: 1px;
   background-color: transparent;
   position: absolute;
   z-index: 99999;
+}
+
+HTML BODY INPUT:focus[type="text"] {
+  background: none #303030 !important;
+  border-color:#00FFFF !important;
+}
+
+HTML BODY textarea:focus {
+  background: none #303030 !important;
+  border-color: #00FFFF !important;
+}
+
+::selection {
+background:#007070 !important;
+color:#ffffff !important;
 }
