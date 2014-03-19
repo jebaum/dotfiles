@@ -22,6 +22,8 @@ config/dwb/default/*
 config/gtk-youtube-viewer/*.??t
 config/youtube-viewer/*.cat
 
+firefox/vimperator/info
+
 vim/.netrwhist
 vim/bundle/*
 

@@ -1,0 +1,6 @@
+Style:
+
+current tab:    all unchecked
+unloaded tab:   italic, text color 153/153/153, bg color unchecked, all 51
+unread tab:     italic, text color 204/0/0,     bg color unchecked, 20/20/20 top, 51/51/51 bottom
+progress meter: 51/51/153
