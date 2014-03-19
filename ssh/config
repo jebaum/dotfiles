@@ -27,3 +27,8 @@ Host acm
   HostName acm.cs.ucla.edu
   Port 22
   User james
+
+Host lug
+  Hostname ssh.linux.ucla.edu
+  Port 22
+  User jebaum
