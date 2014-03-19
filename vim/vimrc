@@ -1069,6 +1069,7 @@ let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
 
 let mapleader = ','  " use comma instead of \ as leader
 onoremap <C-f> /\V
+nnoremap / :set cursorline cursorcolumn hlsearch<CR>/
 nnoremap M %
 onoremap M %
 nnoremap * *N
