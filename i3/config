@@ -56,54 +56,51 @@ exec ~/dotfiles/scripts/imap_daemon.sh
 exec ~/dotfiles/scripts/startup.sh
 # }}}
 # KEYBINDS {{{
-bindsym $mod+Shift+Return exec urxvt
-bindsym $mod+Return exec urxvt -cd "`~/.i3/xcwd/xcwd`"
-bindsym $mod+Shift+Q kill
-bindsym $mod+p exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
-bindsym $mod+Shift+R reload
-bindsym $mod+Shift+C exec killall conky; restart
-bindsym $mod+Shift+E exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Shift+b exec killall conky && killall i3bar
-bindsym $mod+g  exec gvim
+  ### conky and config controls
+bindsym $mod+Shift+B    exec killall conky && killall i3bar
+bindsym $mod+Shift+C    exec killall conky; restart
+bindsym $mod+Shift+E    exec "i3-nagbar -t warning -m 'End xsession?' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+Q    kill
+bindsym $mod+Shift+R    reload
 
-  ### Messing with borders
-bindsym $mod+t        border normal 1pixel
-bindsym $mod+Shift+t  border normal 2pixel
-bindsym $mod+y        border 1pixel
-bindsym $mod+Shift+y  border pixel 2
-bindsym $mod+n        border none
+  ### borders
+bindsym $mod+t          border normal 1pixel
+bindsym $mod+Shift+t    border normal 2pixel
+bindsym $mod+y          border 1pixel
+bindsym $mod+Shift+y    border pixel 2
+bindsym $mod+n          border none
 
  ### scratchpad
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus    move scratchpad
+bindsym $mod+minus          scratchpad show
 
   ### switch audio device
-bindsym $mod+$alt+Control+m   exec device.sh mobo
-bindsym $mod+$alt+Control+x   exec device.sh xfi
-bindsym $mod+$alt+Control+h   exec device.sh headset
-bindsym $mod+$alt+Control+t   exec device.sh hdmi; exec hdmi.sh on
+bindsym $mod+$alt+Control+m exec device.sh mobo
+bindsym $mod+$alt+Control+x exec device.sh xfi
+bindsym $mod+$alt+Control+h exec device.sh headset
+bindsym $mod+$alt+Control+t exec device.sh hdmi; exec hdmi.sh on
 
-bindsym Pause                 exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
-bindsym XF86AudioPause        exec mpc -h $mpdhost toggle; exec echo cycle pause > ~/.mpv/mpvfifo
-#bindsym XF86AudioPrev         exec device.sh idk
-#bindsym XF86AudioNext         exec device.sh idk
+bindsym Pause               exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
+bindsym XF86AudioPause      exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
+bindsym XF86AudioNext       exec echo playlist_next > ~/.mpv/mpvfifo
+bindsym XF86AudioPrev       exec echo playlist_prev > ~/.mpv/mpvfifo
 
   ### volume controls
-bindsym $mod+$alt+minus          exec volume.sh 1% -
-bindsym $mod+$alt+plus           exec volume.sh 1% +
-bindsym XF86AudioLowerVolume     exec volume.sh 1% -
-bindsym XF86AudioRaiseVolume     exec volume.sh 1% +
-bindsym $mod+Control+minus       exec volume.sh 5% -
-bindsym $mod+Control+plus        exec volume.sh 5% +
-bindsym $mod+$alt+Control+minus  exec volume.sh 10% -
-bindsym $mod+$alt+Control+plus   exec volume.sh 10% +
-bindsym $mod+$alt+Shift+minus    exec amixer -M set Master 1%-
-bindsym $mod+$alt+Shift+plus     exec amixer -M set Master 1%+
-bindsym $mod+$alt+m              exec volume.sh toggle
+bindsym $mod+$alt+minus         exec volume.sh 1% -
+bindsym $mod+$alt+plus          exec volume.sh 1% +
+bindsym XF86AudioLowerVolume    exec volume.sh 1% -
+bindsym XF86AudioRaiseVolume    exec volume.sh 1% +
+bindsym $mod+Control+minus      exec volume.sh 5% -
+bindsym $mod+Control+plus       exec volume.sh 5% +
+bindsym $mod+$alt+Control+minus exec volume.sh 10% -
+bindsym $mod+$alt+Control+plus  exec volume.sh 10% +
+bindsym $mod+$alt+Shift+minus   exec amixer -M set Master 1%-
+bindsym $mod+$alt+Shift+plus    exec amixer -M set Master 1%+
+bindsym $mod+$alt+m             exec volume.sh toggle
 
   ### mpc controls
-bindsym $mod+$alt+p     exec mpc -h $mpdhost cdprev
 bindsym $mod+$alt+n     exec mpc -h $mpdhost next
+bindsym $mod+$alt+p     exec mpc -h $mpdhost cdprev
 bindsym $mod+$alt+s     exec mpc -h $mpdhost stop
 bindsym $mod+$alt+space exec mpc -h $mpdhost toggle
 bindsym $mod+$alt+Left  exec mpc -h $mpdhost seek -10
@@ -117,36 +114,47 @@ bindsym $mod+$alt+x     exec mpc -h $mpdhost enable only xfi
 bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
-bindsym $mod+Control+p     exec echo playlist_prev > ~/.mpv/mpvfifo
-bindsym $mod+Control+n     exec echo playlist_next > ~/.mpv/mpvfifo
-bindsym $mod+Control+s     exec echo stop > ~/.mpv/mpvfifo
-bindsym $mod+Control+q     exec killall mpv
-bindsym $mod+Control+space exec echo cycle pause > ~/.mpv/mpvfifo
-bindsym $mod+Control+Left  exec echo seek -10 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Right exec echo seek 10 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Down  exec echo seek -60 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Up    exec echo seek 60 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Next  exec echo seek -600 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Prior exec echo seek 600 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+n      exec echo playlist_next > ~/.mpv/mpvfifo
+bindsym $mod+Control+p      exec echo playlist_prev > ~/.mpv/mpvfifo
+bindsym $mod+Control+s      exec echo stop > ~/.mpv/mpvfifo
+bindsym $mod+Control+space  exec echo cycle pause > ~/.mpv/mpvfifo
+bindsym $mod+Control+Left   exec echo seek -10 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+Right  exec echo seek 10 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+Down   exec echo seek -60 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+Up     exec echo seek 60 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+Next   exec echo seek -600 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+Prior  exec echo seek 600 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+q      exec killall mpv
 
-  ### Script hotkeys
-bindsym --release Shift+Print exec scrot -s
-bindsym --release Print exec grab
-bindsym $mod+Print      exec pasta
-bindsym $mod+q          exec quickswitch.py
-bindsym $mod+Escape     exec /usr/bin/lk
-bindsym $mod+c          exec ~/dotfiles/chromium/vimtmp.sh
-bindsym $mod+o          exec ~/dotfiles/scripts/startup.sh
+  ### program/script hotkeys
+bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
+bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
+bindsym $mod+g                  exec gvim
+bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
+bindsym $mod+p                  exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
+bindsym $mod+q                  exec quickswitch.py
+
+bindsym --release Control+Print exec gnome-screenshot -a
+bindsym --release Shift+Print   exec gnome-screenshot -w -B
+bindsym --release Print         exec grab
+bindsym $mod+Print              exec pasta
+bindsym $mod+Shift+Return       exec urxvt
+bindsym $mod+Return             exec urxvt -cd "`~/.i3/xcwd/xcwd`"
+bindsym $mod+Escape             exec /usr/bin/lk
+bindsym $mod+F2                 exec firefox
+bindsym $mod+Shift+F2           exec chromium
+bindsym $mod+F4                 exec puddletag
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
 # for_window <criteria> command; command
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
+for_window [instance="vimtmp"] move scratchpad; scratchpad show
+
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
 
 for_window [instance="chromium" class="Chromium"] border none
-assign     [instance="chromevim"] → 3: vps
 
 for_window [instance="dwb" class="Dwb"] border none
 assign     [instance="dwb" class="Dwb"] → 2: web
