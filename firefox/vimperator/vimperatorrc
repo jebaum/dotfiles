@@ -1,17 +1,3 @@
-" TODO {{{
-" < > can be mapped
-" change <MiddleMouse> map to avoid thinkpad accidental p
-
-" MIGHT WANT MAPS FOR THESE, AND :dialog
-" :downl          downloads
-" :addo           addons
-" :exto [arg]     extension options
-" :tabmove +-1    reorder tabs
-" :ext[stuff]     lots of extension commands
-
-" :sidebar []     a few different sidebars
-" :sbcl           close sidebar
-" }}}
 colorscheme darkness
 
 " qmarks {{{
@@ -51,47 +37,72 @@ set previouspattern="‹ prev"
 " }}}
 
 " maps {{{
-let mapleader = ","
-
-nnoremap j gt
-nnoremap gO gn
+command Selecttab -count tabmove <count>
 
 inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-" TODO add a dictionary/thesaurus engine, google image search, youtube, tpb
+nnoremap j gt
+nnoremap J :Selecttab<CR>:tabmove! -1<CR>
+nnoremap > :tabmove<CR>
+nnoremap < :tabmove 0<CR>
+
 nnoremap sa :open amazon<Space>
+nnoremap sd :open dictionary<Space>
 nnoremap sg :open google<Space>
-nnoremap sh :history!<Space>
+nnoremap sh :history! -max=1<Space>
+nnoremap si :open images<Space>
+nnoremap sp :open thepiratebay<Space>
+nnoremap st :open thesaurus<Space>
 nnoremap sw :open wikipedia<Space>
+nnoremap sy :open youtube<Space>
 
 nnoremap Sa :tabopen amazon<Space>
+nnoremap Sd :tabopen dictionary<Space>
 nnoremap Sg :tabopen google<Space>
-nnoremap Sh :history<Space>
+nnoremap Sh :history -max=1<Space>
+nnoremap Si :tabopen images<Space>
+nnoremap Sp :tabopen thepiratebay<Space>
+nnoremap St :tabopen thesaurus<Space>
 nnoremap Sw :tabopen wikipedia<Space>
+nnoremap Sy :tabopen youtube<Space>
 
 nnoremap <C-f>     /
-nnoremap <C-l>     :nohlsearch<CR>
 nnoremap <C-j>     <C-^>
+nnoremap <C-l>     :nohlsearch<CR>
 nnoremap <C-Space> :styletoggle -name globaldark<CR>
 
 nnoremap <A-l> /<Up><CR>
-nnoremap <A-n> :tabmove +1<CR>
-nnoremap <A-p> :tabmove -1<CR>
+nnoremap <A-n> :tabmove! +1<CR>
+nnoremap <A-p> :tabmove! -1<CR>
+
+nnoremap ,a :addons<CR>
+nnoremap ,b :sidebar Bookmarks<CR>
+nnoremap ,d :downloads<CR>
+nnoremap ,e :extoptions<Space>
+nnoremap ,h :sidebar History<CR>
+nnoremap ,m :qmarks<CR>
+nnoremap ,p :sidebar Preferences<CR>
+nnoremap ,s :sbclose<CR>
+
+nnoremap <leader>c   :dialog cookies<CR>
+nnoremap <leader>d   :dialog savepage<CR>
+nnoremap <leader>h   :dialog history<CR>
+nnoremap <leader>l   :dialog places<CR>
+nnoremap <leader>o   :dialog openfile<CR>
+nnoremap <leader>p   :dialog preferences<CR>
+nnoremap <leader>s   :dialog searchengines<CR>
+nnoremap <leader>t   :dialog customizetoolbar<CR>
+nnoremap <leader>u   :dialog pagesource<CR>
+nnoremap <leader>x   :dialog cleardata<CR>
 
 " ijkl
 nnoremap i <Up>
-nnoremap j h
 nnoremap k <Down>
 nnoremap h i
-
-" TODO don't know what else to do with these for now, but fairly useless
-" J and L just do <C-o> and <C-i> so I have 4 prime keys to spare
-" technically C-o and C-i are jumplist, but jumplist (FOR NOW) is just browser history
 nnoremap I k
 nnoremap K j
-nnoremap J H
 " }}}
 
 " sources {{{
