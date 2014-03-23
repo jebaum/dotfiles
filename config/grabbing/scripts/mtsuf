@@ -8,12 +8,18 @@ if [ $# -lt 1 -o ! -f "$1" ]; then
   exit 1
 fi
 
-## get mime type
-MIME=$(file -ib "$1" | cut -d\; -f1)
+# if file extension is txt, don't look at mime-type
+# mime-type for plain text on arch leads to .asc extension
+if [ "${1##*.}" = "txt" ]; then
+    echo txt
+else
+    ## get mime type
+    MIME=$(file -ib "$1" | cut -d\; -f1)
 
-## use awk to search /etc/mime.types
-## so clean up MIME
-MIME=$(tr '/' '.' <<< $MIME)
+    ## use awk to search /etc/mime.types
+    ## so clean up MIME
+    MIME=$(tr '/' '.' <<< $MIME)
 
-## there should only be one
-awk "\$1 ~ /^${MIME}\$/ { print \$2 }" /etc/mime.types | head -n 1
+    ## there should only be one
+    awk "\$1 ~ /^${MIME}\$/ { print \$2 }" /etc/mime.types | head -n 1
+fi

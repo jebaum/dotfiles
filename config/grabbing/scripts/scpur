@@ -24,27 +24,33 @@ if [ -z "$FORMAT" ]; then
   FORMAT="sha1sum"
 fi
 
+# if file we're uploading isn't in /tmp, keep the filename
+if [[ "${THING}" != "/tmp/"* ]]; then
+    RNAME=$(basename "${THING}")
+    SUFFIX=${THING##*.}
+else
 # Either use sha1 or timestamp as filename on remote machine, depending on config
-if [ "${FORMAT}" = "time" ]; then
-  STAMP="$(date +"%Y-%m-%d_%H-%M-%S")"
-  RNAME=${STAMP}
-elif [ "${FORMAT}" = "sha1sum" ]; then
-  RNAME=$(sha1sum "${THING}" | awk '{ print $1 }')
-else
-  echo "No valid name format specified, please fix config file."
-  exit 3
-fi
+    if [ "${FORMAT}" = "time" ]; then
+        STAMP="$(date +"%Y-%m-%d_%H-%M-%S")"
+        RNAME=${STAMP}
+    elif [ "${FORMAT}" = "sha1sum" ]; then
+        RNAME=$(sha1sum "${THING}" | awk '{ print $1 }')
+    else
+        echo "No valid name format specified, please fix config file."
+        exit 3
+    fi
 
-## let user specify a suffix, if not, then
-## uses mtsuf script to guess suffix of file
-if [ -z "${2}" ]; then
-  SUFFIX=$(mtsuf "${THING}")
-else
-  SUFFIX="${2}"
-fi
+    ## let user specify a suffix, if not, then
+    ## uses mtsuf script to guess suffix of file
+    if [ -z "${2}" ]; then
+        SUFFIX=$(mtsuf "${THING}")
+    else
+        SUFFIX="${2}"
+    fi
 
-if [ -n "${SUFFIX}" ]; then
-  RNAME="${RNAME}.${SUFFIX}"
+    if [ -n "${SUFFIX}" ]; then
+        RNAME="${RNAME}.${SUFFIX}"
+    fi
 fi
 
 # if extensions array isn't empty, check it to see if we should use distinct directory
