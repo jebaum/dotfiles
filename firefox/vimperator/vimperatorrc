@@ -78,13 +78,14 @@ nnoremap <A-n> :tabmove! +1<CR>
 nnoremap <A-p> :tabmove! -1<CR>
 
 nnoremap ,a :addons<CR>
-nnoremap ,b :sidebar Bookmarks<CR>
-nnoremap ,d :downloads<CR>
 nnoremap ,e :extoptions<Space>
-nnoremap ,h :sidebar History<CR>
 nnoremap ,m :qmarks<CR>
+
+nnoremap ,b :sidebar Bookmarks<CR>
+nnoremap ,d :sidebar downloads<CR>
+nnoremap ,h :sidebar History<CR>
 nnoremap ,p :sidebar Preferences<CR>
-nnoremap ,s :sbclose<CR>
+nnoremap ,q :sbclose<CR>
 
 nnoremap <leader>c   :dialog cookies<CR>
 nnoremap <leader>d   :dialog savepage<CR>
