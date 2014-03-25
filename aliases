@@ -58,6 +58,17 @@ alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias ytdl='youtube-dl'
 alias yt='youtube-viewer'
 
+torrentadd()            { transmission-remote -a "$1"}
+torrentdaemonstart()    { transmission-daemon }
+torrentdaemonstop()     { transmission-remote --exit }
+torrentinfo()           { transmission-remote -t $1 -i }
+torrentlist()           { transmission-remote -l }
+torrentrmfiles()        { transmission-remote -t $1 --remove-and-delete }
+torrentrm()             { transmission-remote -t $1 -r }
+torrentstart()          { transmission-remote -t $1 -s }
+torrentstop()           { transmission-remote -t $1 -S }
+torrentwatch()          { watch -n 5 transmission-remote -l }
+
 fkill() { ps -ef | sed 1d | fzf | awk '{print $2}' | xargs kill -${1:-9} }
 fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
 
