@@ -3,6 +3,7 @@ colorscheme darkness
 " qmarks {{{
 " all marks except subreddits are the first char from the url
 qmark 1 192.168.1.100
+qmark 3 lasr.cs.ucla.edu/classes/136_spring14/
 qmark a reddit.com/r/all
 qmark b reddit.com/r/bestof
 qmark c courseweb.seas.ucla.edu
