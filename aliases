@@ -44,6 +44,8 @@ alias publish='python3 -m http.server 8080'
 alias 'p?'='ps aux | grep -i '
 alias rcd='cd "`xclip -o`"'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
+alias synrig='synkill; synergystart thinkpad 192.168.1.100'
+alias synthinkpad='synkill; synergystart rigl 192.168.1.101'
 alias tags='./.git/hooks/ctags >/dev/null'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
 alias tmux='tmux -u'
@@ -57,6 +59,28 @@ alias x='exit'
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias ytdl='youtube-dl'
 alias yt='youtube-viewer'
+
+function synergystart() {
+    if [ "$#" != "2" ]; then
+        echo you goofed
+        return
+    fi
+    ssh $1 'killall synergys; killall synergyc' &>/dev/null
+    killall synergys &>/dev/null
+    killall synergyc &>/dev/null
+    synergys &>/dev/null
+    ssh $1 synergyc $2 &>/dev/null
+}
+
+function synkill() {
+    if [ "$HOST" = "rig5" ]; then
+        ssh thinkpad 'killall synergys; killall synergyc' &>/dev/null
+    else
+        ssh rigl 'killall synergys; killall synergyc' &>/dev/null
+    fi
+    killall synergys &>/dev/null
+    killall synergyc &>/dev/null
+}
 
 torrentadd()            { transmission-remote -a "$1"}
 torrentdaemonstart()    { transmission-daemon }
