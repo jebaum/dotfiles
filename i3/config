@@ -97,6 +97,7 @@ bindsym $mod+$alt+Control+plus  exec volume.sh 10% +
 bindsym $mod+$alt+Shift+minus   exec amixer -M set Master 1%-
 bindsym $mod+$alt+Shift+plus    exec amixer -M set Master 1%+
 bindsym $mod+$alt+m             exec volume.sh toggle
+bindsym XF86AudioMute           exec volume.sh toggle
 
   ### mpc controls
 bindsym $mod+$alt+n     exec mpc -h $mpdhost next
