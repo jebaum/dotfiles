@@ -134,6 +134,7 @@ bindsym $mod+g                  exec gvim
 bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
 bindsym $mod+p                  exec dmenu_run -nb black -nf rgb:a0/a0/a0 -sb rgb:00/80/80 -sf black -p SUP\? -i
 bindsym $mod+q                  exec quickswitch.py
+bindsym XF86TouchpadToggle      exec touchpadtoggle.sh
 
 bindsym --release Control+Print exec gnome-screenshot -a
 bindsym --release Shift+Print   exec gnome-screenshot -w -B
