@@ -62,6 +62,7 @@ NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
 
+NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'bitbucket:abudden/TagHighlight'
 NeoBundleCheck
 " }}}
@@ -157,11 +158,13 @@ augroup FileTypeSettings
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownLineBreakToggle()<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownDoublespaceToggle()<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownMLAToggle()<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownPresentationToggle()<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>md :w!<CR>:silent call Markdown('deleted','pdf')<CR>
-                  \:echo b:pdfstuff_message<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownHighlightToggle()<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call Markdown('removed','pdf')<CR>
+                  \:echo b:pdfstuff_message<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mv :call Markdown('open', 'pdf')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>r :w!<CR>:silent call Markdown('built','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
@@ -422,6 +425,30 @@ function MarkdownPresentationToggle()
   endif
 endfunction
 
+let b:markdown_doublespace = ' '
+function MarkdownDoublespaceToggle()
+  if b:markdown_doublespace == ' '
+    let b:markdown_doublespace = ' -H ~/dotfiles/latex/doublespace.sty '
+    echo "using double spacing"
+  else
+    let b:markdown_doublespace = ' '
+    echo "not using double spacing"
+  endif
+endfunction
+
+let b:markdown_mla = ' '
+function MarkdownMLAToggle()
+  if b:markdown_mla == ' '
+    let b:markdown_mla = ' --template=mla_pandoc.tex'
+    let b:markdown_doublespace = ' '
+    let b:markdown_linebreak   = ' '
+    echo "using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory"
+  else
+    let b:markdown_mla = ' '
+    echo "not using MLA"
+  endif
+endfunction
+
 function Markdown(action, output)
   if &filetype == 'markdown'
     let dir_fullpath       = expand('%:p:h')
@@ -429,7 +456,7 @@ function Markdown(action, output)
     let base_name          = expand('%:p:t:r')
     let input_file         = expand('%:p')
     let output_file        = shellescape(dir_fullpath).'/'.a:output.'/'.shellescape(base_name).'.'.a:output
-    let pandoc_command     = 'pandoc -V geometry:margin=0.5in -f markdown' . b:markdown_linebreak . b:markdown_presentation . b:markdown_highlight
+    let pandoc_command     = 'pandoc ' . b:markdown_doublespace . b:markdown_mla . ' -V geometry:margin=0.5in -f markdown' . b:markdown_linebreak . b:markdown_presentation . b:markdown_highlight
     let b:pdfstuff_message = a:action.' '.a:output.'/'.base_name.'.'.a:output
 
     if !isdirectory(dir_fullpath.'/'.a:output)
@@ -446,7 +473,7 @@ function Markdown(action, output)
         if a:output == 'pdf'
           call system('killall -HUP mupdf')
         endif
-    elseif a:action == 'deleted'
+    elseif a:action == 'removed'
       call system('rm '.output_file)
     elseif a:action == 'open'
       call system('mupdf ' . output_file . '&')
