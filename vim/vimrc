@@ -157,11 +157,11 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownLineBreakToggle()<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownDoublespaceToggle()<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownMLAToggle()<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownPresentationToggle()<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownHighlightToggle()<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('markdown_linebreak', '+hard_line_breaks ', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('markdown_doublespace', ' -H ~/dotfiles/latex/doublespace.sty ', 'turned on double spacing', 'turned off double spacing')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownToggle('markdown_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownToggle('markdown_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen ', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('markdown_highlight', '--no-highlight ', 'turned on highlighting', 'turned off highlighting')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call Markdown('removed','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
@@ -392,60 +392,25 @@ function! MapInterpreter(ftype, interpreter)
 endfunction
 " }}}
 " Markdown functions {{{
-let b:markdown_highlight = '--no-highlight '    " highlighting off by default
-function MarkdownHighlightToggle()
-  if b:markdown_highlight == '--no-highlight '
-    let b:markdown_highlight = ''
-    echo "turned on highlighting"
-  else
-    let b:markdown_highlight = '--no-highlight '
-    echo "turned off highlighting"
-  endif
-endfunction
-
-let b:markdown_linebreak = '+hard_line_breaks '
-function MarkdownLineBreakToggle()
-  if b:markdown_linebreak == ' '
-    let b:markdown_linebreak = '+hard_line_breaks '
-    echo "turned on hard line breaks"
-  else
-    let b:markdown_linebreak = ' '
-    echo "turned off hard line breaks"
-  endif
-endfunction
-
+" default values
+let b:markdown_linebreak    = '+hard_line_breaks '
+let b:markdown_highlight    = '--no-highlight '    " highlighting off by default
 let b:markdown_presentation = ' '
-function MarkdownPresentationToggle()
-  if b:markdown_presentation == ' '
-    let b:markdown_presentation = ' -t beamer --slide-level=2 -V theme:Copenhagen '
-    echo "using beamer with Copenhagen theme, slide level 2"
-  else
-    let b:markdown_presentation = ' '
-    echo "not using beamer"
-  endif
-endfunction
+let b:markdown_doublespace  = ' '
+let b:markdown_mla          = ' '
 
-let b:markdown_doublespace = ' '
-function MarkdownDoublespaceToggle()
-  if b:markdown_doublespace == ' '
-    let b:markdown_doublespace = ' -H ~/dotfiles/latex/doublespace.sty '
-    echo "using double spacing"
+function MarkdownToggle(option, val, onmsg, blankmsg)
+  let current_val = getbufvar(bufname("%"), a:option)
+  if current_val == a:val
+    call setbufvar(bufname("%"), a:option, ' ')
+    echo a:blankmsg
   else
-    let b:markdown_doublespace = ' '
-    echo "not using double spacing"
-  endif
-endfunction
-
-let b:markdown_mla = ' '
-function MarkdownMLAToggle()
-  if b:markdown_mla == ' '
-    let b:markdown_mla = ' --template=mla_pandoc.tex'
-    let b:markdown_doublespace = ' '
-    let b:markdown_linebreak   = ' '
-    echo "using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory"
-  else
-    let b:markdown_mla = ' '
-    echo "not using MLA"
+    call setbufvar(bufname("%"), a:option, a:val)
+    if a:option == 'markdown_mla'
+      let b:markdown_doublespace = ' '
+      let b:markdown_linebreak   = ' '
+    endif
+    echo a:onmsg
   endif
 endfunction
 
