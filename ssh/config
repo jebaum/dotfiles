@@ -8,8 +8,18 @@ Host rigl
   Port 22
   User james
 
+Host thinkpad
+  Hostname 192.168.1.101
+  Port 22
+  User james
+
 Host jbaumy
   HostName jbaumy.com
+  Port 22
+  User james
+
+Host ramnode
+  HostName 107.161.24.128
   Port 22
   User james
 
