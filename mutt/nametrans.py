@@ -13,6 +13,8 @@ import subprocess
 
 mapping = { 'INBOX':              'INBOX'
           , '[Gmail]/All Mail':   'all_mail'
+          , '[Gmail]/Deter':      'deter'
+          , '[Gmail]/Piazza':     'zpiazza'
           , '[Gmail]/Drafts':     'drafts'
           , '[Gmail]/Important':  'zimportant'
           , '[Gmail]/Sent Mail':  'sent'
