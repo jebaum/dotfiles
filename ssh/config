@@ -42,3 +42,8 @@ Host lug
   Hostname ssh.linux.ucla.edu
   Port 22
   User jebaum
+
+Host deter
+  Hostname users.deterlab.net
+  Port 22
+  User la136de
