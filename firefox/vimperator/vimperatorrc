@@ -36,8 +36,8 @@ set shell="bash"
 set smartcase
 " set nextpattern="\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\bmore\b,next ›"
 " set previouspattern="\bprev|previous\b,^<$,^(<<|«)$,^(<|«),(<|«)$,‹ prev"
-set nextpattern="next ›"
-set previouspattern="‹ prev"
+set nextpattern="next ›,Next >"
+set previouspattern="‹ prev,< Prev"
 " }}}
 
 " maps {{{
