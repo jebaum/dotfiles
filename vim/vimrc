@@ -148,7 +148,7 @@ augroup END
 " }}}
 " FileType autocmds {{{
 augroup FileTypeSettings
-  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text,markdown
+  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text
           \ autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
@@ -394,7 +394,8 @@ endfunction
 " }}}
 " Markdown functions {{{
 " default values
-let b:markdown_margin       = '0.5in'
+let b:markdown_engine       = '--latex-engine=xelatex '
+let b:markdown_margin       = '0.5in '
 let b:markdown_linebreak    = '+hard_line_breaks '
 let b:markdown_highlight    = '--no-highlight '    " highlighting off by default
 let b:markdown_presentation = ' '
@@ -402,7 +403,7 @@ let b:markdown_doublespace  = ' '
 let b:markdown_mla          = ' '
 
 function MarkdownMargin(margin)
-    let b:markdown_margin    = a:margin . 'in'
+    let b:markdown_margin    = a:margin . 'in '
     let b:markdown_linebreak = ' '
     echo "changed margin to " . b:markdown_margin . ', turned off hard line breaks'
 endfunction
@@ -429,7 +430,7 @@ function Markdown(action, output)
     let base_name          = expand('%:p:t:r')
     let input_file         = expand('%:p')
     let output_file        = shellescape(dir_fullpath).'/'.a:output.'/'.shellescape(base_name).'.'.a:output
-    let pandoc_command     = 'pandoc ' . b:markdown_doublespace . b:markdown_mla . ' -V geometry:margin=' . b:markdown_margin . ' -f markdown' . b:markdown_linebreak . b:markdown_presentation . b:markdown_highlight
+    let pandoc_command     = 'pandoc ' . b:markdown_doublespace . b:markdown_mla . ' -V geometry:margin=' . b:markdown_margin . b:markdown_engine . ' -f markdown' . b:markdown_linebreak . b:markdown_presentation . b:markdown_highlight
     let b:pdfstuff_message = a:action.' '.a:output.'/'.base_name.'.'.a:output
 
     if !isdirectory(dir_fullpath.'/'.a:output)
