@@ -1,4 +1,6 @@
 eval $(gpg-agent --daemon)
 sudo dhcpcd
-# exec i3 --shmlog-size=26214400
+xset s off
+xset -dpms
+xset s noblank
 exec i3
