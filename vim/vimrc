@@ -32,10 +32,10 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-signify'                   " rarely used
 NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'mhinz/vim-tmuxify'
-NeoBundle 'milkypostman/vim-togglelist'
+NeoBundle 'kshenoy/vim-togglelist'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sgur/unite-qf'                       " rarely used
+NeoBundle 'sgur/unite-qf'                       " rarely used DELETE
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite-help'                   " rarely used
 NeoBundle 'Shougo/unite-outline'                " rarely used
@@ -716,7 +716,7 @@ augroup TMUXIFY
 augroup END
 " }}}
 " togglelist {{{
-let g:toggle_list_no_mappings   = 1       " don't use default mappings
+let g:ToggleList = { 'cmd': {} }
 " }}}
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger       = "<C-l>"
@@ -1201,9 +1201,9 @@ nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 nnoremap <silent> <leader>r    :Dispatch!<CR>
 "                         s    search mappings
 nnoremap <silent> <leader>ta   :Alltodo<CR>
-nnoremap <silent> <leader>tl   :call ToggleLocationList()<CR>
-nnoremap <silent> <leader>tq   :let g:toggle_list_copen_command="copen"<CR>
-                              \:call ToggleQuickfixList()<CR>
+nnoremap <silent> <leader>tl   :ToggleLL<CR>
+nnoremap <silent> <leader>tq   :let g:ToggleList.cmd.copen="copen"<CR>
+                              \:ToggleQF<CR>
 nnoremap <silent> <leader>tt   :Buftodo<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
@@ -1236,8 +1236,8 @@ nnoremap <leader>mc          :Make! clean<CR>
 nnoremap <leader><leader>mc  :Make  clean<CR>
 nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader>mq          :let g:toggle_list_copen_command="Copen"<CR>
-                             \:call ToggleQuickfixList()<CR>
+nnoremap <leader>mq          :let g:ToggleList.cmd.copen="Copen"<CR>
+                             \:ToggleQF<CR>
 " }}}
 " <leader>{1,2}s search/replace maps {{{
 " TODO I never seem to actually use these, put something more useful here?
