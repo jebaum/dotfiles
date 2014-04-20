@@ -9,7 +9,7 @@ echo -n hold on | xclip
 PASTEURL=$(scpur "${THING}" txt)
 
 if [ $? -ne 0 ]; then
-  notify-send -t 500 "error uploading with scpur"
+  notify-send -t 5000 "error uploading with scpur"
   echo -n error | xclip
   exit 1
 fi
@@ -20,4 +20,4 @@ echo -n $PASTEURL | xclip -selection c
 
 #done
 echo read $PASTEURL into xclip
-notify-send -t 500 "$PASTEURL"
+notify-send -t 50000 "$PASTEURL"

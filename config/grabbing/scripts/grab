@@ -19,10 +19,10 @@ chmod +r "${THING}"
 gnome-screenshot -a -f "${THING}"
 
 if [ $? -ne 0 ]; then
-  notify-send -t 2000 "error taking screenshot"
+  notify-send -t 50000 "error taking screenshot"
   exit 1
 elif [ ! -s "${THING}" ]; then
-  notify-send -t 2000 "cancelled taking screenshot"
+  notify-send -t 50000 "cancelled taking screenshot"
   exit 1
 fi
 
@@ -32,7 +32,7 @@ echo -n "hold on " | xclip
 IMGURL=$($UPLOADSCRIPT "${THING}")
 
 if [ $? -ne 0 ]; then
-  notify-send -t 2000 "error uploading to $UPLOADSCRIPT"
+  notify-send -t 50000 "error uploading to $UPLOADSCRIPT"
   exit 1
 fi
 
@@ -42,4 +42,4 @@ echo -n "$IMGURL" | xclip -selection c
 
 ## notify we're done
 echo read "$IMGURL" into xclip
-notify-send -t 2000 "$IMGURL"
+notify-send -t 50000 "$IMGURL"
