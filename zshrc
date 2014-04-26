@@ -57,6 +57,7 @@ setopt NUMERIC_GLOB_SORT
 export EDITOR=vim
 export PAGER="less"
 export LESS="-R"
+export VIM=/usr/share/vim
 if [ -f "/usr/bin/src-hilite-lesspipe.sh" ]; then
   export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 fi
