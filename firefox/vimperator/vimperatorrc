@@ -52,25 +52,25 @@ nnoremap J :Selecttab<CR>:tabmove! -1<CR>
 nnoremap > :tabmove<CR>
 nnoremap < :tabmove 0<CR>
 
-nnoremap sa :open amazon<Space>
-nnoremap sd :open dictionary<Space>
-nnoremap sg :open google<Space>
-nnoremap sh :history! -max=1<Space>
-nnoremap si :open images<Space>
-nnoremap sp :open thepiratebay<Space>
-nnoremap st :open thesaurus<Space>
-nnoremap sw :open wikipedia<Space>
-nnoremap sy :open youtube<Space>
+nnoremap ssa :open amazon<Space>
+nnoremap ssd :open dictionary<Space>
+nnoremap ssg :open duckduckgo<Space>
+nnoremap ssh :history! -max=1<Space>
+nnoremap ssi :open images<Space>
+nnoremap ssp :open thepiratebay<Space>
+nnoremap sst :open thesaurus<Space>
+nnoremap ssw :open wikipedia<Space>
+nnoremap ssy :open youtube<Space>
 
-nnoremap Sa :tabopen amazon<Space>
-nnoremap Sd :tabopen dictionary<Space>
-nnoremap Sg :tabopen google<Space>
-nnoremap Sh :history -max=1<Space>
-nnoremap Si :tabopen images<Space>
-nnoremap Sp :tabopen thepiratebay<Space>
-nnoremap St :tabopen thesaurus<Space>
-nnoremap Sw :tabopen wikipedia<Space>
-nnoremap Sy :tabopen youtube<Space>
+nnoremap sa :tabopen amazon<Space>
+nnoremap sd :tabopen dictionary<Space>
+nnoremap sg :tabopen duckduckgo<Space>
+nnoremap sh :history -max=1<Space>
+nnoremap si :tabopen images<Space>
+nnoremap sp :tabopen thepiratebay<Space>
+nnoremap st :tabopen thesaurus<Space>
+nnoremap sw :tabopen wikipedia<Space>
+nnoremap sy :tabopen youtube<Space>
 
 nnoremap <C-f>     /
 nnoremap <C-j>     <C-^>
@@ -81,9 +81,11 @@ nnoremap <A-l> /<Up><CR>
 nnoremap <A-n> :tabmove! +1<CR>
 nnoremap <A-p> :tabmove! -1<CR>
 
-nnoremap ,a :addons<CR>
-nnoremap ,e :extoptions<Space>
-nnoremap ,m :qmarks<CR>
+nnoremap ,a  :addons<CR>
+nnoremap ,e  :extoptions<Space>
+nnoremap ,m  :qmarks<CR>
+nnoremap ,t  :tabopen about:sync-tabs<CR>
+nnoremap ,,t :open about:sync-tabs<CR>
 
 nnoremap ,b :sidebar Bookmarks<CR>
 nnoremap ,d :sidebar downloads<CR>
