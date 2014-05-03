@@ -152,6 +152,7 @@ bindsym $mod+F4                 exec puddletag
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
 for_window [instance="vimtmp"] move scratchpad; scratchpad show
+for_window [instance="rangermpvaudio"] move scratchpad
 
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
