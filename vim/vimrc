@@ -35,7 +35,6 @@ NeoBundle 'mhinz/vim-tmuxify'
 NeoBundle 'kshenoy/vim-togglelist'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sgur/unite-qf'                       " rarely used DELETE
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite-help'                   " rarely used
 NeoBundle 'Shougo/unite-outline'                " rarely used
@@ -56,13 +55,12 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'ujihisa/unite-locate'
+NeoBundle 'ujihisa/unite-locate'                " broken?
 NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
 
-NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'bitbucket:abudden/TagHighlight'
 NeoBundleCheck
 " }}}
@@ -175,6 +173,19 @@ augroup FileTypeSettings
                   \:call system("killall -HUP mupdf")<CR>
 augroup END
 " }}}
+" insert maps to complete {,(, mucks with undo and dot operator {{{
+inoremap { {}<Left>
+inoremap {<CR> {<CR>}<Esc>O<Tab>
+inoremap {{ {
+inoremap {} {}
+inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
+
+inoremap ( ()<Left>
+inoremap (<CR> (<CR>)<Esc>O<Tab>
+inoremap (( (
+inoremap () ()
+inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+" }}}
 " }}}
 " Functions {{{
 " StripTrailingWhitespace function {{{
@@ -192,44 +203,6 @@ function! CustomMatch(pattern)
 endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
-" }}}
-" Copy function {{{
-" complement to unimpaired Move, ]e
-function! Copy(cmd, count, map) abort
-  normal! m`
-  exe 'copy'.a:cmd.a:count
-  norm! ``
-  if a:map == 'MoveDown' || a:map == 'MoveUp' || a:map == 'MoveAbs'
-    norm! dd
-  endif
-  silent! call repeat#set("\<Plug>my".a:map, a:count)
-endfunction
-
-nnoremap <silent> <Plug>myCopyUp   :<C-U>call Copy('--',v:count1,'CopyUp')<CR>
-nnoremap <silent> <Plug>myCopyDown :<C-U>call Copy('+',v:count1,'CopyDown')<CR>
-xnoremap <silent> <Plug>myCopyUp   :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy--'.v:count1<CR>``
-xnoremap <silent> <Plug>myCopyDown :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy''>+'.v:count1<CR>``
-
-nnoremap <silent> <Plug>myMoveUp   :<C-U>call Copy('--',v:count1,'MoveUp')<CR>
-nnoremap <silent> <Plug>myMoveDown :<C-U>call Copy('+',v:count1,'MoveDown')<CR>
-xnoremap <silent> <Plug>myMoveUp   :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy--'.v:count1<CR>``gvd
-xnoremap <silent> <Plug>myMoveDown :<C-U>exe 'exe "normal! m`"<Bar>''<,''>copy''>+'.v:count1<CR>``gvd
-
-nnoremap <silent> <Plug>myCopyAbs  :<C-U>call Copy('',v:count1,'CopyAbs')<CR>
-nnoremap <silent> <Plug>myMoveAbs  :<C-U>call Copy('',v:count1,'MoveAbs')<CR>
-
-nmap [z <Plug>myCopyUp
-nmap ]z <Plug>myCopyDown
-xmap [z <Plug>myCopyUp
-xmap ]z <Plug>myCopyDown
-
-nmap [m <Plug>myMoveUp
-nmap ]m <Plug>myMoveDown
-xmap [m <Plug>myMoveUp
-xmap ]m <Plug>myMoveDown
-
-nmap [j <Plug>myCopyAbs
-nmap ]j <Plug>myMoveAbs
 " }}}
 " VimGrep wrapper function + todo searches {{{
 function! VimGrep(pattern, target, cw)
@@ -319,19 +292,6 @@ endfunction
 
 xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>N
 xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>N
-" }}}
-" GitPush with dispatch function {{{
-function! GitPush()
-  if !exists('b:dispatch')
-    let b:dispatch = "git push"
-    Dispatch!
-  else
-    let foo = b:dispatch
-    let b:dispatch = "git push"
-    Dispatch!
-    let b:dispatch = foo
-  endif
-endfunction
 " }}}
 " GenerateRunCommand function {{{
 " an autocmd sets b:dispatch to the output of this command for certain filetypes
@@ -511,7 +471,7 @@ endfunction
 
 augroup FugitiveCMDs
   autocmd!
-  autocmd FileType gitcommit,git autocmd FugitiveCMDs CursorMoved <buffer>
+  autocmd FileType gitcommit,git,fugitiveblame autocmd FugitiveCMDs CursorMoved <buffer>
         \ call FugitiveUnmap('i') | autocmd! FugitiveCMDs * <buffer>
 augroup END
 " }}}
@@ -605,7 +565,7 @@ let g:niji_dark_colours = [
 " signify {{{
 let g:signify_disable_by_default = 1            " disable run by default
 let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
-let g:signify_mapping_next_hunk  = '<leader>gk'
+let g:signify_mapping_next_hunk  = '<leader>gk' " easier to use [c and ]c
 let g:signify_mapping_prev_hunk  = '<leader>gi'
 let g:signify_sign_change        = '~'
 " }}}
@@ -628,6 +588,9 @@ omap T <Plug>Sneak_T
 nmap ; <Plug>SneakNext
 omap ; <Plug>SneakNext
 xmap ; <Plug>VSneakNext
+nmap <Space>; <Plug>SneakPrevious
+omap <Space>; <Plug>SneakPrevious
+xmap <Space>; <Plug>SneakPrevious
 
 nmap ,<Space> <Plug>(SneakStreak)
 nmap <Space>, <Plug>(SneakStreakBackward)
@@ -861,9 +824,9 @@ function! s:vimfiler_my_settings()
   nnoremap <buffer> <C-b> <C-^>zvzz
 
   " defaults
-  nmap <buffer> gg		    <Plug>(vimfiler_cursor_top)
-  nmap <buffer> <C-l>			<Plug>(vimfiler_redraw_screen)
-  nmap <buffer> <S-Space>	<Plug>(vimfiler_toggle_mark_current_line_up)
+  nmap <buffer> gg        <Plug>(vimfiler_cursor_top)
+  nmap <buffer> <C-l>     <Plug>(vimfiler_redraw_screen)
+  nmap <buffer> <S-Space> <Plug>(vimfiler_toggle_mark_current_line_up)
   nmap <buffer> *         <Plug>(vimfiler_toggle_mark_all_lines)
   nmap <buffer> &         <Plug>(vimfiler_mark_similar_lines)
   nmap <buffer> U         <Plug>(vimfiler_clear_mark_all_lines)
@@ -874,12 +837,12 @@ function! s:vimfiler_my_settings()
   nmap <buffer> r         <Plug>(vimfiler_rename_file)
   nmap <buffer> K         <Plug>(vimfiler_make_directory)
   nmap <buffer> N         <Plug>(vimfiler_new_file)
-  nmap <buffer> e     		<Plug>(vimfiler_execute)
+  nmap <buffer> e         <Plug>(vimfiler_execute)
   nmap <buffer> L         <Plug>(vimfiler_switch_to_drive)
   nmap <buffer> ~         <Plug>(vimfiler_switch_to_home_directory)
   nmap <buffer> \         <Plug>(vimfiler_switch_to_root_directory)
-  nmap <buffer> <C-j>			<Plug>(vimfiler_switch_to_history_directory)
-  nmap <buffer> <BS>		  <Plug>(vimfiler_switch_to_parent_directory)
+  nmap <buffer> <C-j>     <Plug>(vimfiler_switch_to_history_directory)
+  nmap <buffer> <BS>      <Plug>(vimfiler_switch_to_parent_directory)
   nmap <buffer> .         <Plug>(vimfiler_toggle_visible_ignore_files)
   nmap <buffer> H         <Plug>(vimfiler_popup_shell)
   nmap <buffer> <Enter>   <Plug>(vimfiler_edit_file)
@@ -892,8 +855,8 @@ function! s:vimfiler_my_settings()
   nmap <buffer> -         <Plug>(vimfiler_close)
   nmap <buffer> ?         <Plug>(vimfiler_help)
   nmap <buffer> O         <Plug>(vimfiler_open_file_in_another_vimfiler)
-  nmap <buffer> <C-g>			<Plug>(vimfiler_print_filename)
-  nmap <buffer> g<C-g>		<Plug>(vimfiler_toggle_maximize_window)
+  nmap <buffer> <C-g>     <Plug>(vimfiler_print_filename)
+  nmap <buffer> g<C-g>    <Plug>(vimfiler_toggle_maximize_window)
   nmap <buffer> yy        <Plug>(vimfiler_yank_full_path)
   nmap <buffer> M         <Plug>(vimfiler_set_current_mask)
   nmap <buffer> gr        <Plug>(vimfiler_grep)
@@ -1091,7 +1054,9 @@ vnoremap <C-a> :call Increment()<CR>
 xnoremap <C-f> <Esc>/\%V
 
 " diffget/diffobtain
-nnoremap dg do
+nnoremap du :diffupdate<CR>
+xnoremap dp :diffput <BAR> diffupdate<CR>
+xnoremap do :diffget <BAR> diffupdate<CR>
 
 " line yanks
 nnoremap Y y$
@@ -1120,6 +1085,9 @@ nnoremap <C-]> g<C-]>
 " shifting doesn't exit visual mode
 vnoremap < <gv
 vnoremap > >gv
+
+" select just pasted text
+nnoremap gV `[v`]
 
 " up/down arrow keys go up and down by visual lines
 inoremap <up>   <C-O>gk
@@ -1177,9 +1145,9 @@ nnoremap zk zj
 nnoremap zi zk
 " }}}
 " function keys {{{
-nnoremap <F1>       :call StripTrailingWhitespace()<CR>
-nnoremap <F2>       :set spell!<CR>
-nnoremap <F12>      :UndotreeToggle<CR>
+nnoremap <F1>          :call StripTrailingWhitespace()<CR>
+nnoremap <F2>          :set spell!<CR>
+nnoremap <silent> <F3> :NumbersOnOff<CR>:set number relativenumber<CR>
 " }}}
 " defualt (comma) leader maps {{{
 " Main {{{
@@ -1196,7 +1164,8 @@ nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<
 "                         g    fugitive and signify maps
 nnoremap          <leader>l    :ls<CR>:b
 "                         m    make maps
-nnoremap <silent> <leader>p    :set list!<CR>
+nnoremap <silent> <leader>p    p`]
+vnoremap <silent> <leader>p    p`]
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 nnoremap <silent> <leader>r    :Dispatch!<CR>
 "                         s    search mappings
@@ -1208,6 +1177,7 @@ nnoremap <silent> <leader>tt   :Buftodo<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :wq<CR>
+vnoremap <silent> <leader>y    y`]
 nnoremap <silent> <leader>zh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
@@ -1216,15 +1186,18 @@ nnoremap <silent> <leader><leader>a  :redraw!<CR>
 nnoremap <silent> <leader><leader>r  :Dispatch<CR>
 " }}}
 " <leader>g[ikht] signify {{{
-nnoremap <silent> <leader>gb  :Gblame<CR>
+nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
+nnoremap <silent> <leader>gb  :Git branch<Space>
+nnoremap <silent> <leader>gB  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap <silent> <leader>ge  :Gedit<CR>
 nnoremap <silent> <leader>gf  :silent Glog <Bar> redraw!<CR>
-nnoremap <silent> <leader>gg  :SignifyToggle<CR>
+nnoremap <silent> <leader>gg  :Ggrep<Space>
 nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
-nnoremap <silent> <leader>gp  :call GitPush()<CR>
+nnoremap <silent> <leader>gm  :Gmove<Space>
+nnoremap <silent> <leader>gp  :Dispatch! git push<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
@@ -1262,7 +1235,6 @@ vnoremap <leader># :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
 " space leader maps. unite + tabularize {{{
 nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
-nnoremap <Space>c   :<C-u>Unite -start-insert -buffer-name=registers  register<CR>
 nnoremap <Space>d   :<C-u>Unite -start-insert -buffer-name=tabs       tab:no-current<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
 nnoremap <Space>g   :<C-u>Unite -start-insert -buffer-name=grep       grep:.<CR>
@@ -1275,11 +1247,9 @@ nnoremap <Space>ol  :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>oo  :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>pl  :<C-u>Unite -no-start-insert neobundle/log<CR>
 nnoremap <Space>pu  :<C-u>Unite -no-start-insert neobundle/update<CR>
-nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=recent     file_mru<CR>
 nnoremap <Space>s   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
 nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-current<CR>
-nnoremap <Space>y   :<C-u>Unite -start-insert -buffer-name=yanks      history/yank<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 
 " Tabularize
@@ -1293,18 +1263,18 @@ nnoremap <Space>-       :Tabularize /-<CR>
 vnoremap <Space>-       :Tabularize /-<CR>
 " }}}
 " ctrl normal mode {{{
-nnoremap <C-w><C-b> :VimFilerExplorer -find<CR>:redraw!<CR>
-nnoremap <C-b>      :VimFiler -find<CR>:redraw!<CR>
-nnoremap <silent> <C-c> :set nocursorcolumn<CR>
-nnoremap <C-f>      :set cursorline cursorcolumn hlsearch<CR>/\V
-nnoremap <C-h>      :TagbarOpen fjc<CR>
-nnoremap <silent> <C-j> :set opfunc=Insert<CR>g@
-nnoremap <silent> <C-k> :set opfunc=Append<CR>g@
-nnoremap <C-n>      gt
-nnoremap <C-p>      gT
-nnoremap <C-w>o     <C-w>o:redraw!<CR>
-nnoremap <C-w>s     <C-w>s:redraw!<CR>
-nnoremap <C-w>v     <C-w>v:redraw!<CR>
+nnoremap <C-w><C-b>         :VimFilerExplorer -find<CR>:redraw!<CR>
+nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
+nnoremap <silent> <C-c>     :set nocursorcolumn<CR>
+nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>/\V
+nnoremap <C-h>              :TagbarOpen fjc<CR>
+nnoremap <silent> <C-j>     :set opfunc=Insert<CR>g@
+nnoremap <silent> <C-k>     :set opfunc=Append<CR>g@
+nnoremap <C-n>              gt
+nnoremap <C-p>              gT
+nnoremap <C-w>o             <C-w>o:redraw!<CR>
+nnoremap <C-w>s             <C-w>s:redraw!<CR>
+nnoremap <C-w>v             <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
 inoremap <C-a>      <Home>
