@@ -7,6 +7,7 @@
 ## - it's possible to bind maximum two keys to a command
 ## - keys can be defined with a character or a decimal value
 ## - a command can be disabled by binding it to 0
+## Ctrl-[a-z] is keycodes 1-26
 ##
 ## Note: First bind of volume_up/down
 ## will be used to switch between columns.
@@ -24,13 +25,13 @@ key_down_album = 'K'
 #
 #key_down_artist = '}'
 #
-#key_page_up = 339
+key_page_up = 339 21
 #
-#key_page_down = 338
+key_page_down = 338 4
 #
-#key_home = 262
+key_home = 262 'g'
 #
-#key_end = 360
+key_end = 360 'G'
 #
 #key_space = 32
 #
