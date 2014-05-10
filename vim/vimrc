@@ -726,6 +726,62 @@ let g:UltiSnipsListSnippets        = "<C-j>"
 let g:snips_author                 = 'James Baumgarten'
 " }}}
 " unite {{{
+" Unite Menus {{{
+let g:unite_source_menu_menus = {}
+" menu descriptions and maps {{{
+nnoremap <silent> <Space>g :Unite -silent -winheight=25 -start-insert menu:git<CR>
+nnoremap <silent> <Space>m :Unite -start-insert menu<CR>
+nnoremap <silent> <Space>n :Unite -silent -start-insert menu:neobundle<CR>
+
+let g:unite_source_menu_menus.git       = {'description': 'fugitive and other git commands                      <Space>g'}
+let g:unite_source_menu_menus.neobundle = {'description': 'plugins administration with neobundle          <Space>n'}
+" }}}
+" git menu {{{
+let g:unite_source_menu_menus.git.command_candidates = [
+\['▷ gitv commit browser            N/A     (gitv)              ', 'Gitv'],
+\['▷ gitv file browser              N/A     (gitv)              ', 'Gitv!'],
+\['▷ git add                        ,ga     (fugitive)          ', 'Git add %:p'],
+\['▷ git checkout -b                ,gb     (fugitive)          ', 'exe "silent Git checkout -b " input("Branch Name: ") | redraw!'],
+\['▷ git blame                      ,gB     (fugitive)          ', 'Gblame'],
+\['▷ git commit --verbose           ,gc     (fugitive)          ', 'Gcommit --verbose'],
+\['▷ git diff                       ,gd     (fugitive)          ', 'Gdiff'],
+\['▷ git edit                       ,ge     (fugitive)          ', 'Gedit'],
+\['▷ git log - file versions        ,gf     (fugitive)          ', 'exe "silent Glog | redraw! | copen"'],
+\['▷ git grep -i                    ,gg     (fugitive)          ', 'exe "silent Ggrep -i ".input("Pattern: ") | copen'],
+\['▷ git log - all diffs            ,gla    (fugitive)          ', 'exe "silent Glog -- | redraw! | copen"'],
+\['▷ git log - all diffs for file   ,glf    (fugitive)          ', 'exe "silent Glog -- % | redraw! | copen"'],
+\['▷ git mv                         ,gm     (fugitive)          ', 'exe "Gmove " input("new filename: ")'],
+\['▷ git push                       ,gp     (fugitive, dispatch)', 'Dispatch! git push'],
+\['▷ git pull                       ,gP     (fugitive, dispatch)', 'Dispatch! git pull'],
+\['▷ git checkout                   ,gr     (fugitive)          ', 'Gread'],
+\['▷ git status                     ,gs     (fugitive)          ', 'Gstatus'],
+\['▷ git add/stage                  ,gw     (fugitive)          ', 'Gwrite'],
+\['▷ git command                    N/A     (fugitive)          ', 'exe "Git! " input("git command: ")'],
+\['▷ git grep - messages            N/A     (fugitive)          ', 'exe "silent Glog --grep=".input("Pattern: ") | redraw!'],
+\['▷ git grep - text                N/A     (fugitive)          ', 'exe "silent Glog -S".input("Pattern: ") | redraw!'],
+\['▷ git rm                         N/A     (fugitive)          ', 'Gremove'],
+\['▷ git browse                     N/A     (fugitive)          ', 'Gbrowse'],
+\['▷ git init                       N/A     (git)               ', 'Unite output:echo\ system("git\ init")'],
+\]
+" }}}
+" neobundle menu {{{
+let g:unite_source_menu_menus.neobundle.command_candidates = [
+\['▷ neobundle',                'Unite neobundle'],
+\['▷ neobundle log',            'Unite neobundle/log'],
+\['▷ neobundle lazy',           'Unite neobundle/lazy'],
+\['▷ neobundle update',         'Unite -no-start-insert neobundle/update'],
+\['▷ neobundle search',         'Unite neobundle/search'],
+\['▷ neobundle install',        'Unite neobundle/install'],
+\['▷ neobundle check',          'Unite -no-empty output:NeoBundleCheck'],
+\['▷ neobundle docs',           'Unite output:NeoBundleDocs'],
+\['▷ neobundle clean',          'NeoBundleClean'],
+\['▷ neobundle rollback',       'exe "NeoBundleRollback" input("plugin: ")'],
+\['▷ neobundle list',           'Unite output:NeoBundleList'],
+\['▷ neobundle direct edit',    'NeoBundleExtraEdit'],
+\]
+" }}}
+" }}}
+" Unite Settings {{{
 let g:unite_cursor_line_highlight = "UniteSel"
 if executable('ag')
   let g:unite_source_grep_command = 'ag'
@@ -823,6 +879,7 @@ function! s:unite_my_settings()
   nmap <buffer> H     <Plug>(unite_insert_head)
   nmap <buffer> l     <Plug>(unite_do_default_action)
 endfunction
+" }}}
 " }}}
 " vimfiler {{{
 let g:vimfiler_as_default_explorer  = 1
