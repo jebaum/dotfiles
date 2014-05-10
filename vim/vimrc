@@ -177,17 +177,18 @@ augroup FileTypeSettings
 augroup END
 " }}}
 " insert maps to complete {,(, mucks with undo and dot operator {{{
-inoremap { {}<Left>
-inoremap {<CR> {<CR>}<Esc>O<Tab>
-inoremap {{ {
-inoremap {} {}
-inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
-
-inoremap ( ()<Left>
-inoremap (<CR> (<CR>)<Esc>O<Tab>
-inoremap (( (
-inoremap () ()
-inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+augroup BrackeAutoComplete
+  autocmd Filetype c,cpp,java inoremap <buffer> { {}<Left>
+  autocmd Filetype c,cpp,java inoremap <buffer> {<CR> {<CR>}<Esc>O<Tab>
+  autocmd Filetype c,cpp,java inoremap <buffer> {{ {
+  autocmd Filetype c,cpp,java inoremap <buffer> {} {}
+  autocmd Filetype c,cpp,java inoremap <buffer> <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
+  autocmd Filetype c,cpp,java inoremap <buffer> ( ()<Left>
+  autocmd Filetype c,cpp,java inoremap <buffer> (<CR> (<CR>)<Esc>O<Tab>
+  autocmd Filetype c,cpp,java inoremap <buffer> (( (
+  autocmd Filetype c,cpp,java inoremap <buffer> () ()
+  autocmd Filetype c,cpp,java inoremap <buffer> <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+augroup END
 " }}}
 " }}}
 " Functions {{{
