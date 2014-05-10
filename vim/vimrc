@@ -395,13 +395,13 @@ let b:markdown_presentation = ' '
 let b:markdown_doublespace  = ' '
 let b:markdown_mla          = ' '
 
-function MarkdownMargin(margin)
+function! MarkdownMargin(margin)
     let b:markdown_margin    = a:margin . 'in '
     let b:markdown_linebreak = ' '
     echo "changed margin to " . b:markdown_margin . ', turned off hard line breaks'
 endfunction
 
-function MarkdownToggle(option, val, onmsg, blankmsg)
+function! MarkdownToggle(option, val, onmsg, blankmsg)
   let current_val = getbufvar(bufname("%"), a:option)
   if current_val == a:val
     call setbufvar(bufname("%"), a:option, ' ')
@@ -416,7 +416,7 @@ function MarkdownToggle(option, val, onmsg, blankmsg)
   endif
 endfunction
 
-function Markdown(action, output)
+function! Markdown(action, output)
   if &filetype == 'markdown'
     let dir_fullpath       = expand('%:p:h')
     let dir_current        = expand('%:p:h:t')
@@ -746,10 +746,10 @@ let g:unite_source_menu_menus.git.command_candidates = [
 \['▷ git commit --verbose           ,gc     (fugitive)          ', 'Gcommit --verbose'],
 \['▷ git diff                       ,gd     (fugitive)          ', 'Gdiff'],
 \['▷ git edit                       ,ge     (fugitive)          ', 'Gedit'],
-\['▷ git log - file versions        ,gf     (fugitive)          ', 'exe "silent Glog | redraw! | copen"'],
 \['▷ git grep -i                    ,gg     (fugitive)          ', 'exe "silent Ggrep -i ".input("Pattern: ") | copen'],
 \['▷ git log - all diffs            ,gla    (fugitive)          ', 'exe "silent Glog -- | redraw! | copen"'],
 \['▷ git log - all diffs for file   ,glf    (fugitive)          ', 'exe "silent Glog -- % | redraw! | copen"'],
+\['▷ git log - file versions        ,gli    (fugitive)          ', 'exe "silent Glog | redraw! | copen"'],
 \['▷ git mv                         ,gm     (fugitive)          ', 'exe "Gmove " input("new filename: ")'],
 \['▷ git push                       ,gp     (fugitive, dispatch)', 'Dispatch! git push'],
 \['▷ git pull                       ,gP     (fugitive, dispatch)', 'Dispatch! git pull'],
@@ -1293,10 +1293,10 @@ nnoremap <silent> <leader>gB  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap <silent> <leader>ge  :Gedit<CR>
-nnoremap <silent> <leader>gf  :silent Glog <Bar> redraw!<CR>
 nnoremap          <leader>gg  :Ggrep<Space>
 nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
+nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
 nnoremap          <leader>gm  :Gmove<Space>
 nnoremap <silent> <leader>gp  :Dispatch! git push<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
