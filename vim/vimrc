@@ -164,10 +164,10 @@ augroup FileTypeSettings
   autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownToggle('markdown_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownToggle('markdown_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen ', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('markdown_highlight', '--no-highlight ', 'turned on highlighting', 'turned off highlighting')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mh :w!<CR>:silent call Markdown('built','html')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call Markdown('removed','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mv :call Markdown('open', 'pdf')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mw :w!<CR>:silent call Markdown('built','html')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>r :w!<CR>:silent call Markdown('built','pdf')<CR>
                   \:echo b:pdfstuff_message<CR>
   autocmd FileType tex nnoremap      <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
