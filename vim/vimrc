@@ -1115,28 +1115,28 @@ endif
 " }}}
 " Keymaps {{{
 " Misc {{{
+let mapleader = ','  " use comma instead of \ as leader
+
 function! Altmap(char) " map a character to Alt key in both vim and gvim
   if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
 let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
 " exec 'nnoremap ' . cspace . 'a :somecommand'
 
-let mapleader = ','  " use comma instead of \ as leader
-onoremap <C-f> /\V
-nnoremap / :set cursorline cursorcolumn hlsearch<CR>/
+" some more useful default keys
 nnoremap M %
 onoremap M %
 nnoremap * *N
 nnoremap # #N
 nnoremap - 10jzz
 nnoremap _ 10kzz
+nnoremap z<Space> zMzv
 
+" enter key resets search behavior, but works as normal in quickfix window
 nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
 augroup FancyCR
   autocmd FileType qf nnoremap <buffer> <CR> <CR>zv
 augroup END
-
-" TODO: still can be mapped: <Space><CR>  <S-Space>
 
 " increment numbers in visual mode, only search within selection
 vnoremap <C-a> :call Increment()<CR>
@@ -1162,12 +1162,23 @@ nnoremap "+x "+x
 nnoremap <expr> X v:register == '+' ? '"xX' : 'X'
 nnoremap "+X "+X
 
-" searching opens fold if in one
+" fancy search maps
+function! ToggleFancyN(status)
+    if a:status == 'on'
+        execute 'nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv'
+        execute 'nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv'
+    else
+        execute 'nnoremap n nzv'
+        execute 'nnoremap N Nzv'
+    endif
+endfunction
 nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv
 nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv
-nnoremap ? :set cursorline cursorcolumn hlsearch<CR>?
+nnoremap / :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
+nnoremap ? :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
+onoremap <C-f> /\V
 
-" always show multiple tag options, open in new window
+" always show multiple tag options, <C-w> to open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
 
@@ -1175,7 +1186,7 @@ nnoremap <C-]> g<C-]>
 vnoremap < <gv
 vnoremap > >gv
 
-" select just pasted text
+" select just pasted text, companion to 'gv'
 nnoremap gV `[v`]
 
 " up/down arrow keys go up and down by visual lines
@@ -1276,16 +1287,17 @@ nnoremap <silent> <leader><leader>r  :Dispatch<CR>
 " }}}
 " <leader>g[ikht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
-nnoremap <silent> <leader>gb  :Git branch<Space>
+" TODO: make git branch a command so I can add two <CR>s afterward?
+nnoremap          <leader>gb  :Git checkout -b<Space>
 nnoremap <silent> <leader>gB  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap <silent> <leader>ge  :Gedit<CR>
 nnoremap <silent> <leader>gf  :silent Glog <Bar> redraw!<CR>
-nnoremap <silent> <leader>gg  :Ggrep<Space>
+nnoremap          <leader>gg  :Ggrep<Space>
 nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
-nnoremap <silent> <leader>gm  :Gmove<Space>
+nnoremap          <leader>gm  :Gmove<Space>
 nnoremap <silent> <leader>gp  :Dispatch! git push<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
@@ -1355,7 +1367,7 @@ vnoremap <Space>-       :Tabularize /-<CR>
 nnoremap <C-w><C-b>         :VimFilerExplorer -find<CR>:redraw!<CR>
 nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
 nnoremap <silent> <C-c>     :set nocursorcolumn<CR>
-nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>/\V
+nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN('on')<CR>/\V
 nnoremap <C-h>              :TagbarOpen fjc<CR>
 nnoremap <silent> <C-j>     :set opfunc=Insert<CR>g@
 nnoremap <silent> <C-k>     :set opfunc=Append<CR>g@
@@ -1372,6 +1384,7 @@ inoremap <C-e>      <End>
 " }}}
 " alt normal mode {{{
 exec 'nnoremap <silent> ' . Altmap('a') . ' :AirlineToggle<CR>'
+exec 'nnoremap <silent> ' . Altmap('f') . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
 exec 'nnoremap <silent> ' . Altmap('h') . ' :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>'
 exec 'nnoremap <silent> ' . Altmap('i') . ' :resize +2<CR>'
 exec 'nnoremap <silent> ' . Altmap('j') . ' :vertical resize -2<CR>'
