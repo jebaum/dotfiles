@@ -43,6 +43,7 @@ set previouspattern="‹ prev,< Prev"
 " maps {{{
 command Selecttab -count tabmove <count>
 
+nnoremap gq    :qmarks<CR>
 inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
