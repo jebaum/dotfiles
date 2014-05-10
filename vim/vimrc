@@ -23,16 +23,18 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
+NeoBundle 'gregsexton/gitv'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jamessan/vim-gnupg'                  " rarely used
 NeoBundle 'justinmk/vim-sneak'
+NeoBundle 'kshenoy/vim-togglelist'
+NeoBundle 'majkinetor/unite-cmdmatch'
 NeoBundle 'majutsushi/tagbar'                   " rarely used
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-signify'                   " rarely used
 NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'mhinz/vim-tmuxify'
-NeoBundle 'kshenoy/vim-togglelist'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/neocomplete.vim'
@@ -43,6 +45,7 @@ NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/vinarise.vim'                 " rarely used
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'tacroe/unite-mark'                   " rarely used
+NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-quickrun'                 " rarely used, maybe should use more
 NeoBundle 'tmhedberg/SimpylFold'
 NeoBundle 'tommcdo/vim-exchange'
