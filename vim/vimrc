@@ -64,6 +64,7 @@ NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
 
+NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'bitbucket:abudden/TagHighlight'
 NeoBundleCheck
 " }}}
@@ -729,12 +730,16 @@ let g:snips_author                 = 'James Baumgarten'
 " Unite Menus {{{
 let g:unite_source_menu_menus = {}
 " menu descriptions and maps {{{
-nnoremap <silent> <Space>g :Unite -silent -winheight=25 -start-insert menu:git<CR>
 nnoremap <silent> <Space>m :Unite -start-insert menu<CR>
-nnoremap <silent> <Space>n :Unite -silent -start-insert menu:neobundle<CR>
 
-let g:unite_source_menu_menus.git       = {'description': 'fugitive and other git commands                      <Space>g'}
-let g:unite_source_menu_menus.neobundle = {'description': 'plugins administration with neobundle          <Space>n'}
+nnoremap <silent> <Space>g :Unite -silent -winheight=25 -start-insert menu:git<CR>
+nnoremap <silent> <Space>n :Unite -silent -start-insert menu:neobundle<CR>
+nnoremap <silent> <Space>v :Unite menu:vim -silent -start-insert<CR>
+
+let g:unite_source_menu_menus.git        = {'description': '        fugitive and other git commands                 <Space>g'}
+let g:unite_source_menu_menus.navigation = {'description': ' navigate by buffers, tabs & windows             <Space>b'}
+let g:unite_source_menu_menus.neobundle  = {'description': '  plugins administration with neobundle           <Space>n'}
+let g:unite_source_menu_menus.vim        = {'description': '        vim                                             <Space>v'}
 " }}}
 " git menu {{{
 let g:unite_source_menu_menus.git.command_candidates = [
@@ -764,6 +769,23 @@ let g:unite_source_menu_menus.git.command_candidates = [
 \['▷ git init                       N/A     (git)               ', 'Unite output:echo\ system("git\ init")'],
 \]
 " }}}
+" navigation menu: buffers, tabs & windows {{{
+let g:unite_source_menu_menus.navigation.command_candidates = [
+    \['▷ buffers                                                      ,b', 'Unite buffer'],
+    \['▷ tabs                                                         ,B', 'Unite tab'],
+    \['▷ windows', 'Unite window'],
+    \['▷ location list', 'Unite location_list'],
+    \['▷ quickfix', 'Unite quickfix'],
+    \['▷ resize windows                                               C-C C-W', 'WinResizerStartResize'],
+    \['▷ new vertical window                                          ,v', 'vsplit'],
+    \['▷ new horizontal window                                        ,h', 'split'],
+    \['▷ close current window                                         ,k', 'close'],
+    \['▷ toggle quickfix window                                       ,q', 'normal ,q'],
+    \['▷ zoom                                                         ,z', 'ZoomWinTabToggle'],
+    \['▷ delete buffer                                                ,K', 'bd'],
+    \]
+nnoremap <silent>[menu]b :Unite -silent menu:navigation<CR>
+" }}}
 " neobundle menu {{{
 let g:unite_source_menu_menus.neobundle.command_candidates = [
 \['▷ neobundle',                'Unite neobundle'],
@@ -778,6 +800,22 @@ let g:unite_source_menu_menus.neobundle.command_candidates = [
 \['▷ neobundle rollback',       'exe "NeoBundleRollback" input("plugin: ")'],
 \['▷ neobundle list',           'Unite output:NeoBundleList'],
 \['▷ neobundle direct edit',    'NeoBundleExtraEdit'],
+\]
+" }}}
+" vim menu {{{
+let g:unite_source_menu_menus.vim.command_candidates = [
+\['▷ choose colorscheme', 'Unite colorscheme -auto-preview -no-start-insert'],
+\['▷ mappings', 'Unite mapping -start-insert'],
+\['▷ edit configuration file (vimrc)', 'edit $MYVIMRC'],
+\['▷ choose filetype', 'Unite -start-insert filetype'],
+\['▷ vim help', 'Unite -start-insert help'],
+\['▷ vim commands', 'Unite -start-insert command'],
+\['▷ vim functions', 'Unite -start-insert function'],
+\['▷ vim runtimepath', 'Unite -start-insert runtimepath'],
+\['▷ vim command output', 'Unite output'],
+\['▷ unite sources', 'Unite source'],
+\['▷ kill process', 'Unite -default-action=sigkill -start-insert process'],
+\['▷ launch executable (dmenu like)', 'Unite -start-insert launcher'],
 \]
 " }}}
 " }}}
