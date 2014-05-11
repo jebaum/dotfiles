@@ -1016,6 +1016,8 @@ let g:ycm_filetype_blacklist = {
 " }}}
 " General {{{
 " Set options {{{
+set exrc                       " allow directory specific .vimrc files
+set secure                     " prevent directory specific .vimrcs from doing malicious things
 set ttyfast                    " redraw screen faster
 set lazyredraw                 " don't redraw the screen while executing macros
 set restorescreen=on           " restore screen contents on exit
