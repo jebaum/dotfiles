@@ -74,12 +74,7 @@ NeoBundleCheck
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
-  autocmd BufRead /tmp/mutt-* nmap  <F1>  gqap
-  autocmd BufRead /tmp/mutt-* nmap  <F2>  gqqj
-  autocmd BufRead /tmp/mutt-* nmap  <F3>  kgqj
-  autocmd BufRead /tmp/mutt-* map!  <F1>  <ESC>gqapi
-  autocmd BufRead /tmp/mutt-* map!  <F2>  <ESC>gqqji
-  autocmd BufRead /tmp/mutt-* map!  <F3>  <ESC>kgqji
+  autocmd BufRead /tmp/mutt-* nnoremap <buffer> gs       :call ReflowParagraph()<CR>
 augroup END
 " }}}
 " Fix borders of fullscreen GUI {{{
@@ -159,6 +154,7 @@ augroup FileTypeSettings
   autocmd FileType vimfiler set relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
+  autocmd FileType markdown nnoremap <buffer> gs         :call ReflowParagraph()<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('markdown_linebreak', '+hard_line_breaks ', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('markdown_doublespace', ' -H ~/dotfiles/latex/doublespace.sty ', 'turned on double spacing', 'turned off double spacing')<CR>
@@ -383,6 +379,15 @@ function! Preserve(command)
 
   " Restore the previous cursor position.
   call setpos('.', cursor_position)
+endfunction
+" }}}
+" {{{ Format paragraph and restore cursor position
+function! ReflowParagraph()
+    let cpos = getpos('.')
+    normal {gq}
+    call setpos('.', cpos)
+    silent write
+    echo "reflowed your shit"
 endfunction
 " }}}
 " }
@@ -1350,8 +1355,7 @@ nnoremap <leader>mc          :Make! clean<CR>
 nnoremap <leader><leader>mc  :Make  clean<CR>
 nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader>mq          :let g:ToggleList.cmd.copen="Copen"<CR>
-                             \:ToggleQF<CR>
+nnoremap <leader>mq          :let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 " }}}
 " <leader>{1,2}s search/replace maps {{{
 " TODO I never seem to actually use these, put something more useful here?
