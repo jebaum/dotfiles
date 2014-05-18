@@ -1,16 +1,16 @@
 Host rig
   HostName 96.251.8.67
-  Port 22
+  Port 50000
   User james
 
 Host rigl
   HostName 192.168.1.100
-  Port 22
+  Port 50000
   User james
 
 Host thinkpad
   Hostname 192.168.1.101
-  Port 22
+  Port 50000
   User james
 
 Host jbaumy
