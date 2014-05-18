@@ -74,7 +74,7 @@ NeoBundleCheck
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
-  autocmd BufRead /tmp/mutt-* nnoremap <buffer> gs       :call ReflowParagraph()<CR>
+  autocmd BufRead /tmp/mutt-* nnoremap <buffer> gs gw{gw}
 augroup END
 " }}}
 " Fix borders of fullscreen GUI {{{
@@ -93,12 +93,6 @@ augroup ReturnToLast
        \   exe "normal! g`\"" |
        \ endif
 augroup END
-" }}}
-" Line join {{{
-if v:version > 703 || v:version == 703 && has("patch541")
-  set formatoptions+=j  " delete comment character when joining commented lines
-endif
-set nojoinspaces        " use only one space after a period when joining lines
 " }}}
 " Command mode maps and abbreviations {{{
 command! CD cd %:p:h
@@ -145,16 +139,15 @@ augroup END
 " }}}
 " FileType autocmds {{{
 augroup FileTypeSettings
-  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text
-          \ autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
+  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
   autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
-  autocmd FileType vimfiler set relativenumber
+  autocmd FileType vimfiler setlocal relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd FileType markdown nnoremap <buffer> gs         :call ReflowParagraph()<CR>
+  autocmd FileType markdown nnoremap <buffer> gs gw{gw}
   autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
@@ -251,24 +244,24 @@ function! QuickfixFilenames()
 endfunction
 " }}}
 " Location list loop function {{{
-function! WrapCommand(direction)
+function! WrapCommand(window, direction)
   if a:direction == "up"
     try
-      lprevious
+      execute a:window . 'previous'
     catch /^Vim\%((\a\+)\)\=:E553/
-      llast
+      execute a:window . 'last'
     endtry
   elseif a:direction == "down"
     try
-      lnext
+      execute a:window . 'next'
     catch /^Vim\%((\a\+)\)\=:E553/
-      lfirst
+      execute a:window . 'first'
     endtry
   endif
 endfunction
 
-" nnoremap <Home> :call WrapCommand("up")<CR>
-" nnoremap <End>  :call WrapCommand("down")<CR>
+" nnoremap <Home> :call WrapCommand("l", "up")<CR>
+" nnoremap <End>  :call WrapCommand("l", "down")<CR>
 " }}}
 " Visual mode increment function {{{
 function! Increment()
@@ -376,15 +369,6 @@ function! Preserve(command)
 
   " Restore the previous cursor position.
   call setpos('.', cursor_position)
-endfunction
-" }}}
-" {{{ Format paragraph and restore cursor position
-function! ReflowParagraph()
-    let cpos = getpos('.')
-    normal {gq}
-    call setpos('.', cpos)
-    silent write
-    echo "reflowed your shit"
 endfunction
 " }}}
 " }
@@ -1113,6 +1097,10 @@ set listchars=tab:▸\ ,trail:·,extends:>,eol:¶
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
 set shell=bash
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j  " delete comment character when joining commented lines
+endif
+set nojoinspaces        " use only one space after a period when joining lines
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 augroup SyntaxSync
