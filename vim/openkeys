@@ -1,0 +1,14 @@
+gb
+gc
+gd
+gj
+gl
+gm << used for quickrun
+go <- go to Nth byte in file, mildly useless
+gr << used for quickrun
+gs
+gt <- i use <C-n> for this
+gw <- gq without moving cursor. maybe I don't need my reflow map?
+gx
+gy
+gz
