@@ -156,21 +156,18 @@ augroup FileTypeSettings
   autocmd BufRead,BufNewFile *.md set filetype=markdown
   autocmd FileType markdown nnoremap <buffer> gs         :call ReflowParagraph()<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('markdown_linebreak', '+hard_line_breaks ', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('markdown_doublespace', ' -H ~/dotfiles/latex/doublespace.sty ', 'turned on double spacing', 'turned off double spacing')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownToggle('markdown_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownToggle('markdown_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen ', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('markdown_highlight', '--no-highlight ', 'turned on highlighting', 'turned off highlighting')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call Markdown('removed','pdf')<CR>
-                  \:echo b:pdfstuff_message<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mv :call Markdown('open', 'pdf')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mw :w!<CR>:silent call Markdown('built','html')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>r :w!<CR>:silent call Markdown('built','pdf')<CR>
-                  \:echo b:pdfstuff_message<CR>
-  autocmd FileType tex nnoremap      <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
-  autocmd FileType tex nnoremap      <buffer> <leader>r :w!<CR>
-                  \:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>
-                  \:call system("killall -HUP mupdf")<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownToggle('md_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownToggle('md_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('md_highlight', '--no-highlight', 'turned on highlighting', 'turned off highlighting')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call MarkdownCommandRun('','removed','pdf')<CR>:echo b:md_msg<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>mv :call MarkdownCommandRun('','open', 'pdf')<CR>
+  autocmd FileType markdown nnoremap <buffer><silent> <leader>mw :w!<CR>:silent call MarkdownCommandRun('quickrun','built','html')<CR>
+  autocmd FileType markdown nnoremap <buffer><silent> <leader>r :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
+  autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
+  autocmd FileType tex      nnoremap <buffer> <leader>r  :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
+
 augroup END
 " }}}
 " insert maps to complete {,(, mucks with undo and dot operator {{{
@@ -392,65 +389,77 @@ endfunction
 " }}}
 " }
 " Markdown functions {{{
-" default values
-let b:markdown_engine       = '--latex-engine=xelatex '
-let b:markdown_margin       = '0.5in '
-let b:markdown_linebreak    = '+hard_line_breaks '
-let b:markdown_highlight    = '--no-highlight '    " highlighting off by default
-let b:markdown_presentation = ' '
-let b:markdown_doublespace  = ' '
-let b:markdown_mla          = ' '
+" default values. spaces are only put at beginning of option value if needed
+function! MarkdownConfigInitialize()
+  let mybuf = bufname('%')
+  if getbufvar(mybuf, 'md_engine', 'empty') == 'empty'       | let b:md_engine = ' --latex-engine=xelatex' | endif
+  if getbufvar(mybuf, 'md_margin', 'empty') == 'empty'       | let b:md_margin = '0.5in'                   | endif
+  if getbufvar(mybuf, 'md_linebreak', 'empty') == 'empty'    | let b:md_linebreak = '+hard_line_breaks'    | endif
+  if getbufvar(mybuf, 'md_highlight', 'empty') == 'empty'    | let b:md_highlight = ' --no-highlight'      | endif
+  if getbufvar(mybuf, 'md_presentation', 'empty') == 'empty' | let b:md_presentation = ''                  | endif
+  if getbufvar(mybuf, 'md_doublespace', 'empty') == 'empty'  | let b:md_doublespace  = ''                  | endif
+  if getbufvar(mybuf, 'md_mla', 'empty') == 'empty'          | let b:md_mla = ''                           | endif
+endfunction
 
 function! MarkdownMargin(margin)
-    let b:markdown_margin    = a:margin . 'in '
-    let b:markdown_linebreak = ' '
-    echo "changed margin to " . b:markdown_margin . ', turned off hard line breaks'
+  let b:md_margin    = a:margin . 'in'
+  let b:md_linebreak = ''
+  echo "changed margin to " . b:md_margin . ', turned off hard line breaks'
 endfunction
 
 function! MarkdownToggle(option, val, onmsg, blankmsg)
   let current_val = getbufvar(bufname("%"), a:option)
   if current_val == a:val
-    call setbufvar(bufname("%"), a:option, ' ')
+    call setbufvar(bufname("%"), a:option, '')
     echo a:blankmsg
   else
     call setbufvar(bufname("%"), a:option, a:val)
-    if a:option == 'markdown_mla'
-      let b:markdown_doublespace = ' '
-      let b:markdown_linebreak   = ' '
+    if a:option == 'md_mla'
+      let b:md_doublespace = ''
+      let b:md_linebreak   = ''
     endif
     echo a:onmsg
   endif
 endfunction
 
-function! Markdown(action, output)
-  if &filetype == 'markdown'
-    let dir_fullpath       = expand('%:p:h')
-    let dir_current        = expand('%:p:h:t')
-    let base_name          = expand('%:p:t:r')
-    let input_file         = expand('%:p')
-    let output_file        = shellescape(dir_fullpath).'/'.a:output.'/'.shellescape(base_name).'.'.a:output
-    let pandoc_command     = 'pandoc ' . b:markdown_doublespace . b:markdown_mla . ' -V geometry:margin=' . b:markdown_margin . b:markdown_engine . ' -f markdown' . b:markdown_linebreak . b:markdown_presentation . b:markdown_highlight
-    let b:pdfstuff_message = a:action.' '.a:output.'/'.base_name.'.'.a:output
+function! MarkdownArgsGenerate(action, output)
+  call MarkdownConfigInitialize()
+  let dir_fullpath  = expand('%:p:h')
+  let dir_current   = expand('%:p:h:t')
+  let base_name     = expand('%:p:t:r')
+  let input_file    = expand('%:p')
+  let pandoc_args   = b:md_doublespace . b:md_mla . ' -V geometry:margin=' . b:md_margin . b:md_engine . ' -f markdown' . b:md_linebreak . b:md_presentation . b:md_highlight
+  let b:md_msg      = a:action.' '.base_name.'.'.a:output
+  let b:output_file = shellescape(dir_fullpath.'/'.base_name.'.'.a:output)
 
-    if !isdirectory(dir_fullpath.'/'.a:output)
-      if dir_current == "notes"
-        call system('mkdir '.shellescape(dir_fullpath).'/'.a:output)
-      else
-        let output_file        = shellescape(dir_fullpath).'/'.shellescape(base_name).'.'.a:output
-        let b:pdfstuff_message = a:action.' '.base_name.'.'.a:output
-      endif
+  if dir_current == "notes"
+    let b:md_msg      = a:action.' '.a:output.'/'.base_name.'.'.a:output
+    let b:output_file = shellescape(dir_fullpath.'/'.a:output.'/'.base_name.'.'.a:output)
+    call system('mkdir '.shellescape(dir_fullpath.'/'.a:output))    " will run mkdir when not needed, but no big deal
+  endif
+  return pandoc_args . ' ' . shellescape(input_file) . ' -o ' . b:output_file
+endfunction
+
+function! MarkdownCommandRun(method, action, output)
+  let b:pandoc_args = MarkdownArgsGenerate(a:action, a:output)
+  if a:action == 'built'
+
+    if a:method == 'quickrun'
+      execute 'QuickRun pandoc -args "' . b:pandoc_args . '"'
+    elseif a:method == 'vim'
+      echom system('pandoc' . b:pandoc_args)
+    elseif a:method == 'dispatch'
+      execute 'Dispatch! pandoc' . b:pandoc_args
     endif
 
-    if a:action == 'built'
-      call system(pandoc_command.shellescape(input_file).' -o '.output_file)
-        if a:output == 'pdf'
-          call system('killall -HUP mupdf')
-        endif
-    elseif a:action == 'removed'
-      call system('rm '.output_file)
-    elseif a:action == 'open'
-      call system('mupdf ' . output_file . '&')
+    if a:output == 'pdf'
+      call system('killall -HUP mupdf')
     endif
+
+  elseif a:action == 'removed'
+    call system('rm '.b:output_file)
+  elseif a:action == 'open'
+    call system('mupdf ' . b:output_file . '&')
   endif
 endfunction
 " }}}
@@ -604,6 +613,32 @@ let g:niji_dark_colours = [
                         \ [ '226', '#FFFF00'],
                         \ [ '196', '#FF0000']
                         \ ]
+" }}}
+" quickrun {{{
+let g:quickrun_config         = {}  " initialize dictionary
+let g:quickrun_config._       = {'runner':'vimproc', 'runner/vimproc/updatetime':'250','hook/getpid/enable':'1'} " _ is fallback default value
+let g:quickrun_config.generic = {'exec':'%c %a'}    " any arbitrary -command and -args
+let g:quickrun_config.make    = {'exec':'make %a','runner':'vimproc','outputter':'quickfix'}
+let g:quickrun_config.pandoc  = {'exec':'pandoc %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
+let g:quickrun_config.python  = {'cmdopt':'-u'}      " prevent python from buffering output
+
+function! QuickRunSplit()
+    " figure out what to prepend to :split command for buffer output based on current window size
+    return winwidth(0) * 2 < winheight(0) * 5 ? "15" : "vertical 45"
+endfunction
+
+function! QuickRunTimeToggle()
+  if !has_key(g:quickrun_config['_'], 'hook/time/enable')
+    let g:quickrun_config['_']['hook/time/enable'] = '0'
+  endif
+  if g:quickrun_config['_']['hook/time/enable'] == '0'
+    let g:quickrun_config['_']['hook/time/enable'] = '1'
+    echo 'enabled time hook'
+  else
+    let g:quickrun_config['_']['hook/time/enable'] = '0'
+    echo 'disabled time hook'
+  endif
+endfunction
 " }}}
 " signify {{{
 let g:signify_disable_by_default = 1            " disable run by default
@@ -1161,6 +1196,16 @@ endif
 " Keymaps {{{
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
+
+" make/run maps with quickrun/vimproc
+nnoremap <silent> gma :QuickRun make -args all<CR>
+nnoremap <silent> gmc :QuickRun make -args clean<CR>
+nnoremap <silent> gmm :QuickRun make<CR>
+nnoremap <silent> gmk :call vimproc#kill(b:quickrun_pid,9)<CR>
+nnoremap          gml :echo vimproc#get_last_errmsg()<CR>
+nnoremap <silent> gms :call quickrun#sweep_sessions()<CR>
+nnoremap <silent> gmt :call QuickRunTimeToggle()<CR>
+nnoremap <silent> gr :QuickRun -runner vimproc<CR>
 
 function! Altmap(char) " map a character to Alt key in both vim and gvim
   if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
