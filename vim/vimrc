@@ -157,10 +157,9 @@ augroup FileTypeSettings
   autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call MarkdownCommandRun('','removed','pdf')<CR>:echo b:md_msg<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mv :call MarkdownCommandRun('','open', 'pdf')<CR>
   autocmd FileType markdown nnoremap <buffer><silent> <leader>mw :w!<CR>:silent call MarkdownCommandRun('quickrun','built','html')<CR>
-  autocmd FileType markdown nnoremap <buffer><silent> <leader>r :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
+  autocmd FileType markdown nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
-  autocmd FileType tex      nnoremap <buffer> <leader>r  :w!<CR>:call system("rubber --pdf --warn all " . shellescape(expand('%:p')))<CR>:call system("killall -HUP mupdf")<CR>
-
+  autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
 augroup END
 " }}}
 " insert maps to complete {,(, mucks with undo and dot operator {{{
@@ -491,6 +490,18 @@ augroup DISPATCH
 augroup END
 " }}}
 " fugitive {{{
+command! -nargs=1 -bar Gbranch   call GitBranch(<f-args>)
+function! GitBranch(name)
+    execute 'silent Git checkout -b ' . a:name
+    redraw!
+endfunction
+
+command! -nargs=1 -bar Gcheckout   call GitCheckout(<f-args>)
+function! GitCheckout(name)
+    execute 'silent Git checkout ' . a:name
+    redraw!
+endfunction
+
 autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
   \   nnoremap <buffer> .. :edit %:h<CR> |
@@ -604,7 +615,8 @@ let g:quickrun_config._       = {'runner':'vimproc', 'runner/vimproc/updatetime'
 let g:quickrun_config.generic = {'exec':'%c %a'}    " any arbitrary -command and -args
 let g:quickrun_config.make    = {'exec':'make %a','runner':'vimproc','outputter':'quickfix'}
 let g:quickrun_config.pandoc  = {'exec':'pandoc %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
-let g:quickrun_config.python  = {'cmdopt':'-u'}      " prevent python from buffering output
+let g:quickrun_config.python  = {'cmdopt':'-u','runner':'vimproc'}      " prevent python from buffering output
+let g:quickrun_config.latex   = {'exec':'rubber %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
 
 function! QuickRunSplit()
     " figure out what to prepend to :split command for buffer output based on current window size
@@ -776,8 +788,8 @@ let g:unite_source_menu_menus.git.command_candidates = [
 \['▷ git diff                       ,gd     (fugitive)          ', 'Gdiff'],
 \['▷ git edit                       ,ge     (fugitive)          ', 'Gedit'],
 \['▷ git grep -i                    ,gg     (fugitive)          ', 'exe "silent Ggrep -i ".input("Pattern: ") | copen'],
-\['▷ git log - all diffs            ,gla    (fugitive)          ', 'exe "silent Glog -- | redraw! | copen"'],
-\['▷ git log - all diffs for file   ,glf    (fugitive)          ', 'exe "silent Glog -- % | redraw! | copen"'],
+\['▷ git log - all commits          ,gla    (fugitive)          ', 'exe "silent Glog -- | redraw! | copen"'],
+\['▷ git log - all commits for file ,glf    (fugitive)          ', 'exe "silent Glog -- % | redraw! | copen"'],
 \['▷ git log - file versions        ,gli    (fugitive)          ', 'exe "silent Glog | redraw! | copen"'],
 \['▷ git mv                         ,gm     (fugitive)          ', 'exe "Gmove " input("new filename: ")'],
 \['▷ git push                       ,gp     (fugitive, dispatch)', 'Dispatch! git push'],
@@ -1062,6 +1074,7 @@ set laststatus=2               " always display the statusline
 set history=1000               " length of command history
 set showmode                   " show what mode we're in on the bottom line
 set showcmd                    " show current command or visual selection info in bottom line
+set cmdwinheight=10            " height of command line window
 set showmatch                  " flash to matching paren when typing
 set matchtime=3                " tenths of a second to flash to matching paren
 set cursorline                 " hilight cursor line
@@ -1185,7 +1198,11 @@ endif
 " Misc {{{
 let mapleader = ','  " use comma instead of \ as leader
 
-" make/run maps with quickrun/vimproc
+" always show multiple tag options, <C-w> to open in new window
+"nnoremap <C-]> <C-w>g<C-]>
+nnoremap <C-]> g<C-]>
+
+" make/run maps with quickrun/vimproc, gm gr {{{
 nnoremap <silent> gma :QuickRun make -args all<CR>
 nnoremap <silent> gmc :QuickRun make -args clean<CR>
 nnoremap <silent> gmm :QuickRun make<CR>
@@ -1193,15 +1210,24 @@ nnoremap <silent> gmk :call vimproc#kill(b:quickrun_pid,9)<CR>
 nnoremap          gml :echo vimproc#get_last_errmsg()<CR>
 nnoremap <silent> gms :call quickrun#sweep_sessions()<CR>
 nnoremap <silent> gmt :call QuickRunTimeToggle()<CR>
-nnoremap <silent> gr :QuickRun -runner vimproc<CR>
-
-function! Altmap(char) " map a character to Alt key in both vim and gvim
+nnoremap <silent> gr :QuickRun -mode n -runner vimproc<CR>
+vnoremap <silent> gr :QuickRun -mode v -runner vimproc<CR>
+" }}}
+" misc g maps {{{
+nnoremap          gi    <C-w><Up>
+nnoremap          gj    <C-w><Left>
+nnoremap          gk    <C-w><Down>
+nnoremap          gl    <C-w><Right>
+nnoremap          go    :ls<CR>:sb<Space>
+" }}}
+" map alt and <C-Space> in both vim and gvim {{{
+function! Altmap(char)
   if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
 let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
 " exec 'nnoremap ' . cspace . 'a :somecommand'
-
-" some more useful default keys
+" }}}
+" changed default keys M * # - _ z<Space> {{{
 nnoremap M %
 onoremap M %
 nnoremap * *N
@@ -1209,28 +1235,38 @@ nnoremap # #N
 nnoremap - 10jzz
 nnoremap _ 10kzz
 nnoremap z<Space> zMzv
-
-" enter key resets search behavior, but works as normal in quickfix window
+" }}}
+" enter key resets search behavior, but works as normal in quickfix and command line windows {{{
 nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
 augroup FancyCR
-  autocmd FileType qf nnoremap <buffer> <CR> <CR>zv
+  autocmd FileType qf   nnoremap <buffer> <CR> <CR>zv
+  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup END
-
-" increment numbers in visual mode, only search within selection
+" }}}
+" easily enter and exit command line window with Q {{{
+nnoremap Q q:
+augroup CmdWindow
+  autocmd CmdwinEnter * nnoremap <buffer><silent> Q :q<CR>
+augroup END
+" }}}
+" visual mode increment, search, shift, gV {{{
 vnoremap <C-a> :call Increment()<CR>
 xnoremap <C-f> <Esc>/\%V
-
-" diffget/diffobtain
-nnoremap du :diffupdate<CR>
-xnoremap dp :diffput <BAR> diffupdate<CR>
-xnoremap do :diffget <BAR> diffupdate<CR>
-
-" line yanks
+vnoremap < <gv
+vnoremap > >gv
+nnoremap gV `[v`]
+" }}}
+" diffget/diffobtain gd[upo] {{{
+nnoremap gdu :diffupdate<CR>
+xnoremap gdp :diffput <BAR> diffupdate<CR>
+xnoremap gdo :diffget <BAR> diffupdate<CR>
+" }}}
+" line yanks Y yl yaa {{{
 nnoremap Y y$
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
 nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>
-
-" c/C/x/X operators go to their own registers instead of unnamedplus register specified by clipboard setting
+" }}}
+" c/C/x/X operators go to their own registers instead of unnamedplus register specified by clipboard setting {{{
 nnoremap <expr> c v:register == '+' ? '"cc' : 'c'
 nnoremap "+c "+c
 nnoremap <expr> C v:register == '+' ? '"cC' : 'C'
@@ -1239,8 +1275,8 @@ nnoremap <expr> x v:register == '+' ? '"xx' : 'x'
 nnoremap "+x "+x
 nnoremap <expr> X v:register == '+' ? '"xX' : 'X'
 nnoremap "+X "+X
-
-" fancy search maps
+" }}}
+" fancy search maps {{{
 function! ToggleFancyN(status)
     if a:status == 'on'
         execute 'nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv'
@@ -1255,19 +1291,8 @@ nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv
 nnoremap / :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
 nnoremap ? :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
 onoremap <C-f> /\V
-
-" always show multiple tag options, <C-w> to open in new window
-"nnoremap <C-]> <C-w>g<C-]>
-nnoremap <C-]> g<C-]>
-
-" shifting doesn't exit visual mode
-vnoremap < <gv
-vnoremap > >gv
-
-" select just pasted text, companion to 'gv'
-nnoremap gV `[v`]
-
-" up/down arrow keys go up and down by visual lines
+" }}}
+" arrow keys {{{
 inoremap <up>   <C-O>gk
 inoremap <down> <C-O>gj
 nnoremap <up>        gk
@@ -1278,6 +1303,7 @@ vnoremap <down>      gj
 " left/right arrow keys indent
 nnoremap <Left>      <<
 nnoremap <Right>     >>
+" }}}
 " }}}
 " Text Object / targets.vim maps {{{
 let g:targets_aiAI        = 'ahAI'
@@ -1312,10 +1338,8 @@ vnoremap h i
 vnoremap H I
 nnoremap I H
 
-" motions by display line, insert at last insert mode position
+" insert at last insert mode position
 nnoremap gh gi
-nnoremap gk gj
-nnoremap gi gk
 
 " move by folds
 nnoremap zj zi
@@ -1332,25 +1356,14 @@ nnoremap <silent> <F3> :NumbersOnOff<CR>:set number relativenumber<CR>
 nnoremap          <leader>bb   :Bufsearch<Space>
 nnoremap          <leader>ba   :Allsearch<Space>
 "                         c    nerdcommenter maps
-vnoremap <silent> <leader>dg   :diffget <Bar> diffupdate<CR>
-vnoremap <silent> <leader>do   :diffget <Bar> diffupdate<CR>
-vnoremap <silent> <leader>dp   :diffput <Bar> diffupdate<CR>
-nnoremap <silent> <leader>du   :diffupdate<CR>
-nnoremap <silent> <leader>e    :QuickRun -mode n<CR>
-vnoremap <silent> <leader>e    :QuickRun -mode v<CR>
+nnoremap <silent> <leader>d    :Dispatch!<CR>
 nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
-nnoremap          <leader>l    :ls<CR>:b
 "                         m    make maps
-nnoremap <silent> <leader>p    p`]
-vnoremap <silent> <leader>p    p`]
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-nnoremap <silent> <leader>r    :Dispatch!<CR>
-"                         s    search mappings
 nnoremap <silent> <leader>ta   :Alltodo<CR>
 nnoremap <silent> <leader>tl   :ToggleLL<CR>
-nnoremap <silent> <leader>tq   :let g:ToggleList.cmd.copen="copen"<CR>
-                              \:ToggleQF<CR>
+nnoremap <silent> <leader>tq   :let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
 nnoremap <silent> <leader>tt   :Buftodo<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
@@ -1361,16 +1374,16 @@ nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
 
 nnoremap <silent> <leader><leader>a  :redraw!<CR>
-nnoremap <silent> <leader><leader>r  :Dispatch<CR>
+nnoremap <silent> <leader><leader>d  :Dispatch<CR>
 " }}}
 " <leader>g[ikht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
-" TODO: make git branch a command so I can add two <CR>s afterward?
-nnoremap          <leader>gb  :Git checkout -b<Space>
+nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Gblame<CR>
 nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
+nnoremap          <leader>gC  :Gcheckout<Space>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
-nnoremap <silent> <leader>ge  :Gedit<CR>
+nnoremap          <leader>ge  :Gedit<Space>
 nnoremap          <leader>gg  :Ggrep<Space>
 nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
@@ -1382,22 +1395,15 @@ nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 " }}}
 " <leader>m[acfq] Make {{{
-nnoremap <leader>ma          :Make! -j4<CR>
-nnoremap <leader><leader>ma  :Make  -j4<CR>
+nnoremap <leader>ma          :Make! -j4 all<CR>
+nnoremap <leader><leader>ma  :Make  -j4 all<CR>
 nnoremap <leader>mc          :Make! clean<CR>
 nnoremap <leader><leader>mc  :Make  clean<CR>
 nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
+nnoremap <leader>mm          :Make! -j4<CR>
+nnoremap <leader><leader>mm  :Make  -j4<CR>
 nnoremap <leader>mq          :let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
-" }}}
-" <leader>{1,2}s search/replace maps {{{
-" TODO I never seem to actually use these, put something more useful here?
-nnoremap <leader>s          :s/\V
-vnoremap <leader>s          :s/\V
-nnoremap <leader>S          :s/\v
-vnoremap <leader>S          :s/\v
-nnoremap <leader><leader>s  :%s/\V
-nnoremap <leader><leader>S  :%s/\v
 " }}}
 " <leader>[#*] Under cursor or visual selection, search Buffer or Arglist {{{
 nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
@@ -1417,15 +1423,11 @@ nnoremap <Space>d   :<C-u>Unite -start-insert -buffer-name=tabs       tab:no-cur
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
 nnoremap <Space>g   :<C-u>Unite -start-insert -buffer-name=grep       grep:.<CR>
 nnoremap <Space>h   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
-nnoremap <Space>i   <C-w><Up>
-nnoremap <Space>j   <C-w><Left>
-nnoremap <Space>k   <C-w><Down>
-nnoremap <Space>l   <C-w><Right>
+nnoremap <Space>l   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
 nnoremap <Space>ol  :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>oo  :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>pl  :<C-u>Unite -no-start-insert neobundle/log<CR>
 nnoremap <Space>pu  :<C-u>Unite -no-start-insert neobundle/update<CR>
-nnoremap <Space>s   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
 nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-current<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
