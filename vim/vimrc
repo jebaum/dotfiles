@@ -74,7 +74,7 @@ NeoBundleCheck
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
-  autocmd BufRead /tmp/mutt-* nnoremap <buffer> gs gw{gw}
+  autocmd BufRead /tmp/mutt-* nnoremap <buffer> gb gw{gw}
 augroup END
 " }}}
 " Fix borders of fullscreen GUI {{{
@@ -139,7 +139,7 @@ augroup END
 " }}}
 " FileType autocmds {{{
 augroup FileTypeSettings
-  autocmd FileType c,cpp,java,php,ruby,ocaml,python,text autocmd BufWritePre <buffer> :call StripTrailingWhitespace()
+  autocmd BufWritePre * :call StripTrailingWhitespace()
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
@@ -147,13 +147,13 @@ augroup FileTypeSettings
   autocmd FileType vimfiler setlocal relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd FileType markdown nnoremap <buffer> gs gw{gw}
+  autocmd FileType markdown nnoremap <buffer> gb gw{gw}
   autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownToggle('md_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownToggle('md_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('md_highlight', '--no-highlight', 'turned on highlighting', 'turned off highlighting')<CR>
+  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('md_highlight', ' --no-highlight', 'turned on highlighting', 'turned off highlighting')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call MarkdownCommandRun('','removed','pdf')<CR>:echo b:md_msg<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mv :call MarkdownCommandRun('','open', 'pdf')<CR>
   autocmd FileType markdown nnoremap <buffer><silent> <leader>mw :w!<CR>:silent call MarkdownCommandRun('quickrun','built','html')<CR>
@@ -195,17 +195,43 @@ command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
 " }}}
 " VimGrep wrapper function + todo searches {{{
-function! VimGrep(pattern, target, cw)
-  execute 'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
+function! VimGrep(...)
+  " pattern, target, open, command if 4, default to vim command if 3
+  let pattern = a:1
+  let target  = a:2
+  let open    = a:3
+
+  if a:0 == 3
+      let searchcmd = 'vim'
+  elseif a:0 == 4
+      let searchcmd = a:4
+  else
+    echo 'invalid number of arguments'
+    return
+  endif
+
+  if searchcmd != 'vimgrep' && searchcmd != 'vim' && searchcmd != 'vimgrepadd' &&
+  \  searchcmd != 'lvimgrep' && searchcmd != 'lvim' && searchcmd != 'lvimgrepadd'
+      let searchcmd = 'vim'
+  endif
+
+  if open == '1'
+      let opencmd = searchcmd[0] == 'v' ? ' | cw' : ' | lw '
+  else
+      let opencmd = ''
+  endif
+
+  execute 'silent! ' . searchcmd . ' /' . pattern . '/gj ' . target . opencmd
   redraw!
-  echom   'silent! vim /' . a:pattern . '/gj ' . a:target . a:cw
+  echo    'silent! ' . searchcmd . ' /' . pattern . '/gj ' . target . opencmd
 endfunction
-command! -nargs=1 -bar Bufsearch call VimGrep(<f-args>,   '%',      ' | cw')
-command! -nargs=1 -bar Argsearch call VimGrep(<f-args>,   '##',     ' | cw')
-command! -nargs=1 -bar Allsearch call VimGrep(<f-args>,   './**/*', ' | cw')
-command! -nargs=0 -bar Buftodo   call VimGrep('\CTODO:*', '%',      ' | cw')
-command! -nargs=0 -bar Argtodo   call VimGrep('\CTODO:*', '##',     ' | cw')
-command! -nargs=0 -bar Alltodo   call VimGrep('\CTODO:*', './**/*', ' | cw')
+
+command! -nargs=1 -bar Bufsearch call VimGrep(<f-args>,   '%',      '1')
+command! -nargs=1 -bar Argsearch call VimGrep(<f-args>,   '##',     '1')
+command! -nargs=1 -bar Allsearch call VimGrep(<f-args>,   './**/*', '1')
+command! -nargs=? -bar Buftodo   call VimGrep('\CTODO', '%',      '1', <f-args>)
+command! -nargs=? -bar Argtodo   call VimGrep('\CTODO', '##',     '1', <f-args>)
+command! -nargs=? -bar Alltodo   call VimGrep('\CTODO', './**/*', '1', <f-args>)
 cnoreabbrev bufsearch  Bufsearch
 cnoreabbrev argsearch  Argsearch
 cnoreabbrev allsearch  Allsearch
@@ -369,6 +395,18 @@ function! Preserve(command)
   " Restore the previous cursor position.
   call setpos('.', cursor_position)
 endfunction
+" }}}
+" toggle laststatus {{{
+function! ToggleLaststatus()
+  if &laststatus == 2
+    set laststatus=1
+    echo 'laststatus=1'
+  else
+    set laststatus=2
+    echo 'laststatus=2'
+  endif
+endfunction
+nnoremap g<Space> :call ToggleLaststatus()<CR>
 " }}}
 " }
 " Markdown functions {{{
@@ -1219,6 +1257,10 @@ nnoremap          gj    <C-w><Left>
 nnoremap          gk    <C-w><Down>
 nnoremap          gl    <C-w><Right>
 nnoremap          go    :ls<CR>:sb<Space>
+nnoremap          gO    :ls<CR>:b<Space>
+nnoremap          gs    gnv
+nnoremap          gt    :Buftodo lvim<CR>
+nnoremap          gT    :Buftodo lvimgrepadd<CR>
 " }}}
 " map alt and <C-Space> in both vim and gvim {{{
 function! Altmap(char)
@@ -1264,7 +1306,7 @@ xnoremap gdo :diffget <BAR> diffupdate<CR>
 " line yanks Y yl yaa {{{
 nnoremap Y y$
 nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
-nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>
+nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>:echo 'yanked whole file'<CR>
 " }}}
 " c/C/x/X operators go to their own registers instead of unnamedplus register specified by clipboard setting {{{
 nnoremap <expr> c v:register == '+' ? '"cc' : 'c'
@@ -1279,15 +1321,15 @@ nnoremap "+X "+X
 " fancy search maps {{{
 function! ToggleFancyN(status)
     if a:status == 'on'
-        execute 'nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv'
-        execute 'nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv'
+        execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv'
+        execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv'
     else
-        execute 'nnoremap n nzv'
-        execute 'nnoremap N Nzv'
+        execute 'nnoremap <silent> n nzv'
+        execute 'nnoremap <silent> N Nzv'
     endif
 endfunction
-nnoremap n :set cursorline cursorcolumn hlsearch<CR>nzv
-nnoremap N :set cursorline cursorcolumn hlsearch<CR>Nzv
+nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv
+nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv
 nnoremap / :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
 nnoremap ? :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
 onoremap <C-f> /\V
@@ -1353,21 +1395,18 @@ nnoremap <silent> <F3> :NumbersOnOff<CR>:set number relativenumber<CR>
 " }}}
 " defualt (comma) leader maps {{{
 " Main {{{
-nnoremap          <leader>bb   :Bufsearch<Space>
-nnoremap          <leader>ba   :Allsearch<Space>
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>d    :Dispatch!<CR>
+nnoremap <silent> <leader>e    :let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
+nnoremap <silent> <leader>E    :let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
+nnoremap <silent> <leader>l    :ToggleLL<CR>
 "                         m    make maps
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-nnoremap <silent> <leader>ta   :Alltodo<CR>
-nnoremap <silent> <leader>tl   :ToggleLL<CR>
-nnoremap <silent> <leader>tq   :let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
-nnoremap <silent> <leader>tt   :Buftodo<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
-nnoremap <silent> <leader>x    :wq<CR>
+nnoremap <silent> <leader>x    :x!<CR>
 vnoremap <silent> <leader>y    y`]
 nnoremap <silent> <leader>zh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
@@ -1448,6 +1487,7 @@ nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
 nnoremap <silent> <C-c>     :set nocursorcolumn<CR>
 nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN('on')<CR>/\V
 nnoremap <C-h>              :TagbarOpen fjc<CR>
+" TODO: this conflicts with ultisnips back
 nnoremap <silent> <C-j>     :set opfunc=Insert<CR>g@
 nnoremap <silent> <C-k>     :set opfunc=Append<CR>g@
 nnoremap <C-n>              gt

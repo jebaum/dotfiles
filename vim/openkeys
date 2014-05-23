@@ -1,12 +1,14 @@
-gb
+gb << reflow in markdown and mail files
 gc
 gd <- goto local declaration. maybe useful?
 gm << used for quickrun
 go << used for quick buffer list. go to Nth byte in file, mildly useless
 gr << used for quickrun
-gs
+gs << go to end of search result
 gt <- i use <C-n> for this
 gw <- gq without moving cursor.
 gx
 gy
 gz
+g<CR>
+g<Space>  << toggle laststatus
