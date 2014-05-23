@@ -8,7 +8,7 @@ let colors_name = "guimiromod"
 " General colors
 hi Cursor       ctermfg=234   ctermbg=228    cterm=none  guifg=#1C1C1C  guibg=#FFFF87  gui=none
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
-hi Folded       ctermfg=35    ctermbg=16     cterm=none  guifg=#00AF5F  guibg=#000000  gui=none
+hi Folded       ctermfg=248   ctermbg=16     cterm=none  guifg=#A8A8A8  guibg=#000000  gui=none
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi LineNr       ctermfg=242   ctermbg=16     cterm=none  guifg=#6C6C6C  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
