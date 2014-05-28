@@ -311,8 +311,8 @@ mode "resize" {
   bindsym l           resize grow     right 20 px or 3 ppt
   bindsym Shift+l     resize shrink   right 20 px or 3 ppt
 # refined control with arrow keys
-  bindsym Left        resize grow     left  1 px or 1 pt
-  bindsym Shift+Left  resize shrink   left  1 px or 1 pt
+  bindsym Left        resize grow     left  1 px or 1 ppt
+  bindsym Shift+Left  resize shrink   left  1 px or 1 ppt
   bindsym Down        resize grow     down  1 px or 1 ppt
   bindsym Shift+Down  resize shrink   down  1 px or 1 ppt
   bindsym Up          resize grow     up    1 px or 1 ppt
