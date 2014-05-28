@@ -134,4 +134,4 @@ function! s:BuildBufGrep(pattern, bang)
   endtry
 endfunction
 
-com! -nargs=+ -bar -bang BufGrep :call s:BuildBufGrep(<q-args>, <bang>0)
+" com! -nargs=+ -bar -bang BufGrep :call s:BuildBufGrep(<q-args>, <bang>0)

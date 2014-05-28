@@ -6,7 +6,9 @@ endif
 let colors_name = "guimiromod"
 
 " General colors
+hi ColorColumn                ctermbg=16                                guibg=#000000
 hi Cursor       ctermfg=234   ctermbg=228    cterm=none  guifg=#1C1C1C  guibg=#FFFF87  gui=none
+hi Error        ctermfg=226   ctermbg=234    cterm=none  guifg=#FFFF00  guibg=#1C1C1C  gui=none
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
 hi Folded       ctermfg=248   ctermbg=16     cterm=none  guifg=#A8A8A8  guibg=#000000  gui=none
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold

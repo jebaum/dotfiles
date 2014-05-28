@@ -1,9 +1,10 @@
-gb << reflow in markdown and mail files
+ga <- same as :as[cii], not used often
+gb << reflow paragraph without moving cursor
 gc
-gd <- goto local declaration. maybe useful?
+gd << used for diffmode, [gdu]pdate [gdp]utt [gdo]btain
 gm << used for quickrun
 go << used for quick buffer list. go to Nth byte in file, mildly useless
-gr << used for quickrun
+gr << used for quickrun. TODO consider changing, feels clumsy
 gs << go to end of search result
 gt <- i use <C-n> for this
 gw <- gq without moving cursor.

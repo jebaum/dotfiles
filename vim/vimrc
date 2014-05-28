@@ -2,6 +2,7 @@
 colorscheme guimiromod
 runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
+let mapleader = ','
 " NeoBundle {{{
 let s:neobundle_dir=expand('~/.vim/bundle/neobundle.vim')
 if !isdirectory(s:neobundle_dir)
@@ -17,12 +18,11 @@ call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'unix' : 'make -f make_unix.mak', }, }
-" NeoBundle 'Valloric/YouCompleteMe.git' , { 'build' : { 'unix' : './install.sh --clang-completer --system-libclang' }, }
 NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'blueyed/vim-diminactive'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'gcmt/taboo.vim'
-NeoBundle 'godlygeek/tabular'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jamessan/vim-gnupg'                  " rarely used
@@ -35,6 +35,8 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-signify'                   " rarely used
 NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'mhinz/vim-tmuxify'
+NeoBundle 'osyo-manga/vim-over'
+NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/neocomplete.vim'
@@ -46,25 +48,25 @@ NeoBundle 'Shougo/vinarise.vim'                 " rarely used
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'tacroe/unite-mark'                   " rarely used
 NeoBundle 'thinca/vim-qfreplace'
-NeoBundle 'thinca/vim-quickrun'                 " rarely used, maybe should use more
+NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tmhedberg/SimpylFold'
 NeoBundle 'tommcdo/vim-exchange'
+NeoBundle 'tommcdo/vim-lion'
 NeoBundle 'tpope/vim-abolish'                   " rarely used, but should use more
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-obsession'                 " rarely used, but should use more
+NeoBundle 'tpope/vim-obsession'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'ujihisa/unite-locate'                " broken?
 NeoBundle 'Valloric/MatchTagAlways'
 NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
-
-NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'bitbucket:abudden/TagHighlight'
 NeoBundleCheck
 " }}}
@@ -74,7 +76,6 @@ NeoBundleCheck
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
-  autocmd BufRead /tmp/mutt-* nnoremap <buffer> gb gw{gw}
 augroup END
 " }}}
 " Fix borders of fullscreen GUI {{{
@@ -97,9 +98,11 @@ augroup END
 " Command mode maps and abbreviations {{{
 command! CD cd %:p:h
 command! SearchCount %s///gn
+cnoreabbrev lva lvimgrepadd
 cnoreabbrev te tabedit
 cnoreabbrev sv source ~/.vim/vimrc
 cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
+cnoreabbrev va vimgrepadd
 
 cnoremap %%     <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoremap <C-a>  <Home>
@@ -147,7 +150,6 @@ augroup FileTypeSettings
   autocmd FileType vimfiler setlocal relativenumber
   autocmd BufRead  .tags set filetype=tags
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd FileType markdown nnoremap <buffer> gb gw{gw}
   autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
@@ -193,51 +195,6 @@ function! CustomMatch(pattern)
 endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 cnoreabbrev mt MatchText
-" }}}
-" VimGrep wrapper function + todo searches {{{
-function! VimGrep(...)
-  " pattern, target, open, command if 4, default to vim command if 3
-  let pattern = a:1
-  let target  = a:2
-  let open    = a:3
-
-  if a:0 == 3
-      let searchcmd = 'vim'
-  elseif a:0 == 4
-      let searchcmd = a:4
-  else
-    echo 'invalid number of arguments'
-    return
-  endif
-
-  if searchcmd != 'vimgrep' && searchcmd != 'vim' && searchcmd != 'vimgrepadd' &&
-  \  searchcmd != 'lvimgrep' && searchcmd != 'lvim' && searchcmd != 'lvimgrepadd'
-      let searchcmd = 'vim'
-  endif
-
-  if open == '1'
-      let opencmd = searchcmd[0] == 'v' ? ' | cw' : ' | lw '
-  else
-      let opencmd = ''
-  endif
-
-  execute 'silent! ' . searchcmd . ' /' . pattern . '/gj ' . target . opencmd
-  redraw!
-  echo    'silent! ' . searchcmd . ' /' . pattern . '/gj ' . target . opencmd
-endfunction
-
-command! -nargs=1 -bar Bufsearch call VimGrep(<f-args>,   '%',      '1')
-command! -nargs=1 -bar Argsearch call VimGrep(<f-args>,   '##',     '1')
-command! -nargs=1 -bar Allsearch call VimGrep(<f-args>,   './**/*', '1')
-command! -nargs=? -bar Buftodo   call VimGrep('\CTODO', '%',      '1', <f-args>)
-command! -nargs=? -bar Argtodo   call VimGrep('\CTODO', '##',     '1', <f-args>)
-command! -nargs=? -bar Alltodo   call VimGrep('\CTODO', './**/*', '1', <f-args>)
-cnoreabbrev bufsearch  Bufsearch
-cnoreabbrev argsearch  Argsearch
-cnoreabbrev allsearch  Allsearch
-cnoreabbrev buftodo    Buftodo
-cnoreabbrev argtodo    Argtodo
-cnoreabbrev alltodo    Alltodo
 " }}}
 " Qargs, Qdof, Qdol {{{
 " :Qargs will populate the arglist with the files in the quickfix list
@@ -298,6 +255,72 @@ function! Increment()
   normal `<
 endfunction
 " }}}
+" VimGrep wrapper functions + search commands {{{
+function! VimGrep(...)
+  " pattern, target, open, command if 4, default to vim command if 3
+  let pattern = a:1
+  let target  = a:2
+  let open    = a:3
+
+  if a:0 == 3
+      let searchcmd = 'vim'
+  elseif a:0 == 4
+      let searchcmd = a:4
+  else
+    echo 'invalid number of arguments'
+    return
+  endif
+
+  if searchcmd != 'vimgrep' && searchcmd != 'vim' && searchcmd != 'vimgrepadd' &&
+  \  searchcmd != 'lvimgrep' && searchcmd != 'lvim' && searchcmd != 'lvimgrepadd'
+      let searchcmd = 'vim'
+  endif
+
+  if open == '1'
+      let opencmd = searchcmd[0] == 'v' ? ' | cw' : ' | lw '
+  else
+      let opencmd = ''
+  endif
+
+  execute 'silent! noautocmd ' . searchcmd . ' /' . pattern . '/gj ' . target . opencmd
+  redraw!
+  echo    'silent! noautocmd ' . searchcmd . ' /' . pattern . '/gj ' . target . opencmd
+endfunction
+
+command! -nargs=1 -bar Bufsearch    call VimGrep(<f-args>,   '%',      '1', 'lvimgrep')
+command! -nargs=1 -bar Bufsearchadd call VimGrep(<f-args>,   '%',      '1', 'lvimgrepadd')
+command! -nargs=1 -bar Argsearch    call VimGrep(<f-args>,   '##',     '1')
+command! -nargs=1 -bar Allsearch    call VimGrep(<f-args>,   './**/*', '1')
+command! -nargs=? -bar -complete=custom,SearchOpts Buftodo      call VimGrep('\CTODO', '%',      '1', <f-args>)
+command! -nargs=? -bar Argtodo      call VimGrep('\CTODO', '##',     '1', <f-args>)
+command! -nargs=? -bar Recurtodo    call VimGrep('\CTODO', './**/*', '1', <f-args>)
+cnoreabbrev bufsearch    Bufsearch
+cnoreabbrev bufsearchadd Bufsearchadd
+cnoreabbrev argsearch    Argsearch
+cnoreabbrev allsearch    Allsearch
+cnoreabbrev buftodo      Buftodo
+cnoreabbrev argtodo      Argtodo
+cnoreabbrev recurtodo    Recurtodo
+function! SearchOpts(A,L,P)
+    return "lvimgrep\nlvimgrepadd\nvimgrep\nvimgrepadd"
+endfun
+" }}}
+" Restore cursor/window position and last search {{{
+function! Preserve(command)
+  let curbuf = bufnr('%') " slightly cleaner than leaving a global mark
+  let view = winsaveview()
+  let search = @/
+
+  let g:last_preserve = a:command
+  execute a:command
+
+  execute 'buffer ' . curbuf
+  call winrestview(view)
+  let @/ = search
+endfunction
+" TODO: test my BufGrep against the more verbose plugin/BufGrep.vim
+command! -nargs=1 -bar BufGrep call Preserve('cexpr [] | silent! noautocmd bufdo vimgrepadd /' . <f-args> . '/gj %')
+" }}}
 " VisualStarSearch function and maps {{{
 function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
   let temp = @s
@@ -305,9 +328,6 @@ function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
   let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
   let @s = temp
 endfunction
-
-xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>N
-xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>N
 " }}}
 " GenerateRunCommand function {{{
 " an autocmd sets b:dispatch to the output of this command for certain filetypes
@@ -368,34 +388,6 @@ function! MapInterpreter(ftype, interpreter)
   execute 'vnoremap <leader>i y:silent! bdelete /tmp/' . a:ftype . '<CR>:15split /tmp/' . a:ftype . ' \| %d _ \| put \| write<CR>:normal! gg<CR>:setlocal ft=' . a:ftype . ' \| setlocal autowrite \| r!' . a:interpreter . ' < %<CR>:normal! jdGggdd<CR>:silent w \| echo "did some ' . a:interpreter . '"<CR><C-w>p'
 endfunction
 " }}}
-" Restore cursor/window position and last search {{{
-" http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim
-function! Preserve(command)
-  " Save the last search.
-  let search = @/
-
-  " Save the current cursor position.
-  let cursor_position = getpos('.')
-
-  " Save the current window position.
-  normal! H
-  let window_position = getpos('.')
-  call setpos('.', cursor_position)
-
-  " Execute the command.
-  execute a:command
-
-  " Restore the last search.
-  let @/ = search
-
-  " Restore the previous window position.
-  call setpos('.', window_position)
-  normal! zt
-
-  " Restore the previous cursor position.
-  call setpos('.', cursor_position)
-endfunction
-" }}}
 " toggle laststatus {{{
 function! ToggleLaststatus()
   if &laststatus == 2
@@ -408,7 +400,18 @@ function! ToggleLaststatus()
 endfunction
 nnoremap g<Space> :call ToggleLaststatus()<CR>
 " }}}
-" }
+" View command to capture ex command output {{{
+function! ViewWrapper(command)
+  redir => message
+  silent! execute a:command
+  redir END
+  tabnew
+  call append(0, a:command)
+  silent! put=message
+  set nomodified
+endfunction
+command! -nargs=1 -bar View call ViewWrapper(<f-args>)
+" }}}
 " Markdown functions {{{
 " default values. spaces are only put at beginning of option value if needed
 function! MarkdownConfigInitialize()
@@ -487,7 +490,7 @@ endfunction
 " }}}
 " Plugins {{{
 " airline {{{
-let g:airline_theme             = "simple"
+let g:airline_theme             = "tomorrow"
 let g:airline_detect_modified   = 1
 let g:airline_detect_paste      = 1
 let g:airline_inactive_collapse = 1
@@ -514,7 +517,7 @@ let g:airline#extensions#hunks#non_zero_only            = 1
 
 let g:airline_theme_patch_func = 'AirlineThemePatch'
 function! AirlineThemePatch(palette)
-  if g:airline_theme == 'simple'
+  if g:airline_theme == 'tomorrow'
     for colors in values(a:palette.inactive)
       let colors[2] = 231  " text color of split statusline
       let colors[3] = 58   " background color of split statusline
@@ -562,6 +565,10 @@ let g:gist_post_private = 1 " gists are private by default
 " gitv {{{
 let g:Gitv_OpenHorizontal = 1
 let g:Gitv_WipeAllOnClose = 1
+" }}}
+" lion {{{
+let g:lion_map_right   = 'ga'
+let g:lion_map_left    = 'gA'
 " }}}
 " match tag {{{
 let g:mta_filetypes = {
@@ -790,14 +797,11 @@ augroup TMUXIFY
   autocmd BufEnter * call SetTmuxifyRun()
 augroup END
 " }}}
-" togglelist {{{
-let g:ToggleList = { 'cmd': {} }
-" }}}
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger       = "<C-l>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
-let g:UltiSnipsListSnippets        = "<C-j>"
+let g:UltiSnipsListSnippets        = "<C-e>"
 let g:snips_author                 = 'James Baumgarten'
 " }}}
 " unite {{{
@@ -1075,10 +1079,12 @@ function! s:vimfiler_my_settings()
 endfunction
 " }}}
 " youcompleteme {{{
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf                  = 0
-let g:ycm_global_ycm_extra_conf               = '/home/james/dotfiles/ycm_extra_conf.py'
-let g:ycm_filetype_blacklist = {
+let g:ycm_collect_identifiers_from_tags_files           = 1
+let g:ycm_complete_in_strings                           = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_confirm_extra_conf                            = 0
+let g:ycm_global_ycm_extra_conf                         = '/home/james/dotfiles/ycm_extra_conf.py'
+let g:ycm_filetype_blacklist                            = {
     \ 'tagbar' : 1,
     \ 'qf' : 1,
     \ 'notes' : 1,
@@ -1158,6 +1164,9 @@ augroup SyntaxSync
   autocmd BufReadPost syntax sync fromstart
 augroup END
 let g:no_ocaml_maps = 1
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
@@ -1234,8 +1243,6 @@ endif
 " }}}
 " Keymaps {{{
 " Misc {{{
-let mapleader = ','  " use comma instead of \ as leader
-
 " always show multiple tag options, <C-w> to open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
@@ -1252,22 +1259,26 @@ nnoremap <silent> gr :QuickRun -mode n -runner vimproc<CR>
 vnoremap <silent> gr :QuickRun -mode v -runner vimproc<CR>
 " }}}
 " misc g maps {{{
+nnoremap          gb    gw{gw}
 nnoremap          gi    <C-w><Up>
 nnoremap          gj    <C-w><Left>
 nnoremap          gk    <C-w><Down>
 nnoremap          gl    <C-w><Right>
+nnoremap          gI    <C-w>K
+nnoremap          gJ    <C-w>H
+nnoremap          gK    <C-w>J
+nnoremap          gL    <C-w>L
 nnoremap          go    :ls<CR>:sb<Space>
 nnoremap          gO    :ls<CR>:b<Space>
 nnoremap          gs    gnv
-nnoremap          gt    :Buftodo lvim<CR>
-nnoremap          gT    :Buftodo lvimgrepadd<CR>
+nnoremap          g/    :<C-u>OverCommandLine<cr>%s/
+xnoremap          g/    :<C-u>OverCommandLine<cr>%s/\%V
 " }}}
-" map alt and <C-Space> in both vim and gvim {{{
+" generate map for alt and <C-Space> in both vim and gvim {{{
 function! Altmap(char)
   if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
 let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
-" exec 'nnoremap ' . cspace . 'a :somecommand'
 " }}}
 " changed default keys M * # - _ z<Space> {{{
 nnoremap M %
@@ -1277,15 +1288,11 @@ nnoremap # #N
 nnoremap - 10jzz
 nnoremap _ 10kzz
 nnoremap z<Space> zMzv
+" more useful * and # from visual mode
+xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>N:set cursorline cursorcolumn hlsearch<CR>
+xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>N:set cursorline cursorcolumn hlsearch<CR>
 " }}}
-" enter key resets search behavior, but works as normal in quickfix and command line windows {{{
-nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
-augroup FancyCR
-  autocmd FileType qf   nnoremap <buffer> <CR> <CR>zv
-  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
-augroup END
-" }}}
-" easily enter and exit command line window with Q {{{
+" easily toggle command line window with Q {{{
 nnoremap Q q:
 augroup CmdWindow
   autocmd CmdwinEnter * nnoremap <buffer><silent> Q :q<CR>
@@ -1321,6 +1328,7 @@ nnoremap "+X "+X
 " fancy search maps {{{
 function! ToggleFancyN(status)
     if a:status == 'on'
+        let @/=''
         execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv'
         execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv'
     else
@@ -1328,11 +1336,37 @@ function! ToggleFancyN(status)
         execute 'nnoremap <silent> N Nzv'
     endif
 endfunction
+
+nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
+augroup FancyCR
+  autocmd FileType qf   nnoremap <buffer> <CR> <CR>zv
+  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+augroup END
+
 nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv
 nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv
-nnoremap / :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
-nnoremap ? :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
+nnoremap /          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
+nnoremap ?          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
+execute 'nnoremap ' . cspace . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
 onoremap <C-f> /\V
+" }}}
+" quickfix maps {{{
+augroup QuickFix
+  " TODO: add zv where necessary in here to open all folds
+  autocmd FileType qf setlocal nosplitbelow nosplitright
+  autocmd FileType qf setlocal switchbuf=""
+  autocmd FileType qf nnoremap <buffer><silent> t  <C-w><CR><C-w>T
+  autocmd FileType qf nnoremap <buffer><silent> T  <C-w><CR><C-w>TgT<C-w>j
+  autocmd FileType qf nnoremap <buffer><silent> o  <CR>
+  autocmd FileType qf nnoremap <buffer><silent> O  <CR><C-w>j
+  autocmd FileType qf nnoremap <buffer><silent> go <CR><C-w><C-w>:cclose <Bar> lclose<CR>
+  autocmd FileType qf nnoremap <buffer><silent> s  <C-w><CR>
+  autocmd FileType qf nnoremap <buffer><silent> S  <C-w><CR><C-w>p
+  autocmd FileType qf nnoremap <buffer><silent> v  :let g:qf_height = winheight('.')<CR><C-w><CR><C-w>L<C-w>p<C-w>J:resize <C-r>=g:qf_height<CR><CR><C-w>p
+  autocmd FileType qf nnoremap <buffer><silent> V  :let g:qf_height = winheight('.')<CR><C-w><CR><C-w>L<C-w>p<C-w>J:resize <C-r>=g:qf_height<CR><CR>
+  autocmd FileType qf nnoremap <buffer><silent> q  :cclose <Bar> lclose<CR>
+  autocmd FileType qf nnoremap <buffer><silent> <leader>q  :cclose <Bar> lclose<CR>
+augroup END
 " }}}
 " arrow keys {{{
 inoremap <up>   <C-O>gk
@@ -1395,15 +1429,24 @@ nnoremap <silent> <F3> :NumbersOnOff<CR>:set number relativenumber<CR>
 " }}}
 " defualt (comma) leader maps {{{
 " Main {{{
+" TODO: BufGrep<Space> mapping
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>d    :Dispatch!<CR>
-nnoremap <silent> <leader>e    :let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
-nnoremap <silent> <leader>E    :let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
+nnoremap <silent> <leader>e    :lclose<CR>:let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
+nnoremap <silent> <leader>E    :lclose<CR>:let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
-nnoremap <silent> <leader>l    :ToggleLL<CR>
+nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
 "                         m    make maps
+nnoremap <silent> <leader>p    "0p
+nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
+nnoremap <silent> <leader>S    :source Session.vim<CR>
+nnoremap          <leader>ss   :Bufsearch<Space>
+nnoremap          <leader>sa   :Bufsearchadd<Space>
+nnoremap <silent> <leader>tt   :Buftodo lvimgrep<CR>
+nnoremap <silent> <leader>ta   :BufGrep \CTODO<CR>:cwindow<CR>
+nnoremap <silent> <leader>tr   :Recurtodo vim<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
@@ -1414,6 +1457,17 @@ nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
 
 nnoremap <silent> <leader><leader>a  :redraw!<CR>
 nnoremap <silent> <leader><leader>d  :Dispatch<CR>
+" }}}
+" <leader>[5%*] maps for searching selected word {{{
+" TODO: less shit mappings for all this
+" <leader>[*5%] maps for putting recursive/buffer/buflist search results in quickfix/location list
+nnoremap <leader>5 :call VimGrep('\V'.substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'), '%', '1', 'lvimgrep')<CR>
+vnoremap <leader>5 :<C-u>call VSetSearch('/')<CR>:execute 'noautocmd lvimgrep /' . @/ . '/gj %'<CR>:lwindow<CR>
+" [lv]imgrepadd doesn't change title of quickfix window
+nnoremap <leader>% :BufGrep \V<C-r>=substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g')<CR><CR>:cwindow<CR>:echo g:last_preserve<CR>
+vnoremap <leader>% :<C-u>call VSetSearch('/')<CR>:cexpr []<CR>:call Preserve('noautocmd bufdo vimgrepadd /<C-r>=@/<CR>/gj %')<CR>:cwindow<CR>:echo g:last_preserve<CR>
+nnoremap <leader>* :call VimGrep('\V'.substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'), '**', '1', 'vimgrep')<CR>
+vnoremap <leader>* :<C-u>call VSetSearch('/')<CR>:execute 'noautocmd vimgrep /' . @/ . '/gj **'<CR>:cwindow<CR>
 " }}}
 " <leader>g[ikht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
@@ -1444,42 +1498,27 @@ nnoremap <leader>mm          :Make! -j4<CR>
 nnoremap <leader><leader>mm  :Make  -j4<CR>
 nnoremap <leader>mq          :let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 " }}}
-" <leader>[#*] Under cursor or visual selection, search Buffer or Arglist {{{
-nnoremap <leader>* :<C-U>call VimGrep(substitute(escape(expand("<cword>")
-                      \, '\'), '\n', '\\n', 'g'), "%", " <BAR> cw")<CR>
-vnoremap <leader>* :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
-                      \, "\n", '\\n', "g"), "%", " <BAR> cw")<CR>
-nnoremap <leader># :<C-U>call VimGrep(substitute(escape(expand("<cword>")
-                      \, '\'), '\n', '\\n', 'g'), "##", " <BAR> cw")<CR>
-vnoremap <leader># :<C-U>call VimGrep(substitute(escape(@*, '\/.*$^~[]')
-                      \, "\n", '\\n', "g"), "##", " <BAR> cw")<CR>
-" }}}
 " }}}
 " space leader maps. unite + tabularize {{{
-nnoremap <Space>a   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
 nnoremap <Space>b   :<C-u>Unite -start-insert -buffer-name=buffers    buffer<CR>
 nnoremap <Space>d   :<C-u>Unite -start-insert -buffer-name=tabs       tab:no-current<CR>
 nnoremap <Space>f   :<C-u>Unite -start-insert -buffer-name=files      file<CR>
 nnoremap <Space>g   :<C-u>Unite -start-insert -buffer-name=grep       grep:.<CR>
-nnoremap <Space>h   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
+nnoremap <Space>H   :<C-u>Unite -start-insert -buffer-name=help       help<CR><CR>
 nnoremap <Space>l   :<C-u>UniteWithInput      -buffer-name=locate     locate<CR>
+nnoremap <Space>s   :<C-u>Unite -start-insert -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>'**'<Left><Left>
+nnoremap <Space>S   :<C-u>Unite -start-insert -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>''<Left>
 nnoremap <Space>ol  :<C-u>Unite -start-insert -buffer-name=lines      line<CR>
 nnoremap <Space>oo  :<C-u>Unite -start-insert -buffer-name=outline    outline<CR>
 nnoremap <Space>pl  :<C-u>Unite -no-start-insert neobundle/log<CR>
 nnoremap <Space>pu  :<C-u>Unite -no-start-insert neobundle/update<CR>
+nnoremap <Space>r   :<C-u>Unite -start-insert -buffer-name=file_rec   file_rec/async<CR>
 nnoremap <Space>t   :<C-u>Unite -start-insert -buffer-name=tags       tag<CR>a<BS>
 nnoremap <Space>w   :<C-u>Unite -start-insert -buffer-name=window     window:no-current<CR>
 nnoremap <Space>'   :<C-u>Unite -start-insert -buffer-name=marks      mark<CR>
 
-" Tabularize
-nnoremap <Space>=       :Tabularize /=<CR>
-vnoremap <Space>=       :Tabularize /=<CR>
-nnoremap <Space>:       :Tabularize /:\zs<CR>
-vnoremap <Space>:       :Tabularize /:\zs<CR>
-nnoremap <Space><Bar>   :Tabularize /<Bar><CR>
-vnoremap <Space><Bar>   :Tabularize /<Bar><CR>
-nnoremap <Space>-       :Tabularize /-<CR>
-vnoremap <Space>-       :Tabularize /-<CR>
+nnoremap <Space>a   :set opfunc=Append<CR>g@
+nnoremap <Space>h   :set opfunc=Insert<CR>g@
 " }}}
 " ctrl normal mode {{{
 nnoremap <C-w><C-b>         :VimFilerExplorer -find<CR>:redraw!<CR>
@@ -1487,9 +1526,6 @@ nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
 nnoremap <silent> <C-c>     :set nocursorcolumn<CR>
 nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN('on')<CR>/\V
 nnoremap <C-h>              :TagbarOpen fjc<CR>
-" TODO: this conflicts with ultisnips back
-nnoremap <silent> <C-j>     :set opfunc=Insert<CR>g@
-nnoremap <silent> <C-k>     :set opfunc=Append<CR>g@
 nnoremap <C-n>              gt
 nnoremap <C-p>              gT
 nnoremap <C-w>o             <C-w>o:redraw!<CR>
@@ -1497,13 +1533,12 @@ nnoremap <C-w>s             <C-w>s:redraw!<CR>
 nnoremap <C-w>v             <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
-inoremap <C-a>      <Home>
-inoremap <C-c> <Esc><Esc>
-inoremap <C-e>      <End>
+inoremap <C-a>   <Home>
+inoremap <C-c>   <Esc><Esc>
+inoremap <C-e>   <End>
 " }}}
 " alt normal mode {{{
 exec 'nnoremap <silent> ' . Altmap('a') . ' :AirlineToggle<CR>'
-exec 'nnoremap <silent> ' . Altmap('f') . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
 exec 'nnoremap <silent> ' . Altmap('h') . ' :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>'
 exec 'nnoremap <silent> ' . Altmap('i') . ' :resize +2<CR>'
 exec 'nnoremap <silent> ' . Altmap('j') . ' :vertical resize -2<CR>'
@@ -1585,4 +1620,4 @@ nnoremap <silent> \mc :TxSend('make clean')<CR>
 nnoremap <silent> \mf :TxSend(GenerateBuildCommand())<CR>
 " }}}
 " }}}
-" vim: foldmethod=marker foldlevel=1 textwidth=0
+" vim: foldmethod=marker foldlevel=1 textwidth=0 softtabstop=2 tabstop=2 shiftwidth=2
