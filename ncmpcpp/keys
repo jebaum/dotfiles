@@ -121,9 +121,9 @@ key_next_column = 261 'l'
 #
 #key_find_backward = '?'
 #
-#key_next_found_position = '.'
+key_next_found_position = 'n'
 #
-#key_prev_found_position = ','
+key_prev_found_position = 'N'
 #
 #key_toggle_find_mode = 'w'
 #
