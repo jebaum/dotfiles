@@ -83,7 +83,7 @@
     #
     # If this option is set to mouse or keyboard, the monitor option will be
     # ignored.
-    follow = mouse
+    follow = none
 
     # should a notification popped up from history be sticky or
     # timeout as if it would normally do.
@@ -125,13 +125,16 @@
 
 [frame]
     width = 3
-    color = "#285577"
+    color = "#555555"
 
 [shortcuts]
     # shortcuts are specified as [modifier+][modifier+]...key
     # available modifiers are 'ctrl', 'mod1' (the alt-key), 'mod2', 'mod3'
     # and 'mod4' (windows-key)
     # xev might be helpful to find names for keys
+    # NOTE: the current version of dunst in the arch 'community' repo has a bug
+    #       shortcuts don't work if num lock is on
+    #       fixed in aur/dunst-git
 
     # close notification
     close = ctrl+space
@@ -154,12 +157,12 @@
     timeout = 10
 
 [urgency_normal]
-    background = "#285577"
+    background = "#202020"
     foreground = "#ffffff"
     timeout = 10
 
 [urgency_critical]
-    background = "#900000"
+    background = "#990000"
     foreground = "#ffffff"
     timeout = 0
 
