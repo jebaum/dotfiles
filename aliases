@@ -92,7 +92,7 @@ torrentadd()         { transmission-remote -a "$1"}
 torrentdaemonstart() {
     killall transmission-daemon &>/dev/null
     transmission-daemon
-    nohup transmission-gtk -m &
+    transmission-gtk -m &
     disown
 }
 torrentdaemonstop() {
