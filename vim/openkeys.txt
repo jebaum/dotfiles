@@ -1,4 +1,4 @@
-ga <- same as :as[cii], not used often
+ga << vim lion
 gb << reflow paragraph without moving cursor
 gc
 gd << used for diffmode, [gdu]pdate [gdp]utt [gdo]btain

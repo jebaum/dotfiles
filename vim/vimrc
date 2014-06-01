@@ -319,7 +319,6 @@ function! Preserve(command)
   call winrestview(view)
   let @/ = search
 endfunction
-" TODO: test my BufGrep against the more verbose plugin/BufGrep.vim
 command! -nargs=1 -bar BufGrep call Preserve('cexpr [] | silent! noautocmd bufdo vimgrepadd /' . <f-args> . '/gj %')
 " }}}
 " VisualStarSearch function and maps {{{
@@ -1272,9 +1271,10 @@ nnoremap          gL    <C-w>L
 nnoremap          go    :ls<CR>:sb<Space>
 nnoremap          gO    :ls<CR>:b<Space>
 nnoremap          gs    gnv
-" TODO: make mappings here for just searching, instead of global replace
-nnoremap          g/    :<C-u>OverCommandLine<cr>%s/
-xnoremap          g/    :<C-u>OverCommandLine<cr>%s/\%V
+nnoremap          g/    :<C-u>OverCommandLine<CR>%s/
+xnoremap          g/    :<C-u>OverCommandLine<CR>%s/\%V
+nnoremap          g?    :<C-u>OverCommandLine<CR>/
+xnoremap          g?    :<C-u>OverCommandLine<CR>/\%V
 " }}}
 " generate map for alt and <C-Space> in both vim and gvim {{{
 function! Altmap(char)
@@ -1342,7 +1342,7 @@ endfunction
 
 function! ToggleFancyN(status)
     if a:status == 'on'
-        let @/=''
+        " let @/=''
         execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv:silent! call HighlightCurrentMatch()<CR>'
         execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv:silent! call HighlightCurrentMatch()<CR>'
     else
@@ -1351,9 +1351,8 @@ function! ToggleFancyN(status)
     endif
 endfunction
 
-nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc <Bar> 3match none' : 'cuc') . '<CR>'
+nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc <Bar> 3match none' : 'cuc<CR>:call ToggleFancyN("on")<CR>:call HighlightCurrentMatch()') . '<CR>'
 augroup FancyCR
-  autocmd FileType qf   nnoremap <buffer> <CR> <CR>zv
   autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup END
 
@@ -1366,20 +1365,20 @@ onoremap <C-f> /\V
 " }}}
 " quickfix maps {{{
 augroup QuickFix
-  " TODO: add zv where necessary in here to open all folds
   autocmd FileType qf setlocal nosplitbelow nosplitright
   autocmd FileType qf setlocal switchbuf=""
-  autocmd FileType qf nnoremap <buffer><silent> t  <C-w><CR><C-w>T
-  autocmd FileType qf nnoremap <buffer><silent> T  <C-w><CR><C-w>TgT<C-w>j
-  autocmd FileType qf nnoremap <buffer><silent> o  <CR>
-  autocmd FileType qf nnoremap <buffer><silent> O  <CR><C-w>j
-  autocmd FileType qf nnoremap <buffer><silent> go <CR><C-w><C-w>:cclose <Bar> lclose<CR>
-  autocmd FileType qf nnoremap <buffer><silent> s  <C-w><CR>
-  autocmd FileType qf nnoremap <buffer><silent> S  <C-w><CR><C-w>p
-  autocmd FileType qf nnoremap <buffer><silent> v  :let g:qf_height = winheight('.')<CR><C-w><CR><C-w>L<C-w>p<C-w>J:resize <C-r>=g:qf_height<CR><CR><C-w>p
-  autocmd FileType qf nnoremap <buffer><silent> V  :let g:qf_height = winheight('.')<CR><C-w><CR><C-w>L<C-w>p<C-w>J:resize <C-r>=g:qf_height<CR><CR>
-  autocmd FileType qf nnoremap <buffer><silent> q  :cclose <Bar> lclose<CR>
-  autocmd FileType qf nnoremap <buffer><silent> <leader>q  :cclose <Bar> lclose<CR>
+  autocmd FileType qf nnoremap <buffer><silent> <CR> <CR>zvzz
+  autocmd FileType qf nnoremap <buffer><silent> t  <C-w><CR><C-w>Tzvzz
+  autocmd FileType qf nnoremap <buffer><silent> T  <C-w><CR><C-w>TzvzzgT<C-w>j
+  autocmd FileType qf nnoremap <buffer><silent> o  <CR>zvzz
+  autocmd FileType qf nnoremap <buffer><silent> O  <CR>zvzz<C-w>j
+  autocmd FileType qf nnoremap <buffer><silent> go <CR>:cclose <Bar> lclose<CR>zvzz
+  autocmd FileType qf nnoremap <buffer><silent> s  <C-w><CR>zvzz
+  autocmd FileType qf nnoremap <buffer><silent> S  <C-w><CR>zvzz<C-w>p
+  autocmd FileType qf nnoremap <buffer><silent> v  :let g:qf_height = winheight('.')<CR><C-w><CR><C-w>L<C-w>p<C-w>J:resize <C-r>=g:qf_height<CR><CR><C-w>pzvzz
+  autocmd FileType qf nnoremap <buffer><silent> V  :let g:qf_height = winheight('.')<CR><C-w><CR><C-w>L<C-w>p<C-w>J:resize <C-r>=g:qf_height<CR><CR><C-w>pzvzz<C-w>p
+  autocmd FileType qf nnoremap <buffer><silent> q  :cclose <Bar> lclose<CR>zz
+  autocmd FileType qf nnoremap <buffer><silent> <leader>q  :cclose <Bar> lclose<CR>zz
 augroup END
 " }}}
 " arrow keys {{{
@@ -1442,23 +1441,25 @@ nnoremap <silent> <F3> :NumbersOnOff<CR>:set number relativenumber<CR>
 " }}}
 " defualt (comma) leader maps {{{
 " Main {{{
-" TODO: BufGrep<Space> mapping
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>d    :Dispatch!<CR>
-nnoremap <silent> <leader>e    :lclose<CR>:let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
-nnoremap <silent> <leader>E    :lclose<CR>:let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
+nnoremap <silent> <leader>e    :lclose<CR>:let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>zz
+nnoremap <silent> <leader>E    :lclose<CR>:let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>zz
 nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
-nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
+nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>zz
 "                         m    make maps
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-nnoremap <silent> <leader>S    :source Session.vim<CR>
-nnoremap          <leader>ss   :Bufsearch<Space>
+nnoremap <silent> <leader>sl   :source Session.vim<CR>
+nnoremap <silent> <leader>sr   :Obsession!<CR>
+nnoremap <silent> <leader>st   :Obsession<CR>
 nnoremap          <leader>sa   :Bufsearchadd<Space>
+nnoremap          <leader>sg   :BufGrep<Space>
+nnoremap          <leader>ss   :Bufsearch<Space>
 nnoremap <silent> <leader>tt   :Buftodo lvimgrep<CR>
-nnoremap <silent> <leader>ta   :BufGrep \CTODO<CR>:cwindow<CR>
+nnoremap <silent> <leader>ta   :BufGrep \CTODO:<CR>:cwindow<CR>
 nnoremap <silent> <leader>tr   :Recurtodo vim<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
@@ -1472,15 +1473,14 @@ nnoremap <silent> <leader><leader>a  :redraw!<CR>
 nnoremap <silent> <leader><leader>d  :Dispatch<CR>
 " }}}
 " <leader>[5%*] maps for searching selected word {{{
-" TODO: less shit mappings for all this
 " <leader>[*5%] maps for putting recursive/buffer/buflist search results in quickfix/location list
-nnoremap <leader>5 :call VimGrep('\V'.substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'), '%', '1', 'lvimgrep')<CR>
-vnoremap <leader>5 :<C-u>call VSetSearch('/')<CR>:execute 'noautocmd lvimgrep /' . @/ . '/gj %'<CR>:lwindow<CR>
-" [lv]imgrepadd doesn't change title of quickfix window
-nnoremap <leader>% :BufGrep \V<C-r>=substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g')<CR><CR>:cwindow<CR>:echo g:last_preserve<CR>
-vnoremap <leader>% :<C-u>call VSetSearch('/')<CR>:cexpr []<CR>:call Preserve('noautocmd bufdo vimgrepadd /<C-r>=@/<CR>/gj %')<CR>:cwindow<CR>:echo g:last_preserve<CR>
-nnoremap <leader>* :call VimGrep('\V'.substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'), '**', '1', 'vimgrep')<CR>
-vnoremap <leader>* :<C-u>call VSetSearch('/')<CR>:execute 'noautocmd vimgrep /' . @/ . '/gj **'<CR>:cwindow<CR>
+nnoremap <leader>%         :call VimGrep('\V'.substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'), '%', '1', 'lvimgrep')<CR>
+vnoremap <leader>%         :<C-u>call VSetSearch('/')<CR>:execute 'noautocmd lvimgrep /' . @/ . '/gj %'<CR>:lwindow<CR>
+" [lv]imgrepadd doesn't change title of quickfix window, BufGrep command uses Preserve function
+nnoremap <leader><leader>% :BufGrep \V<C-r>=substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g')<CR><CR>:cwindow<CR>:echo g:last_preserve<CR>
+vnoremap <leader><leader>% :<C-u>call VSetSearch('/')<CR>:cexpr []<CR>:call Preserve('noautocmd bufdo vimgrepadd /<C-r>=@/<CR>/gj %')<CR>:cwindow<CR>:echo g:last_preserve<CR>
+nnoremap <leader>*         :call VimGrep('\V'.substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g'), '**', '1', 'vimgrep')<CR>
+vnoremap <leader>*         :<C-u>call VSetSearch('/')<CR>:execute 'noautocmd vimgrep /' . @/ . '/gj **'<CR>:cwindow<CR>
 " }}}
 " <leader>g[ikht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
@@ -1509,7 +1509,6 @@ nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
 nnoremap <leader>mm          :Make! -j4<CR>
 nnoremap <leader><leader>mm  :Make  -j4<CR>
-nnoremap <leader>mq          :let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 " }}}
 " }}}
 " space leader maps. unite + tabularize {{{
