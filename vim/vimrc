@@ -819,7 +819,7 @@ augroup END
 let g:UltiSnipsExpandTrigger       = "<C-l>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
-let g:UltiSnipsListSnippets        = "<C-e>"
+let g:UltiSnipsListSnippets        = "<C-f>"
 let g:snips_author                 = 'James Baumgarten'
 " }}}
 " unite {{{
