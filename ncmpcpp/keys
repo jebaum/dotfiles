@@ -117,9 +117,9 @@ key_next_column = 261 'l'
 #
 #key_apply_filter = 6
 #
-#key_find_forward = '/'
+key_find_forward = '/'
 #
-#key_find_backward = '?'
+key_find_backward = '?'
 #
 key_next_found_position = 'n'
 #
@@ -151,7 +151,7 @@ key_lyrics = '0'
 #
 #key_move_song_up = 'm'
 #
-#key_move_song_down = 'n'
+key_move_song_down = ','
 #
 #key_move_to = 'M'
 #
