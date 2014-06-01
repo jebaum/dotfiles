@@ -68,6 +68,7 @@ NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'bitbucket:abudden/TagHighlight'
+NeoBundle 'PeterRincker/vim-argumentative'
 NeoBundleCheck
 " }}}
 " }}}
@@ -291,7 +292,7 @@ command! -nargs=1 -bar Bufsearch    call VimGrep(<f-args>,   '%',      '1', 'lvi
 command! -nargs=1 -bar Bufsearchadd call VimGrep(<f-args>,   '%',      '1', 'lvimgrepadd')
 command! -nargs=1 -bar Argsearch    call VimGrep(<f-args>,   '##',     '1')
 command! -nargs=1 -bar Allsearch    call VimGrep(<f-args>,   './**/*', '1')
-command! -nargs=? -bar -complete=custom,SearchOpts Buftodo      call VimGrep('\CTODO', '%',      '1', <f-args>)
+command! -nargs=? -bar -complete=custom,SearchOpts Buftodo      call VimGrep('\CTODO:', '%',      '1', <f-args>)
 command! -nargs=? -bar Argtodo      call VimGrep('\CTODO', '##',     '1', <f-args>)
 command! -nargs=? -bar Recurtodo    call VimGrep('\CTODO', './**/*', '1', <f-args>)
 cnoreabbrev bufsearch    Bufsearch
@@ -1271,6 +1272,7 @@ nnoremap          gL    <C-w>L
 nnoremap          go    :ls<CR>:sb<Space>
 nnoremap          gO    :ls<CR>:b<Space>
 nnoremap          gs    gnv
+" TODO: make mappings here for just searching, instead of global replace
 nnoremap          g/    :<C-u>OverCommandLine<cr>%s/
 xnoremap          g/    :<C-u>OverCommandLine<cr>%s/\%V
 " }}}
@@ -1326,18 +1328,30 @@ nnoremap <expr> X v:register == '+' ? '"xX' : 'X'
 nnoremap "+X "+X
 " }}}
 " fancy search maps {{{
+highlight! link CurSearch IncSearch
+function! HighlightCurrentMatch()
+    let col = col(".") - 1
+    let endCol = searchpos(getreg("/"), "cne")[1] + 1
+    let line = line(".")
+    let matchPat = '/\%' . line . 'l\%>' . col . 'c\%<' . endCol . 'c/'
+    echomsg matchPat
+
+    3match none
+    exe ':3match CurSearch ' . matchPat
+endfunction
+
 function! ToggleFancyN(status)
     if a:status == 'on'
         let @/=''
-        execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv'
-        execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv'
+        execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv:silent! call HighlightCurrentMatch()<CR>'
+        execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv:silent! call HighlightCurrentMatch()<CR>'
     else
         execute 'nnoremap <silent> n nzv'
         execute 'nnoremap <silent> N Nzv'
     endif
 endfunction
 
-nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc' : 'cuc') . '<CR>'
+nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc <Bar> 3match none' : 'cuc') . '<CR>'
 augroup FancyCR
   autocmd FileType qf   nnoremap <buffer> <CR> <CR>zv
   autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
@@ -1371,14 +1385,13 @@ augroup END
 " arrow keys {{{
 inoremap <up>   <C-O>gk
 inoremap <down> <C-O>gj
-nnoremap <up>        gk
-nnoremap <down>      gj
 vnoremap <up>        gk
 vnoremap <down>      gj
 
-" left/right arrow keys indent
-nnoremap <Left>      <<
-nnoremap <Right>     >>
+nnoremap <up>        :resize +2<CR>
+nnoremap <left>      :vertical resize -2<CR>
+nnoremap <down>      :resize -2<CR>
+nnoremap <right>     :vertical resize +2<CR>
 " }}}
 " }}}
 " Text Object / targets.vim maps {{{
@@ -1523,7 +1536,7 @@ nnoremap <Space>h   :set opfunc=Insert<CR>g@
 " ctrl normal mode {{{
 nnoremap <C-w><C-b>         :VimFilerExplorer -find<CR>:redraw!<CR>
 nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
-nnoremap <silent> <C-c>     :set nocursorcolumn<CR>
+nnoremap <silent> <C-c>     :set nocursorcolumn<CR>:call ToggleFancyN('off')<CR>:3match none<CR>
 nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN('on')<CR>/\V
 nnoremap <C-h>              :TagbarOpen fjc<CR>
 nnoremap <C-n>              gt
@@ -1540,10 +1553,10 @@ inoremap <C-e>   <End>
 " alt normal mode {{{
 exec 'nnoremap <silent> ' . Altmap('a') . ' :AirlineToggle<CR>'
 exec 'nnoremap <silent> ' . Altmap('h') . ' :set nocursorline nocursorcolumn<CR>:nohlsearch<CR>'
-exec 'nnoremap <silent> ' . Altmap('i') . ' :resize +2<CR>'
-exec 'nnoremap <silent> ' . Altmap('j') . ' :vertical resize -2<CR>'
-exec 'nnoremap <silent> ' . Altmap('k') . ' :resize -2<CR>'
-exec 'nnoremap <silent> ' . Altmap('l') . ' :vertical resize +2<CR>'
+exec 'nnoremap <silent> ' . Altmap('i') . ' :execute "resize " . (winheight(0) * 6/5)<CR>'
+exec 'nnoremap <silent> ' . Altmap('j') . ' :execute "vertical resize " . (winwidth(0) * 5/6)<CR>'
+exec 'nnoremap <silent> ' . Altmap('k') . ' :execute "resize " . (winheight(0) * 5/6)<CR>'
+exec 'nnoremap <silent> ' . Altmap('l') . ' :execute "vertical resize " . (winwidth(0) * 6/5)<CR>'
 exec 'nnoremap <silent> ' . Altmap('m') . ' :match none<CR>'
 exec 'nnoremap <silent> ' . Altmap('n') . ' :tabmove +1<CR>'
 exec 'nnoremap <silent> ' . Altmap('p') . ' :tabmove -1<CR>'
