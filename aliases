@@ -88,16 +88,25 @@ function syn() {
     ssh $CLIENT synergyc $SERVER &>/dev/null
 }
 
-torrentadd()            { transmission-remote -a "$1"}
-torrentdaemonstart()    { transmission-daemon }
-torrentdaemonstop()     { transmission-remote --exit }
-torrentinfo()           { transmission-remote -t $1 -i }
-torrentlist()           { transmission-remote -l }
-torrentrmfiles()        { transmission-remote -t $1 --remove-and-delete }
-torrentrm()             { transmission-remote -t $1 -r }
-torrentstart()          { transmission-remote -t $1 -s }
-torrentstop()           { transmission-remote -t $1 -S }
-torrentwatch()          { watch -n 5 transmission-remote -l }
+torrentadd()         { transmission-remote -a "$1"}
+torrentdaemonstart() {
+    killall transmission-daemon &>/dev/null
+    transmission-daemon
+    nohup transmission-gtk -m &
+    disown
+}
+torrentdaemonstop() {
+    transmission-remote --exit
+    killall transmission-daemon
+    killall transmission-gtk
+}
+torrentinfo()        { transmission-remote -t $1 -i }
+torrentlist()        { transmission-remote -l }
+torrentrmfiles()     { transmission-remote -t $1 --remove-and-delete }
+torrentrm()          { transmission-remote -t $1 -r }
+torrentstart()       { transmission-remote -t $1 -s }
+torrentstop()        { transmission-remote -t $1 -S }
+torrentwatch()       { watch -n 5 transmission-remote -l }
 
 fkill() { ps -ef | sed 1d | fzf | awk '{print $2}' | xargs kill -${1:-9} }
 fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
