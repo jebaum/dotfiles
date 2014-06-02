@@ -12,9 +12,9 @@ hi Error        ctermfg=226   ctermbg=234    cterm=none  guifg=#FFFF00  guibg=#1
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
 hi Folded       ctermfg=248   ctermbg=16     cterm=none  guifg=#A8A8A8  guibg=#000000  gui=none
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
-hi LineNr       ctermfg=242   ctermbg=16     cterm=none  guifg=#6C6C6C  guibg=#000000  gui=none
+hi LineNr       ctermfg=246   ctermbg=16     cterm=none  guifg=#949494  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
-hi NonText      ctermfg=6     ctermbg=233    cterm=none  guifg=#33CC99  guibg=#121212  gui=none
+hi NonText      ctermfg=48    ctermbg=232    cterm=none  guifg=#00FF87  guibg=#080808  gui=none
 hi Normal       ctermfg=231   ctermbg=232    cterm=none  guifg=#FFFFFF  guibg=#080808  gui=none
 hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
