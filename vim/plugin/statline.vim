@@ -16,37 +16,31 @@ if exists("g:loaded_statline_plugin")
     finish
 endif
 let g:loaded_statline_plugin = 1
-let g:statline_show_charcode = 1
+let g:statline_show_charcode = 0
 
 " always display statusline (iss #3)
 set laststatus=2
 " }}}
-" Colors {{{
-" using link instead of named highlight group inside the statusline to make it
-" easier to customize, reseting the User[n] highlight will remove the link.
-" Another benefit is that colors will adapt to colorscheme.
-
+" colors {{{
 "buffer
-hi User1 ctermfg=white ctermbg=black guifg=#ffffff
+highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
 "filename
-hi User2 ctermfg=green cterm=bold ctermbg=black guifg=#22cc22 gui=bold
+highlight User2 ctermfg=47   ctermbg=232  cterm=none guifg=#00FF5F  guibg=#080808  gui=none
 "flags/errors
-hi User3 ctermfg=red   cterm=bold ctermbg=black guifg=#cc2222 gui=bold
+highlight User3 ctermfg=196  ctermbg=232  cterm=bold guifg=#FF0000  guibg=#080808  gui=bold
 "file type
-hi User4 ctermfg=172 ctermbg=black guifg=#d78700
+highlight User4 ctermfg=49   ctermbg=232  cterm=none guifg=#00FFAF  guibg=#080808  gui=none
 "encoding
-hi User5 ctermfg=111 ctermbg=black guifg=#87afff
-"empty space, 16 is pure black
-hi User6 ctermfg=green ctermbg=232 guifg=#5fff00
+highlight User5 ctermfg=47   ctermbg=232  cterm=none guifg=#00FF5F  guibg=#080808  gui=none
+"empty space
+highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
 " mode message
-hi User7 ctermfg=255 ctermbg=black guifg=#eeeeee
+highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
 "scroll percent
-hi User8 ctermfg=184 ctermbg=black guifg=#d7d700
+highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
 "current byte
-hi User9 ctermfg=207 ctermbg=black guifg=#ff5fff
-" }}}
-" show nice mode name and colors {{{
-" pretty mode display - converts the one letter status notifiers to words
+highlight User9 ctermfg=208  ctermbg=232  cterm=none guifg=#FF8700  guibg=#080808  gui=none
+
 function! Mode()
     let l:mode = mode()
 
@@ -58,29 +52,33 @@ function! Mode()
     elseif mode ==# "^V" | return "V-BLOCK"
     else                 | return l:mode
     endif
-endfunc
+endfunction
 
 " Change the values for User1 color preset depending on mode
 function! ModeChanged(mode)
     if     a:mode ==# "n"
-      hi User7 ctermfg=255 ctermbg=0 cterm=NONE
-      hi User6 ctermfg=green ctermbg=232
+        highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
+        highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
     elseif a:mode ==# "i"
-      hi User7 ctermfg=15 ctermbg=124 cterm=bold
-      hi User6 ctermfg=green ctermbg=235
+        highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
+        highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
     elseif a:mode ==# "r"
-      hi User7 ctermfg=255 ctermbg=57 cterm=bold
-      hi User6 ctermfg=green ctermbg=235
+        highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
+        highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
     else
-      hi User1 ctermfg=15 ctermbg=53 cterm=NONE
-      hi User6 ctermfg=green ctermbg=232
+        highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
+        highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
     endif
-endfunc
-au InsertEnter * call ModeChanged(v:insertmode)
-au InsertChange * call ModeChanged(v:insertmode)
-au InsertLeave * call ModeChanged(mode())
+endfunction
+
+" pretty mode display - converts the one letter status notifiers to words
+augroup ChangeStatusline
+    autocmd InsertEnter  * call ModeChanged(v:insertmode)
+    autocmd InsertChange * call ModeChanged(v:insertmode)
+    autocmd InsertLeave  * call ModeChanged(mode())
+augroup END
 " }}}
-" number of buffers : buffer number {{{
+" buffer and mode info {{{
 function! StatlineBufCount()
     if !exists("s:statline_n_buffers")
         let s:statline_n_buffers = len(filter(range(1,bufnr('$')), 'buflisted(v:val)'))
@@ -88,13 +86,12 @@ function! StatlineBufCount()
     return s:statline_n_buffers
 endfunction
 
-
 if !exists('g:statline_show_n_buffers')
     let g:statline_show_n_buffers = 1
 endif
 
 if g:statline_show_n_buffers
-    set statusline+=%1*[%{StatlineBufCount()}\:%n]\ %<
+    set statusline+=%1*[%nof%{StatlineBufCount()}]\ %<
     " only calculate buffers after adding/removing buffers
     augroup statline_nbuf
         autocmd!
@@ -104,10 +101,10 @@ else
     set statusline+=[%n]\ %<
 endif
 
+" show mode
 let &stl.="%7*\ %{Mode()} %0*"
 " }}}
 "filename (relative or tail) {{{
-
 if exists('g:statline_filename_relative')
     set statusline+=%2*[%f]%*
 else
@@ -118,24 +115,16 @@ endif
 " (h:help:[help], w:window:[Preview], m:modified:[+][-], r:readonly:[RO])
 set statusline+=%3*%h%w%m%r%*
 " }}}
-" filetype {{{
-set statusline+=%4*\ %y%*
+" fugitive {{{
+if !exists('g:statline_fugitive')
+   let g:statline_fugitive = 1
+endif
+if g:statline_fugitive
+   set statusline+=%9*%{exists('g:loaded_fugitive')?fugitive#statusline():''}%*
+endif
 " }}}
-" Fugitive {{{
-" put current git branch to left of space
-set statusline+=%8*%{exists('g:loaded_fugitive')?fugitive#statusline():''}%*
-
-"if !exists('g:statline_fugitive')
-"    let g:statline_fugitive = 0
-"endif
-"if g:statline_fugitive
-"    set statusline+=%4*%{exists('g:loaded_fugitive')?fugitive#statusline():''}%*
-"endif
-" }}}
-
 " separation between left/right aligned items
 set statusline+=%6*%=%*
-
 " Syntastic errors {{{
 " put syntax error notice immediately before line/column number
 if !exists('g:statline_syntastic')
@@ -145,10 +134,13 @@ if g:statline_syntastic
     set statusline+=\%3*%-{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}%*
 endif
 " }}}
-
+" filetype {{{
+set statusline+=%4*\ %y%*
+" }}}
+" tagbar current function {{{
 " show current function in statusline. optional 'p' parameter says to display full prototype with arguments
 " set statusline+=%8*%{tagbar#currenttag('[%s]\ ','','p')}%*
-
+" }}}
 " file format → file encoding {{{
 
 if &encoding == 'utf-8'
@@ -176,7 +168,7 @@ set statusline+=%8*%P%*
 " }}}
 " code of character under cursor {{{
 if !exists('g:statline_show_charcode')
-    let g:statline_show_charcode = 0
+    let g:statline_show_charcode = 1
 endif
 if g:statline_show_charcode
     " (b:num, B:hex)
@@ -193,11 +185,15 @@ if !exists('g:statline_mixed_indent')
 endif
 
 if !exists('g:statline_mixed_indent_string')
-    let g:statline_mixed_indent_string = '[mix]'
+    let g:statline_mixed_indent_string = 'mix'
 endif
 
-"return '[&et]' if &et is set wrong
-"return '[mixed-indenting]' if spaces and tabs are used to indent
+if !exists('g:statline_inconsistent_expandtab')
+    let g:statline_inconsistent_expandtab_string = 'et?'
+endif
+
+"return '[et?]' if &et is set wrong
+"return '[mix]' if spaces and tabs are used to indent
 "return an empty string if everything is fine
 function! StatlineTabWarning()
     if !exists("b:statline_indent_warning")
@@ -213,9 +209,9 @@ function! StatlineTabWarning()
         let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
 
         if tabs && spaces
-            let b:statline_indent_warning = g:statline_mixed_indent_string
+            let b:statline_indent_warning = '[' . g:statline_mixed_indent_string . ']'
         elseif (spaces && !&et) || (tabs && &et)
-            let b:statline_indent_warning = '[&et]'
+            let b:statline_indent_warning = '[' . g:statline_inconsistent_expandtab_string . ']'
         endif
     endif
     return b:statline_indent_warning
