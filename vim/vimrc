@@ -123,11 +123,11 @@ cnoremap $d <CR>:d<CR>``
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   " for backward compatibility
-  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
-  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
-  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
-  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
-  au BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
+  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
 
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```c',      '```', 'c',      'Comment')
   autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```cpp',    '```', 'cpp',    'Comment')
