@@ -1,7 +1,7 @@
 " Initial setup {{{
 colorscheme guimiromod
 runtime macros/matchit.vim
-set guifont=DejaVuSansMonoforPowerline\ 11
+set guifont=DejaVuSansMonoforPowerline\ 9.5
 let mapleader = ','
 " NeoBundle {{{
 let s:neobundle_dir=expand('~/.vim/bundle/neobundle.vim')
