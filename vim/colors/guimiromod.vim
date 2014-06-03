@@ -34,7 +34,7 @@ hi! link FoldColumn   Folded
 if version >= 700
 hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
 hi CursorColumn ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
-hi CursorLineNr ctermfg=201  ctermbg=16      cterm=none  guifg=#FF00FF  guibg=#000000  gui=none
+hi CursorLineNr ctermfg=201  ctermbg=233     cterm=none  guifg=#FF00FF  guibg=#121212  gui=none
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=2    ctermbg=16                  guifg=#859900  guibg=#000000
 hi PmenuSel     ctermfg=46   ctermbg=234     cterm=bold  guifg=#00FF00  guibg=#1C1C1C  gui=bold
