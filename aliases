@@ -70,14 +70,14 @@ function syn() {
         local SERVER=$THINKPAD
     fi
 
-    nc -z $CLIENT 22
+    nc -z $CLIENT 50000
     STATUS=$?
     if [ $STATUS -ne 0 ]; then
         echo $CLIENT is unavailable
         return 1
     fi
 
-    ssh $CLIENT 'killall synergys; killall synergyc' &>/dev/null
+    ssh -p 50000 $CLIENT 'killall synergys; killall synergyc' &>/dev/null
     killall synergys synergyc &>/dev/null
 
     if [ "$1" = "kill" ]; then
@@ -85,7 +85,7 @@ function syn() {
     fi
 
     synergys &>/dev/null
-    ssh $CLIENT synergyc $SERVER &>/dev/null
+    ssh -p 50000 $CLIENT synergyc $SERVER &>/dev/null
 }
 
 torrentadd()         { transmission-remote -a "$1"}
