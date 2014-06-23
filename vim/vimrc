@@ -1362,11 +1362,11 @@ endfunction
 function! ToggleFancyN(status)
     if a:status == 'on'
         " let @/=''
-        execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv:silent! call HighlightCurrentMatch()<CR>'
-        execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv:silent! call HighlightCurrentMatch()<CR>'
+        execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>/<CR>zv:silent! call HighlightCurrentMatch()<CR>'
+        execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>?<CR>zv:silent! call HighlightCurrentMatch()<CR>'
     else
-        execute 'nnoremap <silent> n nzv'
-        execute 'nnoremap <silent> N Nzv'
+        execute 'nnoremap <silent> n /<CR>zv'
+        execute 'nnoremap <silent> N ?<CR>zv'
     endif
 endfunction
 
@@ -1375,8 +1375,8 @@ augroup FancyCR
   autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup END
 
-nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>nzv
-nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>Nzv
+nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>/<CR>zv
+nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>?<CR>zv
 nnoremap /          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
 nnoremap ?          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
 execute 'nnoremap ' . cspace . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
