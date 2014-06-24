@@ -1364,7 +1364,6 @@ endfunction
 
 function! ToggleFancyN(status)
     if a:status == 'on'
-        " let @/=''
         execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>/<CR>zv:silent! call HighlightCurrentMatch()<CR>'
         execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>?<CR>zv:silent! call HighlightCurrentMatch()<CR>'
     else
