@@ -111,11 +111,11 @@ macro index <F9> "<enter-command>unset wait_key<enter><enter-command>unignore me
 #=Keybinds=============================================#
 
 bind  attach  <return> view-mailcap
-bind  attach  j        exit
+bind  attach  h        exit
 macro attach  S        <save-entry><kill-line>/home/james/<return>a
 
-bind  compose,browser,postpone,alias,attach  i  previous-entry
-bind  compose,browser,postpone,alias,attach  k  next-entry
+bind  compose,browser,postpone,alias,attach  k  previous-entry
+bind  compose,browser,postpone,alias,attach  j  next-entry
 bind  compose,browser,postpone,alias,attach  g  first-entry
 bind  compose,browser,postpone,alias,attach  G  last-entry
 
@@ -140,20 +140,20 @@ bind pager g        top
 bind pager <End>    bottom
 bind pager G        bottom
 bind pager q        exit
-bind pager j        exit
+bind pager h        exit
 bind pager <Up>     previous-line
-bind pager i        previous-line
+bind pager k        previous-line
 bind pager <Down>   next-line
-bind pager k        next-line
-bind pager I        previous-entry
-bind pager K        next-entry
+bind pager j        next-line
+bind pager K        previous-entry
+bind pager J        next-entry
 
 bind index <Home>  first-entry
 bind index g       first-entry
 bind index <End>   last-entry
 bind index G       last-entry
-bind index i       previous-entry
-bind index k       next-entry
+bind index k       previous-entry
+bind index j       next-entry
 bind index l       display-message
 bind index L       limit
 bind index B       bounce-message

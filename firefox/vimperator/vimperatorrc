@@ -48,8 +48,8 @@ inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-nnoremap j gt
-nnoremap J :Selecttab<CR>:tabmove! -1<CR>
+nnoremap i gt
+nnoremap I :Selecttab<CR>:tabmove! -1<CR>
 nnoremap > :tabmove<CR>
 nnoremap < :tabmove 0<CR>
 
@@ -74,7 +74,7 @@ nnoremap sw :tabopen wikipedia<Space>
 nnoremap sy :tabopen youtube<Space>
 
 nnoremap <C-f>     /
-nnoremap <C-j>     <C-^>
+nnoremap <C-i>     <C-^>
 nnoremap <C-l>     :nohlsearch<CR>
 nnoremap <C-Space> :styletoggle -name globaldark<CR>
 
@@ -105,12 +105,15 @@ nnoremap <leader>t   :dialog customizetoolbar<CR>
 nnoremap <leader>u   :dialog pagesource<CR>
 nnoremap <leader>x   :dialog cleardata<CR>
 
+nnoremap k <Up>
+nnoremap j <Down>
+
 " ijkl
-nnoremap i <Up>
-nnoremap k <Down>
-nnoremap h i
-nnoremap I k
-nnoremap K j
+" nnoremap i <Up>
+" nnoremap k <Down>
+" nnoremap h i
+" nnoremap I k
+" nnoremap K j
 " }}}
 
 " sources {{{

@@ -69,13 +69,14 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
+# TODO: hjkl this crap
 bindkey "^[[7~" beginning-of-line   # make home key work
 bindkey "^[[8~" end-of-line         # make end key work
-bindkey "^J"    backward-word       # C-j moves back a word
-bindkey "^L"    forward-word        # C-l moves forward a word
-bindkey "^[j"   backward-char       # A-j moves back a character
-bindkey "^[l"   forward-char        # A-l moves forward a character
-bindkey "^[S"   clear-screen        # Alt+Shift+S to do what ^l does by default, clear screen
+# bindkey "^J"    backward-word       # C-j moves back a word
+# bindkey "^L"    forward-word        # C-l moves forward a word
+# bindkey "^[j"   backward-char       # A-j moves back a character
+# bindkey "^[l"   forward-char        # A-l moves forward a character
+# bindkey "^[S"   clear-screen        # Alt+Shift+S to do what ^l does by default, clear screen
 bindkey "^F"    vi-find-next-char   # C-f takes one character input, moves to next instance
 bindkey "^D"    vi-find-prev-char   # C-d takes one character input, moves to prev instance
 bindkey "^T"    vi-repeat-find      # C-t repeats last find
