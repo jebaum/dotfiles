@@ -10,12 +10,12 @@ function _prompt_char() {
   fi
 }
 
-GIT_PROMPT_PREFIX="%K{16}%{$fg[green]%}[%{$reset_color%}%K{16}"
-GIT_PROMPT_SUFFIX="%K{16}%{$fg[green]%}]%{$reset_color%}%K{16}"
-GIT_PROMPT_MERGING="%K{16}%{$fg_bold[magenta]%}⚡︎%{$reset_color%}%K{16}"
-GIT_PROMPT_UNTRACKED="%K{16}%{$fg_bold[red]%}●%{$reset_color%}%K{16}"
-GIT_PROMPT_MODIFIED="%K{16}%{$fg_bold[yellow]%}●%{$reset_color%}%K{16}"
-GIT_PROMPT_STAGED="%K{16}%{$fg_bold[green]%}●%{$reset_color%}%K{16}"
+GIT_PROMPT_PREFIX="%K{234}%{$fg[green]%}[%{$reset_color%}%K{234}"
+GIT_PROMPT_SUFFIX="%K{234}%{$fg[green]%}]%{$reset_color%}%K{234}"
+GIT_PROMPT_MERGING="%K{234}%{$fg_bold[magenta]%}⚡︎%{$reset_color%}%K{234}"
+GIT_PROMPT_UNTRACKED="%K{234}%{$fg_bold[red]%}●%{$reset_color%}%K{234}"
+GIT_PROMPT_MODIFIED="%K{234}%{$fg_bold[yellow]%}●%{$reset_color%}%K{234}"
+GIT_PROMPT_STAGED="%K{234}%{$fg_bold[green]%}●%{$reset_color%}%K{234}"
 
 # Show Git branch/tag, or hash if on detached head
 parse_git_branch() {
@@ -44,17 +44,17 @@ parse_git_state() {
   fi
 
   if [[ -n $GIT_STATE ]]; then
-    echo "%{$fg_bold[white]%}%K{16} | $GIT_STATE"
+    echo "%{$fg_bold[white]%}%K{234} | $GIT_STATE"
   fi
 }
 
 # If inside a Git repository, print its branch and state
 git_prompt_string() {
   local git_where="$(parse_git_branch)"
-  [ -n "$git_where" ] && echo " $GIT_PROMPT_PREFIX%{$fg[magenta]%}${git_where#(refs/heads/|tags/)}$(parse_git_state)$GIT_PROMPT_SUFFIX"
+  [ -n "$git_where" ] && echo " $GIT_PROMPT_PREFIX%{$fg[magenta]%}%K{234}${git_where#(refs/heads/|tags/)}$(parse_git_state)$GIT_PROMPT_SUFFIX"
 }
 
-PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%d$(git_prompt_string)%E%{%f%k%b%}
+PROMPT='%{%B%F{green}%K{234}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{234}%}%d$(git_prompt_string)%E%{%f%k%b%}
 $(_prompt_char) %#%{%f%k%b%} '
 
 RPROMPT='%{%F{39}%}%D{%I:%M:%S}'

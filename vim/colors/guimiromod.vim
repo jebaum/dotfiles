@@ -36,9 +36,11 @@ hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1
 hi CursorColumn ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
 hi CursorLineNr ctermfg=201  ctermbg=233     cterm=none  guifg=#FF00FF  guibg=#121212  gui=none
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
-hi Pmenu        ctermfg=2    ctermbg=16                  guifg=#859900  guibg=#000000
-hi PmenuSel     ctermfg=46   ctermbg=234     cterm=bold  guifg=#00FF00  guibg=#1C1C1C  gui=bold
-hi UniteSel     ctermfg=NONE ctermbg=234     cterm=bold  guifg=NONE     guibg=#1C1C1C  gui=bold
+hi Pmenu        ctermfg=251  ctermbg=235     cterm=none  guifg=#C6C6C6  guibg=#262626  gui=none
+hi PmenuSel     ctermfg=233  ctermbg=73      cterm=none  guifg=#121212  guibg=#5FAFAF  gui=none
+hi PmenuSbar    ctermfg=NONE ctermbg=240     cterm=none  guifg=NONE     guibg=#585858  gui=none
+hi PmenuThumb   ctermfg=66   ctermbg=66      cterm=none  guifg=#5F8787  guibg=#5F8787  gui=none
+hi UniteSel     ctermfg=16   ctermbg=73      cterm=none  guifg=#000000  guibg=#5FAFAF  gui=none
 endif
 
 hi DiffText           ctermfg=226   ctermbg=16    cterm=bold  guifg=#FFFF00  guibg=#000000  gui=bold
