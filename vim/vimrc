@@ -30,10 +30,11 @@ if has('python')
 endif
 
 " settings for these plugins defined in `after/plugin` directory
-if has('lua')
+if has('g:use_neocomplete')
   NeoBundle 'Shougo/neocomplete.vim'
 else
   NeoBundle 'Shougo/neocomplcache.vim'
+  NeoBundle 'JazzCore/neocomplcache-ultisnips'
 endif
 " NeoBundle 'othree/vim-autocomplpop'
 
@@ -49,6 +50,7 @@ NeoBundle 'ujihisa/unite-locate'
 NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'dockyard/vim-easydir'
+NeoBundle 'duff/vim-scratch'
 NeoBundle 'eparreno/vim-l9'                     " required by autocomplpop
 NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
@@ -732,11 +734,11 @@ let g:snips_author                 = 'James Baumgarten'
 " Unite Menus {{{
 let g:unite_source_menu_menus = {}
 " menu descriptions and maps {{{
-let g:unite_source_menu_menus.git = {'description': '        fugitive and other git commands                 <Space>g'}
-let g:unite_source_menu_menus.leader = {'description': '     <leader> mappings for common commands           <Space>,'}
-let g:unite_source_menu_menus.navigation = {'description': ' navigate by buffers, tabs & windows             <Space>b'}
-let g:unite_source_menu_menus.neobundle = {'description': '  plugins administration with neobundle           <Space>n'}
-let g:unite_source_menu_menus.vim = {'description': '        vim                                             <Space>v'}
+let g:unite_source_menu_menus.git = {'description': '        fugitive and other git commands                 <Space>mg'}
+let g:unite_source_menu_menus.leader = {'description': '     <leader> mappings for common commands           <Space>m,'}
+let g:unite_source_menu_menus.navigation = {'description': ' navigate by buffers, tabs & windows             <Space>mN'}
+let g:unite_source_menu_menus.neobundle = {'description': '  plugins administration with neobundle           <Space>mn'}
+let g:unite_source_menu_menus.spaceleader = {'description': '<Space> mappings for unite commands + misc      <Space>m<Space>'}
 " }}}
 " git menu {{{
 let g:unite_source_menu_menus.git.command_candidates = [
@@ -795,7 +797,7 @@ let g:unite_source_menu_menus.leader.command_candidates = [
 \['▷ search recursively (AgOpenQF)           <leader>sr',         'echo AgOpenQF'],
 \['▷ add underline to current line           <leader>u',          'yyp^v$r'],
 \['▷ yank and put cursor at end              <leader>y',          'y`]'],
-\['▷ show highlight groups                   <leader>zh',         'echo run it yourself'],
+\['▷ show highlight groups                   <leader>zh',         'echo "run it yourself"'],
 \['▷ syntax sync fromstart                   <leader>zs',         'syntax sync fromstart'],
 \['▷ tabedit $MYVIMRC                        <leader>zv',         'tabedit $MYVIMRC'],
 \['▷ redraw!                                 <leader><leader>a',  'redraw!'],
@@ -830,6 +832,38 @@ let g:unite_source_menu_menus.neobundle.command_candidates = [
 \['▷ neobundle rollback',       'exe "NeoBundleRollback" input("plugin: ")'],
 \['▷ neobundle list',           'Unite output:NeoBundleList'],
 \['▷ neobundle direct edit',    'NeoBundleExtraEdit'],
+\]
+" }}}
+" spaceleader menu {{{
+let g:unite_source_menu_menus.spaceleader.command_candidates = [
+\['▷ Targets.vim opfunc append                                        <Space>a',       'echo "run it yourself"'],
+\['▷ Unite buffer                                                     <Space>b',       'Unite          -buffer-name=buffers    buffer'],
+\['▷ Unite tab:no-current                                             <Space>d',       'Unite          -buffer-name=tabs       tab:no-current'],
+\['▷ Unite file                                                       <Space>f',       'Unite          -buffer-name=files      file'],
+\['▷ Unite grep:. (uses ag)                                           <Space>g',       'Unite          -buffer-name=ag         grep:.'],
+\['▷ Unite gist                                                       <Space>G',       'Unite          -buffer-name=gist       gist'],
+\['▷ Skybison help                                                    <Space>h',       'call SkyBison("h ")'],
+\['▷ Targets.vim opfunc insert                                        <Space>i',       'echo "run it yourself"'],
+\['▷ Unite find:. pattern                                             <Space>j',       'echo "run it yourself"'],
+\['▷ Unite find:. exact match                                         <Space>J',       'echo "run it yourself"'],
+\['▷ Unite process (action sigkill)                                   <Space>k',       'Unite -default-action=sigkill -buffer-name=killproc process'],
+\['▷ Unite locate                                                     <Space>l',       'UniteWithInput -buffer-name=locate     locate'],
+\['▷ Unite launcher                                                   <Space>L',       'Unite          -buffer-name=launcher   launcher'],
+\['▷ Unite line                                                       <Space>ol',      'Unite          -buffer-name=lines      line'],
+\['▷ Unite outline                                                    <Space>oo',      'Unite          -buffer-name=outline    outline'],
+\['▷ Unite neobundle/log                                              <Space>pl',      'Unite          -no-start-insert        neobundle/log'],
+\['▷ Unite neobundle/update                                           <Space>pu',      'Unite          -no-start-insert        neobundle/update'],
+\['▷ Unite quickfix                                                   <Space>q',       'Unite          -buffer-name=quickfix   qf'],
+\['▷ Unite file_rec/async                                             <Space>r',       'Unite          -buffer-name=file_rec   file_rec/async'],
+\['▷ Unite session                                                    <Space>S',       'Unite          -buffer-name=sessions   session'],
+\['▷ Unite tag                                                        <Space>t',       'Unite          -buffer-name=tags       taga<BS>'],
+\['▷ Unite function (vimscript)                                       <Space>vf',      'Unite          -buffer-name=functions  function'],
+\['▷ Unite mapping                                                    <Space>vm',      'Unite          -buffer-name=mappings   mapping'],
+\['▷ Unite runtimepath                                                <Space>vr',      'Unite          -buffer-name=runtimepath runtimepath'],
+\['▷ Unite window:no-current                                          <Space>w',       'Unite          -buffer-name=window     window:no-current'],
+\['▷ Unite source                                                     <Space><Space>', 'Unite          -buffer-name=sources    source'],
+\['▷ Unite output                                                     <Space><CR>',    'Unite          -buffer-name=output     output'],
+\['▷ Unite cmdmatch                                                   <Space>:',       'Unite          -buffer-name=cmdmatch   cmdmatch'],
 \]
 " }}}
 " }}}
@@ -1389,40 +1423,41 @@ nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " }}}
 " space leader maps. unite + targets + tabularize {{{
-" TODO make these mappings a 'unite' menu, <Space>mu, add Unite output
-nnoremap <Space>b       :<C-u>Unite          -buffer-name=buffers    buffer<CR>
-nnoremap <Space>d       :<C-u>Unite          -buffer-name=tabs       tab:no-current<CR>
-nnoremap <Space>f       :<C-u>Unite          -buffer-name=files      file<CR>
-nnoremap <Space>g       :<C-u>Unite          -buffer-name=ag         grep:.<CR>
-nnoremap <Space>G       :<C-u>Unite          -buffer-name=gist       gist<CR>
-nnoremap <Space>h       2:<C-u>call SkyBison("h ")<CR>
-nnoremap <Space>j       :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>'**'<Left><Left>
-nnoremap <Space>J       :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>''<Left>
-nnoremap <Space>k       :<C-u>Unite -default-action=sigkill -buffer-name=killproc process<CR>
-nnoremap <Space>l       :<C-u>UniteWithInput -buffer-name=locate     locate<CR>
-nnoremap <Space>L       :<C-u>Unite          -buffer-name=launcher   launcher<CR>
-nnoremap <Space>ol      :<C-u>Unite          -buffer-name=lines      line<CR>
-nnoremap <Space>oo      :<C-u>Unite          -buffer-name=outline    outline<CR>
-nnoremap <Space>pl      :<C-u>Unite          -no-start-insert        neobundle/log<CR>
-nnoremap <Space>pu      :<C-u>Unite          -no-start-insert        neobundle/update<CR>
-nnoremap <Space>q       :<C-u>Unite          -buffer-name=quickfix   qf<CR>
-nnoremap <Space>r       :<C-u>Unite          -buffer-name=file_rec   file_rec/async<CR>
-nnoremap <Space>S       :<C-u>Unite          -buffer-name=sessions   session<CR>
-nnoremap <Space>t       :<C-u>Unite          -buffer-name=tags       tag<CR>a<BS>
-nnoremap <Space>vf      :<C-u>Unite          -buffer-name=functions  function<CR>
-nnoremap <Space>vm      :<C-u>Unite          -buffer-name=mappings   mapping<CR>
-nnoremap <Space>vr      :<C-u>Unite          -buffer-name=runtimepath runtimepath<CR>
-nnoremap <Space>w       :<C-u>Unite          -buffer-name=window     window:no-current<CR>
-nnoremap <Space><Space> :<C-u>Unite -buffer-name=sources source<CR>
-nnoremap <Space>:       :<C-u>Unite -buffer-name=cmdmatch cmdmatch<CR>
+nnoremap <Space>b        :<C-u>Unite          -buffer-name=buffers    buffer<CR>
+nnoremap <Space>d        :<C-u>Unite          -buffer-name=tabs       tab:no-current<CR>
+nnoremap <Space>f        :<C-u>Unite          -buffer-name=files      file<CR>
+nnoremap <Space>g        :<C-u>Unite          -buffer-name=ag         grep:.<CR>
+nnoremap <Space>G        :<C-u>Unite          -buffer-name=gist       gist<CR>
+nnoremap <Space>h        2:<C-u>call SkyBison("h ")<CR>
+nnoremap <Space>j        :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>'**'<Left><Left>
+nnoremap <Space>J        :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>''<Left>
+nnoremap <Space>k        :<C-u>Unite -default-action=sigkill -buffer-name=killproc process<CR>
+nnoremap <Space>l        :<C-u>UniteWithInput -buffer-name=locate     locate<CR>
+nnoremap <Space>L        :<C-u>Unite          -buffer-name=launcher   launcher<CR>
+nnoremap <Space>ol       :<C-u>Unite          -buffer-name=lines      line<CR>
+nnoremap <Space>oo       :<C-u>Unite          -buffer-name=outline    outline<CR>
+nnoremap <Space>pl       :<C-u>Unite          -no-start-insert        neobundle/log<CR>
+nnoremap <Space>pu       :<C-u>Unite          -no-start-insert        neobundle/update<CR>
+nnoremap <Space>q        :<C-u>Unite          -buffer-name=quickfix   qf<CR>
+nnoremap <Space>r        :<C-u>Unite          -buffer-name=file_rec   file_rec/async<CR>
+nnoremap <Space>S        :<C-u>Unite          -buffer-name=sessions   session<CR>
+nnoremap <Space>t        :<C-u>Unite          -buffer-name=tags       tag<CR>a<BS>
+nnoremap <Space>vf       :<C-u>Unite          -buffer-name=functions  function<CR>
+nnoremap <Space>vm       :<C-u>Unite          -buffer-name=mappings   mapping<CR>
+nnoremap <Space>vr       :<C-u>Unite          -buffer-name=runtimepath runtimepath<CR>
+nnoremap <Space>w        :<C-u>Unite          -buffer-name=window     window:no-current<CR>
+nnoremap <Space><Space>  :<C-u>Unite          -buffer-name=sources    source<CR>
+nnoremap <Space><CR>     :<C-u>Unite          -buffer-name=output     output<CR>
+nnoremap <Space>:        :<C-u>Unite          -buffer-name=cmdmatch   cmdmatch<CR>
 
 " menus
-nnoremap <Space>mm      :<C-u>Unite menu<CR>
-nnoremap <Space>mg      :<C-u>Unite -silent -winheight=25 menu:git<CR>
-nnoremap <Space>m,      :<C-u>Unite -silent -winheight=30 menu:leader<CR>
-nnoremap <Space>mN      :<C-u>Unite -silent menu:navigation<CR>
-nnoremap <Space>mn      :<C-u>Unite -silent menu:neobundle<CR>
-nnoremap <Space>mv      :<C-u>Unite -silent menu:vim<CR>
+nnoremap <Space>mm       :<C-u>Unite menu<CR>
+nnoremap <Space>mg       :<C-u>Unite -silent -winheight=25 menu:git<CR>
+nnoremap <Space>m,       :<C-u>Unite -silent -winheight=30 menu:leader<CR>
+nnoremap <Space>mN       :<C-u>Unite -silent               menu:navigation<CR>
+nnoremap <Space>mn       :<C-u>Unite -silent               menu:neobundle<CR>
+nnoremap <Space>m<Space> :<C-u>Unite -silent -winheight=29 menu:spaceleader<CR>
+nnoremap <Space>mv       :<C-u>Unite -silent               menu:vim<CR>
 
 " targets.vim opfuncs
 nnoremap <Space>a       :set opfunc=Append<CR>g@
