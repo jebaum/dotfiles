@@ -726,7 +726,7 @@ augroup END
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger       = "<C-l>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-h>"
 let g:UltiSnipsListSnippets        = "<C-f>"
 let g:snips_author                 = 'James Baumgarten'
 " }}}

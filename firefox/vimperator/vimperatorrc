@@ -48,8 +48,7 @@ inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-nnoremap i gt
-nnoremap I :Selecttab<CR>:tabmove! -1<CR>
+nnoremap B :Selecttab<CR>:tabmove! -1<CR>
 nnoremap > :tabmove<CR>
 nnoremap < :tabmove 0<CR>
 
@@ -74,7 +73,7 @@ nnoremap sw :tabopen wikipedia<Space>
 nnoremap sy :tabopen youtube<Space>
 
 nnoremap <C-f>     /
-nnoremap <C-i>     <C-^>
+nnoremap <C-b>     <C-^>
 nnoremap <C-l>     :nohlsearch<CR>
 nnoremap <C-Space> :styletoggle -name globaldark<CR>
 
