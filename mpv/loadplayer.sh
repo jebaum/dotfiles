@@ -5,6 +5,7 @@ if [ ! -p "$FIFO" ]; then
   mkfifo "$FIFO"
 fi
 
+# TYPE argument is hardcoded in ranger's rifle.conf
 TYPE="$1"
 shift
 
@@ -17,7 +18,7 @@ else
   if [[ "$TYPE" = "video" ]]; then
     mpv --force-window -input file="$FIFO" -- "$@" &>/dev/null &
   elif [[ "$TYPE" == "audio" ]]; then
-    mpv --force-window -name rangermpvaudio -input file="$FIFO" -- "$@" &>/dev/null &
+    mpv --force-window --x11-name rangermpvaudio -input file="$FIFO" -- "$@" &>/dev/null &
   fi
 fi
 
