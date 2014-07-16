@@ -3,12 +3,9 @@ colorscheme darkness
 " qmarks {{{
 " all marks except subreddits are the first char from the url
 qmark 1 192.168.1.100
-qmark 3 lasr.cs.ucla.edu/classes/136_spring14/
 qmark a reddit.com/r/all
 qmark b reddit.com/r/bestof
 qmark c courseweb.seas.ucla.edu
-qmark d isi.deterlab.net
-qmark e education.deterlab.net
 qmark f facebook.com
 qmark g github.com/jebaum
 qmark h https://news.ycombinator.com/
@@ -48,7 +45,8 @@ inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-nnoremap B :Selecttab<CR>:tabmove! -1<CR>
+nnoremap <C-j> gt
+nnoremap J :Selecttab<CR>:tabmove! -1<CR>
 nnoremap > :tabmove<CR>
 nnoremap < :tabmove 0<CR>
 
@@ -83,7 +81,6 @@ nnoremap <A-p> :tabmove! -1<CR>
 
 nnoremap ,a  :addons<CR>
 nnoremap ,e  :extoptions<Space>
-nnoremap ,m  :qmarks<CR>
 nnoremap ,t  :tabopen about:sync-tabs<CR>
 nnoremap ,,t :open about:sync-tabs<CR>
 
@@ -106,13 +103,6 @@ nnoremap <leader>x   :dialog cleardata<CR>
 
 nnoremap k <Up>
 nnoremap j <Down>
-
-" ijkl
-" nnoremap i <Up>
-" nnoremap k <Down>
-" nnoremap h i
-" nnoremap I k
-" nnoremap K j
 " }}}
 
 " sources {{{
