@@ -46,9 +46,11 @@ NeoBundle 'sgur/unite-qf'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'tungd/unite-session'
 NeoBundle 'ujihisa/unite-locate'
+NeoBundle 'Shougo/neossh.vim'
 
 NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'chreekat/vim-paren-crosshairs'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'duff/vim-scratch'
 NeoBundle 'eparreno/vim-l9'                     " required by autocomplpop
@@ -69,6 +71,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/vinarise.vim'                 " rarely used
+NeoBundle 't9md/vim-choosewin'                  " TODO: add better keymaps and tweak settings
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tmhedberg/SimpylFold'
@@ -83,6 +86,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
+NeoBundle 'wesQ3/vim-windowswap'
 NeoBundle 'xolox/vim-misc'
 NeoBundleCheck
 " }}}
@@ -126,6 +130,7 @@ cnoremap <C-a>  <Home>
 cnoremap <silent> <C-c> <C-c>:set nocursorcolumn<CR>
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
+" TODO: think of better maps for these consistent with hjlk
 cnoremap <C-j>  <S-Left>
 cnoremap <C-l>  <S-Right>
 
@@ -969,6 +974,9 @@ function! s:unite_my_settings()
 endfunction
 " }}}
 " }}}
+" windowswap {{{
+let g:windowswap_map_keys = 0 " maps <leader>w by default, which I use for :w!
+" }}}
 " vimfiler {{{
 let g:vimfiler_as_default_explorer  = 1
 let g:vimfiler_safe_mode_by_default = 0
@@ -1041,7 +1049,9 @@ set ffs=unix,dos,mac           " new files use unix line endings by default
 set timeout
 set timeoutlen=3000
 set ttimeoutlen=100
-set cryptmethod=blowfish       " more secure encryption for vim -x
+if !has('neovim')
+  set cryptmethod=blowfish     " more secure encryption for vim -x
+endif
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
 set formatoptions-=r           " don't continue comment when hitting enter in insert mode
 set formatoptions-=o           " don't automatically continue comment when hitting o in normal mode
@@ -1304,7 +1314,6 @@ nnoremap <right>     :vertical resize +2<CR>
 " }}}
 " }}}
 " Text Object / targets.vim maps {{{
-" let g:targets_aiAI        = 'ahAI'
 let g:targets_pairs       = '()p {}c []r <>a'
 let g:targets_quotes      = "\"d 's `e"
 
@@ -1315,37 +1324,10 @@ endfunction
 function! Insert(type, ...)
     call feedkeys("`[i", 'n')
 endfunction
-
-omap i h
-onoremap iw iw
-onoremap iW iW
-onoremap it it
 " }}}
 " ijkl instead of hjkl {{{
 nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
-
-" nnoremap j h
-" vnoremap j h
-" nnoremap <expr> i (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
-" vnoremap i k
-" nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
-" vnoremap k j
-
-" " since 'i' is now used for motion, make 'h' do what 'i' used to
-" nnoremap h i
-" nnoremap H I
-" vnoremap h i
-" vnoremap H I
-" nnoremap I H
-
-" " insert at last insert mode position
-" nnoremap gh gi
-
-" " move by folds
-" nnoremap zj zi
-" nnoremap zk zj
-" nnoremap zi zk
 " }}}
 " function keys {{{
 nnoremap <F1>          :call StripTrailingWhitespace()<CR>
@@ -1365,10 +1347,10 @@ nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
+"                         s and t taken by search/todo
 nnoremap <silent> <leader>Sl   :source Session.vim<CR>
 nnoremap <silent> <leader>Sr   :Obsession!<CR>
 nnoremap <silent> <leader>St   :Obsession<CR>
-"                         s and t taken by search/todo
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
@@ -1392,6 +1374,9 @@ nnoremap          <leader>sr :AgOpenQF<Space>
 
 nnoremap <silent> <leader><leader>a  :redraw!<CR>
 nnoremap <silent> <leader><leader>d  :Dispatch<CR>
+nnoremap <silent> <leader><leader>p  :call WindowSwap#DoWindowSwap()<CR>
+nnoremap <silent> <leader><leader>w  :call WindowSwap#EasyWindowSwap()<CR>
+nnoremap <silent> <leader><leader>y  :call WindowSwap#MarkWindowSwap()<CR>
 " }}}
 " <leader>g[jkht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
@@ -1480,7 +1465,7 @@ nnoremap <C-w>v             <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
 inoremap <C-a>   <Home>
-inoremap <C-c>   <Esc><Esc>
+inoremap <C-c>   <Esc><Esc>`^
 inoremap <C-e>   <End>
 " }}}
 " alt normal mode {{{
