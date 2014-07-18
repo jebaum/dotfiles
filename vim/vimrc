@@ -48,7 +48,6 @@ NeoBundle 'tungd/unite-session'
 NeoBundle 'ujihisa/unite-locate'
 NeoBundle 'Shougo/neossh.vim'
 
-NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'chreekat/vim-paren-crosshairs'
 NeoBundle 'ciaranm/detectindent'
@@ -60,6 +59,7 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'kshenoy/vim-togglelist'
+NeoBundle 'luochen1990/rainbow'
 NeoBundle 'majutsushi/tagbar'                   " rarely used
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
@@ -589,17 +589,6 @@ let NERDCompactSexyComs = 0
 " netrw {{{
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
-" niji {{{
-let g:niji_matching_filetypes = ['lisp', 'c', 'cpp', 'log', 'java']
-let g:niji_dark_colours = [
-                        \ [ '82',  '#5Fff00'],
-                        \ [ '202', '#FF5F00'],
-                        \ [ '231', '#FFFFFF'],
-                        \ [ '201', '#FF00FF'],
-                        \ [ '226', '#FFFF00'],
-                        \ [ '196', '#FF0000']
-                        \ ]
-" }}}
 " quickrun {{{
 let g:quickrun_config         = {}  " initialize dictionary
 let g:quickrun_config._       = {'runner':'vimproc', 'runner/vimproc/updatetime':'250','hook/getpid/enable':'1'} " _ is fallback default value
@@ -626,6 +615,24 @@ function! QuickRunTimeToggle()
     echo 'disabled time hook'
   endif
 endfunction
+" }}}
+" rainbow {{{
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\   'guifgs': ['#5FFF00', '#FF5F00', '#FFFF00', '#FF00FF', '#FFFFFF', '#FF0000'],
+\   'ctermfgs': ['82', '202', '226', '201', '231', '196'],
+\   'operators': '_,_',
+\   'parentheses': [['(',')'], ['\[','\]'], ['{','}']],
+\   'separately': {
+\       '*': {},
+\       'lisp': {
+\           'guifgs': ['#5FFF00', '#FF5F00', '#FFFFFF', '#FF00FF', '#FFFF00', '#FF0000'],
+\           'ctermfgs': ['82', '202', '231', '201', '226', '196'],
+\       },
+\       'css': 0,
+\       'stylus': 0,
+\   }
+\}
 " }}}
 " signify {{{
 let g:signify_disable_by_default = 1            " disable run by default
