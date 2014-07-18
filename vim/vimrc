@@ -51,6 +51,7 @@ NeoBundle 'Shougo/neossh.vim'
 NeoBundle 'amdt/vim-niji'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'chreekat/vim-paren-crosshairs'
+NeoBundle 'ciaranm/detectindent'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'duff/vim-scratch'
 NeoBundle 'eparreno/vim-l9'                     " required by autocomplpop
@@ -127,10 +128,10 @@ cnoreabbrev va vimgrepadd
 cnoreabbrev vg vimgrep
 
 cnoremap <C-a>  <Home>
-cnoremap <silent> <C-c> <C-c>:set nocursorcolumn<CR>
+" cnoremap <silent> <C-c> <C-c>:set nocursorcolumn<CR>
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
-" TODO: think of better maps for these consistent with hjlk
+" TODO: think of better maps for these consistent with hjkl
 cnoremap <C-j>  <S-Left>
 cnoremap <C-l>  <S-Right>
 
@@ -170,7 +171,8 @@ augroup FileTypeSettings
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
   autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
   autocmd FileType vimfiler setlocal relativenumber
-  autocmd BufRead  .tags set filetype=tags
+  autocmd BufNewFile,BufRead  .tags set filetype=tags
+  autocmd BufNewFile,BufRead *.log  set filetype=log
   autocmd BufRead,BufNewFile *.md set filetype=markdown
   autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
   autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
@@ -534,6 +536,11 @@ function! AirlineThemePatch(palette)
   endif
 endfunction
 " }}}
+" detectindent {{{
+let g:detectindent_preferred_expandtab  = 1
+let g:detectindent_preferred_indent     = 4
+let g:detectindent_max_lines_to_analyse = 1024
+" }}}
 " dispatch {{{
 augroup DISPATCH
   autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
@@ -583,7 +590,7 @@ let NERDCompactSexyComs = 0
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
 " niji {{{
-let g:niji_matching_filetypes = ['lisp']
+let g:niji_matching_filetypes = ['lisp', 'c', 'cpp', 'log', 'java']
 let g:niji_dark_colours = [
                         \ [ '82',  '#5Fff00'],
                         \ [ '202', '#FF5F00'],
@@ -677,9 +684,11 @@ let g:startify_custom_header     = [
   \ ]
 " }}}
 " syntastic {{{
-let g:syntastic_c_compiler               = 'clang'
+if executable('clang')
+  let g:syntastic_c_compiler               = 'clang'
+  let g:syntastic_cpp_compiler             = 'clang++'
+endif
 let g:syntastic_c_compiler_options       = ' -Wall -Wextra'
-let g:syntastic_cpp_compiler             = 'clang++'
 let g:syntastic_cpp_compiler_options     = ' -Wall -Wextra'
 
 function! SyntasticOpenMP()
@@ -691,9 +700,14 @@ augroup OPENMP
   autocmd BufEnter /home/james/Dropbox/Documents/UCLA/Y3Q2/CS133/* call SyntasticOpenMP()
 augroup END
 
-let g:syntastic_aggregate_errors         = 1         " display all errors
-let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
+let g:syntastic_java_javac_config_file_enabled = 1
+" for allowing syntastic to find symbols in java classpath, put this in .syntastic_javac_config. must be in cwd
+" let g:syntastic_java_javac_custom_classpath_command = "brazil-path testlib.classpath | gawk 'BEGIN {RS=\":\"} {print $1;}' | tr '\n' ':'"
+
+let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
+let g:syntastic_aggregate_errors         = 1 " display all errors
+let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
 let g:syntastic_error_symbol             = '✗✗'
 let g:syntastic_warning_symbol           = '⚠⚠'
 let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
@@ -947,7 +961,7 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-v>     unite#do_action('right')
   imap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
   imap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
-  imap <buffer>               <C-h>     <Plug>(unite_toggle_mark_current_candidate)
+  execute 'imap <buffer> ' . g:ctrl_space . ' <Plug>(unite_toggle_mark_current_candidate)'
 
   nmap <silent><buffer><expr> <C-s>     unite#do_action('above')
   nmap <silent><buffer><expr> <C-j>     unite#do_action('below')
@@ -955,12 +969,10 @@ function! s:unite_my_settings()
   nmap <silent><buffer><expr> <C-v>     unite#do_action('right')
   nmap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
   nmap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
-  nmap <buffer>               <C-h>     <Plug>(unite_toggle_mark_current_candidate)
+  execute 'imap <buffer> ' . g:ctrl_space . ' <Plug>(unite_toggle_mark_current_candidate)'
 
-  nmap <buffer> i     <Plug>(unite_insert_enter)
-  nmap <buffer> I     <Plug>(unite_insert_head)
-  nmap <buffer> j     <Plug>(unite_loop_cursor_down)
-  nmap <buffer> k     <Plug>(unite_loop_cursor_up)
+  nmap <buffer> <C-n> <Plug>(unite_loop_cursor_down)
+  nmap <buffer> <C-p> <Plug>(unite_loop_cursor_up)
   nmap <buffer> l     <Plug>(unite_do_default_action)
 
   nnoremap <silent><buffer><expr> l unite#smart_map('l', unite#do_action('default'))
@@ -1161,6 +1173,15 @@ endif
 " }}}
 " Keymaps {{{
 " Misc {{{
+" fix the esc/alt mapping problem in terminal vim
+if !has('gui_running')
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    autocmd InsertEnter * :set timeoutlen=0
+    autocmd InsertLeave * :set timeoutlen=2000
+  augroup END
+endif
 " always show multiple tag options, <C-w> to open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
@@ -1183,11 +1204,9 @@ vnoremap <silent> gr :QuickRun -mode v -runner vimproc<CR>
 " misc g maps {{{
 nnoremap          gb    gw{gw}
 nnoremap          gh    <C-w><Left>
-" nnoremap          gi    <C-w><Up>
 nnoremap          gj    <C-w><Down>
 nnoremap          gk    <C-w><Up>
 nnoremap          gl    <C-w><Right>
-" nnoremap          gI    <C-w>K
 nnoremap          gH    <C-w>H
 nnoremap          gJ    <C-w>J
 nnoremap          gK    <C-w>K
@@ -1199,12 +1218,14 @@ nnoremap          g/    :<C-u>OverCommandLine<CR>%s/
 xnoremap          g/    :<C-u>OverCommandLine<CR>%s/\%V
 nnoremap          g?    :<C-u>OverCommandLine<CR>/
 xnoremap          g?    :<C-u>OverCommandLine<CR>/\%V
+nnoremap          g;    g;zz
+nnoremap          g,    g,zz
 " }}}
 " generate map for alt and <C-Space> in both vim and gvim {{{
 function! Altmap(char)
   if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
-let cspace = has("gui_running") ? "<C-Space>" : "<C-@>"
+let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 " }}}
 " changed default keys M * # - _ z<Space> {{{
 nnoremap M %
@@ -1283,7 +1304,7 @@ nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>/<CR>zv
 nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>?<CR>zv
 nnoremap /          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
 nnoremap ?          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
-execute 'nnoremap ' . cspace . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
+execute 'nnoremap ' . g:ctrl_space . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
 onoremap <C-f> /\V
 " }}}
 " quickfix maps {{{
