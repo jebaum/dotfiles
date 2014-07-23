@@ -27,6 +27,7 @@ firefox/vimperator/info
 vim/.netrwhist
 vim/bundle/*
 vim/session/*
+vim/nvimrc
 
 packages/i3/*
 !packages/i3/PKGBUILD
