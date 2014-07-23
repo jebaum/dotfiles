@@ -26,6 +26,7 @@ alias gist='gist -c -p'
 alias grep='grep --color=auto'
 alias gvi='gvim'
 alias gvim='gvim -p'
+alias hlerrors="sed -e 's/Exception/\x1b[36;7m&\x1b[0m/ig' -e 's/Error/\x1b[33;7m&\x1b[0m/ig' -e 's/Fault/\x1b[31;7m&\x1b[0m/ig'"
 alias livestreamer='livestreamer -p mpv'
 alias make='make -j4'
 alias mpc='mpc -h 192.168.1.100'
