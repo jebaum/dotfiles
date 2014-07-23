@@ -33,6 +33,7 @@ endif
 if has('g:use_neocomplete')
   NeoBundle 'Shougo/neocomplete.vim'
 else
+  " NeoBundle 'tarruda/YouCompleteMe', {'build': {'unix': './install.sh --clang-completer --system-libclang'},}
   NeoBundle 'Shougo/neocomplcache.vim'
   NeoBundle 'JazzCore/neocomplcache-ultisnips'
 endif
@@ -44,8 +45,10 @@ NeoBundle 'majkinetor/unite-cmdmatch'
 NeoBundle 'mattn/unite-gist'
 NeoBundle 'sgur/unite-qf'
 NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'tungd/unite-session'
+NeoBundle 'Shougo/unite-session'                "add maps/update menu. probably will only use to list sessions, use simple-session for making?
 NeoBundle 'ujihisa/unite-locate'
+NeoBundle 'inside/unite-argument'
+NeoBundle 'kmnk/vim-unite-giti'                 " add maps/update menu for this. making new branch is weird
 NeoBundle 'Shougo/neossh.vim'
 
 NeoBundle 'bling/vim-airline'
@@ -61,6 +64,7 @@ NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'kshenoy/vim-togglelist'
 NeoBundle 'luochen1990/rainbow'
 NeoBundle 'majutsushi/tagbar'                   " rarely used
+NeoBundle 'manuel-colmenero/vim-simple-session'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-signify'
@@ -81,7 +85,6 @@ NeoBundle 'tpope/vim-abolish'                   " rarely used, but should use mo
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-obsession'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
@@ -634,6 +637,12 @@ let g:rainbow_conf = {
 \   }
 \}
 " }}}
+" sessions {{{
+" settings for both vim-simple-session and unite-session
+call system('mkdir -p ~/.vim/session')
+let g:session_dir = "~/.vim/session"
+let g:unite_source_session_path = g:session_dir
+" }}}
 " signify {{{
 let g:signify_disable_by_default = 1            " disable run by default
 let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
@@ -796,11 +805,13 @@ let g:unite_source_menu_menus.git.command_candidates = [
 " }}}
 " leader menu {{{
 let g:unite_source_menu_menus.leader.command_candidates = [
+\['▷ Targets.vim opfunc append               <leader>a',          'echo "run it yourself"'],
 \['▷ Dispatch!                               <leader>d',          'Dispatch!'],
 \['▷ Dispatch                                <leader><leader>d',  'Dispatch'],
 \['▷ toggle copen                            <leader>e',          'lclose | let g:ToggleList.cmd.copen="copen" | ToggleQF'],
 \['▷ toggle Copen (dispatch)                 <leader>E',          'lclose | let g:ToggleList.cmd.copen="Copen" | ToggleQF'],
 \['▷ toggle foldmethod                       <leader>f',          'set foldmethod=syntax | set foldmethod=manual'],
+\['▷ Targets.vim opfunc insert               <leader>i',          'echo "run it yourself"'],
 \['▷ toggle lopen                            <leader>l',          'cclose | ToggleLL'],
 \['▷ Make! -j4 all                           <leader>ma',         'Make! -j4 all'],
 \['▷ Make -j4 all                            <leader><leader>ma', 'Make  -j4 all'],
@@ -812,9 +823,8 @@ let g:unite_source_menu_menus.leader.command_candidates = [
 \['▷ Make -j4                                <leader><leader>mm', 'Make  -j4'],
 \['▷ "0p (paste from yank register)          <leader>p',          '"0p'],
 \['▷ "0P (Paste from yank register)          <leader>P',          '"0P'],
-\['▷ source Session.vim                      <leader>Sl',         'source Session.vim'],
-\['▷ Obsession! (remove)                     <leader>Sr',         'Obsession!'],
-\['▷ Obsession  (toggle)                     <leader>St',         'Obsession'],
+\['▷ SDelete                                 <leader>sd',         'SDelete'],
+\['▷ Session (load or new)                   <leader>sl',         'echo "run it yourself"'],
 \['▷ find TODOs in current buffer            <leader>tt',         'silent! vimgrep /\CTODO/gj %'],
 \['▷ find TODOs in all open buffers          <leader>to',         'silent! vimgrep /\CTODO/gj /dev/empty | BufGrep \CTODO'],
 \['▷ find TODOs recursively                  <leader>tr',         'AgOpenQF TODO'],
@@ -862,14 +872,13 @@ let g:unite_source_menu_menus.neobundle.command_candidates = [
 " }}}
 " spaceleader menu {{{
 let g:unite_source_menu_menus.spaceleader.command_candidates = [
-\['▷ Targets.vim opfunc append                                        <Space>a',       'echo "run it yourself"'],
+\['▷ Unite argument                                                   <Space>a',       'Unite          -buffer-name=arglist    argument'],
 \['▷ Unite buffer                                                     <Space>b',       'Unite          -buffer-name=buffers    buffer'],
 \['▷ Unite tab:no-current                                             <Space>d',       'Unite          -buffer-name=tabs       tab:no-current'],
 \['▷ Unite file                                                       <Space>f',       'Unite          -buffer-name=files      file'],
 \['▷ Unite grep:. (uses ag)                                           <Space>g',       'Unite          -buffer-name=ag         grep:.'],
 \['▷ Unite gist                                                       <Space>G',       'Unite          -buffer-name=gist       gist'],
 \['▷ Skybison help                                                    <Space>h',       'call SkyBison("h ")'],
-\['▷ Targets.vim opfunc insert                                        <Space>i',       'echo "run it yourself"'],
 \['▷ Unite find:. pattern                                             <Space>j',       'echo "run it yourself"'],
 \['▷ Unite find:. exact match                                         <Space>J',       'echo "run it yourself"'],
 \['▷ Unite process (action sigkill)                                   <Space>k',       'Unite -default-action=sigkill -buffer-name=killproc process'],
@@ -881,7 +890,8 @@ let g:unite_source_menu_menus.spaceleader.command_candidates = [
 \['▷ Unite neobundle/update                                           <Space>pu',      'Unite          -no-start-insert        neobundle/update'],
 \['▷ Unite quickfix                                                   <Space>q',       'Unite          -buffer-name=quickfix   qf'],
 \['▷ Unite file_rec/async                                             <Space>r',       'Unite          -buffer-name=file_rec   file_rec/async'],
-\['▷ Unite session                                                    <Space>S',       'Unite          -buffer-name=sessions   session'],
+\['▷ Unite session                                                    <Space>sl',      'Unite          -buffer-name=sessions   session'],
+\['▷ Unite session/new                                                <Space>sn',      'Unite          -buffer-name=new_session session/new'],
 \['▷ Unite tag                                                        <Space>t',       'Unite          -buffer-name=tags       taga<BS>'],
 \['▷ Unite function (vimscript)                                       <Space>vf',      'Unite          -buffer-name=functions  function'],
 \['▷ Unite mapping                                                    <Space>vm',      'Unite          -buffer-name=mappings   mapping'],
@@ -1356,32 +1366,32 @@ function! Insert(type, ...)
     call feedkeys("`[i", 'n')
 endfunction
 " }}}
-" ijkl instead of hjkl {{{
+" k and j add to jumplist {{{
 nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
 " function keys {{{
 nnoremap <F1>          :call StripTrailingWhitespace()<CR>
 nnoremap <F2>          :set spell!<CR>
-nnoremap <silent> <F3> :NumbersOnOff<CR>:set number relativenumber<CR>
 " }}}
 " defualt (comma) leader maps {{{
 " Main {{{
+nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>d    :Dispatch!<CR>
 nnoremap <silent> <leader>e    :lclose<CR>:let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
 nnoremap <silent> <leader>E    :lclose<CR>:let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
+nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
 "                         m    make maps
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 "                         s and t taken by search/todo
-nnoremap <silent> <leader>Sl   :source Session.vim<CR>
-nnoremap <silent> <leader>Sr   :Obsession!<CR>
-nnoremap <silent> <leader>St   :Obsession<CR>
+nnoremap <silent> <leader>sd   :SDelete<CR><CR>
+nnoremap          <leader>sl   :Session<Space>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
@@ -1438,7 +1448,8 @@ nnoremap <leader>mm          :Make! -j4<CR>
 nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " }}}
-" space leader maps. unite + targets + tabularize {{{
+" space leader maps. unite + tabularize {{{
+nnoremap <Space>a        :<C-u>Unite          -buffer-name=arglist    argument<CR>
 nnoremap <Space>b        :<C-u>Unite          -buffer-name=buffers    buffer<CR>
 nnoremap <Space>d        :<C-u>Unite          -buffer-name=tabs       tab:no-current<CR>
 nnoremap <Space>f        :<C-u>Unite          -buffer-name=files      file<CR>
@@ -1456,7 +1467,8 @@ nnoremap <Space>pl       :<C-u>Unite          -no-start-insert        neobundle/
 nnoremap <Space>pu       :<C-u>Unite          -no-start-insert        neobundle/update<CR>
 nnoremap <Space>q        :<C-u>Unite          -buffer-name=quickfix   qf<CR>
 nnoremap <Space>r        :<C-u>Unite          -buffer-name=file_rec   file_rec/async<CR>
-nnoremap <Space>S        :<C-u>Unite          -buffer-name=sessions   session<CR>
+nnoremap <Space>sl       :<C-u>Unite          -buffer-name=sessions   session<CR>
+nnoremap <Space>sn       :<C-u>Unite          -buffer-name=new_session session/new<CR>
 nnoremap <Space>t        :<C-u>Unite          -buffer-name=tags       tag<CR>a<BS>
 nnoremap <Space>vf       :<C-u>Unite          -buffer-name=functions  function<CR>
 nnoremap <Space>vm       :<C-u>Unite          -buffer-name=mappings   mapping<CR>
@@ -1475,9 +1487,6 @@ nnoremap <Space>mn       :<C-u>Unite -silent               menu:neobundle<CR>
 nnoremap <Space>m<Space> :<C-u>Unite -silent -winheight=29 menu:spaceleader<CR>
 nnoremap <Space>mv       :<C-u>Unite -silent               menu:vim<CR>
 
-" targets.vim opfuncs
-nnoremap <Space>a       :set opfunc=Append<CR>g@
-nnoremap <Space>i       :set opfunc=Insert<CR>g@
 
 " `:TabFirst =` to align to first equal sign. similar to `:Tabularize /=.*/`
 command! -nargs=1 -range TabFirst exec <line1> . ',' . <line2> . 'Tabularize /^[^' . escape(<q-args>, '\^$.[?*~') . ']*\zs' . escape(<q-args>, '\^$.[?*~')
