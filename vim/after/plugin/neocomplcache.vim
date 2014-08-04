@@ -14,6 +14,10 @@ if exists('g:loaded_neocomplcache')
   "let g:neocomplcache_enable_camel_case_completion = 1
   " Use underbar completion.
   "let g:neocomplcache_enable_underbar_completion = 1
+  " Use fuzzy completion. auto turns off camel_case and underbar
+  let g:neocomplcache_enable_fuzzy_completion = 1
+  " only 3rd input character and onward is fuzzy matched
+  let g:neocomplcache_fuzzy_completion_start_length = 3
 
   " Define dictionary.
   let g:neocomplcache_dictionary_filetype_lists = {

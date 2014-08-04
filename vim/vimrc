@@ -18,7 +18,7 @@ call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 if has('unix')
-  NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'unix' : 'make -f make_unix.mak', }, }
+  NeoBundle 'Shougo/vimproc.vim', {'build': {'unix': 'make -f make_unix.mak'}}
   NeoBundle 'gregsexton/gitv'
   NeoBundle 'mhinz/vim-tmuxify'
 endif
@@ -34,10 +34,10 @@ if has('g:use_neocomplete')
   NeoBundle 'Shougo/neocomplete.vim'
 else
   " NeoBundle 'tarruda/YouCompleteMe', {'build': {'unix': './install.sh --clang-completer --system-libclang'},}
-  NeoBundle 'Shougo/neocomplcache.vim'
-  NeoBundle 'JazzCore/neocomplcache-ultisnips'
+  " NeoBundle 'Shougo/neocomplcache.vim'
+  " NeoBundle 'JazzCore/neocomplcache-ultisnips'
+  NeoBundle 'othree/vim-autocomplpop', {'depends' : 'eparreno/vim-l9'}
 endif
-" NeoBundle 'othree/vim-autocomplpop'
 
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
@@ -56,7 +56,6 @@ NeoBundle 'chreekat/vim-paren-crosshairs'
 NeoBundle 'ciaranm/detectindent'
 NeoBundle 'dockyard/vim-easydir'
 NeoBundle 'duff/vim-scratch'
-NeoBundle 'eparreno/vim-l9'                     " required by autocomplpop
 NeoBundle 'gcmt/taboo.vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'jamessan/vim-gnupg'
@@ -74,7 +73,7 @@ NeoBundle 'paradigm/SkyBison'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'Shougo/vimfiler.vim'
+NeoBundle 'Shougo/vimfiler.vim', {'depends' : 'Shougo/unite.vim' }
 NeoBundle 'Shougo/vinarise.vim'                 " rarely used
 NeoBundle 't9md/vim-choosewin'                  " TODO: add better keymaps and tweak settings
 NeoBundle 'thinca/vim-qfreplace'
@@ -189,20 +188,6 @@ augroup FileTypeSettings
   autocmd FileType markdown nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
-augroup END
-" }}}
-" insert maps to complete {,(, mucks with undo and dot operator {{{
-augroup BrackeAutoComplete
-  autocmd Filetype c,cpp,java inoremap <buffer> { {}<Left>
-  autocmd Filetype c,cpp,java inoremap <buffer> {<CR> {<CR>}<Esc>O<Tab>
-  autocmd Filetype c,cpp,java inoremap <buffer> {{ {
-  autocmd Filetype c,cpp,java inoremap <buffer> {} {}
-  autocmd Filetype c,cpp,java inoremap <buffer> <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
-  autocmd Filetype c,cpp,java inoremap <buffer> ( ()<Left>
-  autocmd Filetype c,cpp,java inoremap <buffer> (<CR> (<CR>)<Esc>O<Tab>
-  autocmd Filetype c,cpp,java inoremap <buffer> (( (
-  autocmd Filetype c,cpp,java inoremap <buffer> () ()
-  autocmd Filetype c,cpp,java inoremap <buffer> <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
 augroup END
 " }}}
 " align quickfix output {{{
@@ -1019,6 +1004,8 @@ augroup vimfiler
 augroup END
 
 function! s:vimfiler_my_settings()
+  silent! execute 'nunmap <buffer> <CR>'
+  nmap <buffer> <CR> <Plug>(vimfiler_choose_action)
   nmap <buffer> i  <Plug>(vimfiler_toggle_mark_current_line)
   nmap <buffer> l  <Plug>(vimfiler_expand_tree)
   nmap <buffer> gl <Plug>(vimfiler_smart_l)
