@@ -141,6 +141,7 @@ bind pager <End>    bottom
 bind pager G        bottom
 bind pager q        exit
 bind pager h        exit
+bind pager H        display-toggle-weed
 bind pager <Up>     previous-line
 bind pager k        previous-line
 bind pager <Down>   next-line
@@ -153,7 +154,9 @@ bind index g       first-entry
 bind index <End>   last-entry
 bind index G       last-entry
 bind index k       previous-entry
+bind index K       previous-new-then-unread
 bind index j       next-entry
+bind index J       next-new-then-unread
 bind index l       display-message
 bind index L       limit
 bind index B       bounce-message
