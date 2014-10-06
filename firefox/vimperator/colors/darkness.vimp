@@ -35,10 +35,10 @@ hi ErrorMsg color: #ffffff; background: red; font-weight: bold;
 
 
 "Hint section
-hi Hint font-family: DejaVu Sans Mono; font-size: 13px; font-weight: bold; color: #CCCCDD; background-color: #000000; border-color: #22AAAA; border-width: 1px; border-style: solid; padding 0px 1px 0px 1px;
+hi Hint font-family: DejaVu Sans Mono; letter-spacing:2px; font-size: 12pt; color:#FFFFFF; font-weight:bold; border-color:#3333CC; border-width: 2px; border-style:solid; padding 0px 1px 0px 1px; background: linear-gradient(to bottom left, #000000, #303030); text-transform:uppercase; border-radius: 5px;
 hi Hint::after content: attr(number);
 hi HintActive background: blue; color: #f6e9e9;
-hi HintElem background-color: #121212; color: #f6e9e9;
+hi HintElem clear
 hi HintImage opacity: .5;
 
 "Other important stuff

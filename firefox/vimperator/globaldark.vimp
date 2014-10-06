@@ -240,3 +240,4 @@ color:#ffffff !important;
 }
 END
 " vim: filetype=css
+hi Hint font-family: DejaVu Sans Mono; letter-spacing:2px; font-size: 12pt; color:#FFFFFF; font-weight:bold; border-color:#3333CC; border-width: 2px; border-style:solid; padding 0px 1px 0px 1px; background: linear-gradient(to bottom left, #000000, #303030); text-transform:uppercase; border-radius: 5px;

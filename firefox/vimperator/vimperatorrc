@@ -107,7 +107,6 @@ nnoremap j <Down>
 
 " sources {{{
 " CSS file added using vimperator `:style`
-" TODO emulate vimium hints in this style
 source ~/dotfiles/firefox/vimperator/globaldark.vimp
 " }}}
 
