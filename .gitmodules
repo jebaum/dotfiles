@@ -4,3 +4,6 @@
 [submodule "scripts/fzf"]
 	path = scripts/fzf
 	url = https://github.com/junegunn/fzf.git
+[submodule "scripts/opp.zsh"]
+	path = scripts/opp.zsh
+	url = https://github.com/hchbaw/opp.zsh
