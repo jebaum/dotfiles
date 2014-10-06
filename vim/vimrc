@@ -1,7 +1,7 @@
 " Initial setup {{{
 colorscheme guimiromod
 runtime macros/matchit.vim
-set guifont=DejaVuSansMonoforPowerline\ 9.5
+set guifont=DejaVuSansMonoforPowerline\ 11
 let mapleader = ','
 " NeoBundle {{{
 let s:neobundle_dir=expand('~/.vim/bundle/neobundle.vim')
@@ -894,13 +894,13 @@ call unite#custom#profile('default', 'context', {
 \ 'start_insert': 1,
 \ 'prompt_direction' : 'top'
 \ })
-call unite#custom#profile('default', 'ignorecase', 1)
-call unite#custom#profile('default', 'smartcase', 1)
+call unite#custom#profile('default', 'context.ignorecase', 1)
+call unite#custom#profile('default', 'context.smartcase', 1)
 call unite#filters#matcher_default#use(['matcher_glob'])
 " TODO: this could be slow, experiment with other sorters
 " call unite#filters#sorter_default#use(['sorter_rank'])
 " unite-outline settings
-call unite#set_profile('outline', 'smartcase',  1)
+call unite#set_profile('outline', 'context.smartcase',  1)
 let g:unite_source_outline_filetype_options = {
     \ '*': {
     \   'auto_update': 1,
@@ -946,9 +946,11 @@ function! s:unite_my_settings()
   imap <buffer> <C-d>   <Plug>(unite_exit)
 	imap <buffer> <C-f>   <Plug>(unite_choose_action)
 
-  " imap <buffer><expr> j unite#smart_map('j', '')
-  imap <buffer> <Tab>   <Plug>(unite_select_next_line)
-  imap <buffer> <S-Tab> <Plug>(unite_select_previous_line)
+  imap <buffer> <Tab>   <Plug>(unite_toggle_mark_current_candidate)
+  imap <buffer> <S-Tab> <Plug>(unite_toggle_mark_current_candidate_up)
+  nmap <buffer> <Tab>   <Plug>(unite_toggle_mark_current_candidate)
+  nmap <buffer> <S-Tab> <Plug>(unite_toggle_mark_current_candidate_up)
+
   imap <buffer> <C-w>   <Plug>(unite_delete_backward_path)
   nmap <buffer> '       <Plug>(unite_quick_match_default_action)
   imap <buffer> '       <Plug>(unite_quick_match_default_action)
@@ -963,7 +965,6 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-v>     unite#do_action('right')
   imap <silent><buffer><expr> <C-t>     unite#do_action('tabopen')
   imap <silent><buffer><expr> <C-y>     unite#do_action('tabdrop')
-  execute 'imap <buffer> ' . g:ctrl_space . ' <Plug>(unite_toggle_mark_current_candidate)'
 
   nmap <silent><buffer><expr> <C-s>     unite#do_action('above')
   nmap <silent><buffer><expr> <C-j>     unite#do_action('below')
@@ -1005,12 +1006,13 @@ augroup END
 
 function! s:vimfiler_my_settings()
   silent! execute 'nunmap <buffer> <CR>'
-  nmap <buffer> <CR> <Plug>(vimfiler_choose_action)
-  nmap <buffer> i  <Plug>(vimfiler_toggle_mark_current_line)
-  nmap <buffer> l  <Plug>(vimfiler_expand_tree)
-  nmap <buffer> gl <Plug>(vimfiler_smart_l)
-  nmap <buffer> cc <Plug>(vimfiler_copy_file)
-  nmap <buffer> dd <Plug>(vimfiler_delete_file)
+  nmap <buffer> <CR>    <Plug>(vimfiler_choose_action)
+  nmap <buffer> <Tab>   <Plug>(vimfiler_toggle_mark_current_line)
+  nmap <buffer> <S-Tab> <Plug>(vimfiler_toggle_mark_current_line_up)
+  nmap <buffer> l       <Plug>(vimfiler_expand_tree)
+  nmap <buffer> gl      <Plug>(vimfiler_smart_l)
+  nmap <buffer> cc      <Plug>(vimfiler_copy_file)
+  nmap <buffer> dd      <Plug>(vimfiler_delete_file)
   nmap <silent><buffer><expr> v vimfiler#do_action('vsplit')
   nmap <silent><buffer><expr> s vimfiler#do_action('split')
   nmap <silent><buffer><expr> p vimfiler#do_action('tabdrop')
