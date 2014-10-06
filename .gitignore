@@ -29,6 +29,8 @@ vim/bundle/*
 vim/session/*
 vim/nvimrc
 
+zsh/cache/*
+
 packages/i3/*
 !packages/i3/PKGBUILD
 !packages/i3/smart-border.patch
