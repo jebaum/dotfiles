@@ -4,6 +4,7 @@ set realname = "James Baumgarten"
 set folder=~/.mutt/mail
 source ~/.mutt/mailboxes
 source ~/.mutt/colors/ivyleague.muttrc
+source ~/.mutt/gpg.rc
 set use_from = yes
 set envelope_from ="yes"
 
