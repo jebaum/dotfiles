@@ -7,3 +7,6 @@
 [submodule "scripts/opp.zsh"]
 	path = scripts/opp.zsh
 	url = https://github.com/hchbaw/opp.zsh
+[submodule "scripts/pirate-get"]
+	path = scripts/pirate-get
+	url = https://github.com/vikstrous/pirate-get
