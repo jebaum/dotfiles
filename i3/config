@@ -2,8 +2,12 @@
 set $mpdhost 192.168.1.100
 set $mod Mod4
 set $alt Mod1
-set $barfont font pango:Times New Roman 5
+set $barfont font pango:Times New Roman 6
 floating_modifier $mod
+set $narrow1 HDMI-0
+set $narrow2 DVI-I-1
+set $narrow3 DVI-D-0
+set $wide    HDMI-1
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
   # possible bug? according to userguide 4.8, 'new_window pixel 3' should work, but doesn't
@@ -11,7 +15,7 @@ new_window normal
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
-font pango:DejaVu Sans Mono 5
+font pango:DejaVu Sans Mono 6
 
 # MISC SETTINGS
 focus_follows_mouse no
@@ -43,18 +47,18 @@ set $statusline          statusline         #CCCCCC
 # }}}
 # STARTUP APPLICATIONS {{{
 # exec_always will run when i3 is restarted, not just initially
-exec unclutter
-exec parcellite
-exec xset m 0 0
-exec nitrogen --restore
-exec dropbox start
-exec udiskie &
-exec amixer set PCM 208
-exec amixer set Master 25
-exec device.sh xfi
-exec ~/dotfiles/scripts/imap_daemon.sh
-exec ~/dotfiles/scripts/mailbox_notify_daemon.sh
-exec ~/dotfiles/scripts/startup.sh
+exec --no-startup-id unclutter
+exec --no-startup-id parcellite
+exec --no-startup-id xset m 0 0
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id dropbox start
+exec --no-startup-id udiskie &
+exec --no-startup-id amixer set PCM 208
+exec --no-startup-id amixer set Master 25
+exec --no-startup-id device.sh xfi
+exec --no-startup-id ~/dotfiles/scripts/imap_daemon.sh
+exec --no-startup-id ~/dotfiles/scripts/mailbox_notify_daemon.sh
+exec --no-startup-id ~/dotfiles/scripts/startup.sh
 # }}}
 # KEYBINDS {{{
   ### conky and config controls
@@ -232,23 +236,23 @@ bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto m
 # WORKSPACE MANAGEMENT KEYBINDS {{{
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
-workspace "1: main"   output DVI-D-1
-workspace "2: web"    output HDMI-0
-workspace "3: vps"    output DVI-D-1
-workspace "4: music"  output VGA-0
-workspace "5: mail"   output VGA-0
-workspace "6: files"  output DVI-D-0
-workspace "7: code"   output VGA-0
-workspace "8: code"   output DVI-D-0
-workspace "9: code"   output HDMI-0
-workspace "10: code"  output DVI-D-1
-workspace "11: steam" output HDMI-0
-workspace "12: tf2"   output HDMI-0
-workspace "13: tv"    output HDMI-0
-workspace "14"        output VGA-0
-workspace "15"        output DVI-D-0
-workspace "16"        output HDMI-0
-workspace "17"        output DVI-D-1
+workspace "1: main"   output $narrow3
+workspace "2: web"    output $wide
+workspace "3: vps"    output $narrow3
+workspace "4: music"  output $narrow1
+workspace "5: mail"   output $narrow1
+workspace "6: files"  output $narrow2
+workspace "7: code"   output $narrow1
+workspace "8: code"   output $narrow2
+workspace "9: code"   output $wide
+workspace "10: code"  output $narrow3
+workspace "11: steam" output $wide
+workspace "12: tf2"   output $wide
+workspace "13: tv"    output $wide
+workspace "14"        output $narrow1
+workspace "15"        output $narrow2
+workspace "16"        output $wide
+workspace "17"        output $narrow3
 
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
@@ -330,7 +334,7 @@ bindsym $mod+r mode "resize"
 # }}}
 # BAR WIDE {{{
 bar {
-  output HDMI-0
+  output $wide
   mode dock
   position top
   workspace_buttons yes
@@ -349,7 +353,7 @@ bar {
 # }}}
 # BAR NARROW 1 {{{
 bar {
-  output VGA-0
+  output $narrow1
   mode dock
   position top
   workspace_buttons yes
@@ -368,7 +372,7 @@ bar {
 # }}}
 # BAR NARROW 2 {{{
 bar {
-  output DVI-D-0
+  output $narrow2
   mode dock
   position top
   workspace_buttons yes
@@ -387,7 +391,7 @@ bar {
 # }}}
 # BAR NARROW 3 {{{
 bar {
-  output DVI-D-1
+  output $narrow3
   mode dock
   position top
   workspace_buttons yes
