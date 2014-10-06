@@ -19,6 +19,7 @@ alias y3q2='cd ~/Dropbox/Documents/UCLA/Y3Q2'
 alias euler='cd ~/Dropbox/Documents/Misc/euler;ls'
 
 # command aliases
+alias sudo='sudo -E '
 alias cl='echo "!!" | xclip'
 alias db='sudo sysctl -p && dropbox start'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
@@ -93,13 +94,10 @@ torrentadd()         { transmission-remote -a "$1"}
 torrentdaemonstart() {
     killall transmission-daemon &>/dev/null
     transmission-daemon
-    transmission-gtk -m &
-    disown
 }
 torrentdaemonstop() {
     transmission-remote --exit
     killall transmission-daemon
-    killall transmission-gtk
 }
 torrentinfo()        { transmission-remote -t $1 -i }
 torrentlist()        { transmission-remote -l }
@@ -109,20 +107,6 @@ torrentstart()       { transmission-remote -t $1 -s }
 torrentstop()        { transmission-remote -t $1 -S }
 torrentwatch()       { watch -n 5 transmission-remote -l }
 
-fkill() { ps -ef | sed 1d | fzf | awk '{print $2}' | xargs kill -${1:-9} }
-fh() { eval $(history | fzf +s | sed 's/\s*[0-9]*\s*//') }
-
-function connect() {
-  sudo iwconfig wlp3s0 essid "$1"
-}
-
-function wifi() {
-  if [ ! -e /var/run/wicd/wicd.pid ]; then
-    echo "starting wicd..."
-    sudo wicd
-  fi
-  wicd-curses
-}
 
 function say() { echo mpv -really-quiet "http://translate.google.com/translate_tts?tl=en\&q=$*" | sed 's/ /+/3g' | sh 2>/dev/null; }
 
