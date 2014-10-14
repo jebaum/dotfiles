@@ -29,7 +29,7 @@
   rc  = rebase --continue
   ri  = rebase -i
 
-  s   = status
+  s   = status --column
   ss  = status -s
 
   sa  = stash apply
