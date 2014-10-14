@@ -78,22 +78,24 @@ export GPG_TTY
 
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
 bindkey -v
+bindkey "^[[3~" delete-char         # make delete key work
 bindkey "^[[7~" beginning-of-line   # make home key work
 bindkey "^[[8~" end-of-line         # make end key work
 bindkey "^A"    beginning-of-line
-bindkey "^B"    undo                # C-b undoes last text modification (think 'back')
-bindkey "^D"    vi-find-prev-char   # C-d takes one character input, moves to prev instance
+bindkey "^B"    backward-word
 bindkey "^E"    end-of-line
-bindkey "^F"    vi-find-next-char   # C-f takes one character input, moves to next instance
+bindkey "^F"    forward-word
 bindkey "^G"    delete-char         # C-g deletes character in front of cursor, opposite C-h
 bindkey "^L"    clear-screen
 bindkey "^N"    down-history
 bindkey "^P"    up-history
 bindkey "^Q"    delete-word         # C-q deletes word in front of cursor, opposite C-w
 bindkey "^S"    sudo-command-line   # C-s inserts 'sudo' at beginning of line. oh-my-zsh plugin
-bindkey "^T"    vi-repeat-find      # C-t repeats last find
-bindkey "^V"    send-break          # C-v aborts current command
-bindkey "^[[3~" delete-char
+bindkey "^V"    vi-find-prev-char
+bindkey "^W"    backward-delete-word
+bindkey "^Y"    undo
+bindkey "^_"    vi-find-next-char
+bindkey "^@"    vi-repeat-find
 # bindkey "^R"    history-incremental-search-backward
 
 
