@@ -159,6 +159,7 @@ bindsym $mod+F4                 exec puddletag
 
 for_window [instance="vimtmp"] move scratchpad; scratchpad show
 for_window [instance="rangermpvaudio"] move scratchpad
+for_window [instance="wxremind" class="Wxremind"] floating disable
 
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
@@ -340,7 +341,7 @@ bar {
   workspace_buttons yes
   $barfont
   status_command ~/.i3/conky/wide
-  tray_output HDMI-0
+  tray_output $wide
   colors {
     $background
     $statusline
