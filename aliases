@@ -1,9 +1,6 @@
-alias reload='source ~/.aliases'
-alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
 alias aliases='vim ~/.aliases && reload'
-
-# ssh aliases
-alias sshl='ssh jebaum@linux.ucla.edu'
+alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
+alias reload='source ~/.aliases'
 
 # folder aliases
 alias lab1='cd ~/Dropbox/Documents/UCLA/Y2Q3/cs111/labs/1'
@@ -41,6 +38,7 @@ alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
 alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
 alias pandocunicode='pandoc --latex-engine=xelatex -V geometry:margin=0.5in -f markdown+hard_line_breaks' # requires texlive-latexextra on arch
+alias pirate-get='pirate-get --color -t'
 alias pong='ping 8.8.8.8 -c 4'
 alias prolog='gprolog'
 alias publish='python3 -m http.server 8080'
