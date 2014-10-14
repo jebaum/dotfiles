@@ -14,7 +14,7 @@ if has('vim_starting')
   execute 'set runtimepath^=' . s:neobundle_dir
 endif
 
-call neobundle#rc(fnamemodify(s:neobundle_dir, ':h'))
+call neobundle#begin(fnamemodify(s:neobundle_dir, ':h'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 if has('unix')
@@ -50,6 +50,7 @@ NeoBundle 'ujihisa/unite-locate'
 NeoBundle 'inside/unite-argument'
 NeoBundle 'kmnk/vim-unite-giti'                 " add maps/update menu for this. making new branch is weird
 NeoBundle 'Shougo/neossh.vim'
+NeoBundle 'Shougo/unite-help'
 
 NeoBundle 'bling/vim-airline'
 NeoBundle 'chreekat/vim-paren-crosshairs'
@@ -69,7 +70,6 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'                  " not essential
 NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'paradigm/SkyBison'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/syntastic'
@@ -91,6 +91,8 @@ NeoBundle 'vim-scripts/SyntaxRange'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'wesQ3/vim-windowswap'
 NeoBundle 'xolox/vim-misc'
+call neobundle#end()
+filetype plugin indent on
 NeoBundleCheck
 " }}}
 " }}}
@@ -148,21 +150,21 @@ cnoremap $d <CR>:d<CR>``
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   " for backward compatibility
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
 
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```c',      '```', 'c',      'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```cpp',    '```', 'cpp',    'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```java',   '```', 'java',   'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```lisp',   '```', 'lisp',   'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```ml',     '```', 'ocaml',  'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```prolog', '```', 'prolog', 'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```python', '```', 'python', 'Comment')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```text',   '```', 'text',   'Tabline')
-  autocmd BufEnter *.txt,*.md call SyntaxRange#Include('```javascript',   '```', 'javascript',   'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```c',      '```', 'c',      'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```cpp',    '```', 'cpp',    'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```java',   '```', 'java',   'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```lisp',   '```', 'lisp',   'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```ml',     '```', 'ocaml',  'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```prolog', '```', 'prolog', 'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```python', '```', 'python', 'Comment')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```text',   '```', 'text',   'Tabline')
+  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```javascript',   '```', 'javascript',   'Comment')
 augroup END
 " }}}
 " FileType autocmds {{{
@@ -635,9 +637,6 @@ let g:signify_mapping_next_hunk  = '<leader>gj' " easier to use [c and ]c
 let g:signify_mapping_prev_hunk  = '<leader>gk'
 let g:signify_sign_change        = '~'
 " }}}
-" skybison {{{
-let g:skybison_input = 1
-" }}}
 " sneak  {{{
 " TODO issues with sneak: don't highlight whitespace when doing f<Space>, and consistent s/S. i.e. s always goes forward, S always goes back
 let g:sneak#use_ic_scs = 1
@@ -863,7 +862,7 @@ let g:unite_source_menu_menus.spaceleader.command_candidates = [
 \['▷ Unite file                                                       <Space>f',       'Unite          -buffer-name=files      file'],
 \['▷ Unite grep:. (uses ag)                                           <Space>g',       'Unite          -buffer-name=ag         grep:.'],
 \['▷ Unite gist                                                       <Space>G',       'Unite          -buffer-name=gist       gist'],
-\['▷ Skybison help                                                    <Space>h',       'call SkyBison("h ")'],
+\['▷ Unite help                                                       <Space>h',       'Unite          -buffer-name=help       help'],
 \['▷ Unite find:. pattern                                             <Space>j',       'echo "run it yourself"'],
 \['▷ Unite find:. exact match                                         <Space>J',       'echo "run it yourself"'],
 \['▷ Unite process (action sigkill)                                   <Space>k',       'Unite -default-action=sigkill -buffer-name=killproc process'],
@@ -1070,7 +1069,7 @@ set ffs=unix,dos,mac           " new files use unix line endings by default
 set timeout
 set timeoutlen=3000
 set ttimeoutlen=100
-if !has('neovim')
+if !has('nvim')
   set cryptmethod=blowfish     " more secure encryption for vim -x
 endif
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
@@ -1130,8 +1129,6 @@ set shiftround      " indent by multiples of shiftwidth
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
-filetype plugin on
-filetype indent on
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -1444,7 +1441,7 @@ nnoremap <Space>d        :<C-u>Unite          -buffer-name=tabs       tab:no-cur
 nnoremap <Space>f        :<C-u>Unite          -buffer-name=files      file<CR>
 nnoremap <Space>g        :<C-u>Unite          -buffer-name=ag         grep:.<CR>
 nnoremap <Space>G        :<C-u>Unite          -buffer-name=gist       gist<CR>
-nnoremap <Space>h        2:<C-u>call SkyBison("h ")<CR>
+nnoremap <Space>h        :<C-u>Unite          -buffer-name=help       help<CR>
 nnoremap <Space>j        :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>'**'<Left><Left>
 nnoremap <Space>J        :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>''<Left>
 nnoremap <Space>k        :<C-u>Unite -default-action=sigkill -buffer-name=killproc process<CR>
