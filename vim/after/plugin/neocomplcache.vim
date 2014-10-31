@@ -95,3 +95,11 @@ if exists('g:loaded_neocomplcache')
 
     NeoComplCacheEnable
 endif
+
+
+let g:EclimCompletionMethod = 'omnifunc'
+
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.java = '\k\.\k*'

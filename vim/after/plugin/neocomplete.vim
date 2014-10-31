@@ -7,7 +7,7 @@ if exists('g:loaded_neocomplete')
   let g:neocomplete#lock_buffer_name_pattern          = '\*ku\*'
 
   " use words with at least 7 letters from google-10000 for completion in .txt files
-  let g:neocomplete#sources#dictionary#dictionaries = {'text':'/home/james/dotfiles/vim/7mydict'}
+  let g:neocomplete#sources#dictionary#dictionaries = {'_':'/home/james/dotfiles/vim/7mydict'}
 
   " Define keyword.
   if !exists('g:neocomplete#keyword_patterns')

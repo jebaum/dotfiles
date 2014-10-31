@@ -14,8 +14,8 @@ hi Folded       ctermfg=248   ctermbg=16     cterm=none  guifg=#A8A8A8  guibg=#0
 hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi LineNr       ctermfg=246   ctermbg=16     cterm=none  guifg=#949494  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
-hi NonText      ctermfg=48    ctermbg=232    cterm=none  guifg=#00FF87  guibg=#080808  gui=none
-hi Normal       ctermfg=231   ctermbg=232    cterm=none  guifg=#FFFFFF  guibg=#080808  gui=none
+hi NonText      ctermfg=48    ctermbg=8      cterm=none  guifg=#00FF87  guibg=#181818  gui=none
+hi Normal       ctermfg=231   ctermbg=8      cterm=none  guifg=#FFFFFF  guibg=#181818  gui=none
 hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
 hi StatusLine   ctermfg=230   ctermbg=238    cterm=none  guifg=#FFFFD7  guibg=#444444  gui=none
@@ -23,7 +23,7 @@ hi StatusLineNC ctermfg=241   ctermbg=238    cterm=none  guifg=#626262  guibg=#4
 hi TabLine      ctermfg=246   ctermbg=16     cterm=none  guifg=#949494  guibg=#000000  gui=none
 hi TabLineFill  ctermfg=234   ctermbg=234    cterm=none  guifg=#1C1C1C  guibg=#1C1C1C  gui=none
 hi TabLineSel   ctermfg=231   ctermbg=24     cterm=bold  guifg=#FFFFFF  guibg=#005F87  gui=bold
-hi Title        ctermfg=230   ctermbg=none   cterm=bold  guifg=#FFFFD7  guibg=#000000  gui=bold
+hi Title        ctermfg=230   ctermbg=none   cterm=bold  guifg=#FFFFD7  guibg=NONE     gui=bold
 hi VertSplit    ctermfg=242   ctermbg=242    cterm=none  guifg=#6C6C6C  guibg=#6C6C6C  gui=none
 hi Visual       ctermfg=231   ctermbg=54     cterm=none  guifg=#FFFFFF  guibg=#5F0087  gui=none
 hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none  guifg=#C6C6C6  guibg=#303030  gui=none
@@ -32,9 +32,9 @@ hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none  guifg=#FFFF00  guibg=#0
 hi! link FoldColumn   Folded
 
 if version >= 700
-hi CursorLine   ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
-hi CursorColumn ctermfg=NONE ctermbg=234     cterm=none  guifg=NONE     guibg=#1C1C1C  gui=none
-hi CursorLineNr ctermfg=201  ctermbg=233     cterm=none  guifg=#FF00FF  guibg=#121212  gui=none
+hi CursorLine   ctermfg=NONE ctermbg=16      cterm=none  guifg=NONE     guibg=#000000  gui=none
+hi! link CursorColumn CursorLine
+hi CursorLineNr ctermfg=226  ctermbg=237     cterm=none  guifg=#FFFF00  guibg=#3A3A3A  gui=none
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=251  ctermbg=235     cterm=none  guifg=#C6C6C6  guibg=#262626  gui=none
 hi PmenuSel     ctermfg=233  ctermbg=73      cterm=none  guifg=#121212  guibg=#5FAFAF  gui=none

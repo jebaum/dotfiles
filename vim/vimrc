@@ -3,97 +3,117 @@ colorscheme guimiromod
 runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
 let mapleader = ','
-" NeoBundle {{{
-let s:neobundle_dir=expand('~/.vim/bundle/neobundle.vim')
-if !isdirectory(s:neobundle_dir)
-  execute 'silent !git clone https://github.com/Shougo/neobundle.vim.git ' . s:neobundle_dir
+if has('nvim')
+  runtime! plugin/python_setup.vim
+endif
+" Vim-Plug {{{
+if !filereadable($HOME . "/.vim/autoload/plug.vim")
+  execute "silent !mkdir ~/.vim/autoload"
+  execute "silent !curl -fLo ~/.vim/autoload/plug.vim 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'"
 endif
 
-if has('vim_starting')
-  set nocompatible
-  execute 'set runtimepath^=' . s:neobundle_dir
+if !isdirectory(expand('~/.vim/bundle'))
+  let b:plug_first_time_run = 1
+else
+  let b:plug_first_time_run = 0
 endif
+let g:plug_threads = 63
 
-call neobundle#begin(fnamemodify(s:neobundle_dir, ':h'))
-
-NeoBundleFetch 'Shougo/neobundle.vim'
+call plug#begin('~/.vim/bundle')
 if has('unix')
-  NeoBundle 'Shougo/vimproc.vim', {'build': {'unix': 'make -f make_unix.mak'}}
-  NeoBundle 'gregsexton/gitv'
-  NeoBundle 'mhinz/vim-tmuxify'
+  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+  Plug 'gregsexton/gitv',    {'on': 'Gitv'}
+  Plug 'mhinz/vim-tmuxify'
 endif
 
 if has('python')
-  NeoBundle 'honza/vim-snippets'
-  NeoBundle 'SirVer/ultisnips'
-  NeoBundle 'Valloric/MatchTagAlways'
+  Plug 'honza/vim-snippets'
+  Plug 'SirVer/ultisnips'
+  Plug 'Valloric/MatchTagAlways'
 endif
 
-" settings for these plugins defined in `after/plugin` directory
-if has('g:use_neocomplete')
-  NeoBundle 'Shougo/neocomplete.vim'
+" in directories with java projects, I want to use youcompleteme + eclim
+function! InJavaDirectory()
+  let JavaDirs = [$HOME . '/Dropbox/Documents/UCLA/Y4Q1/cs130/YAMLCal']
+  for entry in JavaDirs | if getcwd() == entry | return 1 | endif | endfor
+endfunction
+
+" settings for completion plugins defined in `after/plugin` directory
+if has('python') && (exists('g:ycm') || InJavaDirectory())
+  " use YCM if we have python, are in a java directory, or g:ycm was defined at launch with --cmd
+  Plug 'Valloric/YouCompleteMe'
+  let g:EclimCompletionMethod = 'omnifunc'
+elseif has('lua')
+  Plug 'Shougo/neocomplete.vim'
 else
-  " NeoBundle 'tarruda/YouCompleteMe', {'build': {'unix': './install.sh --clang-completer --system-libclang'},}
-  " NeoBundle 'Shougo/neocomplcache.vim'
-  " NeoBundle 'JazzCore/neocomplcache-ultisnips'
-  NeoBundle 'othree/vim-autocomplpop', {'depends' : 'eparreno/vim-l9'}
+  Plug 'Shougo/neocomplcache.vim'
+  Plug 'JazzCore/neocomplcache-ultisnips'
 endif
 
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'majkinetor/unite-cmdmatch'
-NeoBundle 'mattn/unite-gist'
-NeoBundle 'sgur/unite-qf'
-NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'Shougo/unite-session'                "add maps/update menu. probably will only use to list sessions, use simple-session for making?
-NeoBundle 'ujihisa/unite-locate'
-NeoBundle 'inside/unite-argument'
-NeoBundle 'kmnk/vim-unite-giti'                 " add maps/update menu for this. making new branch is weird
-NeoBundle 'Shougo/neossh.vim'
-NeoBundle 'Shougo/unite-help'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/unite-outline'
+Plug 'majkinetor/unite-cmdmatch'
+Plug 'lambdalisue/vim-gista'
+Plug 'sgur/unite-qf'
+Plug 'tsukkee/unite-tag'
+Plug 'Shougo/unite-session'                "add maps/update menu. probably will only use to list sessions, use simple-session for making?
+Plug 'ujihisa/unite-locate'
+Plug 'inside/unite-argument'
+Plug 'Shougo/unite-help'
+" Plug 'Shougo/neossh.vim' ", {'on': ['Unite', 'VimFiler']}
 
-NeoBundle 'bling/vim-airline'
-NeoBundle 'chreekat/vim-paren-crosshairs'
-NeoBundle 'ciaranm/detectindent'
-NeoBundle 'dockyard/vim-easydir'
-NeoBundle 'duff/vim-scratch'
-NeoBundle 'gcmt/taboo.vim'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'jamessan/vim-gnupg'
-NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'kshenoy/vim-togglelist'
-NeoBundle 'luochen1990/rainbow'
-NeoBundle 'majutsushi/tagbar'                   " rarely used
-NeoBundle 'manuel-colmenero/vim-simple-session'
-NeoBundle 'mattn/gist-vim'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mhinz/vim-signify'
-NeoBundle 'mhinz/vim-startify'                  " not essential
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'Shougo/vimfiler.vim', {'depends' : 'Shougo/unite.vim' }
-NeoBundle 'Shougo/vinarise.vim'                 " rarely used
-NeoBundle 't9md/vim-choosewin'                  " TODO: add better keymaps and tweak settings
-NeoBundle 'thinca/vim-qfreplace'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'tmhedberg/SimpylFold'
-NeoBundle 'tommcdo/vim-exchange'
-NeoBundle 'tpope/vim-abolish'                   " rarely used, but should use more
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'tpope/vim-eunuch'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'vim-scripts/SyntaxRange'
-NeoBundle 'wellle/targets.vim'
-NeoBundle 'wesQ3/vim-windowswap'
-NeoBundle 'xolox/vim-misc'
-call neobundle#end()
-filetype plugin indent on
-NeoBundleCheck
+"Plug 'bling/vim-airline'
+Plug 'bruno-/vim-husk'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ciaranm/detectindent'
+Plug 'dockyard/vim-easydir'
+Plug 'duff/vim-scratch',     {'on': 'Scratch'}
+Plug 'gcmt/taboo.vim'
+Plug 'godlygeek/tabular',    {'on': ['Tabularize', 'TabFirst']}
+Plug 'idbrii/AsyncCommand',  {'on': ['AsyncPending', 'AsyncCommand', 'AsyncShell', 'AsyncGrep', 'AsyncMake', 'AsyncCscopeFindX', 'AsyncCscopeFindSymbol', 'AsyncCscopeFindCalls']}
+Plug 'jamessan/vim-gnupg'
+Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
+Plug 'jaxbot/semantic-highlight.vim', {'on': ['SemanticHighlightToggle', 'SemanticHighlight', 'SemanticHighlightRevert']}
+Plug 'junegunn/fzf'
+Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
+Plug 'junegunn/vim-oblique'
+Plug 'junegunn/vim-pseudocl'
+Plug 'justinmk/vim-matchparenalways', {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
+Plug 'justinmk/vim-sneak'
+Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
+Plug 'luochen1990/rainbow'
+Plug 'majutsushi/tagbar',    {'on': ['Tagbar', 'TagbarOpen']}
+Plug 'manuel-colmenero/vim-simple-session'
+Plug 'mattn/webapi-vim' " required by vim-github-comment
+Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)', '<Plug>(signify-toggle)', '<Plug>(signify-toggle-highlight)']}
+Plug 'mhinz/vim-startify'
+Plug 'mmozuras/vim-github-comment', {'on': 'GHComment'}
+Plug 'osyo-manga/vim-anzu'
+Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
+Plug 'rking/ag.vim',         {'on': ['Ag', 'AgAdd', 'AgFromSearch', 'LAg', 'LAgAdd', 'AgFile', 'AgHelp', 'LAgHelp']}
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/syntastic'
+Plug 'Shougo/vimfiler.vim',  {'on': ['VimFiler', 'VimFilerExplorer']}
+Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
+Plug 'stefandtw/quickfix-reflector.vim'
+Plug 't9md/vim-choosewin',   {'on': ['ChooseWin', '<Plug>(choosewin)', '<Plug>(choosewin-swap)', '<Plug>(choosewin-swap-again)']} " TODO add better keymaps and tweak settings
+Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
+Plug 'tmhedberg/SimpylFold', {'for': 'python'}
+Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
+Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
+Plug 'tpope/vim-dispatch',   {'on': ['Make', 'Copen', 'Dispatch', 'FocusDispatch', 'Start', 'Spawn']}
+Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-scripts/SyntaxRange', {'for': ['text', 'markdown']} " TODO causes problems when doing :h thing.txt
+Plug 'wellle/targets.vim'
+
+call plug#end()
+if b:plug_first_time_run == 1
+  PlugInstall
+endif
 " }}}
 " }}}
 " Misc {{{
@@ -131,13 +151,8 @@ cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
 cnoreabbrev va vimgrepadd
 cnoreabbrev vg vimgrep
 
-cnoremap <C-a>  <Home>
-" cnoremap <silent> <C-c> <C-c>:set nocursorcolumn<CR>
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
-" TODO: think of better maps for these consistent with hjkl
-cnoremap <C-j>  <S-Left>
-cnoremap <C-l>  <S-Right>
 
 " allows incsearch highlighting for range commands
 cnoremap $t <CR>:t''<CR>
@@ -526,6 +541,12 @@ function! AirlineThemePatch(palette)
   endif
 endfunction
 " }}}
+" choosewin {{{
+let g:choosewin_overlay_enable = 1
+nmap <leader><leader>w <Plug>(choosewin)
+nmap <leader><leader>s <Plug>(choosewin-swap)
+nmap <leader><leader>a <Plug>(choosewin-swap-again)
+" }}}
 " detectindent {{{
 let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
@@ -535,6 +556,13 @@ let g:detectindent_max_lines_to_analyse = 1024
 augroup DISPATCH
   autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
 augroup END
+" }}}
+" exchange {{{
+" need to define default mappings in vimrc for vim-plug lazy loading to work
+nmap cx <Plug>(Exchange)
+xmap X <Plug>(Exchange)
+nmap cxc <Plug>(ExchangeClear)
+nmap cxx <Plug>(ExchangeLine)
 " }}}
 " fugitive {{{
 command! -nargs=1 -bar Gbranch   call GitBranch(<f-args>)
@@ -556,8 +584,17 @@ autocmd User fugitive  " .. to go back up to parent directory when browsing git 
 
 autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
 " }}}
-" gist {{{
-let g:gist_post_private = 1 " gists are private by default
+" fzf {{{
+let g:fzf_launcher='urxvt -e sh -c %s'
+" }}}
+" gista {{{
+let g:gista#post_private = 1
+" }}}
+" github-comment {{{
+let g:github_user = 'jebaum'
+" }}}
+" github-dashboard {{{
+let g:github_dashboard = {'username': 'jebaum'}
 " }}}
 " gitv {{{
 let g:Gitv_OpenHorizontal = 1
@@ -572,12 +609,29 @@ let g:mta_filetypes = {
     \ 'php' : 1,
     \}
 " }}}
+" matchparenalways {{{
+let g:blockify_pairs = { 'lisp': [ '(', ')' ] }
+" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
 " }}}
 " netrw {{{
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+" }}}
+" oblique {{{
+" TODO: make active match more obvious. i.e. completely different color scheme, not just brighter
+" i should use / more for movement. also this highlight group isn't getting applied
+highlight! ObliqueCurrentIncSearch ctermbg=231
+let g:oblique#incsearch_highlight_all = 1
+let g:oblique#very_magic = 1
+map n <Plug>(Oblique-n)<Plug>(anzu-update-search-status-with-echo)
+map N <Plug>(Oblique-N)<Plug>(anzu-update-search-status-with-echo)
+
+nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc nocul' : 'cuc cul') . '<CR>'
+augroup FancyCR
+  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+augroup END
 " }}}
 " quickrun {{{
 let g:quickrun_config         = {}  " initialize dictionary
@@ -624,6 +678,10 @@ let g:rainbow_conf = {
 \   }
 \}
 " }}}
+" semantic-highlight {{{
+let g:semanticTermColors = [28,1,2,3,4,5,6,7,25,9,10,34,12,13,14,15,16,125,124,19]
+let g:semanticGUIColors = [ '#72d572', '#c5e1a5', '#e6ee9c', '#fff59d', '#ffe082', '#ffcc80', '#ffab91', '#bcaaa4', '#b0bec5', '#ffa726', '#ff8a65', '#f9bdbb', '#f9bdbb', '#f8bbd0', '#e1bee7', '#d1c4e9', '#ffe0b2', '#c5cae9', '#d0d9ff', '#b3e5fc', '#b2ebf2', '#b2dfdb', '#a3e9a4', '#dcedc8' , '#f0f4c3', '#ffb74d' ]
+" }}}
 " sessions {{{
 " settings for both vim-simple-session and unite-session
 call system('mkdir -p ~/.vim/session')
@@ -636,6 +694,12 @@ let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
 let g:signify_mapping_next_hunk  = '<leader>gj' " easier to use [c and ]c
 let g:signify_mapping_prev_hunk  = '<leader>gk'
 let g:signify_sign_change        = '~'
+nmap <leader>gk <Plug>(signify-prev-hunk)
+nmap <leader>gj <Plug>(signify-next-hunk)
+nmap <leader>gh <Plug>(signify-toggle-highlight)
+nmap <leader>gt <Plug>(signify-toggle)
+nmap ]c         <Plug>(signify-next-hunk)
+nmap [c         <Plug>(signify-prev-hunk)
 " }}}
 " sneak  {{{
 " TODO issues with sneak: don't highlight whitespace when doing f<Space>, and consistent s/S. i.e. s always goes forward, S always goes back
@@ -657,17 +721,17 @@ omap T <Plug>Sneak_T
 nmap ; <Plug>SneakNext
 omap ; <Plug>SneakNext
 xmap ; <Plug>VSneakNext
-nmap <Space>; <Plug>SneakPrevious
-omap <Space>; <Plug>SneakPrevious
-xmap <Space>; <Plug>SneakPrevious
+nmap <Esc>; <Plug>SneakPrevious
+omap <Esc>; <Plug>SneakPrevious
+xmap <Esc>; <Plug>SneakPrevious
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
 let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO.txt' ]
 let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
-let g:startify_session_autoload  = 0  " opening directories with a Session.vim will have it auto load
-let g:startify_change_to_dir     = 1     " when opening file or bookmark, change to its directory
+let g:startify_session_autoload  = 0 " opening directories with a Session.vim will have it auto load
+let g:startify_change_to_dir     = 1 " when opening file or bookmark, change to its directory
 let g:startify_custom_indices    = ['a','f','h','j','k','l','w','r','u','o','p','z','x','n','m']
 let g:startify_custom_header     = [
   \ '    /\\\        /\\\   /\\\\\\\\\\\   /\\\\            /\\\\  ',
@@ -732,15 +796,16 @@ let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
 let g:tmuxify_run = {}
 
+" TODO: replace this by using the g:tmuxify_run variable above? example in the tmuxify readme
 function! SetTmuxifyRun()
   if &filetype != ''
     execute 'let g:tmuxify_run.' . &filetype . '="' . GenerateRunCommand() . '"'
   endif
 endfunction
 
-augroup TMUXIFY
-  autocmd BufEnter * call SetTmuxifyRun()
-augroup END
+" augroup TMUXIFY
+  " autocmd BufEnter * call SetTmuxifyRun()
+" augroup END
 " }}}
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger       = "<C-l>"
@@ -794,7 +859,7 @@ let g:unite_source_menu_menus.leader.command_candidates = [
 \['▷ Dispatch                                <leader><leader>d',  'Dispatch'],
 \['▷ toggle copen                            <leader>e',          'lclose | let g:ToggleList.cmd.copen="copen" | ToggleQF'],
 \['▷ toggle Copen (dispatch)                 <leader>E',          'lclose | let g:ToggleList.cmd.copen="Copen" | ToggleQF'],
-\['▷ toggle foldmethod                       <leader>f',          'set foldmethod=syntax | set foldmethod=manual'],
+\['▷ toggle foldmethod                       <leader>F',          'set foldmethod=syntax | set foldmethod=manual'],
 \['▷ Targets.vim opfunc insert               <leader>i',          'echo "run it yourself"'],
 \['▷ toggle lopen                            <leader>l',          'cclose | ToggleLL'],
 \['▷ Make! -j4 all                           <leader>ma',         'Make! -j4 all'],
@@ -895,9 +960,9 @@ call unite#custom#profile('default', 'context', {
 \ })
 call unite#custom#profile('default', 'context.ignorecase', 1)
 call unite#custom#profile('default', 'context.smartcase', 1)
-call unite#filters#matcher_default#use(['matcher_glob'])
-" TODO: this could be slow, experiment with other sorters
-" call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#sorter_default#use(['sorter_selecta'])
+call unite#filters#sorter_default#use(['sorter_rank'])
 " unite-outline settings
 call unite#set_profile('outline', 'context.smartcase',  1)
 let g:unite_source_outline_filetype_options = {
@@ -908,6 +973,7 @@ let g:unite_source_outline_filetype_options = {
     \ },
     \}
 
+" TODO these need to be updated with new unite style. see help for details
 let g:unite_cursor_line_highlight           = "UniteSel"
 let g:unite_source_file_mru_long_limit      = 3000
 let g:unite_source_directory_mru_long_limit = 3000
@@ -916,7 +982,7 @@ let g:unite_winheight                       = 20
 let g:unite_split_rule                      = 'botright'
 let g:unite_prompt                          = '» '
 let g:unite_update_time                     = 500   " in milliseconds
-let g:unite_source_rec_async_command        = 'ag --nocolor --nogroup --hidden -g ""'
+let g:unite_source_rec_async_command        = 'ag --follow --nocolor --nogroup --hidden -g ""'
 let g:unite_source_history_yank_enable      = 1
 let g:unite_enable_ignore_case              = 1
 let g:unite_enable_smart_case               = 1
@@ -943,7 +1009,7 @@ function! s:unite_my_settings()
   nmap <buffer> <C-c>   <Plug>(unite_all_exit)
   imap <buffer> <C-c>   <Plug>(unite_insert_leave)
   imap <buffer> <C-d>   <Plug>(unite_exit)
-	imap <buffer> <C-f>   <Plug>(unite_choose_action)
+  imap <buffer> <C-f>   <Plug>(unite_choose_action)
 
   imap <buffer> <Tab>   <Plug>(unite_toggle_mark_current_candidate)
   imap <buffer> <S-Tab> <Plug>(unite_toggle_mark_current_candidate_up)
@@ -991,9 +1057,6 @@ function! s:unite_my_settings()
 endfunction
 " }}}
 " }}}
-" windowswap {{{
-let g:windowswap_map_keys = 0 " maps <leader>w by default, which I use for :w!
-" }}}
 " vimfiler {{{
 let g:vimfiler_as_default_explorer  = 1
 let g:vimfiler_safe_mode_by_default = 0
@@ -1027,16 +1090,16 @@ endfunction
 " }}}
 " General {{{
 " Set options {{{
+set number                     " show line numbers
+set relativenumber             " use relative line numbers
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
 set ttyfast                    " redraw screen faster
-set lazyredraw                 " don't redraw the screen while executing macros
+set lazyredraw                 " don't redraw the screen w ile executing macros
 set restorescreen=on           " restore screen contents on exit
 set clipboard=unnamedplus      " by default, use system clipboard for yanks ('+' register)
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
-set number                     " show line numbers
-set relativenumber             " use relative line numbers
 set backspace=indent,eol,start " allow backspace in insert mode
 set esckeys                    " make numpad work
 set autoread                   " reload files changed outside of vim
@@ -1052,7 +1115,6 @@ set showcmd                    " show current command or visual selection info i
 set cmdwinheight=10            " height of command line window
 set showmatch                  " flash to matching paren when typing
 set matchtime=3                " tenths of a second to flash to matching paren
-set cursorline                 " hilight cursor line
 set incsearch                  " find as you type
 set hlsearch                   " hilight search terms
 set magic                      " change how backslashes are handled in searches
@@ -1176,7 +1238,15 @@ endif
 " }}}
 " Keymaps {{{
 " Misc {{{
-" fix the esc/alt mapping problem in terminal vim
+" always show multiple tag options, <C-w> to open in new window
+"nnoremap <C-]> <C-w>g<C-]>
+nnoremap <C-]> g<C-]>
+
+" repeat last substitute like :s, but preserve flags
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
+" }}}
+" fix the esc/alt mapping problem in terminal vim {{{
 if !has('gui_running')
   set ttimeoutlen=10
   augroup FastEscape
@@ -1185,14 +1255,7 @@ if !has('gui_running')
     autocmd InsertLeave * :set timeoutlen=2000
   augroup END
 endif
-" always show multiple tag options, <C-w> to open in new window
-"nnoremap <C-]> <C-w>g<C-]>
-nnoremap <C-]> g<C-]>
-
-" repeat last substitute like :s, but preserve flags
-nnoremap & :&&<CR>
-xnoremap & :&&<CR>
-
+" }}}
 " make/run maps with quickrun/vimproc, gm gr {{{
 nnoremap <silent> gma :QuickRun make -args all<CR>
 nnoremap <silent> gmc :QuickRun make -args clean<CR>
@@ -1206,14 +1269,6 @@ vnoremap <silent> gr :QuickRun -mode v -runner vimproc<CR>
 " }}}
 " misc g maps {{{
 nnoremap          gb    gw{gw}
-nnoremap          gh    <C-w><Left>
-nnoremap          gj    <C-w><Down>
-nnoremap          gk    <C-w><Up>
-nnoremap          gl    <C-w><Right>
-nnoremap          gH    <C-w>H
-nnoremap          gJ    <C-w>J
-nnoremap          gK    <C-w>K
-nnoremap          gL    <C-w>L
 nnoremap          go    :ls<CR>:sb<Space>
 nnoremap          gO    :ls<CR>:b<Space>
 nnoremap          gs    gnv
@@ -1230,17 +1285,13 @@ function! Altmap(char)
 endfunction
 let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 " }}}
-" changed default keys M * # - _ z<Space> {{{
+" TODO these are all shit changed default keys M - _ z<Space> {{{
 nnoremap M %
 onoremap M %
-nnoremap * *N
-nnoremap # #N
-nnoremap - 10jzz
-nnoremap _ 10kzz
-nnoremap z<Space> zMzv
-" more useful * and # from visual mode
-xnoremap * :<C-u>call VSetSearch('/')<CR>/<C-R>=@/<CR><CR>N:set cursorline cursorcolumn hlsearch<CR>
-xnoremap # :<C-u>call VSetSearch('?')<CR>?<C-R>=@/<CR><CR>N:set cursorline cursorcolumn hlsearch<CR>
+vnoremap M %
+" nnoremap - 10jzz
+" nnoremap _ 10kzz
+" nnoremap z<Space> zMzv
 " }}}
 " easily toggle command line window with Q {{{
 nnoremap Q q:
@@ -1275,41 +1326,6 @@ nnoremap "+x "+x
 nnoremap <expr> X v:register == '+' ? '"xX' : 'X'
 nnoremap "+X "+X
 " }}}
-" fancy search maps {{{
-highlight! link CurSearch IncSearch
-function! HighlightCurrentMatch()
-    let col = col(".") - 1
-    let endCol = searchpos(getreg("/"), "cne")[1] + 1
-    let line = line(".")
-    let matchPat = '/\%' . line . 'l\%>' . col . 'c\%<' . endCol . 'c/'
-    echomsg matchPat
-
-    3match none
-    exe ':3match CurSearch ' . matchPat
-endfunction
-
-function! ToggleFancyN(status)
-    if a:status == 'on'
-        execute 'nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>/<CR>zv:silent! call HighlightCurrentMatch()<CR>'
-        execute 'nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>?<CR>zv:silent! call HighlightCurrentMatch()<CR>'
-    else
-        execute 'nnoremap <silent> n /<CR>zv'
-        execute 'nnoremap <silent> N ?<CR>zv'
-    endif
-endfunction
-
-nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc <Bar> 3match none' : 'cuc<CR>:call ToggleFancyN("on")<CR>:silent call HighlightCurrentMatch()') . '<CR>'
-augroup FancyCR
-  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
-augroup END
-
-nnoremap <silent> n :set cursorline cursorcolumn hlsearch<CR>/<CR>zv
-nnoremap <silent> N :set cursorline cursorcolumn hlsearch<CR>?<CR>zv
-nnoremap /          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>/
-nnoremap ?          :set cursorline nohlsearch<CR>:call ToggleFancyN('off')<CR>?
-execute 'nnoremap ' . g:ctrl_space . ' :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN("on")<CR>?\V'
-onoremap <C-f> /\V
-" }}}
 " quickfix maps {{{
 augroup QuickFix
   autocmd FileType qf setlocal nosplitbelow nosplitright
@@ -1339,7 +1355,6 @@ nnoremap <left>      :vertical resize -2<CR>
 nnoremap <down>      :resize -2<CR>
 nnoremap <right>     :vertical resize +2<CR>
 " }}}
-" }}}
 " Text Object / targets.vim maps {{{
 let g:targets_pairs       = '()p {}c []r <>a'
 let g:targets_quotes      = "\"d 's `e"
@@ -1365,9 +1380,12 @@ nnoremap <F2>          :set spell!<CR>
 nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>d    :Dispatch!<CR>
-nnoremap <silent> <leader>e    :lclose<CR>:let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
-nnoremap <silent> <leader>E    :lclose<CR>:let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
-nnoremap <silent> <leader>f    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+nnoremap <silent> <leader>e    :lclose<CR>:silent! let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
+nnoremap <silent> <leader>E    :lclose<CR>:silent! let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
+nnoremap <silent> <leader>fe   :FZF<CR>
+nnoremap <silent> <leader>fs   :call fzf#run({'tmux_height': '40%', 'sink':'bo sp' })<CR>
+nnoremap <silent> <leader>fv   :call fzf#run({ 'tmux_width': winwidth('.') / 2,'sink': 'vert bo sp' })<CR>
+nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                         g    fugitive and signify maps
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
@@ -1399,11 +1417,8 @@ nnoremap <silent> <leader>tr :AgOpenQF TODO<CR>
 vnoremap <silent> <leader>sr :<C-u>call VSetSearch('/')<CR>gv"sy:Ag -Q <C-r>=@s<CR><CR>
 nnoremap          <leader>sr :AgOpenQF<Space>
 
-nnoremap <silent> <leader><leader>a  :redraw!<CR>
+nnoremap <silent> <leader><leader>r  :redraw!<CR>
 nnoremap <silent> <leader><leader>d  :Dispatch<CR>
-nnoremap <silent> <leader><leader>p  :call WindowSwap#DoWindowSwap()<CR>
-nnoremap <silent> <leader><leader>w  :call WindowSwap#EasyWindowSwap()<CR>
-nnoremap <silent> <leader><leader>y  :call WindowSwap#MarkWindowSwap()<CR>
 " }}}
 " <leader>g[jkht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
@@ -1435,43 +1450,42 @@ nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " }}}
 " space leader maps. unite + tabularize {{{
-nnoremap <Space>a        :<C-u>Unite          -buffer-name=arglist    argument<CR>
-nnoremap <Space>b        :<C-u>Unite          -buffer-name=buffers    buffer<CR>
-nnoremap <Space>d        :<C-u>Unite          -buffer-name=tabs       tab:no-current<CR>
-nnoremap <Space>f        :<C-u>Unite          -buffer-name=files      file<CR>
-nnoremap <Space>g        :<C-u>Unite          -buffer-name=ag         grep:.<CR>
-nnoremap <Space>G        :<C-u>Unite          -buffer-name=gist       gist<CR>
-nnoremap <Space>h        :<C-u>Unite          -buffer-name=help       help<CR>
-nnoremap <Space>j        :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>'**'<Left><Left>
-nnoremap <Space>J        :<C-u>Unite          -buffer-name=find       find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>''<Left>
+nnoremap <Space>a        :<C-u>Unite -resume -buffer-name=arglist    argument<CR>
+nnoremap <Space>b        :<C-u>Unite -resume -buffer-name=buffers    buffer<CR>
+nnoremap <Space>d        :<C-u>Unite -resume -buffer-name=tabs       tab:no-current<CR>
+nnoremap <Space>f        :<C-u>Unite -resume -buffer-name=files      file<CR>
+nnoremap <Space>g        :<C-u>Unite -resume -buffer-name=ag         grep:.<CR>
+nnoremap <Space>G        :<C-u>Unite -resume -buffer-name=gist       gist<CR>
+nnoremap <Space>h        :<C-u>Unite -resume -buffer-name=help       help<CR>
+nnoremap <Space>L        :<C-u>Unite -resume -buffer-name=launcher   launcher<CR>
+nnoremap <Space>ol       :<C-u>Unite -resume -buffer-name=lines      line<CR>
+nnoremap <Space>oo       :<C-u>Unite -resume -buffer-name=outline    outline<CR>
+nnoremap <Space>q        :<C-u>Unite -resume -buffer-name=quickfix   qf<CR>
+nnoremap <Space>r        :<C-u>Unite -resume -buffer-name=file_rec   file_rec/async:!<CR>
+nnoremap <Space>sl       :<C-u>Unite -resume -buffer-name=sessions   session<CR>
+nnoremap <Space>sn       :<C-u>Unite -resume -buffer-name=new_session session/new<CR>
+nnoremap <Space>t        :<C-u>Unite -resume -buffer-name=tags       tag<CR>a<BS>
+nnoremap <Space>vf       :<C-u>Unite -resume -buffer-name=functions  function<CR>
+nnoremap <Space>vm       :<C-u>Unite -resume -buffer-name=mappings   mapping<CR>
+nnoremap <Space>vr       :<C-u>Unite -resume -buffer-name=runtimepath runtimepath<CR>
+nnoremap <Space>w        :<C-u>Unite -resume -buffer-name=window     window:no-current<CR>
+nnoremap <Space><Space>  :<C-u>Unite -resume -buffer-name=sources    source<CR>
+nnoremap <Space><CR>     :<C-u>Unite -resume -buffer-name=output     output<CR>
+nnoremap <Space>:        :<C-u>Unite -resume -buffer-name=cmdmatch   cmdmatch<CR>
+
+nnoremap <Space>j        :<C-u>Unite          -buffer-name=find    -resume   find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>'**'<Left><Left>
+nnoremap <Space>J        :<C-u>Unite          -buffer-name=find    -resume   find:.<CR><Left><Left><Left><Left><Left>i<Right><Right><Right><Right><Right>''<Left>
 nnoremap <Space>k        :<C-u>Unite -default-action=sigkill -buffer-name=killproc process<CR>
 nnoremap <Space>l        :<C-u>UniteWithInput -buffer-name=locate     locate<CR>
-nnoremap <Space>L        :<C-u>Unite          -buffer-name=launcher   launcher<CR>
-nnoremap <Space>ol       :<C-u>Unite          -buffer-name=lines      line<CR>
-nnoremap <Space>oo       :<C-u>Unite          -buffer-name=outline    outline<CR>
-nnoremap <Space>pl       :<C-u>Unite          -no-start-insert        neobundle/log<CR>
-nnoremap <Space>pu       :<C-u>Unite          -no-start-insert        neobundle/update<CR>
-nnoremap <Space>q        :<C-u>Unite          -buffer-name=quickfix   qf<CR>
-nnoremap <Space>r        :<C-u>Unite          -buffer-name=file_rec   file_rec/async<CR>
-nnoremap <Space>sl       :<C-u>Unite          -buffer-name=sessions   session<CR>
-nnoremap <Space>sn       :<C-u>Unite          -buffer-name=new_session session/new<CR>
-nnoremap <Space>t        :<C-u>Unite          -buffer-name=tags       tag<CR>a<BS>
-nnoremap <Space>vf       :<C-u>Unite          -buffer-name=functions  function<CR>
-nnoremap <Space>vm       :<C-u>Unite          -buffer-name=mappings   mapping<CR>
-nnoremap <Space>vr       :<C-u>Unite          -buffer-name=runtimepath runtimepath<CR>
-nnoremap <Space>w        :<C-u>Unite          -buffer-name=window     window:no-current<CR>
-nnoremap <Space><Space>  :<C-u>Unite          -buffer-name=sources    source<CR>
-nnoremap <Space><CR>     :<C-u>Unite          -buffer-name=output     output<CR>
-nnoremap <Space>:        :<C-u>Unite          -buffer-name=cmdmatch   cmdmatch<CR>
 
 " menus
-nnoremap <Space>mm       :<C-u>Unite menu<CR>
-nnoremap <Space>mg       :<C-u>Unite -silent -winheight=25 menu:git<CR>
-nnoremap <Space>m,       :<C-u>Unite -silent -winheight=30 menu:leader<CR>
-nnoremap <Space>mN       :<C-u>Unite -silent               menu:navigation<CR>
-nnoremap <Space>mn       :<C-u>Unite -silent               menu:neobundle<CR>
-nnoremap <Space>m<Space> :<C-u>Unite -silent -winheight=29 menu:spaceleader<CR>
-nnoremap <Space>mv       :<C-u>Unite -silent               menu:vim<CR>
+nnoremap <Space>mm       :<C-u>Unite -resume menu<CR>
+nnoremap <Space>mg       :<C-u>Unite -resume -silent -winheight=25 menu:git<CR>
+nnoremap <Space>m,       :<C-u>Unite -resume -silent -winheight=30 menu:leader<CR>
+nnoremap <Space>mN       :<C-u>Unite -resume -silent               menu:navigation<CR>
+nnoremap <Space>mn       :<C-u>Unite -resume -silent               menu:neobundle<CR>
+nnoremap <Space>m<Space> :<C-u>Unite -resume -silent -winheight=29 menu:spaceleader<CR>
+nnoremap <Space>mv       :<C-u>Unite -resume -silent               menu:vim<CR>
 
 
 " `:TabFirst =` to align to first equal sign. similar to `:Tabularize /=.*/`
@@ -1480,9 +1494,6 @@ command! -nargs=1 -range TabFirst exec <line1> . ',' . <line2> . 'Tabularize /^[
 " ctrl normal mode {{{
 nnoremap <C-w><C-b>         :VimFilerExplorer -find<CR>:redraw!<CR>
 nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
-nnoremap <silent> <C-c>     :set nocursorcolumn<CR>:call ToggleFancyN('off')<CR>:3match none<CR>
-nnoremap <C-f>              :set cursorline cursorcolumn hlsearch<CR>:call ToggleFancyN('on')<CR>/\V
-nnoremap <C-h>              :TagbarOpen fjc<CR>
 nnoremap <C-n>              gt
 nnoremap <C-p>              gT
 nnoremap <C-w>o             <C-w>o:redraw!<CR>
@@ -1495,6 +1506,10 @@ inoremap <C-c>   <Esc><Esc>`^
 inoremap <C-e>   <End>
 " }}}
 " alt normal mode {{{
+nnoremap          gH    <C-w>H
+nnoremap          gJ    <C-w>J
+nnoremap          gK    <C-w>K
+nnoremap          gL    <C-w>L
 exec 'nnoremap <silent> ' . Altmap('a') . ' :AirlineToggle<CR>'
 exec 'nnoremap <silent> ' . Altmap('h') . ' :execute "vertical resize " . (winwidth(0) * 5/6)<CR>'
 exec 'nnoremap <silent> ' . Altmap('j') . ' :execute "resize " . (winheight(0) * 5/6)<CR>'
@@ -1514,6 +1529,12 @@ exec 'nnoremap <silent> ' . Altmap('7') . ' 7gt'
 exec 'nnoremap <silent> ' . Altmap('8') . ' 8gt'
 exec 'nnoremap <silent> ' . Altmap('9') . ' 9gt'
 exec 'nnoremap <silent> ' . Altmap('0') . ' :tablast<CR>'
+
+exec 'nnoremap <silent> ' . Altmap('H') . ' <C-w>H'
+exec 'nnoremap <silent> ' . Altmap('J') . ' <C-w>J'
+exec 'nnoremap <silent> ' . Altmap('K') . ' <C-w>K'
+exec 'nnoremap <silent> ' . Altmap('L') . ' <C-w>L'
+
 " }}}
 " alt insert mode {{{
 exec 'inoremap ' . Altmap('h') . '   <Left>'
@@ -1552,28 +1573,34 @@ function! TmuxifySendLines(count, direction)
   call cursor(l, c)
 endfunction
 
-nnoremap <silent> \a  :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
 nnoremap <silent> \b  :TxSend(GenerateBuildCommand())<CR>
 nnoremap <silent> \c  :TxSigInt<CR>
 nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
-nnoremap <silent> \i  :call TmuxifySendLines(v:count, "k")<CR>
-nnoremap <silent> \k  :call TmuxifySendLines(v:count, "j")<CR>
+nnoremap <silent> \j  :call TmuxifySendLines(v:count, "j")<CR>
+nnoremap <silent> \k  :call TmuxifySendLines(v:count, "k")<CR>
 nnoremap <silent> \l  :call tmuxify#pane_send_raw('C-l')<CR>
-"                 \m  make mappings
+nnoremap <silent> \ma :TxSend('make')<CR>
+nnoremap <silent> \mc :TxSend('make clean')<CR>
 nnoremap <silent> \o  :TxCreate<CR>
 nnoremap <silent> \q  :TxKill<CR>
 nnoremap <silent> \r  :TxRun<CR>
 nnoremap <silent> \s  "vyy:TxSend(@v)<CR>
 vnoremap <silent> \s  "vy:TxSend(@v)<CR>
-nnoremap <silent> \ts :TxSetPane<CR>
-nnoremap <silent> \td :TxSetPane<CR>0<CR>1<CR>1<CR>:echo 'attached to 0:0:1'<CR>
+nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
 nnoremap <silent> \\  :TxSend<CR>
 
-nnoremap <silent> \<CR> :call tmuxify#pane_send_raw('C-m')<CR>
-
-nnoremap <silent> \ma :TxSend('make')<CR>
-nnoremap <silent> \mc :TxSend('make clean')<CR>
-nnoremap <silent> \mf :TxSend(GenerateBuildCommand())<CR>
+" TxSetPane doesn't do anything with the Session and Window arguments
+" https://github.com/mhinz/vim-tmuxify/issues/12
+nnoremap <silent> \1 :TxSetPane<CR>0<CR>0<CR>1<CR>:echo 'attached to 0:0:1'<CR>
+nnoremap <silent> \2 :TxSetPane<CR>0<CR>0<CR>2<CR>:echo 'attached to 0:0:2'<CR>
+nnoremap <silent> \3 :TxSetPane<CR>0<CR>0<CR>3<CR>:echo 'attached to 0:0:3'<CR>
+nnoremap <silent> \4 :TxSetPane<CR>0<CR>0<CR>4<CR>:echo 'attached to 0:0:4'<CR>
+nnoremap <silent> \5 :TxSetPane<CR>0<CR>0<CR>5<CR>:echo 'attached to 0:0:5'<CR>
+nnoremap <silent> \6 :TxSetPane<CR>0<CR>0<CR>6<CR>:echo 'attached to 0:0:6'<CR>
+nnoremap <silent> \7 :TxSetPane<CR>0<CR>0<CR>7<CR>:echo 'attached to 0:0:7'<CR>
+nnoremap <silent> \8 :TxSetPane<CR>0<CR>0<CR>8<CR>:echo 'attached to 0:0:8'<CR>
+nnoremap <silent> \9 :TxSetPane<CR>0<CR>0<CR>9<CR>:echo 'attached to 0:0:9'<CR>
 " }}}
 " }}}
+nnoremap K i<CR><Esc>k$
 " vim: foldmethod=marker foldlevel=1 textwidth=0 softtabstop=2 tabstop=2 shiftwidth=2
