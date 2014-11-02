@@ -28,6 +28,8 @@ vim/.netrwhist
 vim/bundle/*
 vim/session/*
 vim/nvimrc
+vim/eclim
+vim/plugin/eclim.vim
 
 zsh/cache/*
 
