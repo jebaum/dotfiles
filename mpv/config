@@ -2,8 +2,8 @@
 
 [hdmi]
 input = file=/home/everyone/mpvfifo
-ao=alsa:device=[hw:2,3]
 
 [default]
 input = file=/home/james/.mpv/mpvfifo
 audio-display=no
+softvol=yes
