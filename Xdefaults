@@ -12,11 +12,16 @@ Xft.hintstyle: hintfull
 Xft.rgba: rgb
 Xft.lcdfilter : lcddefault
 
-! make background transparent
-urxvt*background: [90]#0a0a0a
-URxvt.perl-ext-common : default,,keyboard-select,url-select,clipboard
+URxvt*background: #181818
+URxvt.foreground : #FFFFFF
+URxvt.perl-ext-common : default,,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
 
-URxvt*transparent:true
+# https://github.com/Vifon/autocomplete-ALL-the-things
+URxvt.keysym.M-C-slash:   perl:aAtt:word-complete
+URxvt.keysym.M-question:  perl:aAtt:fuzzy-complete
+URxvt.keysym.M-quotedbl:  perl:aAtt:undo
+
+URxvt*transparent:false
 URxvt*shading:15
 
 URxvt.keysym.M-x           : perl:keyboard-select:activate
@@ -54,15 +59,13 @@ URxvt.cursorColor            : #FFFF87
 URxvt.pointerColorBackground : #586E75
 URxvt.pointerColorForeground : #93A1A1
 
-URxvt.background : #171717
-URxvt.foreground : #FFFFFF
 
 URxvt.colorBD : #FFFFFF
 URxvt.colorUL : #CCCC66
 
 ! black
-URxvt.color0  : #0A0A0A
-URxvt.color8  : #555753
+URxvt.color0  : #555753
+URxvt.color8  : #181818
 
 ! red
 URxvt.color1  : #DC322F
@@ -93,5 +96,3 @@ URxvt.color7  : #EEE8D5
 URxvt.color15 : #FDF6E3
 
 !#include "/home/james/.colors/clean"
-! gohucolor has a nice separator thingy in zsh
-! space has a nice font color, vintage kinda does but its dark
