@@ -1,5 +1,5 @@
 # -*-muttrc-*-
-#
+# http://dev.mutt.org/trac/wiki/MuttGuide/UseGPG
 # Command formats for gpg.
 #
 # This version uses gpg-2comp from

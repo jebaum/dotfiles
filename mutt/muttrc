@@ -19,7 +19,7 @@ set wait_key = no
 
 set date_format="%m/%d %T"
 #set index_format="%2C%Z (%D) %-30.30F (%-4.4c) %s"
-set index_format="%3C%5Z (%D) %-30.30F  %s"
+set index_format="%?M?+& ?%2M %3C%5Z (%D) %-30.30F  %s"
 set mbox_type=Maildir
 set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
@@ -32,6 +32,7 @@ unignore Date: From: User-Agent: \
          Cc: Reply-To: Subject: Mail-Followup-To:
 hdr_order Date From Subject To CC
 set sort=threads
+set strict_threads="yes"
 set sort_browser=reverse-date
 set sort_aux=reverse-last-date-received
 #=Editor / Composition=================================#
@@ -163,6 +164,7 @@ bind index L       limit
 bind index B       bounce-message
 bind index \ef     forget-passphrase
 bind index <space> collapse-thread
+bind index -       collapse-all
 
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 macro index <esc>r "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
