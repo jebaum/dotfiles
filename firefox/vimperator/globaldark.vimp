@@ -70,7 +70,7 @@ div[class*="content"], div[class*="container"],
 /* Popup divs that use visibility: hidden and display: none */
 div[style*="display: block"],
 div[style*="visibility: visible"] {
-background-color: #1a1a1a !important;
+background-color: #212121 !important;
 }
 
 
