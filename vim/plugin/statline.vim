@@ -220,10 +220,10 @@ endfunction
 if g:statline_mixed_indent
     set statusline+=%3*%{StatlineTabWarning()}%*
 
-    " recalculate when idle and after writing
+    " recalculate after writing
     augroup statline_indent
         autocmd!
-        autocmd cursorhold,bufwritepost * unlet! b:statline_indent_warning
+        autocmd bufwritepost * unlet! b:statline_indent_warning
     augroup END
 endif
 " }}}
@@ -246,10 +246,10 @@ endfunction
 if g:statline_trailing_space
     set statusline+=%3*%{StatlineTrailingSpaceWarning()}%*
 
-    " recalculate when idle, and after saving
+    " recalculate after saving
     augroup statline_trail
         autocmd!
-        autocmd cursorhold,bufwritepost * unlet! b:statline_trailing_space_warning
+        autocmd bufwritepost * unlet! b:statline_trailing_space_warning
     augroup END
 endif
 " }}}

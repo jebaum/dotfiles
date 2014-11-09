@@ -11,12 +11,10 @@ hi Cursor       ctermfg=234   ctermbg=228    cterm=none  guifg=#1C1C1C  guibg=#F
 hi Error        ctermfg=226   ctermbg=234    cterm=none  guifg=#FFFF00  guibg=#1C1C1C  gui=none
 hi ErrorMsg     ctermfg=196   ctermbg=232    cterm=bold  guifg=#FF0000  guibg=#080808  gui=bold
 hi Folded       ctermfg=248   ctermbg=16     cterm=none  guifg=#A8A8A8  guibg=#000000  gui=none
-hi IncSearch    ctermfg=231   ctermbg=124    cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi LineNr       ctermfg=246   ctermbg=16     cterm=none  guifg=#949494  guibg=#000000  gui=none
 hi ModeMsg      ctermfg=231   ctermbg=none   cterm=bold  guifg=#FFFFFF  guibg=#000000  gui=bold
 hi NonText      ctermfg=48    ctermbg=8      cterm=none  guifg=#00FF87  guibg=#181818  gui=none
 hi Normal       ctermfg=231   ctermbg=8      cterm=none  guifg=#FFFFFF  guibg=#181818  gui=none
-hi Search       ctermfg=231   ctermbg=52     cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 hi SpecialKey   ctermfg=241   ctermbg=235    cterm=none  guifg=#626262  guibg=#262626  gui=none
 hi StatusLine   ctermfg=230   ctermbg=238    cterm=none  guifg=#FFFFD7  guibg=#444444  gui=none
 hi StatusLineNC ctermfg=241   ctermbg=238    cterm=none  guifg=#626262  guibg=#444444  gui=none
@@ -30,6 +28,12 @@ hi VisualNOS    ctermfg=251   ctermbg=236    cterm=none  guifg=#C6C6C6  guibg=#3
 hi WarningMsg   ctermfg=203   ctermbg=none   cterm=none  guifg=#FF5F5F  guibg=#000000  gui=none
 hi WarningMsg   ctermfg=226   ctermbg=16     cterm=none  guifg=#FFFF00  guibg=#000000  gui=none
 hi! link FoldColumn   Folded
+
+" Search colors
+hi ObliqueCurrentIncSearch ctermfg=16   ctermbg=254  cterm=none  guifg=#000000  guibg=#E4E4E4  gui=none
+hi ObliqueCurrentMatch     ctermfg=16   ctermbg=254  cterm=none  guifg=#000000  guibg=#E4E4E4  gui=none
+hi IncSearch               ctermfg=231  ctermbg=52   cterm=none  guifg=#FFFFFF  guibg=#AF0000  gui=bold
+hi Search                  ctermfg=231  ctermbg=52   cterm=none  guifg=#FFFFFF  guibg=#5F0000  gui=none
 
 if version >= 700
 hi CursorLine   ctermfg=NONE ctermbg=16      cterm=none  guifg=NONE     guibg=#000000  gui=none

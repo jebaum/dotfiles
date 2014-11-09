@@ -17,7 +17,7 @@ if !isdirectory(expand('~/.vim/bundle'))
 else
   let b:plug_first_time_run = 0
 endif
-let g:plug_threads = 63
+let g:plug_threads = 66
 
 call plug#begin('~/.vim/bundle')
 if has('unix')
@@ -44,22 +44,24 @@ if has('python') && (exists('g:ycm') || InJavaDirectory())
   Plug 'Valloric/YouCompleteMe'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('lua')
-  Plug 'Shougo/neocomplete.vim'
+  " Plug 'Shougo/neocomplete.vim'
+  Plug 'othree/vim-autocomplpop'
+  Plug 'eparreno/vim-l9'
 else
   Plug 'Shougo/neocomplcache.vim'
   Plug 'JazzCore/neocomplcache-ultisnips'
 endif
 
 Plug 'Shougo/unite.vim'
-Plug 'Shougo/unite-outline'
-Plug 'majkinetor/unite-cmdmatch'
-Plug 'lambdalisue/vim-gista'
-Plug 'sgur/unite-qf'
-Plug 'tsukkee/unite-tag'
-Plug 'Shougo/unite-session'                "add maps/update menu. probably will only use to list sessions, use simple-session for making?
-Plug 'ujihisa/unite-locate'
 Plug 'inside/unite-argument'
+Plug 'lambdalisue/vim-gista'
+Plug 'majkinetor/unite-cmdmatch'
+Plug 'sgur/unite-qf'
 Plug 'Shougo/unite-help'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/unite-session'                "add maps/update menu. probably will only use to list sessions, use simple-session for making?
+Plug 'tsukkee/unite-tag'
+Plug 'ujihisa/unite-locate'
 " Plug 'Shougo/neossh.vim' ", {'on': ['Unite', 'VimFiler']}
 
 "Plug 'bling/vim-airline'
@@ -96,7 +98,7 @@ Plug 'scrooloose/syntastic'
 Plug 'Shougo/vimfiler.vim',  {'on': ['VimFiler', 'VimFilerExplorer']}
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
 Plug 'stefandtw/quickfix-reflector.vim'
-Plug 't9md/vim-choosewin',   {'on': ['ChooseWin', '<Plug>(choosewin)', '<Plug>(choosewin-swap)', '<Plug>(choosewin-swap-again)']} " TODO add better keymaps and tweak settings
+Plug 't9md/vim-choosewin',   {'on': ['ChooseWin', '<Plug>(choosewin)', '<Plug>(choosewin-swap)', '<Plug>(choosewin-swap-again)']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
@@ -107,9 +109,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-scripts/SyntaxRange', {'for': ['text', 'markdown']} " TODO causes problems when doing :h thing.txt
+Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'}
+Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
+Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
+Plug 'vim-scripts/SyntaxRange', {'for': ['text', 'markdown', 'pandoc']} " TODO causes problems when doing :h thing.txt
 Plug 'wellle/targets.vim'
-
 call plug#end()
 if b:plug_first_time_run == 1
   PlugInstall
@@ -154,7 +158,7 @@ cnoreabbrev vg vimgrep
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
 
-" allows incsearch highlighting for range commands
+" use one of these maps in the middle of a search to move, copy, or delete text
 cnoremap $t <CR>:t''<CR>
 cnoremap $T <CR>:''t.<CR>
 cnoremap $m <CR>:m''<CR>
@@ -192,17 +196,17 @@ augroup FileTypeSettings
   autocmd FileType vimfiler setlocal relativenumber
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
-  autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd FileType markdown nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mm :call MarkdownToggle('md_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mp :call MarkdownToggle('md_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>ms :call MarkdownToggle('md_highlight', ' --no-highlight', 'turned on highlighting', 'turned off highlighting')<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mr :w!<CR>:silent call MarkdownCommandRun('','removed','pdf')<CR>:echo b:md_msg<CR>
-  autocmd FileType markdown nnoremap <buffer> <leader>mv :call MarkdownCommandRun('','open', 'pdf')<CR>
-  autocmd FileType markdown nnoremap <buffer><silent> <leader>mw :w!<CR>:silent call MarkdownCommandRun('quickrun','built','html')<CR>
-  autocmd FileType markdown nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
+  autocmd BufRead,BufNewFile *.md set filetype=pandoc
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mm :call MarkdownToggle('md_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mp :call MarkdownToggle('md_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>ms :call MarkdownToggle('md_highlight', ' --no-highlight', 'turned on highlighting', 'turned off highlighting')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mr :w!<CR>:silent call MarkdownCommandRun('','removed','pdf')<CR>:echo b:md_msg<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mv :call MarkdownCommandRun('','open', 'pdf')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer><silent> <leader>mw :w!<CR>:silent call MarkdownCommandRun('quickrun','built','html')<CR>
+  autocmd FileType markdown,pandoc nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
 augroup END
@@ -543,9 +547,6 @@ endfunction
 " }}}
 " choosewin {{{
 let g:choosewin_overlay_enable = 1
-nmap <leader><leader>w <Plug>(choosewin)
-nmap <leader><leader>s <Plug>(choosewin-swap)
-nmap <leader><leader>a <Plug>(choosewin-swap-again)
 " }}}
 " detectindent {{{
 let g:detectindent_preferred_expandtab  = 1
@@ -620,18 +621,29 @@ let NERDCompactSexyComs = 0
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
 " oblique {{{
-" TODO: make active match more obvious. i.e. completely different color scheme, not just brighter
-" i should use / more for movement. also this highlight group isn't getting applied
-highlight! ObliqueCurrentIncSearch ctermbg=231
 let g:oblique#incsearch_highlight_all = 1
 let g:oblique#very_magic = 1
-map n <Plug>(Oblique-n)<Plug>(anzu-update-search-status-with-echo)
-map N <Plug>(Oblique-N)<Plug>(anzu-update-search-status-with-echo)
+" TODO: the current match that gets special highlighting can't be cleared by nohlsearch. oblique bug or lack of feature?
+let g:oblique#clear_highlight = 1
+map n <Plug>(Oblique-n)<Plug>(anzu-update-search-status-with-echo)zv
+map N <Plug>(Oblique-N)<Plug>(anzu-update-search-status-with-echo)zv
 
 nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc nocul' : 'cuc cul') . '<CR>'
+nnoremap <silent><C-c> :set nocuc nocul<CR>
 augroup FancyCR
   autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup END
+" }}}
+" pandoc {{{
+augroup PandocMaps
+  autocmd filetype pandoc nnoremap <buffer><silent><expr> gc ":set cole=" . (&cole != 0 ? "0" : "2") . "<CR>"
+augroup END
+" let g:pandoc#syntax#codeblocks#embeds#langs = ["ruby", "c"]  " achieve same affect as SyntaxRange
+let g:pandoc#folding#level = 1
+let g:pandoc#formatting#textwidth = 80
+let g:pandoc#folding#fdc = 0 " foldcolumn width
+let g:pandoc#modules#disabled = ["folding"]
+let g:pandoc#after#modules#enabled = ["ultisnips", "unite"]
 " }}}
 " quickrun {{{
 let g:quickrun_config         = {}  " initialize dictionary
@@ -679,6 +691,7 @@ let g:rainbow_conf = {
 \}
 " }}}
 " semantic-highlight {{{
+" TODO: make these suck less
 let g:semanticTermColors = [28,1,2,3,4,5,6,7,25,9,10,34,12,13,14,15,16,125,124,19]
 let g:semanticGUIColors = [ '#72d572', '#c5e1a5', '#e6ee9c', '#fff59d', '#ffe082', '#ffcc80', '#ffab91', '#bcaaa4', '#b0bec5', '#ffa726', '#ff8a65', '#f9bdbb', '#f9bdbb', '#f8bbd0', '#e1bee7', '#d1c4e9', '#ffe0b2', '#c5cae9', '#d0d9ff', '#b3e5fc', '#b2ebf2', '#b2dfdb', '#a3e9a4', '#dcedc8' , '#f0f4c3', '#ffb74d' ]
 " }}}
@@ -689,7 +702,7 @@ let g:session_dir = "~/.vim/session"
 let g:unite_source_session_path = g:session_dir
 " }}}
 " signify {{{
-let g:signify_disable_by_default = 1            " disable run by default
+let g:signify_disable_by_default = 0            " disable run by default
 let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
 let g:signify_mapping_next_hunk  = '<leader>gj' " easier to use [c and ]c
 let g:signify_mapping_prev_hunk  = '<leader>gk'
@@ -702,9 +715,8 @@ nmap ]c         <Plug>(signify-next-hunk)
 nmap [c         <Plug>(signify-prev-hunk)
 " }}}
 " sneak  {{{
-" TODO issues with sneak: don't highlight whitespace when doing f<Space>, and consistent s/S. i.e. s always goes forward, S always goes back
 let g:sneak#use_ic_scs = 1
-let g:sneak#s_next = 1
+let g:sneak#s_next = 0
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
 xmap f <Plug>Sneak_f
@@ -733,19 +745,35 @@ let g:startify_session_detection = 1 " show session when Session.vim is found in
 let g:startify_session_autoload  = 0 " opening directories with a Session.vim will have it auto load
 let g:startify_change_to_dir     = 1 " when opening file or bookmark, change to its directory
 let g:startify_custom_indices    = ['a','f','h','j','k','l','w','r','u','o','p','z','x','n','m']
-let g:startify_custom_header     = [
-  \ '    /\\\        /\\\   /\\\\\\\\\\\   /\\\\            /\\\\  ',
-  \ '    \/\\\       \/\\\  \/////\\\///   \/\\\\\\        /\\\\\\  ',
-  \ '     \//\\\      /\\\       \/\\\      \/\\\//\\\    /\\\//\\\  ',
-  \ '       \//\\\    /\\\        \/\\\      \/\\\\///\\\/\\\/ \/\\\  ',
-  \ '         \//\\\  /\\\         \/\\\      \/\\\  \///\\\/   \/\\\  ',
-  \ '           \//\\\/\\\          \/\\\      \/\\\    \///     \/\\\  ',
-  \ '             \//\\\\\           \/\\\      \/\\\             \/\\\  ',
-  \ '               \//\\\         /\\\\\\\\\\\  \/\\\             \/\\\  ',
-  \ '                 \///         \///////////   \///              \///   ',
-  \ '',
-  \ '',
-  \ ]
+if has('nvim')
+  let g:startify_custom_header     = [
+    \ '    /\\\\\     /\\\  /\\\        /\\\  /\\\\\\\\\\\  /\\\\            /\\\\       ',
+    \ '    \/\\\\\\   \/\\\ \/\\\       \/\\\ \/////\\\///  \/\\\\\\        /\\\\\\      ',
+    \ '     \/\\\/\\\  \/\\\ \//\\\      /\\\      \/\\\     \/\\\//\\\    /\\\//\\\     ',
+    \ '      \/\\\//\\\ \/\\\  \//\\\    /\\\       \/\\\     \/\\\\///\\\/\\\/ \/\\\    ',
+    \ '       \/\\\\//\\\\/\\\   \//\\\  /\\\        \/\\\     \/\\\  \///\\\/   \/\\\   ',
+    \ '        \/\\\ \//\\\/\\\    \//\\\/\\\         \/\\\     \/\\\    \///     \/\\\  ',
+    \ '         \/\\\  \//\\\\\\     \//\\\\\          \/\\\     \/\\\             \/\\\ ',
+    \ '          \/\\\   \//\\\\\      \//\\\        /\\\\\\\\\\\ \/\\\             \/\\\',
+    \ '           \///     \/////        \///        \///////////  \///              \///',
+    \ '',
+    \ '',
+    \ ]
+else
+  let g:startify_custom_header     = [
+    \ '    /\\\        /\\\   /\\\\\\\\\\\   /\\\\            /\\\\  ',
+    \ '    \/\\\       \/\\\  \/////\\\///   \/\\\\\\        /\\\\\\  ',
+    \ '     \//\\\      /\\\       \/\\\      \/\\\//\\\    /\\\//\\\  ',
+    \ '       \//\\\    /\\\        \/\\\      \/\\\\///\\\/\\\/ \/\\\  ',
+    \ '         \//\\\  /\\\         \/\\\      \/\\\  \///\\\/   \/\\\  ',
+    \ '           \//\\\/\\\          \/\\\      \/\\\    \///     \/\\\  ',
+    \ '             \//\\\\\           \/\\\      \/\\\             \/\\\  ',
+    \ '               \//\\\         /\\\\\\\\\\\  \/\\\             \/\\\  ',
+    \ '                 \///         \///////////   \///              \///   ',
+    \ '',
+    \ '',
+    \ ]
+endif
 " }}}
 " syntastic {{{
 if executable('clang')
@@ -1285,13 +1313,15 @@ function! Altmap(char)
 endfunction
 let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 " }}}
-" TODO these are all shit changed default keys M - _ z<Space> {{{
+" TODO these are all shit changed default keys M - _ z<CR> {{{
 nnoremap M %
 onoremap M %
 vnoremap M %
+" make K do the opposite of J: split lines under the cursor
+nnoremap K i<CR><Esc>k$
 " nnoremap - 10jzz
 " nnoremap _ 10kzz
-" nnoremap z<Space> zMzv
+nnoremap z<CR> zMzvzz
 " }}}
 " easily toggle command line window with Q {{{
 nnoremap Q q:
@@ -1417,6 +1447,9 @@ nnoremap <silent> <leader>tr :AgOpenQF TODO<CR>
 vnoremap <silent> <leader>sr :<C-u>call VSetSearch('/')<CR>gv"sy:Ag -Q <C-r>=@s<CR><CR>
 nnoremap          <leader>sr :AgOpenQF<Space>
 
+nmap              <leader><leader>w  <Plug>(choosewin)
+nmap              <leader><leader>s  <Plug>(choosewin-swap)
+nmap              <leader><leader>a  <Plug>(choosewin-swap-again)
 nnoremap <silent> <leader><leader>r  :redraw!<CR>
 nnoremap <silent> <leader><leader>d  :Dispatch<CR>
 " }}}
@@ -1576,9 +1609,9 @@ endfunction
 nnoremap <silent> \b  :TxSend(GenerateBuildCommand())<CR>
 nnoremap <silent> \c  :TxSigInt<CR>
 nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
-nnoremap <silent> \j  :call TmuxifySendLines(v:count, "j")<CR>
-nnoremap <silent> \k  :call TmuxifySendLines(v:count, "k")<CR>
-nnoremap <silent> \l  :call tmuxify#pane_send_raw('C-l')<CR>
+nnoremap <silent> \j  :<C-u>call TmuxifySendLines(v:count, "j")<CR>
+nnoremap <silent> \k  :<C-u>call TmuxifySendLines(v:count, "k")<CR>
+nnoremap <silent> \l  :TxClear<CR>
 nnoremap <silent> \ma :TxSend('make')<CR>
 nnoremap <silent> \mc :TxSend('make clean')<CR>
 nnoremap <silent> \o  :TxCreate<CR>
@@ -1586,21 +1619,18 @@ nnoremap <silent> \q  :TxKill<CR>
 nnoremap <silent> \r  :TxRun<CR>
 nnoremap <silent> \s  "vyy:TxSend(@v)<CR>
 vnoremap <silent> \s  "vy:TxSend(@v)<CR>
-nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u')<CR>:TxSend('clear')<CR>
-nnoremap <silent> \\  :TxSend<CR>
+nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u')<CR>:TxClear<CR>
+nnoremap <silent> \|  :TxSend<CR>
+nnoremap <silent> \<CR>  :call tmuxify#pane_send_raw('C-j')<CR>
+" }}}
+" }}}
+function! Open_current_file_dir(args)
+  let [args, options] = unite#helper#parse_options_args(a:args)
+  let path = expand('%:h')
+  let options.path = path
+  call unite#start(args, options)
+endfunction
+nnoremap <leader>F :call Open_current_file_dir('-no-split file')<cr>
+nmap <buffer> <bs> <Plug>(unite_delete_backward_path)
 
-" TxSetPane doesn't do anything with the Session and Window arguments
-" https://github.com/mhinz/vim-tmuxify/issues/12
-nnoremap <silent> \1 :TxSetPane<CR>0<CR>0<CR>1<CR>:echo 'attached to 0:0:1'<CR>
-nnoremap <silent> \2 :TxSetPane<CR>0<CR>0<CR>2<CR>:echo 'attached to 0:0:2'<CR>
-nnoremap <silent> \3 :TxSetPane<CR>0<CR>0<CR>3<CR>:echo 'attached to 0:0:3'<CR>
-nnoremap <silent> \4 :TxSetPane<CR>0<CR>0<CR>4<CR>:echo 'attached to 0:0:4'<CR>
-nnoremap <silent> \5 :TxSetPane<CR>0<CR>0<CR>5<CR>:echo 'attached to 0:0:5'<CR>
-nnoremap <silent> \6 :TxSetPane<CR>0<CR>0<CR>6<CR>:echo 'attached to 0:0:6'<CR>
-nnoremap <silent> \7 :TxSetPane<CR>0<CR>0<CR>7<CR>:echo 'attached to 0:0:7'<CR>
-nnoremap <silent> \8 :TxSetPane<CR>0<CR>0<CR>8<CR>:echo 'attached to 0:0:8'<CR>
-nnoremap <silent> \9 :TxSetPane<CR>0<CR>0<CR>9<CR>:echo 'attached to 0:0:9'<CR>
-" }}}
-" }}}
-nnoremap K i<CR><Esc>k$
 " vim: foldmethod=marker foldlevel=1 textwidth=0 softtabstop=2 tabstop=2 shiftwidth=2
