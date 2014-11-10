@@ -17,10 +17,10 @@ ZSH_HIGHLIGHT_STYLES[command]=fg=green
 ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
 ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=231,bold
 ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=green
-ZSH_HIGHLIGHT_STYLES[path]=underline
-ZSH_HIGHLIGHT_STYLES[path_prefix]=underline
-ZSH_HIGHLIGHT_STYLES[path_approx]=fg=yellow,underline
-ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue
+ZSH_HIGHLIGHT_STYLES[path]=fg=220
+ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=220
+ZSH_HIGHLIGHT_STYLES[path_approx]=fg=203
+ZSH_HIGHLIGHT_STYLES[globbing]=fg=164
 ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=45
 ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=207
