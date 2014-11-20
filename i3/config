@@ -155,6 +155,9 @@ bindsym $mod+Escape             exec /usr/bin/lk
 bindsym $mod+F2                 exec firefox
 bindsym $mod+Shift+F2           exec chromium
 bindsym $mod+F4                 exec puddletag
+
+bindsym $mod+i                  exec vimperator_hack.sh
+bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
 # for_window <criteria> command; command
