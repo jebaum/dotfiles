@@ -17,7 +17,7 @@ ZSH_HIGHLIGHT_STYLES[command]=fg=green
 ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
 ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=231,bold
 ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=green
-ZSH_HIGHLIGHT_STYLES[path]=fg=220
+ZSH_HIGHLIGHT_STYLES[path]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=220
 ZSH_HIGHLIGHT_STYLES[path_approx]=fg=203
 ZSH_HIGHLIGHT_STYLES[globbing]=fg=164
