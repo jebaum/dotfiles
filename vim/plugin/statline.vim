@@ -1,16 +1,3 @@
-" file info {{{
-" ============================================================================
-" File:        statline.vim
-" Maintainer:  Miller Medeiros <http://blog.millermedeiros.com/>
-" Description: Add useful info to the statusline and basic error checking.
-" Last Change: 2011-11-10
-" License:     This program is free software. It comes without any warranty,
-"              to the extent permitted by applicable law. You can redistribute
-"              it and/or modify it under the terms of the Do What The Fuck You
-"              Want To Public License, Version 2, as published by Sam Hocevar.
-"              See http://sam.zoy.org/wtfpl/COPYING for more details.
-" ============================================================================
-" }}}
 " basic settings {{{
 if exists("g:loaded_statline_plugin")
     finish
@@ -164,7 +151,7 @@ endif
 set statusline+=%8*%-14(\ L%l/%L:C%c%)%*
 
 " scroll percent
-set statusline+=%8*%P%*
+set statusline+=%8*\ %P%*
 " }}}
 " code of character under cursor {{{
 if !exists('g:statline_show_charcode')
