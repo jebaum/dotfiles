@@ -47,6 +47,10 @@ alias rsync-move="rsync -avz --progress -h --remove-source-files"
 alias rsync-update="rsync -avzu --progress -h"
 alias rsync-synchronize="rsync -avzu --delete --progress -h"
 
+recordwindow() {
+    recordmydesktop --windowid $(xwininfo | awk '/Window id:/ {print $4}')
+}
+
 # manually create ~/.python, get python2 and python 3 virtualenv packages
 # useful to make syntastic use the correct python version, among other things
 venv() {
@@ -115,7 +119,7 @@ torrentrmfiles()     { transmission-remote -t $1 --remove-and-delete }
 torrentrm()          { transmission-remote -t $1 -r }
 torrentstart()       { transmission-remote -t $1 -s }
 torrentstop()        { transmission-remote -t $1 -S }
-torrentwatch()       { watch -n 5 transmission-remote 9092 -l }
+torrentwatch()       { watch -n 1 transmission-remote 9092 -l }
 
 
 function say() { echo mpv -really-quiet "http://translate.google.com/translate_tts?tl=en\&q=$*" | sed 's/ /+/3g' | sh 2>/dev/null; }
