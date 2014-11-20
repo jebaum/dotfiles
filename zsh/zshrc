@@ -71,6 +71,37 @@ bindkey '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up   # bind k and j for VI mode history-substring-search
 bindkey -M vicmd 'j' history-substring-search-down
 
+function _edit-widget() {
+  IFS=$'\n'
+  filelist=( $(ag -g '.' 2>/dev/null | eval $1) )
+  if [ -z "$filelist" ]; then
+    zle redisplay
+  else
+    opencmd="vim -p "
+    opencmd+=$(for item in $filelist; do
+      echo -n \"$item\"
+      echo -n " "
+    done)
+    zle kill-whole-line
+    zle redisplay
+    BUFFER=$opencmd
+    zle accept-line
+  fi
+}
+
+function _fzf-edit-widget() {
+    _edit-widget "fzf -m -e"
+}
+
+function _selecta-edit-widget() {
+    _edit-widget "selecta"
+}
+
+zle -N _fzf-edit-widget
+zle -N _selecta-edit-widget
+bindkey '^O'  _fzf-edit-widget
+bindkey '^X'  _selecta-edit-widget
+
 KEYTIMEOUT=1
 function zle-line-init zle-keymap-select {
     RPS1="${${KEYMAP/vicmd/%F{13\}--NORMAL--}/(main|viins)/--INSERT--}"
