@@ -60,5 +60,5 @@
     "watch_folders": [
         "~/"
     ],
-    "webbrowser": "xdg-open"
+    "webbrowser": "firefox"
 }
