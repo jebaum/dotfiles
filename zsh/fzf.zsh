@@ -46,7 +46,7 @@ fi
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
 
-# ALT-C - cd into the selected directory
+# ALT-D - cd into the selected directory
 fzf-cd-widget() {
   cd "${$(set -o nonomatch; command find -L * -path '*/\.*' -prune \
           -o -type d -print 2> /dev/null | fzf):-.}"
