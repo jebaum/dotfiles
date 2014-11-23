@@ -48,8 +48,14 @@ bindkey '^T' fzf-file-widget
 
 # ALT-D - cd into the selected directory
 fzf-cd-widget() {
-  cd "${$(set -o nonomatch; command find -L * -path '*/\.*' -prune \
-          -o -type d -print 2> /dev/null | fzf):-.}"
+  # TODO maintain a cache for this? it's slow from ~
+  # different things for d and D?
+  # also make similar updates to the C-t thing, but ^t isn't a thing
+  # would also want a cache for ^T
+  cd "${$(set -o nonomatch; command find -L \
+    \( -path '*.wine-pipelight' -o -path '*.ivy2*' -o -path '*.texlive*' \
+    -o -path '*.git' -o -path '*.metadata' -o -path '*_notes' \) \
+    -prune -o -type d -print 2>/dev/null | fzf):-.}"
   zle reset-prompt
 }
 zle     -N    fzf-cd-widget
