@@ -3,9 +3,6 @@ colorscheme guimiromod
 runtime macros/matchit.vim
 set guifont=DejaVuSansMonoforPowerline\ 11
 let mapleader = ','
-if has('nvim')
-  runtime! plugin/python_setup.vim
-endif
 " Vim-Plug {{{
 if !filereadable($HOME . "/.vim/autoload/plug.vim")
   execute "silent !mkdir ~/.vim/autoload"
@@ -17,7 +14,7 @@ if !isdirectory(expand('~/.vim/bundle'))
 else
   let b:plug_first_time_run = 0
 endif
-let g:plug_threads = 66
+let g:plug_threads = 70
 
 call plug#begin('~/.vim/bundle')
 if has('unix')
@@ -44,12 +41,12 @@ if has('python') && (exists('g:ycm') || InJavaDirectory())
   Plug 'Valloric/YouCompleteMe'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('lua')
-  " Plug 'Shougo/neocomplete.vim'
-  Plug 'othree/vim-autocomplpop'
-  Plug 'eparreno/vim-l9'
+  Plug 'Shougo/neocomplete.vim'
 else
   Plug 'Shougo/neocomplcache.vim'
   Plug 'JazzCore/neocomplcache-ultisnips'
+  " Plug 'othree/vim-autocomplpop'
+  " Plug 'eparreno/vim-l9'
 endif
 
 Plug 'Shougo/unite.vim'
@@ -59,7 +56,7 @@ Plug 'majkinetor/unite-cmdmatch'
 Plug 'sgur/unite-qf'
 Plug 'Shougo/unite-help'
 Plug 'Shougo/unite-outline'
-Plug 'Shougo/unite-session'                "add maps/update menu. probably will only use to list sessions, use simple-session for making?
+Plug 'Shougo/unite-session'
 Plug 'tsukkee/unite-tag'
 Plug 'ujihisa/unite-locate'
 " Plug 'Shougo/neossh.vim' ", {'on': ['Unite', 'VimFiler']}
@@ -69,7 +66,7 @@ Plug 'bruno-/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ciaranm/detectindent'
 Plug 'dockyard/vim-easydir'
-Plug 'duff/vim-scratch',     {'on': 'Scratch'}
+Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
 Plug 'gcmt/taboo.vim'
 Plug 'godlygeek/tabular',    {'on': ['Tabularize', 'TabFirst']}
 Plug 'idbrii/AsyncCommand',  {'on': ['AsyncPending', 'AsyncCommand', 'AsyncShell', 'AsyncGrep', 'AsyncMake', 'AsyncCscopeFindX', 'AsyncCscopeFindSymbol', 'AsyncCscopeFindCalls']}
@@ -87,7 +84,7 @@ Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar',    {'on': ['Tagbar', 'TagbarOpen']}
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
-Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)', '<Plug>(signify-toggle)', '<Plug>(signify-toggle-highlight)']}
+Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)']}
 Plug 'mhinz/vim-startify'
 Plug 'mmozuras/vim-github-comment', {'on': 'GHComment'}
 Plug 'osyo-manga/vim-anzu'
@@ -97,7 +94,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'Shougo/vimfiler.vim',  {'on': ['VimFiler', 'VimFilerExplorer']}
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
-Plug 'stefandtw/quickfix-reflector.vim'
 Plug 't9md/vim-choosewin',   {'on': ['ChooseWin', '<Plug>(choosewin)', '<Plug>(choosewin-swap)', '<Plug>(choosewin-swap-again)']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
@@ -112,8 +108,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'}
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
-Plug 'vim-scripts/SyntaxRange', {'for': ['text', 'markdown', 'pandoc']} " TODO causes problems when doing :h thing.txt
+Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']} " TODO causes problems when doing :h thing.txt
 Plug 'wellle/targets.vim'
+Plug '~/.vim/eclim', {'for': 'java'}
 call plug#end()
 if b:plug_first_time_run == 1
   PlugInstall
@@ -147,13 +144,13 @@ augroup END
 " Command mode maps and abbreviations {{{
 command! CD cd %:p:h
 command! SearchCount %s///gn
-cnoreabbrev lva lvimgrepadd
-cnoreabbrev lvg lvimgrep
-cnoreabbrev te tabedit
-cnoreabbrev sv source ~/.vim/vimrc
-cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
-cnoreabbrev va vimgrepadd
-cnoreabbrev vg vimgrep
+" cnoreabbrev lva lvimgrepadd
+" cnoreabbrev lvg lvimgrep
+" cnoreabbrev te tabedit
+" cnoreabbrev sv source ~/.vim/vimrc
+" cnoreabbrev sc source ~/.vim/colors/guimiromod.vim
+" cnoreabbrev va vimgrepadd
+" cnoreabbrev vg vimgrep
 
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
@@ -169,21 +166,21 @@ cnoremap $d <CR>:d<CR>``
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
   " for backward compatibility
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
 
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```c',      '```', 'c',      'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```cpp',    '```', 'cpp',    'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```java',   '```', 'java',   'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```lisp',   '```', 'lisp',   'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```ml',     '```', 'ocaml',  'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```prolog', '```', 'prolog', 'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```python', '```', 'python', 'Comment')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```text',   '```', 'text',   'Tabline')
-  autocmd BufEnter *.txt,*.md,*.page call SyntaxRange#Include('```javascript',   '```', 'javascript',   'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```c',      '```', 'c',      'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```cpp',    '```', 'cpp',    'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```java',   '```', 'java',   'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```lisp',   '```', 'lisp',   'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```ml',     '```', 'ocaml',  'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```prolog', '```', 'prolog', 'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```python', '```', 'python', 'Comment')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```text',   '```', 'text',   'Tabline')
+  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```javascript',   '```', 'javascript',   'Comment')
 augroup END
 " }}}
 " FileType autocmds {{{
@@ -507,6 +504,107 @@ function! MarkdownCommandRun(method, action, output)
   endif
 endfunction
 " }}}
+" Red/Green Bar {{{
+function! WideMsg(msg)
+  let x=&ruler | let y=&showcmd
+  set noruler noshowcmd
+  redraw
+  echo a:msg
+  let &ruler=x | let &showcmd=y
+endfunction
+
+function! GreenBar(msg)
+  echohl GreenBar
+    call WideMsg(a:msg . repeat(" ", &columns - strwidth(a:msg) - 1))
+  echohl None
+endfunction
+
+function! RedBar(msg)
+  echohl RedBar
+    call WideMsg(a:msg . repeat(" ", &columns - strwidth(a:msg) - 1))
+  echohl None
+endfunction
+" }}}
+" Source that accepts range {{{
+function! DetectIfInVimFunction(...)
+  " search upward from the current line for the command 'function' to see if we're currently in a function
+  " if we find 'endfunction' command before we find 'function', we aren't in a function
+  " if we find 'function' first, then search downward for the corresponding 'endfunction'
+  " return list of function start and end line numbers if successful, list of -1 if not
+  let startline   = line('.')
+  let currentline = line('.')
+
+  if a:0 != 0
+    let iterlimit = a:1
+  else
+    let iterlimit = 250
+  endif
+
+  let i = 0
+  while i < iterlimit
+
+    " see if the text 'function' or 'endfunction' is on the current line
+    let funmatchpos    = match(getline(currentline), "function!")
+    let endfunmatchpos = match(getline(currentline), "endfunction")
+
+    if funmatchpos != -1  " we found the text 'function'
+      let funsynlist = map(synstack(currentline, funmatchpos + 1),'synIDattr(v:val,"name")')
+      if index(funsynlist, 'vimFuncKey') >= 0 " function start markers are in the VimFuncKey syntax group
+        " save the line number of the first line of the function, and reset the search position
+        let startfunline = currentline
+        let currentline  = startline
+      endif
+    endif
+
+    if endfunmatchpos != -1 " we found the text 'endfunction'
+      let endfunsynlist = map(synstack(currentline, endfunmatchpos + 1),'synIDattr(v:val,"name")')
+      if index(endfunsynlist, 'vimCommand') >= 0 " endfunction markers are in the VimCommand syntax group
+        if currentline == startline || exists('startfunline')
+          " if we started out with the cursor on endfunction, or we've already found a function start
+          let endfunline = currentline
+        else " we found an endfunction before finding a function start, so we aren't currently in a function
+          break
+        endif
+      endif
+    endif
+
+    let i += 1
+
+    if exists('startfunline') && exists('endfunline')
+      return [startfunline, endfunline]
+    elseif exists('startfunline')
+      " we found the function start, so now we want to search downward
+      let currentline += 1
+    else
+      let currentline -= 1
+    endif
+  endwhile
+  return [-1, -1]
+endfunction
+
+function! SourcePart(line1, line2)
+   let tmp = @z
+   silent exec a:line1.",".a:line2."yank z"
+   let @z = substitute(@z, '\n\s*\\', '', 'g')
+   @z
+   let @z = tmp
+endfunction
+
+function! SourceCurrentFunction()
+  let [startfunline, endfunline] = DetectIfInVimFunction()
+  if startfunline != -1
+    call SourcePart(startfunline, endfunline)
+    echo 'sourced ' . strpart(getline(startfunline), strlen('function! '))
+  else
+    echo 'cursor is not in a function'
+  endif
+endfunction
+
+" if some argument is given, this command calls built-in command :source with
+" given arguments; otherwise calls function SourcePart() which sources
+" visually selected lines of the buffer.
+command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1>, <line2>) | else | exec "so <args>" | endif
+" }}}
 " }}}
 " Plugins {{{
 " airline {{{
@@ -690,6 +788,9 @@ let g:rainbow_conf = {
 \   }
 \}
 " }}}
+" scratch {{{
+let g:scratch_filetype = 'vim'
+" }}}
 " semantic-highlight {{{
 " TODO: make these suck less
 let g:semanticTermColors = [28,1,2,3,4,5,6,7,25,9,10,34,12,13,14,15,16,125,124,19]
@@ -707,10 +808,10 @@ let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
 let g:signify_mapping_next_hunk  = '<leader>gj' " easier to use [c and ]c
 let g:signify_mapping_prev_hunk  = '<leader>gk'
 let g:signify_sign_change        = '~'
+nmap <leader>gh :SignifyToggleHighlight \| SignifyToggle \| SignifyToggle<CR>
+nmap <leader>gt :SignifyToggle<CR>
 nmap <leader>gk <Plug>(signify-prev-hunk)
 nmap <leader>gj <Plug>(signify-next-hunk)
-nmap <leader>gh <Plug>(signify-toggle-highlight)
-nmap <leader>gt <Plug>(signify-toggle)
 nmap ]c         <Plug>(signify-next-hunk)
 nmap [c         <Plug>(signify-prev-hunk)
 " }}}
@@ -1336,7 +1437,7 @@ vnoremap < <gv
 vnoremap > >gv
 nnoremap gV `[v`]
 " }}}
-" diffget/diffobtain gd[upo] {{{
+" diff[update,put,obtain] gd[upo] {{{
 nnoremap gdu :diffupdate<CR>
 xnoremap gdp :diffput <BAR> diffupdate<CR>
 xnoremap gdo :diffget <BAR> diffupdate<CR>
@@ -1425,14 +1526,21 @@ nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 "                         s and t taken by search/todo
 nnoremap <silent> <leader>sd   :SDelete<CR><CR>
+nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sl   :Session<Space>
+
+nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
+nnoremap          <leader>sv   :source %<CR>
+nnoremap          <leader>sC   :source ~/dotfiles/vim/colors/guimiromod.vim<CR>
+nnoremap          <leader>sV   :source $MYVIMRC<CR>
+vnoremap          <leader>sv   :Source %<CR>
+
+nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 vnoremap <silent> <leader>y    y`]
-nnoremap <silent> <leader>zh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
-nnoremap <silent> <leader>zv   :tabedit $MYVIMRC<CR>
 
 " buffer search
 nnoremap <silent> <leader>tt :silent! vimgrep /\CTODO/gj %<CR>

@@ -158,3 +158,7 @@ hi! link GlobalVariable     NONE
 hi DefinedName      ctermfg=228  guifg=#FFFF87  gui=italic
 hi EnumerationValue ctermfg=228  guifg=#FFFF87  gui=italic
 hi GlobalVariable   ctermfg=228  guifg=#FFFF87  gui=italic
+
+
+hi GreenBar term=reverse ctermfg=black ctermbg=green guifg=black guibg=green
+hi RedBar   term=reverse ctermfg=black ctermbg=red   guifg=black guibg=red3
