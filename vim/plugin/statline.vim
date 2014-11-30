@@ -59,11 +59,11 @@ function! ModeChanged(mode)
 endfunction
 
 " pretty mode display - converts the one letter status notifiers to words
-augroup ChangeStatusline
-    autocmd InsertEnter  * call ModeChanged(v:insertmode)
-    autocmd InsertChange * call ModeChanged(v:insertmode)
-    autocmd InsertLeave  * call ModeChanged(mode())
-augroup END
+" augroup ChangeStatusline
+    " autocmd InsertEnter  * call ModeChanged(v:insertmode)
+    " autocmd InsertChange * call ModeChanged(v:insertmode)
+    " autocmd InsertLeave  * call ModeChanged(mode())
+" augroup END
 " }}}
 " buffer and mode info {{{
 function! StatlineBufCount()
@@ -89,7 +89,7 @@ else
 endif
 
 " show mode
-let &stl.="%7*\ %{Mode()} %0*"
+" let &stl.="%7*\ %{Mode()} %0*"
 " }}}
 "filename (relative or tail) {{{
 if exists('g:statline_filename_relative')
