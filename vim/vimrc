@@ -255,26 +255,26 @@ function! CustomMatch(pattern)
   execute 'match MatchTarget ' . search_string
 endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
-cnoreabbrev mt MatchText
+" cnoreabbrev mt MatchText
 " }}}
 " Qargs, Qdof, Qdol {{{
 " :Qargs will populate the arglist with the files in the quickfix list
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
-cnoreabbrev qargs Qargs
+" cnoreabbrev qargs Qargs
 
 " :Qdol applies an arbitrary command to every line found by :vimgrep (:Qdol normal @q)
 command! -nargs=1 Qdol try | sil cfirst |
   \ while 1 | exec <q-args> | sil cn | endwhile |
   \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
   \ endtry
-cnoreabbrev qdol Qdol
+" cnoreabbrev qdol Qdol
 
 " :Qdof applies an arbitrary command to every file found by :vimgrep (at line of first match)
 command! -nargs=1 Qdof try | sil cfirst |
   \ while 1 | exec <q-args> | sil cnf | endwhile |
   \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
   \ endtry
-cnoreabbrev qdof Qdof
+" cnoreabbrev qdof Qdof
 
 " implementation of Qargs
 function! QuickfixFilenames()
@@ -1260,6 +1260,8 @@ set matchtime=3                " tenths of a second to flash to matching paren
 set incsearch                  " find as you type
 set hlsearch                   " hilight search terms
 set magic                      " change how backslashes are handled in searches
+set gdefault
+" TODO: undofile, undo/backupdir, etc
 set ignorecase                 " case insensitive search by default
 set fileignorecase             " ignore case in commands like :buffer
 set smartcase                  " case sensitive search if search contains uppercase letter
@@ -1346,7 +1348,7 @@ function! Stab()
   echomsg
   call SummarizeTabs()
 endfunction
-cnoreabbrev stab Stab
+" cnoreabbrev stab Stab
 
 function! SummarizeTabs()
   try
