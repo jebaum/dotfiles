@@ -43,10 +43,10 @@ if has('python') && (exists('g:ycm') || InJavaDirectory())
 elseif has('lua')
   Plug 'Shougo/neocomplete.vim'
 else
-  Plug 'Shougo/neocomplcache.vim'
-  Plug 'JazzCore/neocomplcache-ultisnips'
-  " Plug 'othree/vim-autocomplpop'
-  " Plug 'eparreno/vim-l9'
+  " Plug 'Shougo/neocomplcache.vim'
+  " Plug 'JazzCore/neocomplcache-ultisnips'
+  Plug 'othree/vim-autocomplpop'
+  Plug 'eparreno/vim-l9'
 endif
 
 Plug 'Shougo/unite.vim'
@@ -111,6 +111,18 @@ Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']} " TODO causes problems when doing :h thing.txt
 Plug 'wellle/targets.vim'
 Plug '~/.vim/eclim', {'for': 'java'}
+
+
+Plug 'justinmk/vim-syntax-extra' " lazy load for c, lex, yacc filetype
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/vim-after-object'
+autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+" Plug 'junkblocker/patchreview-vim'
+" Plug 'codegram/vim-codereview'
+
+" Commands for editing wiki pages to Gitit
+command! -nargs=1 Wiki execute ":split $HOME/Dropbox/wikidata/" . fnameescape("<args>.page") | execute ":Gwrite"
+
 call plug#end()
 if b:plug_first_time_run == 1
   PlugInstall
@@ -771,6 +783,7 @@ function! QuickRunTimeToggle()
 endfunction
 " }}}
 " rainbow {{{
+" alternative - https://github.com/junegunn/rainbow_parentheses.vim
 let g:rainbow_active = 1
 let g:rainbow_conf = {
 \   'guifgs': ['#5FFF00', '#FF5F00', '#FFFF00', '#FF00FF', '#FFFFFF', '#FF0000'],
