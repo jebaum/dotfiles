@@ -4,7 +4,7 @@ autoload -U colors && colors # Enable colors in prompt
 
 function _prompt_char() {
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    echo "%{%F{blue}%}±%{%f%k%b%}"
+    echo "%{%F{yellow}%}±%{%f%k%b%}"
   else
     echo ' '
   fi
@@ -55,6 +55,6 @@ git_prompt_string() {
 }
 
 PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%d$(git_prompt_string)%E%{%f%k%b%}
-$(_prompt_char) %#%{%f%k%b%} '
+$(_prompt_char) $%{%f%k%b%} '
 
 RPROMPT='%{%F{39}%}%D{%I:%M:%S}'
