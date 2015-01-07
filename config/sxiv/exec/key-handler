@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# TODO: doesn't seem to work anymore? unless I'm dumb, $2 isn't being passed, and is supposed to be the filename
 case "$1" in
 "C-d")
         mv "$2" ~/.trash ;;
