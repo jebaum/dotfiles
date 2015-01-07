@@ -41,6 +41,7 @@ hi! link CursorColumn CursorLine
 hi CursorLineNr ctermfg=226  ctermbg=237     cterm=none  guifg=#FFFF00  guibg=#3A3A3A  gui=none
 hi MatchParen   ctermfg=231  ctermbg=124     cterm=bold  guifg=#FFFFFF  guibg=#AF0000  gui=bold
 hi Pmenu        ctermfg=251  ctermbg=235     cterm=none  guifg=#C6C6C6  guibg=#262626  gui=none
+" PmenuSel deprecated, cursorline is used now
 hi PmenuSel     ctermfg=233  ctermbg=73      cterm=none  guifg=#121212  guibg=#5FAFAF  gui=none
 hi PmenuSbar    ctermfg=NONE ctermbg=240     cterm=none  guifg=NONE     guibg=#585858  gui=none
 hi PmenuThumb   ctermfg=66   ctermbg=66      cterm=none  guifg=#5F8787  guibg=#5F8787  gui=none
