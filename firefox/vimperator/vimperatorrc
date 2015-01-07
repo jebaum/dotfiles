@@ -3,9 +3,7 @@ colorscheme darkness
 " qmarks {{{
 " all marks except subreddits are the first char from the url
 qmark 1 192.168.1.100
-qmark 3 cs.ucla.edu/classes/fall14/cs130/
-qmark 7 sites.google.com/site/ebprocaccia/teaching/math-170a-fall-2014
-qmark 8 athenasc.com/probbook.html
+qmark 2 http://tutorial.math.lamar.edu/
 qmark a reddit.com/r/all
 qmark b reddit.com/r/bestof
 qmark c ccle.ucla.edu/my
