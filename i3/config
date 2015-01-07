@@ -58,6 +58,8 @@ exec --no-startup-id amixer set PCM 208
 exec --no-startup-id amixer set Master 25
 # exec --no-startup-id device.sh xfi
 exec --no-startup-id pasystray
+exec --no-startup-id nm-applet
+exec --no-startup-id urxvtd -f -o -q
 exec --no-startup-id ~/dotfiles/scripts/imap_daemon.sh
 exec --no-startup-id ~/dotfiles/scripts/mailbox_notify_daemon.sh
 exec --no-startup-id ~/dotfiles/scripts/startup.sh
@@ -150,7 +152,7 @@ bindsym --release Shift+Print   exec gnome-screenshot -w -B
 bindsym --release Print         exec grab
 bindsym $mod+Print              exec pasta
 bindsym $mod+Shift+Return       exec urxvt
-bindsym $mod+Return             exec urxvt -cd "`~/.i3/xcwd/xcwd`"
+bindsym $mod+Return             exec urxvtc -cd "`~/.i3/xcwd/xcwd`"
 bindsym $mod+Escape             exec /usr/bin/lk
 bindsym $mod+F2                 exec firefox
 bindsym $mod+Shift+F2           exec chromium
