@@ -1,0 +1,21 @@
+# Use PulseAudio by default
+pcm.!default {
+  type pulse
+  fallback "sysdefault"
+  hint {
+    show on
+    description "Default ALSA Output (currently PulseAudio Sound Server)"
+  }
+}
+
+ctl.!default {
+  type pulse
+  fallback "sysdefault"
+}
+
+pcm.dsp {
+   type plug
+   slave.pcm "dmix"
+}
+
+# vim:set ft=alsaconf:

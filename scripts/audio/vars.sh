@@ -23,6 +23,10 @@ elif [ "$DEVICE" == "$HEADSET" ]; then
   CONTROL="PCM"
 
 else
-  echo "idk bro"
+  # assume pulse for now
+  # TODO need to find out the name of the current default sink and set the indicator
+  # pactl list short sinks, pactl list short sink-inputs
+  INDICATOR="P"
+  CONTROL="Master"
 fi
 
