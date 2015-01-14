@@ -4,6 +4,7 @@ colorscheme darkness
 " all marks except subreddits are the first char from the url
 qmark 1 192.168.1.100
 qmark 2 http://tutorial.math.lamar.edu/
+qmark 3 https://piazza.com/class/i4g9dayv6xc4gn
 qmark a reddit.com/r/all
 qmark b reddit.com/r/bestof
 qmark c ccle.ucla.edu/my
