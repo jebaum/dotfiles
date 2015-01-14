@@ -9,6 +9,12 @@ if !filereadable($HOME . "/.vim/autoload/plug.vim")
   execute "silent !curl -fLo ~/.vim/autoload/plug.vim 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'"
 endif
 
+" Load vim-plug ALTERNATE IMPLEMENTATION
+" if empty(glob("~/.vim/autoload/plug.vim"))
+    " execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+" endif
+
+
 if !isdirectory(expand('~/.vim/bundle'))
   let b:plug_first_time_run = 1
 else
@@ -36,15 +42,15 @@ function! InJavaDirectory()
 endfunction
 
 " settings for completion plugins defined in `after/plugin` directory
-if has('python') && (exists('g:ycm') || InJavaDirectory())
+if has('python')  && (exists('g:ycm') || InJavaDirectory())
   " use YCM if we have python, are in a java directory, or g:ycm was defined at launch with --cmd
   Plug 'Valloric/YouCompleteMe'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('lua')
-  Plug 'Shougo/neocomplete.vim'
-else
+  " Plug 'Shougo/neocomplete.vim'
   " Plug 'Shougo/neocomplcache.vim'
   " Plug 'JazzCore/neocomplcache-ultisnips'
+else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
 endif
@@ -116,9 +122,10 @@ Plug '~/.vim/eclim', {'for': 'java'}
 Plug 'justinmk/vim-syntax-extra' " lazy load for c, lex, yacc filetype
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vim-after-object'
+autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+Plug 'wellle/tmux-complete.vim'
 
 Plug 'talek/obvious-resize'
-autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 " Plug 'junkblocker/patchreview-vim'
 " Plug 'codegram/vim-codereview'
 
@@ -798,6 +805,9 @@ let g:rainbow_conf = {
 \           'guifgs': ['#5FFF00', '#FF5F00', '#FFFFFF', '#FF00FF', '#FFFF00', '#FF0000'],
 \           'ctermfgs': ['82', '202', '231', '201', '226', '196'],
 \       },
+\       'java': {
+\           'parentheses': [['(',')'], ['\[','\]'], ['{','}'], ['<','>']],
+\       },
 \       'css': 0,
 \       'stylus': 0,
 \   }
@@ -934,6 +944,9 @@ let g:tagbar_indent           = 1   " default is 2
 let g:tagbar_show_linenumbers = 2   " relative line numbers
 let g_tagbar_autoshowtag      = 1   " auto unfold any parents so highlighted tag is shown
 let g:tagbar_sort             = 0   " sort tags by position in source file, not alphabetically
+" }}}
+" tmux-complete {{{
+let g:tmuxcomplete#trigger = '' " empty for neocomplete, 'omnifunc' for youcompleteme
 " }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
@@ -1551,6 +1564,8 @@ nnoremap          <leader>sv   :source %<CR>
 nnoremap          <leader>sC   :source ~/dotfiles/vim/colors/guimiromod.vim<CR>
 nnoremap          <leader>sV   :source $MYVIMRC<CR>
 vnoremap          <leader>sv   :Source %<CR>
+nnoremap <silent> <leader>S    :let c=col(".")<CR>V:Source<CR>:call cursor(line("."),c)<CR>
+vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call cursor(line("."),g:c)<CR>
 
 nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>u    yyp^v$r
@@ -1616,6 +1631,8 @@ nnoremap <Space>g        :<C-u>Unite -resume -buffer-name=ag         grep:.<CR>
 nnoremap <Space>G        :<C-u>Unite -resume -buffer-name=gist       gist<CR>
 nnoremap <Space>h        :<C-u>Unite -resume -buffer-name=help       help<CR>
 nnoremap <Space>L        :<C-u>Unite -resume -buffer-name=launcher   launcher<CR>
+" add -custom-line-enable-highlight arg to this?
+" also, line:buffers searches all buffers now
 nnoremap <Space>ol       :<C-u>Unite -resume -buffer-name=lines      line<CR>
 nnoremap <Space>oo       :<C-u>Unite -resume -buffer-name=outline    outline<CR>
 nnoremap <Space>q        :<C-u>Unite -resume -buffer-name=quickfix   qf<CR>
@@ -1731,7 +1748,7 @@ function! TmuxifySendLines(count, direction)
   call cursor(l, c)
 endfunction
 
-nnoremap <silent> \b  :TxSend(GenerateBuildCommand())<CR>
+" nnoremap <silent> \b  :TxSend(GenerateBuildCommand())<CR>
 nnoremap <silent> \c  :TxSigInt<CR>
 nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
 nnoremap <silent> \j  :<C-u>call TmuxifySendLines(v:count, "j")<CR>
@@ -1741,7 +1758,7 @@ nnoremap <silent> \ma :TxSend('make')<CR>
 nnoremap <silent> \mc :TxSend('make clean')<CR>
 nnoremap <silent> \o  :TxCreate<CR>
 nnoremap <silent> \q  :TxKill<CR>
-nnoremap <silent> \r  :TxRun<CR>
+" nnoremap <silent> \r  :TxRun<CR>
 nnoremap <silent> \s  "vyy:TxSend(@v)<CR>
 vnoremap <silent> \s  "vy:TxSend(@v)<CR>
 nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u')<CR>:TxClear<CR>
