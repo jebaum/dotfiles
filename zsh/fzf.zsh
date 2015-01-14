@@ -43,6 +43,9 @@ fzf-cd-widget() {
    # different things for d and D?
    # also make similar updates to the C-t thing, but ^t isn't a thing
    # would also want a cache for ^T
+   # alternatively, could do something like this:
+   #    strings /var/lib/mlocate/mlocate.db | grep -E '^/' | fzf
+   # read everything from the database, all directories will start with the '/' character
    cd "${$(set -o nonomatch; command find -L \
      \( -path '*.wine-pipelight' -o -path '*.ivy2*' -o -path '*.texlive*' \
      -o -path '*.git' -o -path '*.metadata' -o -path '*_notes' \) \
