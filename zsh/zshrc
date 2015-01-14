@@ -22,8 +22,7 @@ compdef mosh=ssh
 compdef g=git
 
 export PATH=$HOME/.cabal/bin:$PATH
-export FZF_DEFAULT_OPTS="--sort 20000"
-source ~/dotfiles/scripts/fzf.sh
+source ~/dotfiles/scripts/fzf_utilities.sh
 
 source $ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # load syntax highlighting before history search
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
