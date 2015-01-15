@@ -137,6 +137,7 @@ bindsym $mod+Control+Prior  exec echo seek 600 0 > ~/.mpv/mpvfifo
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
+bindsym $mod+b                  exec ~/dotfiles/scripts/firefox_history.sh
 bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
 bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+g                  exec gvim
