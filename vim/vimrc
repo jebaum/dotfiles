@@ -118,7 +118,6 @@ Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']} " TODO causes pr
 Plug 'wellle/targets.vim'
 Plug '~/.vim/eclim', {'for': 'java'}
 
-
 Plug 'justinmk/vim-syntax-extra' " lazy load for c, lex, yacc filetype
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vim-after-object'
@@ -128,7 +127,13 @@ Plug 'wellle/tmux-complete.vim'
 Plug 'talek/obvious-resize'
 " Plug 'junkblocker/patchreview-vim'
 " Plug 'codegram/vim-codereview'
+Plug 'junegunn/seoul256.vim'
+Plug 'romainl/Apprentice'
+hi! link javaScriptNumber Number
+let g:seoul256_background = 233
+" colorscheme seoul256
 
+nnoremap <BS> :<C-U>OverCommandLine<CR>%s/\V\<lt><c-r><c-w>\>//g<left><left>
 " Commands for editing wiki pages to Gitit
 command! -nargs=1 Wiki execute ":split $HOME/Dropbox/wikidata/" . fnameescape("<args>.page") | execute ":Gwrite"
 
@@ -1624,22 +1629,22 @@ nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " space leader maps. unite + tabularize {{{
 nnoremap <Space>a        :<C-u>Unite -resume -buffer-name=arglist    argument<CR>
-nnoremap <Space>b        :<C-u>Unite -resume -buffer-name=buffers    buffer<CR>
+nnoremap <Space>b        :<C-u>Unite         -buffer-name=buffers    buffer<CR>
 nnoremap <Space>d        :<C-u>Unite -resume -buffer-name=tabs       tab:no-current<CR>
-nnoremap <Space>f        :<C-u>Unite -resume -buffer-name=files      file<CR>
+nnoremap <Space>f        :<C-u>Unite         -buffer-name=files      file<CR>
 nnoremap <Space>g        :<C-u>Unite -resume -buffer-name=ag         grep:.<CR>
 nnoremap <Space>G        :<C-u>Unite -resume -buffer-name=gist       gist<CR>
-nnoremap <Space>h        :<C-u>Unite -resume -buffer-name=help       help<CR>
+nnoremap <Space>h        :<C-u>Unite         -buffer-name=help       help<CR>
 nnoremap <Space>L        :<C-u>Unite -resume -buffer-name=launcher   launcher<CR>
 " add -custom-line-enable-highlight arg to this?
 " also, line:buffers searches all buffers now
-nnoremap <Space>ol       :<C-u>Unite -resume -buffer-name=lines      line<CR>
-nnoremap <Space>oo       :<C-u>Unite -resume -buffer-name=outline    outline<CR>
+nnoremap <Space>ol       :<C-u>Unite         -buffer-name=lines      line<CR>
+nnoremap <Space>oo       :<C-u>Unite         -buffer-name=outline    outline<CR>
 nnoremap <Space>q        :<C-u>Unite -resume -buffer-name=quickfix   qf<CR>
-nnoremap <Space>r        :<C-u>Unite -resume -buffer-name=file_rec   file_rec/async:!<CR>
-nnoremap <Space>sl       :<C-u>Unite -resume -buffer-name=sessions   session<CR>
-nnoremap <Space>sn       :<C-u>Unite -resume -buffer-name=new_session session/new<CR>
-nnoremap <Space>t        :<C-u>Unite -resume -buffer-name=tags       tag<CR>a<BS>
+nnoremap <Space>r        :<C-u>Unite         -buffer-name=file_rec   file_rec/async:!<CR>
+nnoremap <Space>sl       :<C-u>Unite         -buffer-name=sessions   session<CR>
+nnoremap <Space>sn       :<C-u>Unite         -buffer-name=new_session session/new<CR>
+nnoremap <Space>t        :<C-u>Unite         -buffer-name=tags       tag<CR>a<BS>
 nnoremap <Space>vf       :<C-u>Unite -resume -buffer-name=functions  function<CR>
 nnoremap <Space>vm       :<C-u>Unite -resume -buffer-name=mappings   mapping<CR>
 nnoremap <Space>vr       :<C-u>Unite -resume -buffer-name=runtimepath runtimepath<CR>
@@ -1773,6 +1778,14 @@ function! Open_current_file_dir(args)
   call unite#start(args, options)
 endfunction
 nnoremap <leader>F :call Open_current_file_dir('-no-split file')<cr>
-nmap <buffer> <bs> <Plug>(unite_delete_backward_path)
+" nmap <buffer> <bs> <Plug>(unite_delete_backward_path)
+"
+function! SystemListOutput(command)
+  let output = systemlist(a:command)
+  10new
+  set buftype=nofile
+  call append(line('$'), output)
+endfunction
+nnoremap <silent> <leader>h :call SystemListOutput('hub fork')<CR>
 
 " vim: foldmethod=marker foldlevel=1 textwidth=0 softtabstop=2 tabstop=2 shiftwidth=2
