@@ -18,13 +18,15 @@ qmark n news.google.com
 qmark p reddit.com/r/programming
 qmark r reddit.com
 qmark s schneier.com/essays.html
-qmark t teamfortress.tv/forum
 qmark u reddit.com/r/ucla
 qmark v reddit.com/r/vim
 qmark w w.jbaumy.com
 " }}}
 
 " set options {{{
+set maxitems=35
+set animations=true
+set complete=sltb
 set defsearch="google"
 set focuscontent
 set hintchars="asdfghjueryitbncv"
@@ -34,10 +36,12 @@ set status="input,location,bookmark,history,tabcount,position,ssl"
 set newtab="all"
 set shell="bash"
 set smartcase
+set tabnumbers
+" TODO :h 'complete'
 " set nextpattern="\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\bmore\b,next ›"
 " set previouspattern="\bprev|previous\b,^<$,^(<<|«)$,^(<|«),(<|«)$,‹ prev"
-set nextpattern="next ›,Next >"
-set previouspattern="‹ prev,< Prev"
+set nextpattern="next ›,Next >,Next »"
+set previouspattern="‹ prev,< Prev,« Prev"
 " }}}
 
 " maps {{{
@@ -73,6 +77,8 @@ nnoremap st :tabopen thesaurus<Space>
 nnoremap sw :tabopen wikipedia<Space>
 nnoremap sy :tabopen youtube<Space>
 
+nnoremap sb :set scrollbar!<CR>
+
 nnoremap <C-f>     /
 nnoremap <C-b>     <C-^>
 nnoremap <C-l>     :nohlsearch<CR>
@@ -93,6 +99,9 @@ nnoremap ,h :sidebar History<CR>
 nnoremap ,p :sidebar Preferences<CR>
 nnoremap ,q :sbclose<CR>
 
+nnoremap ,g :open google<Space>
+nnoremap ,G :tabopen google<Space>
+
 nnoremap <leader>c   :dialog cookies<CR>
 nnoremap <leader>d   :dialog savepage<CR>
 nnoremap <leader>h   :dialog history<CR>
@@ -111,6 +120,13 @@ nnoremap j <Down>
 " sources {{{
 " CSS file added using vimperator `:style`
 source ~/dotfiles/firefox/vimperator/globaldark.vimp
+
+hi Hint font-family: DejaVu Sans Mono; letter-spacing:2px; font-size: 12pt; color:#FFFFFF; font-weight:bold; border-color:#3333CC; border-width: 2px; border-style:solid; padding 0px 1px 0px 1px; background: linear-gradient(to bottom left, #000000, #303030); text-transform:uppercase; border-radius: 5px;
+
+hi Filter color: #FF5F00
+hi CompItem[selected] background: #331033; color: #FFFFFF;
+hi Normal color: #AFAFAF; background: #080808;
+hi CompTitle color: #FFAFAF; background: #404040; font-weight:bold;
 " }}}
 
 echo "sup"
