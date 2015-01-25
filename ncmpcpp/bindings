@@ -496,8 +496,8 @@ def_key "N"
 #def_key "`"
 #  toggle_browser_sort_mode
 #
-#def_key "`"
-#  toggle_library_tag_type
+def_key "`"
+ toggle_library_tag_type
 #
 #def_key "`"
 #  refetch_lyrics
