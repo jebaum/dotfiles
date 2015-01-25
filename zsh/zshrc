@@ -90,7 +90,7 @@ function _edit-widget() {
 }
 
 function _fzf-edit-widget() {
-    _edit-widget "fzf -m -e"
+    _edit-widget "fzf -m"
 }
 
 function _selecta-edit-widget() {
