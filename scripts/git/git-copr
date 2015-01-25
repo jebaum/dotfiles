@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$#" = "0" ]; then
+    echo "check out pull request from github"
+    echo "USAGE: git copr NUMBER [BRANCH NAME]"
+    exit
+fi
+
+PRNUM=$1
+BRANCH=$1
+if [ "$#" = "2" ]; then
+    BRANCH=$2
+fi
+git fetch origin pull/$PRNUM/head:$BRANCH
