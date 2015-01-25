@@ -46,14 +46,11 @@ fzf-cd-widget() {
    # alternatively, could do something like this:
    #    strings /var/lib/mlocate/mlocate.db | grep -E '^/' | fzf
    # read everything from the database, all directories will start with the '/' character
-   cd "${$(set -o nonomatch; command find -L \
-     \( -path '*.wine-pipelight' -o -path '*.ivy2*' -o -path '*.texlive*' \
+   DIR="${$(find -L \( -path '*.wine-pipelight' -o -path '*.ivy2*' -o -path '*.texlive*' \
      -o -path '*.git' -o -path '*.metadata' -o -path '*_notes' \) \
      -prune -o -type d -print 2>/dev/null | fzf):-.}"
-   # cd "${$(set -o nonomatch; command find -L * -path '*/\.*' -prune \
-           # -o -type d -print 2> /dev/null | fzf):-.}"
-
-  zle reset-prompt
+   cd $DIR
+   zle reset-prompt
 }
 zle     -N    fzf-cd-widget
 bindkey '^[d' fzf-cd-widget
