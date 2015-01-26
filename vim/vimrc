@@ -723,7 +723,6 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
 " oblique {{{
 let g:oblique#incsearch_highlight_all = 1
-let g:oblique#very_magic = 1
 " TODO: the current match that gets special highlighting can't be cleared by nohlsearch. oblique bug or lack of feature?
 let g:oblique#clear_highlight = 1
 map n <Plug>(Oblique-n)<Plug>(anzu-update-search-status-with-echo)zv
