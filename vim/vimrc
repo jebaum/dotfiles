@@ -1285,6 +1285,7 @@ endif
 set nojoinspaces        " use only one space after a period when joining lines
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
+set synmaxcol=500
 augroup SyntaxSync
   autocmd!
   autocmd BufReadPost syntax sync fromstart
@@ -1314,9 +1315,9 @@ augroup END
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " newer and better smartindent
 set smarttab        " make tabs more consistent with softtabstop
-set shiftwidth  =4  " amount of whitespace to insert or remove using normal mode indentation commands
-set softtabstop =4  " amount of whitespace deleted by backspace
-set tabstop     =4  " width of tab character
+set shiftwidth =4   " amount of whitespace to insert or remove using normal mode indentation commands
+set softtabstop=-1  " amount of whitespace deleted by backspace. -1 means use value of 'shiftwidth'
+set tabstop    =4   " width of tab character
 set shiftround      " indent by multiples of shiftwidth
 set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
