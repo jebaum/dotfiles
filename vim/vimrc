@@ -146,6 +146,7 @@ endif
 " Misc {{{
 " Mail / Mutt {{{
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
+  autocmd!
   autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
 augroup END
@@ -161,6 +162,7 @@ endif
 " }}}
 " Return to last edit position when opening files {{{
 augroup ReturnToLast
+  autocmd!
   autocmd BufReadPost *
        \ if line("'\"") > 0 && line("'\"") <= line("$") |
        \   exe "normal! g`\"" |
@@ -191,6 +193,7 @@ cnoremap $d <CR>:d<CR>``
 " SyntaxRange autocmds {{{
 " last parameter is optional and can be any highlight group, determines delimiter colors
 augroup SyntaxNotes
+  autocmd!
   " for backward compatibility
   autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
   autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
@@ -211,6 +214,7 @@ augroup END
 " }}}
 " FileType autocmds {{{
 augroup FileTypeSettings
+  autocmd!
   " autocmd BufWritePre * :call StripTrailingWhitespace()
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
@@ -236,7 +240,8 @@ augroup END
 " }}}
 " align quickfix output {{{
 augroup QuickfixAlign
-autocmd BufRead quickfix setl modifiable
+  autocmd!
+  autocmd BufRead quickfix setl modifiable
             \| silent exe "%!perl -ple '
                 \my ($file, $pos, $msg) = split qr{[|]}, $_, 3;
                 \my $aligned_pos = sub {
@@ -755,11 +760,13 @@ map N <Plug>(Oblique-N)<Plug>(anzu-update-search-status-with-echo)zv
 nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc nocul' : 'cuc cul') . '<CR>'
 nnoremap <silent><C-c> :set nocuc nocul<CR>
 augroup FancyCR
+  autocmd!
   autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 augroup END
 " }}}
 " pandoc {{{
 augroup PandocMaps
+  autocmd!
   autocmd filetype pandoc nnoremap <buffer><silent><expr> gc ":set cole=" . (&cole != 0 ? "0" : "2") . "<CR>"
 augroup END
 " let g:pandoc#syntax#codeblocks#embeds#langs = ["ruby", "c"]  " achieve same affect as SyntaxRange
@@ -920,6 +927,7 @@ function! SyntasticOpenMP()
 endfunction
 
 augroup OPENMP
+  autocmd!
   autocmd BufEnter /home/james/Dropbox/Documents/UCLA/Y3Q2/CS133/* call SyntasticOpenMP()
 augroup END
 
@@ -1164,6 +1172,7 @@ endif
 
 " unite buffer maps
 augroup unite
+  autocmd!
   autocmd FileType unite call s:unite_my_settings()
 augroup END
 function! s:unite_my_settings()
@@ -1225,6 +1234,7 @@ let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_ignore_pattern       = '\.o\|^\.'  " ignore object files and dotfiles
 let g:vimfiler_explorer_columns     = ""
 augroup vimfiler
+  autocmd!
   autocmd FileType vimfiler call s:vimfiler_my_settings()
 augroup END
 
@@ -1322,6 +1332,7 @@ set nojoinspaces        " use only one space after a period when joining lines
 syntax on                      " syntax hilighting
 syntax sync minlines=256       " speed up syntax hilighting
 augroup SyntaxSync
+  autocmd!
   autocmd BufReadPost syntax sync fromstart
 augroup END
 let g:no_ocaml_maps = 1
@@ -1339,6 +1350,7 @@ set completeopt=longest,menuone
 set foldnestmax =1   " folds only one level deep
 set foldmethod  =manual
 augroup SyntaxFold
+  autocmd!
   autocmd BufWinEnter    *.java           set foldnestmax=2 foldlevel=1
   autocmd BufWinEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
   autocmd InsertEnter    *.c,*.cpp,*.java set foldmethod=manual " once we start typing, using manual folds
@@ -1462,6 +1474,7 @@ nnoremap z<CR> zMzvzz
 " easily toggle command line window with Q {{{
 nnoremap Q q:
 augroup CmdWindow
+  autocmd!
   autocmd CmdwinEnter * nnoremap <buffer><silent> Q :q<CR>
 augroup END
 " }}}
@@ -1494,6 +1507,7 @@ nnoremap "+X "+X
 " }}}
 " quickfix maps {{{
 augroup QuickFix
+  autocmd!
   autocmd FileType qf setlocal nosplitbelow nosplitright
   autocmd FileType qf setlocal switchbuf=""
   autocmd FileType qf nnoremap <buffer><silent> <CR> <CR>zvzz
