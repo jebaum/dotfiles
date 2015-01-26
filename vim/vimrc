@@ -1491,7 +1491,7 @@ nnoremap <down>      :resize -2<CR>
 nnoremap <right>     :vertical resize +2<CR>
 " }}}
 " Text Object / targets.vim maps {{{
-let g:targets_pairs       = '()p {}c []r <>a'
+let g:targets_pairs       = '()p {}c []r <>g'
 let g:targets_quotes      = "\"d 's `e"
 
 function! Append(type, ...)
