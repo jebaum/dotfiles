@@ -377,29 +377,6 @@ function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
   let @s = temp
 endfunction
 " }}}
-" GenerateRunCommand function {{{
-" an autocmd sets b:dispatch to the output of this command for certain filetypes
-function! GenerateRunCommand(...)
-  if a:0 == 1
-    let ftype = a:1
-  else
-    let ftype = &filetype
-  endif
-
-  if ftype == 'c' || ftype == 'cpp'
-    return shellescape(expand('%:p:r'))
-  elseif ftype == 'sh'
-    return 'bash ' . shellescape(expand('%'))
-  elseif ftype == 'python'
-    return 'python ' . shellescape(expand('%'))
-  elseif ftype == 'ocaml'
-    return 'ocaml ' . shellescape(expand('%'))
-  elseif ftype == 'lisp'
-    return 'clisp ' . shellescape(expand('%'))
-  endif
-
-endfunction
-" }}}
 " Run shell command, put output in split function {{{
 function! s:ExecuteInShell(command, bang)
   let _ = a:bang != '' ? s:_ : a:command == '' ? '' : join(map(split(a:command), 'expand(v:val)'))
@@ -682,11 +659,6 @@ let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
 let g:detectindent_max_lines_to_analyse = 1024
 " }}}
-" dispatch {{{
-augroup DISPATCH
-  autocmd FileType c,cpp,sh,python,ocaml,lisp     let b:dispatch = GenerateRunCommand()
-augroup END
-" }}}
 " exchange {{{
 " need to define default mappings in vimrc for vim-plug lazy loading to work
 nmap cx <Plug>(Exchange)
@@ -964,18 +936,12 @@ let g:tmuxcomplete#trigger = '' " empty for neocomplete, 'omnifunc' for youcompl
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
-let g:tmuxify_run = {}
-
-" TODO: replace this by using the g:tmuxify_run variable above? example in the tmuxify readme
-function! SetTmuxifyRun()
-  if &filetype != ''
-    execute 'let g:tmuxify_run.' . &filetype . '="' . GenerateRunCommand() . '"'
-  endif
-endfunction
-
-" augroup TMUXIFY
-  " autocmd BufEnter * call SetTmuxifyRun()
-" augroup END
+let g:tmuxify_run = {
+      \ 'sh':     'bash %',
+      \ 'python': 'python %',
+      \ 'ocaml':  'ocaml %',
+      \ 'clisp':  'clisp %',
+\}
 " }}}
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger       = "<C-l>"
@@ -1741,18 +1707,6 @@ exec 'inoremap ' . Altmap('w') . '   <S-Right>'
 exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " }}}
 " slash leader maps. tmuxify {{{
-function! GenerateBuildCommand()
-  if &filetype == 'c'
-    let my_compiler = 'gcc'
-  elseif &filetype == 'cpp'
-    let my_compiler = 'g++'
-  elseif &filetype == 'ocaml'
-    let my_compiler = 'ocamlc'
-  endif
-
-  return my_compiler . ' ' . shellescape(expand('%:p')) . ' -o ' . shellescape(expand('%:p:r'))
-endfunction
-
 function! TmuxifySendLines(count, direction)
   let l = line(".")
   let c = col(".")
@@ -1763,26 +1717,78 @@ function! TmuxifySendLines(count, direction)
     execute 'normal! "vy' . a:count . a:direction
   endif
 
-  TxSend(@v)
+  TxSend!(@v)
   call cursor(l, c)
 endfunction
 
-" nnoremap <silent> \b  :TxSend(GenerateBuildCommand())<CR>
-nnoremap <silent> \c  :TxSigInt<CR>
-nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d')<CR>
+function! AutoAssociate()
+  if !exists('$TMUX')
+    let descriptor=systemlist('tmux list-panes -aF "#S:#I.#P"')[0]
+    if descriptor == 'failed to connect to server: Connection refused'
+      echo "there's no tmux running!"
+      return -1
+    endif
+  else
+    let vimdescriptor=systemlist('tmux display-message -p "#S:#I.#P"')[0]
+    let descriptorlist=systemlist('tmux list-panes -sF "#S:#I.#P"')
+    if len(descriptorlist) == 1
+      echo "vim is the only pane!"
+      return -1
+    else
+      for entry in descriptorlist
+          if entry == vimdescriptor | continue | endif
+          let descriptor=entry
+          break
+      endfor
+    endif
+  endif
+
+  let [session, window, pane] = split(descriptor, '\W')
+  call tmuxify#pane_set('!', session, window, pane)
+  echo "associated with pane " . session . ":" . window . "." . pane
+endfunction
+
+function! TxCreateWrapper()
+  if tmuxify#get_associated_pane('!') != -1
+    echo 'TxCreateWrapper: already associated with a pane'
+    return -1
+  endif
+  if !exists('$TMUX')
+    call system('urxvt -e zsh -c "tmux" &')
+    let counter = 0
+    while counter < 100
+      if empty(systemlist('pgrep tmux'))
+        let counter += 1
+        sleep 20m
+      else
+        break
+      endif
+    endwhile
+    call AutoAssociate()
+  else
+    TxCreate!
+  endif
+endfunction
+
+nnoremap <silent> \a  :call tmuxify#pane_command('!', 'copy-mode')<CR>
+nnoremap <silent> \c  :TxSigInt!<CR>
+nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d', '!')<CR>
 nnoremap <silent> \j  :<C-u>call TmuxifySendLines(v:count, "j")<CR>
 nnoremap <silent> \k  :<C-u>call TmuxifySendLines(v:count, "k")<CR>
-nnoremap <silent> \l  :TxClear<CR>
-nnoremap <silent> \ma :TxSend('make')<CR>
-nnoremap <silent> \mc :TxSend('make clean')<CR>
-nnoremap <silent> \o  :TxCreate<CR>
-nnoremap <silent> \q  :TxKill<CR>
-" nnoremap <silent> \r  :TxRun<CR>
-nnoremap <silent> \s  "vyy:TxSend(@v)<CR>
-vnoremap <silent> \s  "vy:TxSend(@v)<CR>
-nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u')<CR>:TxClear<CR>
-nnoremap <silent> \|  :TxSend<CR>
-nnoremap <silent> \<CR>  :call tmuxify#pane_send_raw('C-j')<CR>
+nnoremap <silent> \l  :TxClear!<CR>
+nnoremap          \o  :call TxCreateWrapper()<CR>
+nnoremap <silent> \s  "vyy:TxSend!(@v)<CR>
+vnoremap <silent> \s  "vy:TxSend!(@v)<CR>
+nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u', '!')<CR>:TxClear!<CR>
+nnoremap <silent> \x  :TxKill!<CR>
+nnoremap <silent> \|  :TxSend!<CR>
+nnoremap <silent> \<CR>  :call tmuxify#pane_send_raw('C-j', '!')<CR>
+nnoremap          \\  :call AutoAssociate()<CR>
+
+nnoremap <silent> <up>    :call tmuxify#pane_send_raw('C-u', '!')<CR>
+nnoremap <silent> <down>  :call tmuxify#pane_send_raw('C-d', '!')<CR>
+nnoremap <silent> <left>  :call tmuxify#pane_send_raw('C-b', '!')<CR>
+nnoremap <silent> <right> :call tmuxify#pane_send_raw('C-f', '!')<CR>
 " }}}
 " }}}
 function! Open_current_file_dir(args)
