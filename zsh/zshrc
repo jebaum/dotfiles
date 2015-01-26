@@ -73,7 +73,8 @@ bindkey -M vicmd 'j' history-substring-search-down
 
 function _edit-widget() {
   IFS=$'\n'
-  filelist=( $(ag -g '.' 2>/dev/null | eval $1) )
+  # TODO potentially use locate here too? `locate --wholename "$PWD" | fzf` ?
+  filelist=( $(ag -g '.' 2>/dev/null | fzf -m) )
   if [ -z "$filelist" ]; then
     zle redisplay
   else
@@ -89,18 +90,8 @@ function _edit-widget() {
   fi
 }
 
-function _fzf-edit-widget() {
-    _edit-widget "fzf -m"
-}
-
-function _selecta-edit-widget() {
-    _edit-widget "selecta"
-}
-
-zle -N _fzf-edit-widget
-zle -N _selecta-edit-widget
-bindkey '^O'  _fzf-edit-widget
-bindkey '^X'  _selecta-edit-widget
+zle -N _edit-widget
+bindkey '^O'  _edit-widget
 
 KEYTIMEOUT=1
 function zle-line-init zle-keymap-select {
