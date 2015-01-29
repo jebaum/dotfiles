@@ -9,6 +9,7 @@ alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
 alias g='git'
 alias gsu='git submodule foreach git checkout master && git submodule foreach git pull'
 alias gist='gist -c -p'
+alias gpa='for i in *; do cd $i; pwd; git pull; cd ..; done'
 alias grep='grep --color=auto'
 alias gvim='gvim -p'
 alias hlerrors="sed -e 's/Exception/\x1b[36;7m&\x1b[0m/ig' -e 's/Error/\x1b[33;7m&\x1b[0m/ig' -e 's/Fault/\x1b[31;7m&\x1b[0m/ig'"
