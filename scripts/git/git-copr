@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" = "0" ]; then
-    echo "check out pull request from github"
+    echo "check out pull request from github into a local branch"
     echo "USAGE: git copr NUMBER [BRANCH NAME]"
     exit
 fi
