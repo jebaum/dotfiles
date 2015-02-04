@@ -49,6 +49,20 @@ alias rsync-move="rsync -avz --progress -h --remove-source-files"
 alias rsync-update="rsync -avzu --progress -h"
 alias rsync-synchronize="rsync -avzu --delete --progress -h"
 
+function mountandroid() {
+  mkdir ~/android
+  # phone has DHCP reservation set to be 192.168.1.102
+  sshfs -p 2222 james@192.168.1.${1-102}:/storage/extSdCard/Android/data/com.theolivetree.sshserver/files ~/android
+  cd ~/android
+  ranger
+}
+
+function umountandroid() {
+  cd ~
+  fusermount -u ~/android
+  rmdir ~/android
+}
+
 recordwindow() {
     recordmydesktop --windowid $(xwininfo | awk '/Window id:/ {print $4}')
 }
