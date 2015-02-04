@@ -53,7 +53,7 @@ URxvt.scrollstyle : rxvt
 ! mark i3 workspace urgent when bell received
 URxvt.urgentOnBell: true
 
-URxvt.cursorBlink: 1
+URxvt.cursorBlink: 0
 URxvt.cursorUnderline: 0
 URxvt.cursorColor            : #FFFF87
 URxvt.pointerColorBackground : #586E75
