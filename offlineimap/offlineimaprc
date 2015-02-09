@@ -49,7 +49,7 @@ nametrans = nt_local
 [Repository jebaumg-remote]
 type = Gmail
 remoteuser = jebaum@g.ucla.edu
-remotepasseval = mailpasswd("jebaum")
+remotepasseval = mailpasswd("jebaumg")
 realdelete = no
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 nametrans = nt_remote

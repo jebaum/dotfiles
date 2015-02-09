@@ -60,8 +60,8 @@ def mailpasswd(server):
     if server == "jbaumy":
         pw = subprocess.check_output(["gpg", "-q", "--no-tty", "-d","--use-agent", "/home/james/.mutt/jbaumypw.gpg"])
         return str(pw).strip()
-    elif server == "jebaum":
-        pw = subprocess.check_output(["gpg", "-q", "--no-tty", "-d","--use-agent", "/home/james/.mutt/jebaumpw.gpg"])
+    elif server == "jebaumg":
+        pw = subprocess.check_output(["gpg", "-q", "--no-tty", "-d","--use-agent", "/home/james/.mutt/jebaumgpw.gpg"])
         return str(pw).strip()
     elif server == "neurionb":
         pw = subprocess.check_output(["gpg", "-q", "--no-tty", "-d","--use-agent", "/home/james/.mutt/neurionbpw.gpg"])
