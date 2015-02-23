@@ -1,6 +1,6 @@
 style -name globaldark * << END
 /* AGENT_SHEET */
-@-moz-document url-prefix(http://), url-prefix(https://), url-prefix(ftp://), url-prefix(file://), url(about:blank), url-prefix("about:neterror"), url-prefix("liberator://"), url(about:sync-tabs) {
+@-moz-document url-prefix(http://), url-prefix(https://), url-prefix(ftp://), url-prefix(file://), url(about:blank), url-prefix("about:neterror"), url-prefix("liberator://"), url(about:sync-tabs), url(about:home) {
 
 /* Firefox Scrollbars */
 scrollbar {opacity: .75 !important;}
