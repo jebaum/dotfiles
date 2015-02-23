@@ -3,6 +3,7 @@ alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
 
 # command aliases
 alias sudo='sudo -E '
+alias beep='echo -en "\a"'
 alias cl='echo "!!" | xclip'
 alias eclimd='~/.eclipse/org.eclipse.platform_4.4.1_1543616141_linux_gtk_x86_64/eclimd'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
@@ -34,8 +35,9 @@ alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
 alias tmux='tmux -u'
 alias top='htop'
 alias tree='tree -C'
-alias vim='vim -p'
 alias vi='vim'
+alias vim='vim -p'
+alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias x='exit'
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
@@ -116,7 +118,9 @@ pget() {
     torrentdaemonstart 2>/dev/null
     pirate-get --color --custom "transmission-remote 9092 -a '%s'" "$@"
 }
-torrentadd()         { transmission-remote -a "$1"}
+torrentadd() {
+    transmission-remote -a "${1-$(xclip -o)}"
+}
 torrentdaemonstart() {
     if [ "$(pidof transmission-daemon)" ]; then
         echo transmission-daemon already running 1>&2
