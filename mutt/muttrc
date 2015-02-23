@@ -24,6 +24,8 @@ set mbox_type=Maildir
 set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
 set sort_browser=alpha        # Sort mailboxes by alpha(bet)
+set mark_old=no
+folder-hook * "exec collapse-all"
 source ~/.mutt/jebaumg.muttrc # Startup folder
 #=Headers==============================================#
 
@@ -42,6 +44,8 @@ set edit_headers=yes  # See the headers when editing
 set include=yes                      # include message in replies
 set forward_quote=yes                # include message in forwards
 set forward_format = "Fwd: %s"       # format of subject when forwarding
+# set mime_forward=yes
+# set mime_forward_rest=yes
 set attribution = "On %d, %n wrote:" # format of quoting header
 set copy=yes
 set delete=yes
