@@ -39,6 +39,8 @@ bindkey '^T' fzf-file-widget
 # ALT-D - cd into the selected directory
 fzf-cd-widget() {
 
+   # TODO when this gets ironed out, update the command in .config/ranger/commands.py too
+   # maybe use an environment variable to keep them in sync?
    # TODO maintain a cache for this? it's slow from ~
    # different things for d and D?
    # also make similar updates to the C-t thing, but ^t isn't a thing
