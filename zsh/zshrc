@@ -60,6 +60,7 @@ bindkey "^G"    delete-char         # C-g deletes character in front of cursor, 
 bindkey "^K"    kill-line
 bindkey "^L"    clear-screen
 bindkey "^Q"    delete-word         # C-q deletes word in front of cursor, opposite C-w
+bindkey "^[r"   history-incremental-search-backward
 bindkey "^S"    sudo-command-line   # C-s inserts 'sudo' at beginning of line
 bindkey "^V"    vi-find-prev-char
 bindkey "^W"    backward-delete-word
