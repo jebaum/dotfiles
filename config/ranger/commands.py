@@ -1309,3 +1309,27 @@ class compress(Command):
 
         extension = ['.zip', '.tar.gz', '.rar', '.7z']
         return ['compress ' + os.path.basename(self.fm.env.cwd.path) + ext for ext in extension]
+
+
+from subprocess import PIPE
+from os import path
+class fzfcd(Command):
+    def execute(self):
+        currentdir = str(self.fm.thisdir)
+        currentdirlen = len(currentdir)
+        if currentdir != "/":
+            currentdirlen += 2 # + 2 to get rid of the whole pwd and the trailing slash with cut
+
+        if self.arg(1) == "files":
+            command="locate '" + currentdir + "' 2>/dev/null | fzf -x"
+        else:
+            command="strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | fzf -x"
+
+        fzf = self.fm.execute_command(command, stdout=PIPE)
+        stdout, stderr = fzf.communicate()
+        result = stdout.decode('utf-8').rstrip('\n')
+
+        if path.isfile(result):
+            self.fm.select_file(result)
+        else:
+            self.fm.cd(result)
