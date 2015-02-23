@@ -28,6 +28,7 @@ vim/.netrwhist
 vim/bundle/*
 vim/session/*
 vim/nvimrc
+vim/view
 vim/eclim
 vim/plugin/eclim.vim
 
