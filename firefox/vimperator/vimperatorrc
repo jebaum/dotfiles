@@ -51,6 +51,8 @@ nnoremap gq    :qmarks<CR>
 inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
+nnoremap <C-S-F> <PageDown>
+nnoremap <C-S-B> <PageUp>
 
 nnoremap <C-j> gt
 nnoremap J :Selecttab<CR>:tabmove! -1<CR>
