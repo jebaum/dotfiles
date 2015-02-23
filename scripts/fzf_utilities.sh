@@ -11,6 +11,7 @@ alias fkillall="$HOME/dotfiles/scripts/fkill.sh all"
 # TODO make an alias for all packages, which will use sed in a loop to prepend 'aur/' to $AURFILE
 # TODO also just think about these in general, would like to not have as many of them
 # TODO also rework these so that C-c after invoking it doesn't spit everything to the terminal
+# TODO there's an aurpkglist command provided by python3-aur package
 fpacmanall() {
   pacman "${1--Sii}" $(fzf --query="$2" --select-1 --exit-0 < "$PACFILE")
 }
