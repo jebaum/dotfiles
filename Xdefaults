@@ -1,10 +1,5 @@
 ! vim: set filetype=xdefaults :
-dzen2*font: DejaVu Sans Mono-6
-dzen2*background: #262729
-dzen2*foreground: #aaaaaa
-dzen2*height: 14
-
-! XFT
+# XFT
 Xft*dpi: 98
 Xft.antialias: true
 Xft.hinting: true
@@ -13,7 +8,7 @@ Xft.rgba: rgb
 Xft.lcdfilter : lcddefault
 
 URxvt*background: #181818
-URxvt.foreground : #FFFFFF
+URxvt.foreground : #EBDBB2
 URxvt.perl-ext-common : default,,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
 
 # https://github.com/Vifon/autocomplete-ALL-the-things

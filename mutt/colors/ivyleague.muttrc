@@ -1,5 +1,5 @@
 # general stuff
-color  normal      color255   default
+color  normal      color223   default
 color  error       color15    color52
 color  markers     color142   color233
 color  tilde       color142   default
@@ -7,12 +7,17 @@ color  tilde       color142   default
 
 # index stuff
 color  tree        color208   default        # threaded message arrows
-color  indicator   color192   color234       # selected item, sidebar and index
+color  indicator   color226   color237       # selected item, sidebar and index
 color  sidebar_new color46    default        # inactive mailbox with new message
-color  index       color253   default   ~A   # all messages in index
-color  index       color34    default   ~N   # new messages in index
-color  index       color34    default   ~O   # new messages present when mutt opened
+color  index       color223   default   ~A   # all messages in index
+color  index       color37    default   ~N   # new messages in index
+color  index       color37    default   ~O   # new messages present when mutt opened
 color  index       color124   default   ~F   # flagged messages
+
+color index yellow   default "~v~(!~N)~(!~F)" # collapsed thread with no New or Flagged
+color index red      default "~v~(~F)~(!~N)"  # collapsed thread with Flagged but no New
+color index green    default "~v~(~N)"        # collapsed thread with New
+color index color51  default "~v~(~O)"        # collapsed thread with Old
 # ~T tagged messages
 
 # header stuff
