@@ -26,6 +26,7 @@ qmark w w.jbaumy.com
 " set options {{{
 set maxitems=35
 set animations=true
+set noscrollbars
 set complete=sltb
 set defsearch="google"
 set focuscontent
@@ -100,6 +101,7 @@ nnoremap ,d :sidebar downloads<CR>
 nnoremap ,h :sidebar History<CR>
 nnoremap ,p :sidebar Preferences<CR>
 nnoremap ,q :sbclose<CR>
+nnoremap ,s :saveas!<CR>
 
 nnoremap ,g :open google<Space>
 nnoremap ,G :tabopen google<Space>
