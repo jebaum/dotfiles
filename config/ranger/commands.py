@@ -1323,7 +1323,7 @@ class fzfcd(Command):
         if self.arg(1) == "files":
             command="locate '" + currentdir + "' 2>/dev/null | fzf -x"
         else:
-            command="strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | fzf -x"
+            command="strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | sed '/^$/d' | fzf -x"
 
         fzf = self.fm.execute_command(command, stdout=PIPE)
         stdout, stderr = fzf.communicate()
