@@ -19,7 +19,7 @@ set wait_key = no
 
 set date_format="%m/%d %T"
 #set index_format="%2C%Z (%D) %-30.30F (%-4.4c) %s"
-set index_format="%?M?+& ?%2M %3C%5Z (%D) %-30.30F  %s"
+set index_format="%?M?+& ?%3M %3C%5Z (%D) %-30.30F  %s"
 set mbox_type=Maildir
 set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
