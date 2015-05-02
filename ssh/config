@@ -1,8 +1,3 @@
-Host rig
-  HostName 96.251.8.67
-  Port 50000
-  User james
-
 Host rigl
   HostName 192.168.1.100
   Port 50000
@@ -18,32 +13,12 @@ Host jbaumy
   Port 22
   User james
 
-Host ramnode
-  HostName 107.161.24.128
-  Port 22
-  User james
-
 Host lnxsrv
   HostName lnxsrv.seas.ucla.edu
   Port 22
   User baumgart
 
-Host 133
-  HostName cs133.seas.ucla.edu
-  Port 22
-  User baumgart
-
-Host acm
-  HostName acm.cs.ucla.edu
-  Port 22
-  User james
-
 Host lug
   Hostname ssh.linux.ucla.edu
   Port 22
   User jebaum
-
-Host deter
-  Hostname users.deterlab.net
-  Port 22
-  User la136de
