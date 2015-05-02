@@ -12,7 +12,7 @@ shift
 # don't call this script anything with mpv in the name or pgrep sees it
 if pgrep mpv >/dev/null; then
   for i in "$@"; do
-    echo loadfile \"$i\" 1 >"$FIFO"
+    echo loadfile \"$i\" append >"$FIFO" # could also do 'append-play'
   done
 else
   if [[ "$TYPE" = "video" ]]; then
