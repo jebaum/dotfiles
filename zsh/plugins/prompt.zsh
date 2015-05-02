@@ -57,4 +57,27 @@ git_prompt_string() {
 PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%~$(git_prompt_string)%E%{%f%k%b%}
 $(_prompt_char) $%{%f%k%b%} '
 
-RPROMPT='%{%F{39}%}%D{%I:%M:%S}'
+# RPROMPT='%{%F{39}%}%D{%I:%M:%S}'
+
+# http://paulgoscicki.com/archives/2012/09/vi-mode-indicator-in-zsh-prompt/
+vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}%(?..[%?])"
+vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}%(?..[%?])"
+vim_mode=$vim_ins_mode
+
+function zle-keymap-select {
+  vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+  zle reset-prompt
+}
+zle -N zle-keymap-select
+
+function zle-line-finish {
+  vim_mode=$vim_ins_mode
+}
+zle -N zle-line-finish
+
+function TRAPINT() {
+  vim_mode=$vim_ins_mode
+  zle && zle reset-prompt
+  return $(( 128 + $1 ))
+}
+RPROMPT='${vim_mode}'
