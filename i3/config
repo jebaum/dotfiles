@@ -8,10 +8,11 @@ set $narrow1 HDMI-0
 set $narrow2 DVI-I-1
 set $narrow3 DVI-D-0
 set $wide    HDMI-1
+set $barmodifier modifier Mod3
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
   # possible bug? according to userguide 4.8, 'new_window pixel 3' should work, but doesn't
-new_window normal
+new_window normal 1px
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
@@ -52,7 +53,7 @@ exec --no-startup-id parcellite
 exec --no-startup-id xset m 0 0
 # exec --no-startup-id nitrogen --restore
 exec --no-startup-id xsetroot -solid "#181818"
-exec --no-startup-id dropbox start
+exec --no-startup-id dropbox-cli start
 exec --no-startup-id udiskie &
 exec --no-startup-id amixer set PCM 208
 exec --no-startup-id amixer set Master 25
@@ -73,9 +74,9 @@ bindsym $mod+Shift+C    reload
 
   ### borders
 bindsym $mod+t          border normal 1pixel
-bindsym $mod+Shift+t    border normal 2pixel
+bindsym $mod+Shift+t    border normal 3pixel
 bindsym $mod+y          border 1pixel
-bindsym $mod+Shift+y    border pixel 2
+bindsym $mod+Shift+y    border pixel 3
 bindsym $mod+n          border none
 
  ### scratchpad
@@ -128,17 +129,18 @@ bindsym $mod+Control+n      exec echo playlist_next > ~/.mpv/mpvfifo
 bindsym $mod+Control+p      exec echo playlist_prev > ~/.mpv/mpvfifo
 bindsym $mod+Control+s      exec echo stop > ~/.mpv/mpvfifo
 bindsym $mod+Control+space  exec echo cycle pause > ~/.mpv/mpvfifo
-bindsym $mod+Control+Left   exec echo seek -10 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Right  exec echo seek 10 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Down   exec echo seek -60 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Up     exec echo seek 60 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Next   exec echo seek -600 0 > ~/.mpv/mpvfifo
-bindsym $mod+Control+Prior  exec echo seek 600 0 > ~/.mpv/mpvfifo
+bindsym $mod+Control+Left   exec echo seek -10 relative > ~/.mpv/mpvfifo
+bindsym $mod+Control+Right  exec echo seek 10 relative > ~/.mpv/mpvfifo
+bindsym $mod+Control+Down   exec echo seek -60 relative > ~/.mpv/mpvfifo
+bindsym $mod+Control+Up     exec echo seek 60 relative > ~/.mpv/mpvfifo
+bindsym $mod+Control+Next   exec echo seek -600 relative > ~/.mpv/mpvfifo
+bindsym $mod+Control+Prior  exec echo seek 600 relative > ~/.mpv/mpvfifo
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
 bindsym $mod+b                  exec ~/dotfiles/scripts/firefox_history.sh
-bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
+# bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
+bindsym $mod+c                  exec xdotool click 1
 bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+g                  exec gvim
 bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
@@ -346,6 +348,7 @@ bindsym $mod+r mode "resize"
 bar {
   output $wide
   mode dock
+  $barmodifier
   position top
   workspace_buttons yes
   $barfont
@@ -365,6 +368,7 @@ bar {
 bar {
   output $narrow1
   mode dock
+  $barmodifier
   position top
   workspace_buttons yes
   $barfont
@@ -384,6 +388,7 @@ bar {
 bar {
   output $narrow2
   mode dock
+  $barmodifier
   position top
   workspace_buttons yes
   $barfont
@@ -403,6 +408,7 @@ bar {
 bar {
   output $narrow3
   mode dock
+  $barmodifier
   position top
   workspace_buttons yes
   $barfont
