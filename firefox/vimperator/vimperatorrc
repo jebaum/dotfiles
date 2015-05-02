@@ -5,6 +5,7 @@ colorscheme darkness
 qmark 1 192.168.1.100
 qmark 2 http://tutorial.math.lamar.edu/
 qmark 3 https://piazza.com/class/i4g9dayv6xc4gn
+qmark 8 http://www.cs.ucla.edu/~sherstov/teaching/2015-spring/
 qmark a reddit.com/r/all
 qmark b reddit.com/r/bestof
 qmark c ccle.ucla.edu/my
