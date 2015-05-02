@@ -1321,9 +1321,9 @@ class fzfcd(Command):
             currentdirlen += 2 # + 2 to get rid of the whole pwd and the trailing slash with cut
 
         if self.arg(1) == "files":
-            command="locate '" + currentdir + "' 2>/dev/null | fzf -x"
+            command="locate '" + currentdir + "' 2>/dev/null | fzf -x --inline-info"
         else:
-            command="strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | sed '/^$/d' | fzf -x"
+            command="strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | sed '/^$/d' | fzf -x --inline-info"
 
         fzf = self.fm.execute_command(command, stdout=PIPE)
         stdout, stderr = fzf.communicate()
