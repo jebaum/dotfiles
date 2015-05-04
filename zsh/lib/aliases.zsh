@@ -116,7 +116,7 @@ function syn() {
 alias transmission-remote='transmission-remote 9092'
 pget() {
     torrentdaemonstart 2>/dev/null
-    pirate-get --color --custom "transmission-remote 9092 -a '%s'" "$@"
+    pirate-get --custom "transmission-remote 9092 -a '%s'" "$@"
 }
 torrentadd() {
     transmission-remote -a "${1-$(xclip -o)}"
