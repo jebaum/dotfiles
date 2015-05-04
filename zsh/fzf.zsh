@@ -48,7 +48,7 @@ fzf-cd-widget() {
      # -prune -o -type d -print 2>/dev/null | fzf):-.}"
 
    # DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^${PWD}" 2>/dev/null | fzf):-.}"
-   cd $DIR
+   # cd $DIR
    zle reset-prompt
 }
 zle     -N    fzf-cd-widget
