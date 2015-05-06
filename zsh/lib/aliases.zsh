@@ -32,7 +32,6 @@ alias rcd='cd "`xclip -o`"'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias tags='./.git/hooks/ctags >/dev/null'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
-alias tmux='tmux -u new zsh' # `new zsh' part to stop fzf bash scripts from getting sourced
 alias top='htop'
 alias tree='tree -C'
 alias vi='vim'
