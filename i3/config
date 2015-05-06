@@ -11,8 +11,7 @@ set $wide    HDMI-1
 set $barmodifier modifier Mod3
 
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
-  # possible bug? according to userguide 4.8, 'new_window pixel 3' should work, but doesn't
-new_window normal 1px
+new_window 1pixel
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
@@ -148,6 +147,7 @@ bindsym $mod+p                  exec dmenu_run -h 24 -uh 1 -uc \#FF0000 -p SUP\?
 bindsym $mod+q                  exec quickswitch.py
 bindsym XF86TouchpadToggle      exec touchpadtoggle.sh
 bindsym $mod+backslash          exec dmenu_extended_run
+bindsym $mod+BackSpace          exec ~/dotfiles/i3/i3-bar-toggle.py
 
 bindsym --release Control+Print exec gnome-screenshot -a
 bindsym --release Shift+Print   exec gnome-screenshot -w -B
