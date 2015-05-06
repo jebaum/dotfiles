@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PLACES_SQLITE="$HOME/.mozilla/firefox/b9aul7s5.default/places.sqlite"
+export PLACES_SQLITE="$HOME/.mozilla/firefox/plhx7cpb.default/places.sqlite"
 
 # URLS=$(sqlite3 ${PLACES_SQLITE} "SELECT url FROM moz_places;")
 # sqlite3 $PLACES_SQLITE "SELECT last_visit_date,title,url FROM moz_places;" | sed -e 's/|/   /g' > /tmp/ffh.txt
