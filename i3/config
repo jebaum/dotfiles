@@ -157,7 +157,7 @@ bindsym $mod+Shift+Return       exec urxvt
 bindsym $mod+Return             exec urxvt -cd "`~/.i3/xcwd/xcwd`"
 bindsym $mod+Escape             exec /usr/bin/lk
 bindsym $mod+F2                 exec firefox
-bindsym $mod+Shift+F2           exec chromium
+bindsym $mod+Shift+F2           exec google-chrome-stable
 bindsym $mod+F4                 exec puddletag
 
 bindsym $mod+i                  exec vimperator_hack.sh
