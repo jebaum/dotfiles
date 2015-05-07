@@ -160,7 +160,7 @@ bindsym $mod+F2                 exec firefox
 bindsym $mod+Shift+F2           exec google-chrome-stable
 bindsym $mod+F4                 exec puddletag
 
-bindsym $mod+i                  exec vimperator_hack.sh
+bindsym $mod+i                  exec ~/dotfiles/scripts/vimperator_hack.sh
 bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
 bindsym $mod+Control+y          exec notify-send "preparing to play youtube video..." && mpv $(xclip -o)
 # }}}
