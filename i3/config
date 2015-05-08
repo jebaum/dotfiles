@@ -343,6 +343,14 @@ mode "resize" {
   bindsym Control+C mode "default"
 }
 bindsym $mod+r mode "resize"
+
+bindsym $mod+bracketleft mode " "
+mode " " {
+  bindsym Return           mode "default"
+  bindsym Escape           mode "default"
+  bindsym Control+C        mode "default"
+  bindsym $mod+bracketleft mode "default"
+}
 # }}}
 # BAR WIDE {{{
 bar {
