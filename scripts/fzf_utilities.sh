@@ -56,8 +56,8 @@ fzgbrall() { # checkout git branch (including remote branches)
 
 fzgco() { # checkout git commit
   local commits commit
-  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+  commits=$(git log --decorate=short --graph --oneline --color=always) &&
+  commit=$(echo "$commits" | fzf --ansi --no-sort --reverse +m) &&
   git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
@@ -75,15 +75,23 @@ fzgcotag() { # checkout git branch/tag
   git checkout $(echo "$target" | awk '{print $2}')
 }
 
-fzgshow() { # git commit browser
-  local out sha q
+fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially with Enter
+  local out sha query keypress expect
+  expect="ctrl-o"
   while out=$(
       git log --decorate=short --graph --oneline --color=always |
-      fzf --ansi --multi --no-sort --reverse --query="$q" --print-query); do
-    q=$(head -1 <<< "$out")
+      fzf --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect"); do
+    query=$(head -1 <<< "$out")
+    keypress=$(sed -n '2p' <<< "$out")
+    shalist=()
     while read sha; do
-      [ -n "$sha" ] && git show --color=always $sha | less -R
-    done < <(sed '1d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
+      if [ "$keypress" = "$expect" ]; then
+        shalist+=$sha
+      else
+        [ -n "$sha" ] && git show --color=always $sha | less -R
+      fi
+    done < <(sed '1,2d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
+    [ "$keypress" = "$expect" ] && git show --color $shalist
   done
 }
 
