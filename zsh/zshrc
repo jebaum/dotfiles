@@ -75,10 +75,31 @@ bindkey '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up   # bind k and j for VI mode history-substring-search
 bindkey -M vicmd 'j' history-substring-search-down
 
+function _get-filelist() {
+echo "$1"
+  if [ "$1" = "ag" ]; then
+      return ( $(ag -g '.' 2>/dev/null | fzf -m) )
+  elif [ "$1" = "locate" ]; then
+      return ( $(locate --wholename "$PWD" 2>/dev/null | fzf -m) )
+  fi
+
+}
+
+function _edit-widget-ag() {
+    _edit-widget ag
+}
+
+function _edit-widget-locate() {
+    _edit-widget locate
+}
+
 function _edit-widget() {
   IFS=$'\n'
-  # TODO potentially use locate here too? `locate --wholename "$PWD" | fzf` ?
-  filelist=( $(ag -g '.' 2>/dev/null | fzf -m) )
+  if [ "$1" = "ag" ]; then
+    filelist=( $(ag -g '.' 2>/dev/null | fzf -m) )
+  elif [ "$1" = "locate" ]; then
+    filelist=( $(locate --wholename "$PWD" 2>/dev/null | fzf -m) )
+  fi
   if [ -z "$filelist" ]; then
     zle redisplay
   else
@@ -94,8 +115,10 @@ function _edit-widget() {
   fi
 }
 
-zle -N _edit-widget
-bindkey '^O'  _edit-widget
+zle -N _edit-widget-ag _edit-widget-ag
+zle -N _edit-widget-locate _edit-widget-locate
+bindkey '^O'   _edit-widget-ag
+bindkey '\eo'  _edit-widget-locate
 
 KEYTIMEOUT=1
 
