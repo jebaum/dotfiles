@@ -1,5 +1,5 @@
 # GENERAL CONFIG {{{
-set $mpdhost 192.168.1.100
+set $mpdhost localhost
 set $mod Mod4
 set $alt Mod1
 set $barfont font pango:Times New Roman 6
