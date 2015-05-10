@@ -84,7 +84,9 @@ fzf-edit-widget-ag() { fzf-edit-widget ag }
 fzf-edit-widget-locate() { fzf-edit-widget locate }
 
 fzf-edit-widget() {
-  # IFS=$'\n'
+  local oldifs
+  oldifs=$IFS
+  IFS=$'\n'
   if [ "$1" = "ag" ]; then
     filelist=( $(ag -g '.' 2>/dev/null | fzf -m) )
   elif [ "$1" = "locate" ]; then
@@ -103,6 +105,7 @@ fzf-edit-widget() {
     BUFFER=$opencmd
     zle accept-line
   fi
+  IFS=$oldifs
 }
 
 zle -N fzf-edit-widget-ag
