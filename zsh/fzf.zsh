@@ -1,24 +1,20 @@
-# Key bindings
-# ------------
-export FZF_DEFAULT_OPTS="-x --inline-info" # -x is a superset of the other modes
-                                           # prepend string with single quote for exact match
+export FZF_DEFAULT_OPTS="-x --inline-info"
+if [[ $- =~ i ]]; then # =~ checks against regex, $- is shell flags, 'i' flag means interactive shell
 
 __fzfcmd() {
   [ ${FZF_TMUX:-1} -eq 1 ] && echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
 }
 
+
 # CTRL-T - Paste the selected file path(s) into the command line
-__fsel() {
+__fsel() { # fzf-file-widget helper
   command find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-    -o -type f -print \
-    -o -type d -print \
-    -o -type l -print 2> /dev/null | sed 1d | cut -b3- | $(__fzfcmd) -m | while read item; do
+    -o -type f -print -o -type d -print -o -type l -print 2> /dev/null | sed 1d |
+    cut -b3- | $(__fzfcmd) -m | while read item; do
     printf '%q ' "$item"
   done
   echo
 }
-
-if [[ $- =~ i ]]; then
 
 fzf-file-widget() {
   LBUFFER="${LBUFFER}$(__fsel)"
@@ -26,6 +22,7 @@ fzf-file-widget() {
 }
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
+
 
 # ALT-T - Paste the selected entry from locate output into the command line
 fzf-locate-widget() {
@@ -42,7 +39,6 @@ bindkey '\et' fzf-locate-widget
 # ALT-D - cd into the selected directory
 fzf-cd-widget() {
    # TODO when this gets ironed out, update the command in .config/ranger/commands.py too
-   # maybe use an environment variable to keep them in sync?
    # TODO maintain a cache for this? it's slow from ~
    # different things for A-d and A-D?
    # also make similar updates to the C-t thing, but ^t isn't a thing, ^t and ^T are indistinguishable
@@ -51,13 +47,8 @@ fzf-cd-widget() {
    #    strings /var/lib/mlocate/mlocate.db | grep -E '^/' | fzf
    # read everything from the database, all directories will start with the '/' character
 
-
   cd "${$(command find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
     -o -type d -print 2> /dev/null | sed 1d | cut -b3- | $(__fzfcmd) +m):-.}"
-
-   # DIR="${$(find -L \( -path '*.wine-pipelight' -o -path '*.ivy2*' -o -path '*.texlive*' \
-     # -o -path '*.git' -o -path '*.metadata' -o -path '*_notes' \) \
-     # -prune -o -type d -print 2>/dev/null | fzf):-.}"
 
    # DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^${PWD}" 2>/dev/null | fzf):-.}"
    # cd $DIR
@@ -65,6 +56,7 @@ fzf-cd-widget() {
 }
 zle     -N    fzf-cd-widget
 bindkey '^[d' fzf-cd-widget
+
 
 # CTRL-R - Paste the selected command from history into the command line
 fzf-history-widget() {
@@ -85,5 +77,38 @@ fzf-history-widget() {
 }
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
+
+
+# CTRL-O and ALT-O - open file from ag/locate commands
+fzf-edit-widget-ag() { fzf-edit-widget ag }
+fzf-edit-widget-locate() { fzf-edit-widget locate }
+
+fzf-edit-widget() {
+  # IFS=$'\n'
+  if [ "$1" = "ag" ]; then
+    filelist=( $(ag -g '.' 2>/dev/null | fzf -m) )
+  elif [ "$1" = "locate" ]; then
+    filelist=( $(locate --wholename "$PWD" 2>/dev/null | fzf -m) )
+  fi
+  if [ -z "$filelist" ]; then
+    zle redisplay
+  else
+    opencmd="vim -p "
+    opencmd+=$(for item in $filelist; do
+      echo -n \"$item\"
+      echo -n " "
+    done)
+    zle kill-whole-line
+    zle redisplay
+    BUFFER=$opencmd
+    zle accept-line
+  fi
+}
+
+zle -N fzf-edit-widget-ag
+bindkey '^O'   fzf-edit-widget-ag
+
+zle -N fzf-edit-widget-locate
+bindkey '\eo'  fzf-edit-widget-locate
 
 fi
