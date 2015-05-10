@@ -1,10 +1,10 @@
 alias aliases='vim ~/dotfiles/zsh/lib/aliases.zsh && source ~/dotfiles/zsh/lib/aliases.zsh'
-alias lock='i3lock -i ~/.lockscreen.png -t -b -c 000000'
+alias reload='source ~/dotfiles/zsh/lib/aliases.zsh'
+alias lock='i3lock -b -c 000000'
 
 # command aliases
 alias sudo='sudo -E '
 alias beep='echo -en "\a"'
-alias cl='echo "!!" | xclip'
 alias eclimd='~/.eclipse/org.eclipse.platform_4.4.1_1543616141_linux_gtk_x86_64/eclimd'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
 alias g='git'
@@ -14,10 +14,8 @@ alias gpa='for i in *; do cd $i; pwd; git pull; cd ..; done'
 alias grep='grep --color=auto'
 alias gvim='gvim -p'
 alias hlerrors="sed -e 's/Exception/\x1b[36;7m&\x1b[0m/ig' -e 's/Error/\x1b[33;7m&\x1b[0m/ig' -e 's/Fault/\x1b[31;7m&\x1b[0m/ig'"
-alias livestreamer='livestreamer -p mpv'
 alias make='make -j4'
 alias myip='curl icanhazip.com'
-alias network='lsof -P -i -n'
 alias nyan='nc -v nyancat.dakko.us 23' # nyan cat
 alias ocaml='rlwrap -m ocaml'
 alias open='xdg-open'
@@ -26,8 +24,7 @@ alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_break
 alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
 alias pandocunicode='pandoc --latex-engine=xelatex -V geometry:margin=0.5in -f markdown+hard_line_breaks' # requires texlive-latexextra on arch
 alias pong='ping 8.8.8.8 -c 4'
-alias publish='python3 -m http.server 8080'
-alias 'p?'='ps aux | grep -i '
+alias pyhttp='python3 -m http.server 8080'
 alias rcd='cd "`xclip -o`"'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias tags='./.git/hooks/ctags >/dev/null'
@@ -38,7 +35,6 @@ alias vi='vim'
 alias vim='vim -p'
 alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
-alias x='exit'
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias ytdl='youtube-dl'
 alias yt='youtube-viewer'
@@ -49,6 +45,14 @@ alias rsync-copy="rsync -avz --progress -h"
 alias rsync-move="rsync -avz --progress -h --remove-source-files"
 alias rsync-update="rsync -avzu --progress -h"
 alias rsync-synchronize="rsync -avzu --delete --progress -h"
+
+pf() { # process filter
+  if [ "$#" = "0" ] ; then
+    echo "need search terms"
+  else
+    ps aux | grep --color=auto -i "$@"
+  fi
+}
 
 function mountandroid() {
   mkdir ~/android
@@ -160,23 +164,22 @@ function iwhois() {
     whois -h ${tld}.${resolver} "$@" ;
 }
 
-WHO_COLOR="\e[0;33m"
-TEXT_COLOR="\e[0;35m"
-COLON_COLOR="\e[0;35m"
-END_COLOR="\e[m"
-
 function quote()
 {
-    Q=$(curl -s --connect-timeout 2 "http://www.quotationspage.com/random.php3" | iconv -c -f ISO-8859-1 -t UTF-8 | grep -m 1 "dt ")
-    TXT=$(echo "$Q" | sed -e 's/<\/dt>.*//g' -e 's/.*html//g' -e 's/^[^a-zA-Z]*//' -e 's/<\/a..*$//g')
-    W=$(echo "$Q" | sed -e 's/.*\/quotes\///g' -e 's/<.*//g' -e 's/.*">//g')
-    if [ "$W" -a "$TXT" ]; then
-        echo "${WHO_COLOR}${W}${COLON_COLOR}: ${TEXT_COLOR}“${TXT}”${END_COLOR}"
-    else
-        quote
-    fi
-}
+  local WHO_COLOR="\e[0;33m"
+  local TEXT_COLOR="\e[0;35m"
+  local COLON_COLOR="\e[0;35m"
+  local END_COLOR="\e[m"
 
+  Q=$(curl -s --connect-timeout 2 "http://www.quotationspage.com/random.php3" | iconv -c -f ISO-8859-1 -t UTF-8 | grep -m 1 "dt ")
+  TXT=$(echo "$Q" | sed -e 's/<\/dt>.*//g' -e 's/.*html//g' -e 's/^[^a-zA-Z]*//' -e 's/<\/a..*$//g')
+  W=$(echo "$Q" | sed -e 's/.*\/quotes\///g' -e 's/<.*//g' -e 's/.*">//g')
+  if [ "$W" -a "$TXT" ]; then
+    echo "${WHO_COLOR}${W}${COLON_COLOR}: ${TEXT_COLOR}“${TXT}”${END_COLOR}"
+  else
+    quote
+  fi
+}
 
 user_commands=(
   list-units is-active status show help list-unit-files
@@ -191,7 +194,7 @@ for c in $user_commands; do; alias sc-$c="systemctl $c"; done
 for c in $sudo_commands; do; alias sc-$c="sudo systemctl $c"; done
 
 
-function magnet_to_torrent() {
+magnet_to_torrent() {
 	[[ "$1" =~ xt=urn:btih:([^\&/]+) ]] || return 1
 
 	hashh=${match[1]}
@@ -205,7 +208,7 @@ function magnet_to_torrent() {
 	echo "d10:magnet-uri${#1}:${1}e" > "$filename.torrent"
 }
 
-function zsh_stats() {
+zsh_stats() {
   fc -l 1 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n20
 }
 
