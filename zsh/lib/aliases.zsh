@@ -9,6 +9,7 @@ alias eclimd='~/.eclipse/org.eclipse.platform_4.4.1_1543616141_linux_gtk_x86_64/
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
 alias g='git'
 alias gsu='git submodule foreach git checkout master && git submodule foreach git pull'
+alias gpr='git pull --rebase'
 alias gist='gist -c -p'
 alias gpa='for i in *; do cd $i; pwd; git pull; cd ..; done'
 alias grep='grep --color=auto'
