@@ -46,9 +46,9 @@ fzgbrall() { # checkout git branch (including remote branches)
 
 fzgco() { # checkout git commit
   local commits commit
-  commits=$(git log --decorate=short --graph --oneline --color=always) &&
+  commits=$(git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]') &&
   commit=$(echo "$commits" | fzf --ansi --no-sort --reverse +m) &&
-  git checkout $(echo "$commit" | sed "s/ .*//")
+  git checkout $(echo "$commit" | sed 's/^[^a-z0-9]*//' | awk '{print $1}')
 }
 
 fzgcotag() { # checkout git branch/tag
@@ -69,7 +69,7 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
   local out sha query keypress expect
   expect="ctrl-o"
   while out=$(
-      git log --decorate=short --graph --oneline --color=always |
+      git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
       fzf --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect"); do
     query=$(head -1 <<< "$out")
     keypress=$(sed -n '2p' <<< "$out")
