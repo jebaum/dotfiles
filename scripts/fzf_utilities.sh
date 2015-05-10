@@ -7,34 +7,24 @@ alias fzkillall="$HOME/dotfiles/scripts/fkill.sh all"
 ##### ARCH PACKAGE MANAGEMENT
 fzpacmanall() {
   packages=($(pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1 | fzf -m | sed 's/.*\///'))
-  if [ -n "$packages" ]; then
-    pacman "${1--Sii}" $packages
-  fi
+  [ -n "$packages" ] && pacman "${1--Sii}" $packages
 }
 fzpacman() {
   packages=($(pacman -Qnq | fzf -m))
-  if [ -n "$packages" ]; then
-    pacman "${1--Qii}" $packages
-  fi
+  [ -n "$packages" ] && pacman "${1--Qii}" $packages
 }
 fzaurall() {
   packages=($(fzf -m < "$AURFILE"))
-  if [ -n "$packages" ]; then
-    pacaur "${1--ii}" $packages
-  fi
+  [ -n "$packages" ] && pacaur "${1--Sii}" $packages
 }
 fzaur() {
   packages=($(pacman -Qmq | fzf -m))
-  if [ -n "$packages" ]; then
-    pacman "${1--Qii}" $packages
-  fi
+  [ -n "$packages" ] && pacman "${1--Qii}" $packages
 }
 fzall() {
   list=$(sed 's/^/aur\//' $AURFILE; pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1)
   selected=$(echo "$list" | fzf -m | cut -d/ -f2)
-  if [ -n "$selected" ]; then
-    pacaur "${1--Sii}" $selected
-  fi
+  [ -n "$selected" ] && pacaur "${1--Sii}" $selected
 }
 
 
