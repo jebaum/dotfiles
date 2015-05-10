@@ -8,5 +8,7 @@ else
 fi
 
 if [ "x$pid" != "x" ]; then
+  echo "killing:"
+  ps -ef $UID | awk "substr(\$2, 0) == $pid"
   kill -${1:-9} $pid
 fi

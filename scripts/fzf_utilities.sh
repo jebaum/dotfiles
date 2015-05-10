@@ -1,110 +1,173 @@
 # various functions for using fzf
-# TODO make sure to be using multiple selection, -e exact and -x regex matchings when convenient. maybe should allow passing -e and -x
-# for searching packages, maybe want regex + exact
-
 AURFILE="$HOME/.aur.dat"
-PACFILE="$HOME/.pacman.dat"
-
-alias fkill="$HOME/dotfiles/scripts/fkill.sh"
-alias fkillall="$HOME/dotfiles/scripts/fkill.sh all"
-
-# TODO make an alias for all packages, which will use sed in a loop to prepend 'aur/' to $AURFILE
-# TODO also just think about these in general, would like to not have as many of them
-# TODO also rework these so that C-c after invoking it doesn't spit everything to the terminal
-# TODO there's an aurpkglist command provided by python3-aur package
-fpacmanall() {
-  pacman "${1--Sii}" $(fzf --query="$2" --select-1 --exit-0 < "$PACFILE")
-}
-faurall() {
-  pacaur "${1--ii}" $(fzf --query="$2" --select-1 --exit-0 < "$AURFILE")
-}
-fpacman() {
-  pacman "${1--Qii}" $(pacman -Qnq | fzf --query="$2" --select-1 --exit-0)
-}
-faur() {
-  pacman "${1--Qii}" $(pacman -Qmq | fzf --query="$2" --select-1 --exit-0)
-}
-fpacall() {
-  local paclist aurlist
-  list=$(sed 's/^/aur\//' $AURFILE; cat $PACFILE)
-  selected=$(echo "$list" | fzf -e | cut -d/ -f2)
-  # pacman "${1--Qii}"
-}
+alias fzkill="$HOME/dotfiles/scripts/fkill.sh"
+alias fzkillall="$HOME/dotfiles/scripts/fkill.sh all"
 
 
-fl() { # open file from locate command
-  local file
-  file=$(locate "$1" | fzf --select-1 --exit-0)
-  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+##### ARCH PACKAGE MANAGEMENT
+fzpacmanall() {
+  packages=($(pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1 | fzf -m | sed 's/.*\///'))
+  if [ -n "$packages" ]; then
+    pacman "${1--Sii}" $packages
+  fi
+}
+fzpacman() {
+  packages=($(pacman -Qnq | fzf -m))
+  if [ -n "$packages" ]; then
+    pacman "${1--Qii}" $packages
+  fi
+}
+fzaurall() {
+  packages=($(fzf -m < "$AURFILE"))
+  if [ -n "$packages" ]; then
+    pacaur "${1--ii}" $packages
+  fi
+}
+fzaur() {
+  packages=($(pacman -Qmq | fzf -m))
+  if [ -n "$packages" ]; then
+    pacman "${1--Qii}" $packages
+  fi
+}
+fzall() {
+  list=$(sed 's/^/aur\//' $AURFILE; pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1)
+  selected=$(echo "$list" | fzf -m | cut -d/ -f2)
+  if [ -n "$selected" ]; then
+    pacaur "${1--Sii}" $selected
+  fi
 }
 
-fbr() { # checkout branch
+
+##### GIT
+fzgbr() { # checkout git branch
   local branches branch
-  branches=$(git branch --verbose | sed 's/^[ \t]*//') &&
-  branch=$(echo "$branches" | fzf +s +m) &&
+  branches=$(git branch) &&
+  branch=$(echo "$branches" | fzf +m) &&
   git checkout $(echo "$branch" | sed "s/.* //")
 }
 
-fco() { # checkout commit or branch
+fzgbrall() { # checkout git branch (including remote branches)
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+fzgco() { # checkout git commit
   local commits commit
-  commits=$(git log --pretty=oneline --abbrev-commit --reverse; git branch --verbose | sed 's/^[ \t]*//') &&
-  commit=$(echo "$commits" | fzf +s +m -e) &&
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
   git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
-ftmux() { # select a tmux session
-  local session
-  session=$(tmux list-sessions -F "#{session_name}" | \
-    fzf --query="$1" --select-1 --exit-0) &&
-  tmux switch-client -t "$session"
+fzgcotag() { # checkout git branch/tag
+  local tags branches target
+  tags=$(
+    git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+  branches=$(
+    git branch --all | grep -v HEAD             |
+    sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+    sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+  target=$(
+    (echo "$tags"; echo "$branches") |
+    fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
+  git checkout $(echo "$target" | awk '{print $2}')
 }
 
-fj() { # for using z, provided by z-git in the aur
-  if [[ -z "$*" ]]; then
-    cd "$(_z -l 2>&1 | sed -n 's/^[ 0-9.,]*//p' | fzf)"
-  else
-    _z "$@"
-  fi
+fzgshow() { # git commit browser
+  local out sha q
+  while out=$(
+      git log --decorate=short --graph --oneline --color=always |
+      fzf --ansi --multi --no-sort --reverse --query="$q" --print-query); do
+    q=$(head -1 <<< "$out")
+    while read sha; do
+      [ -n "$sha" ] && git show --color=always $sha | less -R
+    done < <(sed '1d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
+  done
 }
 
-# Here is another version that also supports relaunching z with the arguments for the previous command as the default input by using zz
-fz() {
-  if [[ -z "$*" ]]; then
-    cd "$(_z -l 2>&1 | sed -n 's/^[ 0-9.,]*//p' | fzf)"
-  else
-    _last_z_args="$@"
-    _z "$@"
-  fi
-}
-fzz() {
-  cd "$(_z -l 2>&1 | sed -n 's/^[ 0-9.,]*//p' | fzf -q $_last_z_args)"
-}
 
-cdf() { # change directory based on a file name
+##### FILES AND DIRECTORIES
+fzcdf() { # change directory based on a file name
    local file
    local dir
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
-fd() { # change directory
+fzcd() { # change directory
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
 }
-fda() { # change directory, includes hidden directories
+fzcda() { # change directory, includes hidden directories
   local dir
   dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
-fe() { # edit a file
+
+fzlocate() { # open file from locate command
   local file
-  file=$(fzf --query="$1" --select-1 --exit-0)
+  file=$(locate "$1" | fzf)
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
-fh() { # execute a thing from history
-  eval $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s | sed 's/ *[0-9]* *//')
+fzedit() { # edit a file
+  local file
+  file=$(fzf)
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
-fhedit() { # put a thing from history on command line for editing. only works in zsh
-  print -z $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s | sed 's/ *[0-9]* *//')
+fzopen() { # CTRL-O to open with `xdg-open` command, CTRL-E or Enter key to open with $EDITOR
+  local out file key
+  out=$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
+
+fzviminfo() { # open files in ~/.viminfo
+  local files
+  files=$(grep '^>' ~/.viminfo | cut -c3- |
+          while read line; do
+            [ -f "${line/\~/$HOME}" ] && echo "$line"
+          done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
+}
+
+
+##### TMUX
+fztmux() { # select a tmux session
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" | \
+    fzf) &&
+  tmux switch-client -t "$session"
+}
+
+fztpane () { # switch pane
+  local panes current_window target target_window target_pane
+  panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+  current_window=$(tmux display-message  -p '#I')
+
+  target=$(echo "$panes" | fzf) || return
+
+  target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+  target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+
+  if [[ $current_window -eq $target_window ]]; then
+    tmux select-pane -t ${target_window}.${target_pane}
+  else
+    tmux select-pane -t ${target_window}.${target_pane} &&
+    tmux select-window -t $target_window
+  fi
+}
+
+
+##### SHELL
+fzh() { # execute a thing from history
+  eval $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
+fzhedit() { # put a thing from history on command line for editing. only works in zsh
+  print -z $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }

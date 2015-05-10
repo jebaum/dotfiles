@@ -27,6 +27,18 @@ fzf-file-widget() {
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
 
+# ALT-T - Paste the selected entry from locate output into the command line
+fzf-locate-widget() {
+  local selected
+  if selected=$(locate / | fzf -q "$LBUFFER"); then
+    LBUFFER=$selected
+  fi
+  zle redisplay
+}
+zle     -N    fzf-locate-widget
+bindkey '\et' fzf-locate-widget
+
+
 # ALT-D - cd into the selected directory
 fzf-cd-widget() {
    # TODO when this gets ironed out, update the command in .config/ranger/commands.py too
