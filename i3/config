@@ -137,6 +137,7 @@ bindsym $mod+Control+Prior  exec echo seek 600 relative > ~/.mpv/mpvfifo
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
+bindsym $mod+Shift+a            exec ~/dotfiles/scripts/torrentadd.sh
 bindsym $mod+b                  exec ~/dotfiles/scripts/firefox_history.sh
 # bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
 bindsym $mod+c                  exec xdotool click 1
