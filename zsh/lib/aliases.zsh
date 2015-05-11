@@ -27,6 +27,7 @@ alias pandocunicode='pandoc --latex-engine=xelatex -V geometry:margin=0.5in -f m
 alias pong='ping 8.8.8.8 -c 4'
 alias pyhttp='python3 -m http.server 8080'
 alias rcd='cd "`xclip -o`"'
+alias redshift='redshift -l "50:8" -t "6500:5500" -b 1.0'
 alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias tags='./.git/hooks/ctags >/dev/null'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
