@@ -38,8 +38,9 @@ alias vim='vim -p'
 alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
-alias ytdl='youtube-dl'
 alias yt='youtube-viewer'
+
+ytdl() { youtube-dl "${1-$(xclip -o)}" }
 
 # cp with progress
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
