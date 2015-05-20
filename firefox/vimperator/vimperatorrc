@@ -2,24 +2,16 @@ colorscheme darkness
 
 " qmarks {{{
 " all marks except subreddits are the first char from the url
-qmark 1 192.168.1.100
-qmark 2 http://tutorial.math.lamar.edu/
-qmark 3 https://piazza.com/class/i4g9dayv6xc4gn
 qmark 8 http://www.cs.ucla.edu/~sherstov/teaching/2015-spring/
-qmark a reddit.com/r/all
-qmark b reddit.com/r/bestof
+qmark a voat.co/v/all
 qmark c ccle.ucla.edu/my
-qmark f facebook.com
 qmark g github.com/jebaum
 qmark h https://news.ycombinator.com/
 qmark j jbaumy.com/files
-qmark l reddit.com/r/linux
 qmark m my.ucla.edu
 qmark n news.google.com
-qmark p reddit.com/r/programming
-qmark r reddit.com
 qmark s schneier.com/essays.html
-qmark u reddit.com/r/ucla
+qmark t https://kat.cr/
 qmark v reddit.com/r/vim
 qmark w w.jbaumy.com
 " }}}
