@@ -1,30 +1,50 @@
 # various functions for using fzf
 AURFILE="$HOME/.aur.dat"
+PACFILE="$HOME/.pacman.dat"
 alias fzkill="$HOME/dotfiles/scripts/fkill.sh"
 alias fzkillall="$HOME/dotfiles/scripts/fkill.sh all"
 
 
 ##### ARCH PACKAGE MANAGEMENT
-fzpacmanall() {
+# TODO add expect keys to install, get info, list, check (-k),
+# TODO make these zle functions? replace the buffer with the resulting command and run it?
+fzpacmanall() { # all packages from official repos
   packages=($(pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1 | fzf -m | sed 's/.*\///'))
   [ -n "$packages" ] && pacman "${1--Sii}" $packages
 }
-fzpacman() {
+fzpacman() { # installed packages from official repos
   packages=($(pacman -Qnq | fzf -m))
   [ -n "$packages" ] && pacman "${1--Qii}" $packages
 }
-fzaurall() {
+fzaurall() { # all packages from aur
   packages=($(fzf -m < "$AURFILE"))
   [ -n "$packages" ] && pacaur "${1--Sii}" $packages
 }
-fzaur() {
+fzaur() { # installed packages from aur
   packages=($(pacman -Qmq | fzf -m))
   [ -n "$packages" ] && pacman "${1--Qii}" $packages
 }
-fzall() {
-  list=$(sed 's/^/aur\//' $AURFILE; pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1)
-  selected=$(echo "$list" | fzf -m | cut -d/ -f2)
-  [ -n "$selected" ] && pacaur "${1--Sii}" $selected
+fzall() { # all packages on aur and in official repos
+  local expect list selected key packages flags
+  expect="ctrl-k,ctrl-l,ctrl-s,ctrl-o,ctrl-i"
+  # TODO generate the list of all packages whenever one of the dbs changes
+  # the db upgrade process is fucked to all hell, does multiple passes and shit
+  # maybe just cron it semi regularly, it's an SSD access and about .2 seconds of computation
+  list=$(sed 's/^/aur\//' $AURFILE; cat $PACFILE | cut -d' ' -f 1)
+  selected=$(fzf -m --expect="$expect" <<< $list | cut -d/ -f2)
+
+  key=$(head -1 <<< $selected)
+  packages=$(sed '1d' <<< $selected)
+
+  flags="-Sii"
+  if [ "$key" = "ctrl-k" ]; then
+    flags="-Qk"
+  elif [ "$key" = "ctrl-l" ]; then
+    flags="-Ql"
+  elif [ "$key" = "ctrl-s" ]; then
+    flags="-S"
+  fi
+  [ -n "$selected" ] && pacaur $flags $packages
 }
 
 
@@ -67,7 +87,7 @@ fzgcotag() { # checkout git branch/tag
 
 fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially with Enter
   local out sha query keypress expect
-  expect="ctrl-o"
+  expect="ctrl-o" # TODO reverse this behavior? ctrl-o opens sequentially, default to opening all at once?
   while out=$(
       git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
       fzf --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect"); do
