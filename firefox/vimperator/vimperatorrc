@@ -30,7 +30,8 @@ set status="input,location,bookmark,history,tabcount,position,ssl"
 set newtab="all"
 set shell="bash"
 set smartcase
-set tabnumbers
+set notabnumbers
+set gui=nonavigation
 " TODO :h 'complete'
 " set nextpattern="\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\bmore\b,next ›"
 " set previouspattern="\bprev|previous\b,^<$,^(<<|«)$,^(<|«),(<|«)$,‹ prev"
