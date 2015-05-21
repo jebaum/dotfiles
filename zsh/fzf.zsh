@@ -36,26 +36,24 @@ zle     -N    fzf-locate-widget
 bindkey '\et' fzf-locate-widget
 
 
-# ALT-D - cd into the selected directory
-fzf-cd-widget() {
-   # TODO when this gets ironed out, update the command in .config/ranger/commands.py too
-   # TODO maintain a cache for this? it's slow from ~
-   # different things for A-d and A-D?
-   # also make similar updates to the C-t thing, but ^t isn't a thing, ^t and ^T are indistinguishable
-   # would also want a cache for ^T
-   # alternatively, could do something like this:
-   #    strings /var/lib/mlocate/mlocate.db | grep -E '^/' | fzf
-   # read everything from the database, all directories will start with the '/' character
-
-  cd "${$(command find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
+# ALT-d and ALT-D - cd into the selected directory using find/locate
+fzf-cd-find-widget() {
+  cd "${$(find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
     -o -type d -print 2> /dev/null | sed 1d | cut -b3- | $(__fzfcmd) +m):-.}"
-
-   # DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^${PWD}" 2>/dev/null | fzf):-.}"
-   # cd $DIR
-   zle reset-prompt
+  zle reset-prompt
 }
-zle     -N    fzf-cd-widget
-bindkey '^[d' fzf-cd-widget
+
+fzf-cd-locate-widget() {
+  # $PWD will be expanded inside sed, so use a nonprinting bullshit character
+  # as sed delimiter to make sure the whatever $PWD is doesn't screw up the command
+  DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^${PWD}" 2>/dev/null | sed "s^${PWD}/" | fzf):-.}"
+  cd $DIR
+  zle reset-prompt
+}
+zle     -N    fzf-cd-locate-widget
+zle     -N    fzf-cd-find-widget
+bindkey '^[d' fzf-cd-find-widget
+bindkey '^[D' fzf-cd-locate-widget
 
 
 # CTRL-R - Paste the selected command from history into the command line
