@@ -5,7 +5,7 @@
 # kill offlineimap, and imap_daemon.sh will restart it
 
 ERRORS=0
-ERRORSTRING='[ALERT] Too many simultaneous connections. (Failure)'
+ERRORSTRING='ERROR:'
 
 if [[ -e "/tmp/offlineimap.log" ]]; then
   ERRORS=$(grep -F "${ERRORSTRING}" /tmp/offlineimap.log | wc -l)
@@ -18,5 +18,6 @@ if [[ "${ERRORS}" == "0" ]]; then
   echo No errors found 1>&2
 else
   echo "Errors found (${ERRORS})" 1>&2
+  notify-send "Offlineimap: Errors found (${ERRORS}).\n Restarting..." 1>&2
   pkill offlineimap
 fi
