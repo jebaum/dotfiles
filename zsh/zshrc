@@ -82,3 +82,9 @@ source $ZSH/fzf_completion.zsh
 export FZF_COMPLETION_TRIGGER=''
 bindkey '^I' expand-or-complete # expand-or-complete-with-dots by default, but fzf-completion takes it
 bindkey '^Z' fzf-completion     # I want fzf-completion to be ^Z, not ^I
+
+# zle -N <widget name> <function name>
+zle -N all fzimpl
+zle -N installed fzimpl
+bindkey '\ep' all
+bindkey '\eP' installed
