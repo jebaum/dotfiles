@@ -6,32 +6,44 @@ alias fzkillall="$HOME/dotfiles/scripts/fkill.sh all"
 
 
 ##### ARCH PACKAGE MANAGEMENT
-# TODO add expect keys to install, get info, list, check (-k),
-# TODO make these zle functions? replace the buffer with the resulting command and run it?
-fzpacmanall() { # all packages from official repos
-  packages=($(pacman -Ss | grep -E '^(community|core|extra|multilib)\/' | cut -d' ' -f 1 | fzf -m | sed 's/.*\///'))
-  [ -n "$packages" ] && pacman "${1--Sii}" $packages
-}
-fzpacman() { # installed packages from official repos
-  packages=($(pacman -Qnq | fzf -m))
-  [ -n "$packages" ] && pacman "${1--Qii}" $packages
-}
-fzaurall() { # all packages from aur
-  packages=($(fzf -m < "$AURFILE"))
-  [ -n "$packages" ] && pacaur "${1--Sii}" $packages
-}
-fzaur() { # installed packages from aur
-  packages=($(pacman -Qmq | fzf -m))
-  [ -n "$packages" ] && pacman "${1--Qii}" $packages
-}
-fzall() { # all packages on aur and in official repos
-  local expect list selected key packages flags
-  expect="ctrl-k,ctrl-l,ctrl-s,ctrl-o,ctrl-i"
-  # TODO generate the list of all packages whenever one of the dbs changes
-  # the db upgrade process is fucked to all hell, does multiple passes and shit
-  # maybe just cron it semi regularly, it's an SSD access and about .2 seconds of computation
-  list=$(sed 's/^/aur\//' $AURFILE; cat $PACFILE | cut -d' ' -f 1)
-  selected=$(fzf -m --expect="$expect" <<< $list | cut -d/ -f2)
+alias fzall='fzimpl all'             # packages from both repos and aur
+alias fzpacmanall='fzimpl pacmanall' # packages from repos
+alias fzaurall='fzimpl aurall'       # packages from aur
+alias fzinstalled='fzimpl installed' # installed packages from both repos and aur
+alias fzpacman='fzimpl pacman'       # installed packages from repos
+alias fzaur='fzimpl aur'             # installed packages from aur
+
+fzimpl() { # fzf package management implementation
+  local expect list selected key packages flags filter
+  # figure out what subset of packages we want to select from
+  if [ "$#" = "1" ]; then
+    filter="$1"
+  else
+    filter="$WIDGET"
+  fi
+
+  if [ "$filter" = "all" ]; then
+    # list=$(sed 's/^/aur\//' $AURFILE; pacman -Ss | grep -E '^(community|core|extra|multilib)\/')
+    list=$(sed 's/^/aur\//' $AURFILE; cat $PACFILE)
+  elif [ "$filter" = "pacmanall" ]; then
+    # list=$(cat $PACFILE) # no version numbers, install status
+    list=$(pacman -Ss | grep -E '^(community|core|extra|multilib)\/')
+  elif [ "$filter" = "aurall" ]; then
+    list=$(sed 's/^/aur\//' $AURFILE)
+  elif [ "$filter" = "installed" ]; then
+    list=$(pacman -Qnq; pacman -Qmq)
+  elif [ "$filter" = "pacman" ]; then
+    list=$(pacman -Qnq)
+  elif [ "$filter" = "aur" ]; then
+    list=$(pacman -Qmq)
+  fi
+
+  expect="ctrl-k,ctrl-l,ctrl-s"
+  selected=$(fzf -m --expect="$expect" <<< $list | cut -d/ -f2 | cut -d' ' -f1)
+  if [ -z "$selected" ]; then
+    [ -n "$WIDGET" ] && zle reset-prompt
+    return
+  fi
 
   key=$(head -1 <<< $selected)
   packages=$(sed '1d' <<< $selected)
@@ -44,7 +56,15 @@ fzall() { # all packages on aur and in official repos
   elif [ "$key" = "ctrl-s" ]; then
     flags="-S"
   fi
-  [ -n "$selected" ] && pacaur $flags $packages
+  if [ -n "$selected" ]; then
+    if [ -n "$WIDGET" ]; then
+      BUFFER="pacaur $flags $packages"
+      zle redisplay
+      zle accept-line
+    else
+      pacaur $flags $packages
+    fi
+  fi
 }
 
 
@@ -87,7 +107,7 @@ fzgcotag() { # checkout git branch/tag
 
 fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially with Enter
   local out sha query keypress expect
-  expect="ctrl-o" # TODO reverse this behavior? ctrl-o opens sequentially, default to opening all at once?
+  expect="ctrl-o"
   while out=$(
       git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
       fzf --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect"); do
@@ -95,13 +115,14 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
     keypress=$(sed -n '2p' <<< "$out")
     shalist=()
     while read sha; do
+      # if ctrl-o was pressed, open each commit sequentially. else, open all at once
       if [ "$keypress" = "$expect" ]; then
-        shalist+=$sha
-      else
         [ -n "$sha" ] && git show --color=always $sha | less -R
+      else
+        shalist+=$sha
       fi
     done < <(sed '1,2d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
-    [ "$keypress" = "$expect" ] && git show --color $shalist
+    [ "$keypress" != "$expect" ] && git show --color $shalist
   done
 }
 
