@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PLACES_SQLITE="$HOME/.mozilla/firefox/plhx7cpb.default/places.sqlite"
+PLACES_SQLITE="$(find $HOME/.mozilla/firefox/ -maxdepth 1 -mindepth 1 -type d -iname '*.default' | xargs du -sh | sort -rh | head -1 | cut -f2)/places.sqlite"
 
 # URLS=$(sqlite3 ${PLACES_SQLITE} "SELECT url FROM moz_places;")
 # sqlite3 $PLACES_SQLITE "SELECT last_visit_date,title,url FROM moz_places;" | sed -e 's/|/   /g' > /tmp/ffh.txt
@@ -14,6 +14,7 @@ if [ -z "$THING" ]; then
     echo "you didn't select anything"
 else
     firefox $THING
+    # TODO actually focus a firefox window here using i3 instead of just workspace 2?
     ~/dotfiles/scripts/vimperator_hack.sh
 fi
 
