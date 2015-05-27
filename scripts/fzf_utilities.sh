@@ -46,7 +46,7 @@ fzimpl() { # fzf package management implementation
   fi
 
   key=$(head -1 <<< $selected)
-  packages=$(sed '1d' <<< $selected)
+  packages=($(sed '1d' <<< $selected))
 
   flags="-Sii"
   if [ "$key" = "ctrl-k" ]; then
