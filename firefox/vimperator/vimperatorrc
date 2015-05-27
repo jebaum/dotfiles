@@ -54,29 +54,10 @@ nnoremap J :Selecttab<CR>:tabmove! -1<CR>
 nnoremap > :tabmove<CR>
 nnoremap < :tabmove 0<CR>
 
-nnoremap ssa :open amazon<Space>
-nnoremap ssd :open dictionary<Space>
-nnoremap ssg :open duckduckgo<Space>
-nnoremap ssh :history! -max=1<Space>
-nnoremap ssi :open images<Space>
-nnoremap ssp :open thepiratebay<Space>
-nnoremap sst :open thesaurus<Space>
-nnoremap ssw :open wikipedia<Space>
-nnoremap ssy :open youtube<Space>
+nnoremap sh :history! -max=1<Space>
+nnoremap Sh :history -max=1<Space>
+nnoremap sb :set scrollbars!<CR>:echo 'toggled scrollbars'<CR>
 
-nnoremap sa :tabopen amazon<Space>
-nnoremap sd :tabopen dictionary<Space>
-nnoremap sg :tabopen duckduckgo<Space>
-nnoremap sh :history -max=1<Space>
-nnoremap si :tabopen images<Space>
-nnoremap sp :tabopen thepiratebay<Space>
-nnoremap st :tabopen thesaurus<Space>
-nnoremap sw :tabopen wikipedia<Space>
-nnoremap sy :tabopen youtube<Space>
-
-nnoremap sb :set scrollbar!<CR>
-
-nnoremap <C-f>     /
 nnoremap <C-b>     <C-^>
 nnoremap <C-l>     :nohlsearch<CR>
 nnoremap <C-Space> :styletoggle -name globaldark<CR>
@@ -88,17 +69,12 @@ nnoremap <A-p> :tabmove! -1<CR>
 nnoremap ,a  :addons<CR>
 nnoremap ,e  :extoptions<Space>
 nnoremap ,t  :tabopen about:sync-tabs<CR>
-nnoremap ,,t :open about:sync-tabs<CR>
 
-nnoremap ,b :sidebar Bookmarks<CR>
-nnoremap ,d :sidebar downloads<CR>
-nnoremap ,h :sidebar History<CR>
-nnoremap ,p :sidebar Preferences<CR>
 nnoremap ,q :sbclose<CR>
 nnoremap ,s :saveas!<CR>
 
-nnoremap ,g :open google<Space>
-nnoremap ,G :tabopen google<Space>
+nnoremap ,g :tabopen g<Space>
+nnoremap ,G :open g<Space>
 
 nnoremap <leader>c   :dialog cookies<CR>
 nnoremap <leader>d   :dialog savepage<CR>
