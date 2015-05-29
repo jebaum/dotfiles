@@ -38,7 +38,7 @@ fzimpl() { # fzf package management implementation
     list=$(pacman -Qmq)
   fi
 
-  expect="ctrl-k,ctrl-l,ctrl-s"
+  expect="ctrl-k,ctrl-l,ctrl-s,ctrl-r"
   selected=$(fzf -m --expect="$expect" <<< $list | cut -d/ -f2 | cut -d' ' -f1)
   if [ -z "$selected" ]; then
     [ -n "$WIDGET" ] && zle reset-prompt
@@ -55,6 +55,8 @@ fzimpl() { # fzf package management implementation
     flags="-Ql"
   elif [ "$key" = "ctrl-s" ]; then
     flags="-S"
+  elif [ "$key" = "ctrl-r" ]; then
+    flags="-R"
   fi
   if [ -n "$selected" ]; then
     if [ -n "$WIDGET" ]; then
