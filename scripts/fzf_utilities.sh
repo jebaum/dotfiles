@@ -14,7 +14,7 @@ alias fzpacman='fzimpl pacman'       # installed packages from repos
 alias fzaur='fzimpl aur'             # installed packages from aur
 
 fzimpl() { # fzf package management implementation
-  local expect list selected key packages flags filter
+  local expect list selected key packages flags filter pipe
   # figure out what subset of packages we want to select from
   if [ "$#" = "1" ]; then
     filter="$1"
@@ -38,7 +38,7 @@ fzimpl() { # fzf package management implementation
     list=$(pacman -Qmq)
   fi
 
-  expect="ctrl-k,ctrl-l,ctrl-s,ctrl-r"
+  expect="ctrl-k,ctrl-l,ctrl-s,ctrl-r,alt-l"
   selected=$(fzf -m --expect="$expect" <<< $list | cut -d/ -f2 | cut -d' ' -f1)
   if [ -z "$selected" ]; then
     [ -n "$WIDGET" ] && zle reset-prompt
@@ -53,6 +53,9 @@ fzimpl() { # fzf package management implementation
     flags="-Qk"
   elif [ "$key" = "ctrl-l" ]; then
     flags="-Ql"
+  elif [ "$key" = "alt-l" ]; then
+    flags="-Ql"
+    pipe="| less"
   elif [ "$key" = "ctrl-s" ]; then
     flags="-S"
   elif [ "$key" = "ctrl-r" ]; then
@@ -60,9 +63,11 @@ fzimpl() { # fzf package management implementation
   fi
   if [ -n "$selected" ]; then
     if [ -n "$WIDGET" ]; then
-      BUFFER="pacaur $flags $packages"
+      BUFFER="pacaur $flags $packages $pipe"
       zle redisplay
       zle accept-line
+    elif [ -n "$pipe" ]; then
+      pacaur $flags $packages | less
     else
       pacaur $flags $packages
     fi
