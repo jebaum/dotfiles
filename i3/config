@@ -170,7 +170,6 @@ bindsym $mod+Control+y          exec notify-send "preparing to play youtube vide
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
 for_window [instance="vimtmp"] move scratchpad; scratchpad show
-for_window [instance="rangermpvaudio"] move scratchpad
 for_window [instance="wxremind" class="Wxremind"] floating disable
 
 for_window [instance="Navigator" class="Firefox"] border none
@@ -200,6 +199,8 @@ for_window [instance="vdpau" class="mpv"] border 1pixel
 #assign     [instance="vdpau" class="mplayer2"] → 13: tv
 
 for_window [instance="firefox.exe" class="Wine"] border none
+for_window [instance="rangermpvaudio"] move scratchpad
+for_window [instance="rangermpvaudio"] border normal 1pixel
 # }}}
 # WINDOW MANAGEMENT KEYBINDS {{{
   ### ijkl for moving focus
