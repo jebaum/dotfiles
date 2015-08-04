@@ -2,13 +2,11 @@ colorscheme darkness
 
 " qmarks {{{
 " all marks except subreddits are the first char from the url
-qmark 8 http://www.cs.ucla.edu/~sherstov/teaching/2015-spring/
 qmark a voat.co/v/all
-qmark c ccle.ucla.edu/my
 qmark g github.com/jebaum
 qmark h https://news.ycombinator.com/
 qmark j jbaumy.com/files
-qmark m my.ucla.edu
+qmark k http://www.kmseattle.com/
 qmark n news.google.com
 qmark s schneier.com/essays.html
 qmark t https://kat.cr/
