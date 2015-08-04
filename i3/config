@@ -2,20 +2,23 @@
 set $mpdhost localhost
 set $mod Mod4
 set $alt Mod1
-set $barfont font pango:Times New Roman 6
+set $narrowbarfont font pango:Times New Roman 9
 floating_modifier $mod
-set $narrow1 HDMI-0
-set $narrow2 DVI-I-1
-set $narrow3 DVI-D-0
-set $wide    HDMI-1
+set $narrow1 DFP9
+set $narrow2 DFP5
+set $narrow3 DFP6
+set $narrow4 DFP10
+set $widetop    DFP2
+set $widebottom DFP1
 set $barmodifier modifier Mod3
 
+# fake-outputs 1200x1920+0+689,1200x1920+1200+689,2560x1440+2400+1467,2560x1440+2400+0,1200x1920+4960+689,1200x1920+6160+689
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
 new_window 1pixel
 new_float 1pixel
   # <none | vertical | horizontal | both>
 hide_edge_borders none
-font pango:DejaVu Sans Mono 6
+font pango:DejaVu Sans Mono 10
 
 # MISC SETTINGS
 focus_follows_mouse no
@@ -48,10 +51,14 @@ set $statusline          statusline         #CCCCCC
 # STARTUP APPLICATIONS {{{
 # exec_always will run when i3 is restarted, not just initially
 exec --no-startup-id unclutter
-exec --no-startup-id parcellite
+# also add clipmenu in here instead of clipit history search?
+# would need to modify it to sort by date, use sexier dmenu
+# there's branches and pull requests possibly worth looking at which address this
+# https://github.com/cdown/clipmenu
+exec --no-startup-id clipit
 exec --no-startup-id xset m 0 0
 # exec --no-startup-id nitrogen --restore
-exec --no-startup-id xsetroot -solid "#181818"
+exec --no-startup-id xsetroot -solid "#331133"
 exec --no-startup-id dropbox-cli start
 exec --no-startup-id udiskie &
 exec --no-startup-id amixer set PCM 208
@@ -73,9 +80,7 @@ bindsym $mod+Shift+C    reload
 
   ### borders
 bindsym $mod+t          border normal 1pixel
-bindsym $mod+Shift+t    border normal 3pixel
 bindsym $mod+y          border 1pixel
-bindsym $mod+Shift+y    border pixel 3
 bindsym $mod+n          border none
 
  ### scratchpad
@@ -137,10 +142,12 @@ bindsym $mod+Control+Prior  exec echo seek 600 relative > ~/.mpv/mpvfifo
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
-bindsym $mod+Shift+a            exec ~/dotfiles/scripts/torrentadd.sh
+# TODO this thing is shit
+bindsym $mod+Shift+t            exec ~/dotfiles/scripts/torrentadd.sh
+bindsym $mod+Shift+y            exec ~/dotfiles/scripts/ytdl.sh
 bindsym $mod+b                  exec ~/dotfiles/scripts/firefox_history.sh
-# bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
-bindsym $mod+c                  exec xdotool click 1
+#bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
+bindsym --release $mod+c        exec /home/james/fuck.sh
 bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+g                  exec gvim
 bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
@@ -156,7 +163,7 @@ bindsym --release Print         exec grab
 bindsym $mod+Print              exec pasta
 bindsym $mod+Shift+Return       exec urxvt
 bindsym $mod+Return             exec urxvt -cd "`~/.i3/xcwd/xcwd`"
-bindsym $mod+Escape             exec /usr/bin/lk
+bindsym $mod+Escape             exec i3lock -c '#181818'
 bindsym $mod+F2                 exec firefox
 bindsym $mod+Shift+F2           exec google-chrome-stable
 bindsym $mod+F4                 exec puddletag
@@ -251,21 +258,21 @@ bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto m
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
 workspace "1: main"   output $narrow3
-workspace "2: web"    output $wide
+workspace "2: web"    output $widebottom
 workspace "3: vps"    output $narrow3
 workspace "4: music"  output $narrow1
-workspace "5: mail"   output $narrow1
+workspace "5: mail"   output $narrow4
 workspace "6: files"  output $narrow2
 workspace "7: code"   output $narrow1
 workspace "8: code"   output $narrow2
-workspace "9: code"   output $wide
+workspace "9: code"   output $widetop
 workspace "10: code"  output $narrow3
-workspace "11: steam" output $wide
-workspace "12: tf2"   output $wide
-workspace "13: tv"    output $wide
+workspace "11: steam" output $widebottom
+workspace "12: tf2"   output $widebottom
+workspace "13: tv"    output $widebottom
 workspace "14"        output $narrow1
 workspace "15"        output $narrow2
-workspace "16"        output $wide
+workspace "16"        output $widebottom
 workspace "17"        output $narrow3
 
 bindsym $mod+Tab workspace next_on_output
@@ -340,9 +347,10 @@ mode "resize" {
   bindsym Right       resize grow     right 1 px or 1 ppt
   bindsym Shift+Right resize shrink   right 1 px or 1 ppt
 
-  bindsym Return    mode "default"
-  bindsym Escape    mode "default"
-  bindsym Control+C mode "default"
+  bindsym Return              mode "default"
+  bindsym Escape              mode "default"
+  bindsym Control+C           mode "default"
+  bindsym Control+bracketleft mode "default"
 }
 bindsym $mod+r mode "resize"
 
@@ -354,16 +362,36 @@ mode " " {
   bindsym $mod+bracketleft mode "default"
 }
 # }}}
-# BAR WIDE {{{
+# BAR WIDEBOTTOM {{{
 bar {
-  output $wide
+  output $widebottom
   mode dock
   $barmodifier
   position top
   workspace_buttons yes
-  $barfont
+  font pango:Times New Roman 16
   status_command ~/.i3/conky/wide
-  tray_output $wide
+  tray_output $widebottom
+  colors {
+    $background
+    $statusline
+    $focused_workspace
+    $active_workspace
+    $inactive_workspace
+    $urgent_workspace
+  }
+}
+# }}}
+# BAR WIDETOP {{{
+bar {
+  output $widetop
+  mode dock
+  $barmodifier
+  position top
+  workspace_buttons yes
+  font pango:Times New Roman 16
+  status_command ~/.i3/conky/wide
+  tray_output none
   colors {
     $background
     $statusline
@@ -381,7 +409,7 @@ bar {
   $barmodifier
   position top
   workspace_buttons yes
-  $barfont
+  $narrowbarfont
   status_command ~/.i3/conky/narrow1
   tray_output none
   colors {
@@ -401,7 +429,7 @@ bar {
   $barmodifier
   position top
   workspace_buttons yes
-  $barfont
+  $narrowbarfont
   status_command ~/.i3/conky/narrow2
   tray_output none
   colors {
@@ -421,7 +449,28 @@ bar {
   $barmodifier
   position top
   workspace_buttons yes
-  $barfont
+  $narrowbarfont
+  status_command ~/.i3/conky/narrow3
+  tray_output none
+  colors {
+    $background
+    $statusline
+    $focused_workspace
+    $active_workspace
+    $inactive_workspace
+    $urgent_workspace
+  }
+}
+# }}}
+# BAR NARROW 4 {{{
+bar {
+  output $narrow4
+  mode dock
+  $barmodifier
+  position top
+  workspace_buttons yes
+  $narrowbarfont
+  # TODO fix this
   status_command ~/.i3/conky/narrow3
   tray_output none
   colors {
