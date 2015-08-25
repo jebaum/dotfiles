@@ -2,7 +2,7 @@
 AURFILE="$HOME/.aur.dat"
 PACFILE="$HOME/.pacman.dat"
 alias fzkill="$HOME/dotfiles/scripts/fkill.sh"
-alias fzkillall="$HOME/dotfiles/scripts/fkill.sh all"
+alias fzkillall="$HOME/dotfiles/scripts/fkill.sh -9 all"
 
 
 ##### ARCH PACKAGE MANAGEMENT

@@ -1,4 +1,12 @@
 #!/bin/bash
+# USAGE: fkill.sh [signal [all]]
+
+if [ "$#" -lt "1" ]; then
+    SIGNAL="-9"
+else
+    SIGNAL=$1
+    shift
+fi
 
 if [ "$1" == "all" ]; then
   pid=($(ps -ef $UID | sed 1d | fzf -m | awk '{print $2}'))
@@ -14,6 +22,6 @@ if [ "x$pid" != "x" ]; then
     ps -ef $UID | awk "substr(\$2, 0) == $p"
   done
   echo "======================"
-  kill -${1:-9} $pid
-  echo "done"
+  echo Killing PIDs with signal "$SIGNAL": "${pid[@]}"
+  kill $SIGNAL "${pid[@]}"
 fi
