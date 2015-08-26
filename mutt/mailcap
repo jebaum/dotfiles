@@ -21,3 +21,4 @@ text/plain; ~/.mutt/view_attachment.sh %s txt
 
 # Unidentified files
 application/octet-stream; ~/.mutt/view_attachment.sh %s "-"
+text/calendar; mutt-ics; copiousoutput
