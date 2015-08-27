@@ -1,13 +1,15 @@
 [alias]
   a   = add
-  au  = add -u
-  ap  = add -p
+  au  = add --update
+  ap  = add --patch
   b   = branch
   c   = commit
-  cm  = commit -m
-  cv  = commit -v
-  cam = commit -a -m
-  cvm = commit -v -m
+  ca  = commit --amend
+  can = commit --amend --no-edit
+  cm  = commit --message
+  cv  = commit --verbose
+  cam = commit --all --message
+  cav = commit --all --verbose
   cl  = clone
   co  = checkout
   cp  = cherry-pick
@@ -29,7 +31,8 @@
   rc  = rebase --continue
   ri  = rebase -i
 
-  s   = status --column
+  s   = status
+  sc  = status --column
   ss  = status -s
 
   sa  = stash apply
