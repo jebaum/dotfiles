@@ -7,6 +7,14 @@ augroup VIMRCMAP
   autocmd!
   autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
 augroup END
+augroup EXPERIMENTAL
+  " this can be pretty jarring going in and out of insert mode, but it seems
+  " to make completion menus much more smooth/unflickery
+  " autocmd InsertEnter * syntax off
+  " autocmd InsertLeave * syntax on
+  autocmd InsertEnter * set norelativenumber
+  autocmd InsertLeave * set relativenumber
+augroup END
 " Vim-Plug  {{{
 if empty(glob("~/.vim/autoload/plug.vim"))
     silent call mkdir(expand("~/.vim/autoload", 1), 'p')
@@ -59,6 +67,7 @@ Plug 'Shougo/unite-session'
 Plug 'tsukkee/unite-tag'
 Plug 'ujihisa/unite-locate'
 
+Plug 'blueyed/vim-diminactive'
 Plug 'bruno-/vim-husk'
 Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
 Plug 'christoomey/vim-tmux-navigator'
@@ -117,20 +126,36 @@ Plug 'FelikZ/ctrlp-py-matcher'
 call plug#end()
 
 " setup colorscheme
-" TODO if syntax gets toggled on and off for whatever reason, these overrides
-" will be lost. create a map to re source these settings, maybe stick them in
-" a function and call it. statusline colors have the same problem
 let g:gruvbox_invert_selection=0
 colorscheme gruvbox
 " override some defaults
-highlight Normal                    ctermbg=8                                  guibg=#181818
-" for some reason, I need to have this line twice for it to work in neovim. ???
-" TODO make sure current selection in oblique, or incsearch.vim if I switch to
-" it, is highlighted a distinct color from other matches
-highlight Normal                    ctermbg=8                                  guibg=#181818
-highlight UniteSel     ctermfg=16   ctermbg=73      cterm=none  guifg=#000000  guibg=#5FAFAF  gui=none
-highlight SpecialKey   ctermfg=243  ctermbg=237
-highlight IncSearch                 ctermbg=254
+function! TweakColors()
+  " TODO make sure current selection in oblique, or incsearch.vim if I switch to
+  " it, is highlighted a distinct color from other matches
+
+  highlight Normal                    ctermbg=8                                  guibg=#181818
+  " for some reason, I need to have this line twice for it to work in neovim. ???
+  highlight Normal                    ctermbg=8                                  guibg=#181818
+  highlight UniteSel     ctermfg=16   ctermbg=73      cterm=none  guifg=#000000  guibg=#5FAFAF  gui=none
+  highlight SpecialKey   ctermfg=243  ctermbg=237
+  highlight IncSearch                 ctermbg=254
+
+  " copied from statline.vim
+  highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
+  highlight User2 ctermfg=47   ctermbg=232  cterm=none guifg=#00FF5F  guibg=#080808  gui=none
+  highlight User3 ctermfg=196  ctermbg=232  cterm=bold guifg=#FF0000  guibg=#080808  gui=bold
+  highlight User4 ctermfg=49   ctermbg=232  cterm=none guifg=#00FFAF  guibg=#080808  gui=none
+  highlight User5 ctermfg=47   ctermbg=232  cterm=none guifg=#00FF5F  guibg=#080808  gui=none
+  highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
+  highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
+  highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
+  highlight User9 ctermfg=208  ctermbg=232  cterm=none guifg=#FF8700  guibg=#080808  gui=none
+endfunction
+call TweakColors()
+augroup TweakColors
+  autocmd!
+  autocmd Syntax * call TweakColors()
+augroup END
 " }}}
 " }}}
 " Misc {{{
@@ -484,13 +509,23 @@ command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1
 " Plugins {{{
 " ctrlp {{{
 let g:ctrlp_map = '<Space>p'
-let g:ctrlp_match_func = {'match' : 'matcher#cmatch' } " there's a pull request on github with performance improvements for cmatcher
+" let g:ctrlp_match_func = {'match' : 'matcher#cmatch' } " there's a pull request on github with performance improvements for cmatcher
 " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch' }
 let g:ctrlp_max_files = 0
 let g:ctrlp_match_window = 'bottom,order:btt,min:30,max:30,results:30'
-let g:ctrlp_lazy_update = 10
+let g:ctrlp_lazy_update = 50
+let g:ctrlp_regexp = 1
+let g:ctrlp_switch_buffer = 'Et'
 
+
+let g:ctrlp_use_caching = 2500 " only use caching if there's more than this many files
 let g:ctrlp_clear_cache_on_exit = 0 " can force cache refresh with F5
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore .git
@@ -505,6 +540,9 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
 let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
 let g:detectindent_max_lines_to_analyse = 1024
+" }}}
+" diminactive {{{
+highlight ColorColumn ctermbg=16 guibg=#000000
 " }}}
 " exchange {{{
 " need to define default mappings in vimrc for vim-plug lazy loading to work
@@ -684,8 +722,6 @@ let g:signify_mapping_prev_hunk  = '<leader>gk'
 let g:signify_sign_change        = '~'
 nmap <leader>gh :SignifyToggleHighlight \| SignifyToggle \| SignifyToggle<CR>
 nmap <leader>gt :SignifyToggle<CR>
-nmap <leader>gk <Plug>(signify-prev-hunk)
-nmap <leader>gj <Plug>(signify-next-hunk)
 nmap ]c         <Plug>(signify-next-hunk)
 nmap [c         <Plug>(signify-prev-hunk)
 " }}}
@@ -956,7 +992,7 @@ call unite#custom#profile('default', 'context', {
 \ 'prompt_direction' : 'top',
 \ 'direction' : 'botright',
 \ 'winheight' : 20,
-\ 'prompt' : '>>',
+\ 'prompt' : '>> ',
 \ 'update_time' : 500,
 \ 'cursor_line_highlight' : 'UniteSel',
 \ })
@@ -1411,9 +1447,6 @@ nnoremap <silent> <leader>x    :x!<CR>
 vnoremap <silent> <leader>y    y`]
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
-" TODO go through various fzf.vim functions and figure out which ones to use, how to customize them
-nnoremap <silent> <leader>fe   :FZF<CR>
-
 " buffer search
 nnoremap <silent> <leader>tt :silent! vimgrep /\CTODO/gj %<CR>
 vnoremap <silent> <leader>ss :<C-u>call VSetSearch('/')<CR>:CurBufGrep <C-r>=@/<CR><CR>
@@ -1460,32 +1493,49 @@ nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " }}}
 " space leader maps. unite + tabularize {{{
-nnoremap <Space>a        :<C-u>Unite -resume -buffer-name=arglist    argument<CR>
-nnoremap <Space>b        :<C-u>Unite         -buffer-name=buffers    buffer<CR>
-nnoremap <Space>d        :<C-u>Unite -resume -buffer-name=tabs       tab:no-current<CR>
-nnoremap <Space>f        :<C-u>Unite         -buffer-name=files      file<CR>
-nnoremap <Space>g        :<C-u>Unite -resume -buffer-name=ag         grep:.<CR>
-nnoremap <Space>G        :<C-u>Unite -resume -buffer-name=gist       gist<CR>
-nnoremap <Space>h        :<C-u>Unite         -buffer-name=help       help<CR>
-nnoremap <Space>L        :<C-u>Unite -resume -buffer-name=launcher   launcher<CR>
-nnoremap <Space>ol       :<C-u>Unite         -buffer-name=lines      -custom-line-enable-highlight line:all<CR>
-nnoremap <Space>oL       :<C-u>Unite         -buffer-name=alllines   -custom-line-enable-highlight line:buffers<CR>
-nnoremap <Space>oo       :<C-u>Unite         -buffer-name=outline    outline<CR>
-nnoremap <Space>q        :<C-u>Unite -resume -buffer-name=quickfix   qf<CR>
-nnoremap <Space>r        :<C-u>Unite         -buffer-name=file_rec   file_rec/async:!<CR>
-nnoremap <Space>sl       :<C-u>Unite         -buffer-name=sessions   session<CR>
-nnoremap <Space>sn       :<C-u>Unite         -buffer-name=new_session session/new<CR>
-nnoremap <Space>t        :<C-u>Unite         -buffer-name=tags       tag<CR>a<BS>
-nnoremap <Space>vf       :<C-u>Unite -resume -buffer-name=functions  function<CR>
-nnoremap <Space>vm       :<C-u>Unite -resume -buffer-name=mappings   mapping<CR>
-nnoremap <Space>vr       :<C-u>Unite -resume -buffer-name=runtimepath runtimepath<CR>
-nnoremap <Space>w        :<C-u>Unite -resume -buffer-name=window     window:no-current<CR>
-nnoremap <Space><Space>  :<C-u>Unite -resume -buffer-name=sources    source<CR>
-nnoremap <Space><CR>     :<C-u>Unite -resume -buffer-name=output     output<CR>
-nnoremap <Space>:        :<C-u>Unite -resume -buffer-name=cmdmatch   cmdmatch<CR>
+" nnoremap <Space>a        :<C-u>Unite -resume -buffer-name=arglist    argument<CR>
+" nnoremap <Space>b        :<C-u>Unite         -buffer-name=buffers    buffer<CR>
+" nnoremap <Space>d        :<C-u>Unite -resume -buffer-name=tabs       tab:no-current<CR>
+" nnoremap <Space>f        :<C-u>Unite         -buffer-name=files      file<CR>
+" nnoremap <Space>g        :<C-u>Unite -resume -buffer-name=ag         grep:.<CR>
+" nnoremap <Space>G        :<C-u>Unite -resume -buffer-name=gist       gist<CR>
+" nnoremap <Space>h        :<C-u>Unite         -buffer-name=help       help<CR>
+" nnoremap <Space>L        :<C-u>Unite -resume -buffer-name=launcher   launcher<CR>
+" nnoremap <Space>ol       :<C-u>Unite         -buffer-name=lines      -custom-line-enable-highlight line:all<CR>
+" nnoremap <Space>oL       :<C-u>Unite         -buffer-name=alllines   -custom-line-enable-highlight line:buffers<CR>
+" nnoremap <Space>oo       :<C-u>Unite         -buffer-name=outline    outline<CR>
+" nnoremap <Space>q        :<C-u>Unite -resume -buffer-name=quickfix   qf<CR>
+" nnoremap <Space>r        :<C-u>Unite         -buffer-name=file_rec   file_rec/async:!<CR>
+" nnoremap <Space>sl       :<C-u>Unite         -buffer-name=sessions   session<CR>
+" nnoremap <Space>sn       :<C-u>Unite         -buffer-name=new_session session/new<CR>
+" nnoremap <Space>t        :<C-u>Unite         -buffer-name=tags       tag<CR>a<BS>
+" nnoremap <Space>vf       :<C-u>Unite -resume -buffer-name=functions  function<CR>
+" nnoremap <Space>vm       :<C-u>Unite -resume -buffer-name=mappings   mapping<CR>
+" nnoremap <Space>vr       :<C-u>Unite -resume -buffer-name=runtimepath runtimepath<CR>
+" nnoremap <Space>w        :<C-u>Unite -resume -buffer-name=window     window:no-current<CR>
+" nnoremap <Space><Space>  :<C-u>Unite -resume -buffer-name=sources    source<CR>
+" nnoremap <Space><CR>     :<C-u>Unite -resume -buffer-name=output     output<CR>
+" nnoremap <Space>:        :<C-u>Unite -resume -buffer-name=cmdmatch   cmdmatch<CR>
 
-nnoremap <Space>k        :<C-u>Unite -default-action=sigkill -buffer-name=killproc process<CR>
-nnoremap <Space>l        :<C-u>UniteWithInput -buffer-name=locate     locate<CR>
+" nnoremap <Space>k        :<C-u>Unite -default-action=sigkill -buffer-name=killproc process<CR>
+" nnoremap <Space>l        :<C-u>UniteWithInput -buffer-name=locate     locate<CR>
+
+" TODO go through various fzf.vim functions and figure out which ones to use, how to customize them
+nnoremap <silent> <Space>a   :Ag<CR>
+nnoremap          <Space>A   :Ag<Space>
+nnoremap <silent> <Space>b   :Buffers<CR>
+nnoremap          <Space>c   :Commands<CR>
+nnoremap <silent> <Space>f   :Files<CR>
+nnoremap <silent> <Space>g   :Lines<CR>
+nnoremap <silent> <Space>G   :BLines<CR>
+nnoremap          <Space>h   :Helptags<CR>
+nnoremap <silent> <Space>H   :History<CR>
+nnoremap          <Space>l   :Locate<Space>
+nnoremap <silent> <Space>m   :Marks<CR>
+nnoremap <silent> <Space>r   :Files<CR>
+nnoremap          <Space>s   :Snippets<CR>
+nnoremap <silent> <Space>t   :Tags<CR>
+nnoremap <silent> <Space>T   :BTags<CR>
 
 " menus
 nnoremap <Space>mm       :<C-u>Unite -resume menu<CR>
