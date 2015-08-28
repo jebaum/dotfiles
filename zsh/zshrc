@@ -1,5 +1,7 @@
 ZSH=$HOME/dotfiles/zsh
 COMPLETION_WAITING_DOTS="true"
+# opp.zsh is a big bottleneck in the shell starting, and loading them any other way didn't work
+alias oppzsh=". $ZSH/opp.zsh/opp.zsh; . $ZSH/opp.zsh/opp/surround.zsh; . $ZSH/opp.zsh/opp/textobj-between.zsh"
 
 # need `pkgfile' installed + must run `sudo pgkfile --update` to get list of commands
 [[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
@@ -19,8 +21,28 @@ compinit -i -d "${ZSH_COMPDUMP}" # compdefs must come after compinit
 compdef mosh=ssh
 compdef g=git
 
-export PATH=$HOME/.cabal/bin:$PATH
-export LC_ALL="en_US.UTF-8"
+autoload -U select-bracketed
+zle -N select-bracketed
+for m in visual viopp; do
+    for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+        # bindkey -M $m $c select-bracketed
+        # echo $m
+        # echo $c
+    done
+done
+
+autoload -U select-quoted
+zle -N select-quoted
+for m in visual viopp; do
+    for c in {a,i}{\',\",\`}; do
+        # bindkey -M $m $c select-quoted
+        # echo $m
+        # echo $c
+    done
+done
+
+
+export PATH=/apollo/env/SDETools/bin:$HOME/dev/idea-IC-141.1532.4/bin:/usr/NX/bin:$HOME/dev:$HOME/dev/dmenu2:$HOME/dev/neovim/build/bin:$HOME/dev/ranger:$HOME/.local/bin:$HOME/dev/calcurse/src:$HOME/dev/local/bin:$HOME/dev/ag:$PATH:$HOME/dotfiles/vim/bundle/fzf/bin
 source ~/dotfiles/scripts/fzf_utilities.sh
 
 source $ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # load syntax highlighting before history search
@@ -30,37 +52,14 @@ for config_file ($ZSH/plugins/*.zsh); do
   source $config_file
 done
 
-# load text objects and surround plugins for zsh vi-mode
-# relies on /usr/share/zsh/functions/Zle/{select-bracketed,select-quoted,surround} being present
-autoload -U select-bracketed
-zle -N select-bracketed
-for m in visual viopp; do
-  for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
-    bindkey -M $m $c select-bracketed
-  done
-done
-
-autoload -U select-quoted
-zle -N select-quoted
-for m in visual viopp; do
-  for c in {a,i}{\',\",\`}; do
-    bindkey -M $m $c select-quoted
-  done
-done
-
-autoload -Uz surround
-zle -N delete-surround surround
-zle -N add-surround surround
-zle -N change-surround surround
-bindkey -a cs change-surround
-bindkey -a ds delete-surround
-bindkey -a ys add-surround
-bindkey -M visual S add-surround
-
 setopt BRACE_CCL
 setopt NO_CASE_GLOB
 setopt NUMERIC_GLOB_SORT
 export EDITOR=vim
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+
 if [ -f "/usr/bin/src-hilite-lesspipe.sh" ]; then
   export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 fi
@@ -101,6 +100,7 @@ bindkey '^N'    history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up      # bind k and j for VI mode history-substring-search
 bindkey -M vicmd 'j' history-substring-search-down
 
+# http://sgeb.io/articles/zsh-zle-closer-look-custom-widgets/
 fzgshowkey() {
     if [ "$(git_prompt_string)" ]; then
         fzgshow
@@ -111,13 +111,12 @@ zle -N fzgshowkey fzgshowkey
 bindkey '^G' fzgshowkey
 
 lskeyimpl() {
-    echo "" # go to a new line
     if [ "$WIDGET" = "lskey" ]; then
-        ls
+        BUFFER="ls"
     elif [ "$WIDGET" = "lslkey" ]; then
-        ls -l
+        BUFFER="ls -l"
     fi
-    zle reset-prompt
+    zle accept-line
 }
 zle -N lskey lskeyimpl
 zle -N lslkey lskeyimpl
@@ -125,18 +124,44 @@ bindkey '\el' lskey
 bindkey '\eL' lslkey
 
 gitstatuskeyimpl() {
-    echo ""
-    if [ "$WIDGET" = "gitstatuskey" ]; then
-        git status
-    elif [ "$WIDGET" = "gitstatuscolumnkey" ]; then
-        git status --column
+    if [ "$(git_prompt_string)" ]; then
+        if [ "$WIDGET" = "gitstatuskey" ]; then
+            BUFFER="git status"
+        elif [ "$WIDGET" = "gitstatuscolumnkey" ]; then
+            BUFFER="git status --column"
+        fi
+        zle accept-line
     fi
-    zle reset-prompt
 }
 zle -N gitstatuskey gitstatuskeyimpl
 zle -N gitstatuscolumnkey gitstatuskeyimpl
 bindkey '\eg' gitstatuskey
 bindkey '\eG' gitstatuscolumnkey
+
+updirkey() {
+    cd ..
+    zle reset-prompt
+}
+zle -N updirkey updirkey
+bindkey "" updirkey
+
+homedirkey() {
+    cd ~
+    zle reset-prompt
+}
+zle -N homedirkey homedirkey
+bindkey "" homedirkey
+
+agfullsearch() {
+    # TODO
+    # process results
+    # remove empty lines
+    ag "." --nocolor | fzf -m | cut -f 1,2 -d ":"
+    echo ""
+    zle redisplay
+}
+zle -N agfullsearch agfullsearch
+bindkey "^X" agfullsearch
 
 KEYTIMEOUT=1
 
