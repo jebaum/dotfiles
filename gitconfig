@@ -79,19 +79,19 @@
 [core]
   editor = vim
   pager = less
-  excludesfile = /home/james/.gitignore
+  excludesfile = "$HOME/.gitignore"
   whitespace = trailing-space,space-before-tab
-[push]
-  default = tracking
 [merge]
   tool = vimdiff
 [init]
   # ctags integration with git hooks from here
   # http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
-  templatedir = /home/james/.git_template
+  templatedir = "$HOME/.git_template"
 [advice]
   statusHints = false
 [diff]
   mnemonicprefix = true
 [branch]
   autosetupmerge = true
+[push]
+	default = simple
