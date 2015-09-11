@@ -13,16 +13,7 @@ alias pacrep='pacman -Si'              # Display information about a given packa
 alias pacreps='pacman -Ss'             # Search for package(s) in the repositories
 alias pacloc='pacman -Qi'              # Display information about a given package in the local database
 alias paclocs='pacman -Qs'             # Search for package(s) in the local database
-# Additional pacman alias examples
-if [[ -x `which abs` && -x `which aur` ]]; then
-  alias pacupd='sudo pacman -Sy && sudo abs && sudo aur'  # Update and refresh the local package, ABS and AUR databases against repositories
-elif [[ -x `which abs` ]]; then
-  alias pacupd='sudo pacman -Sy && sudo abs'              # Update and refresh the local package and ABS databases against repositories
-elif [[ -x `which aur` ]]; then
-  alias pacupd='sudo pacman -Sy && sudo aur'              # Update and refresh the local package and AUR databases against repositories
-else
-  alias pacupd='sudo pacman -Sy'     # Update and refresh the local package database against repositories
-fi
+alias pacupd='sudo pacman -Sy'     # Update and refresh the local package database against repositories
 alias pacinsd='sudo pacman -S --asdeps'        # Install given package(s) as dependencies of another package
 alias pacmir='sudo pacman -Syy'                # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
 
