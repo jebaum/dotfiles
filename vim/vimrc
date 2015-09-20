@@ -45,6 +45,7 @@ if has('python') && (exists('g:ycm')) " invoke vim with `vim --cmd 'let g:ycm=1'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('nvim')
   Plug 'Shougo/deoplete.nvim'
+  let g:deoplete#enable_at_startup = 1
 elseif has('lua')
   Plug 'Shougo/neocomplete.vim'
   " Plug 'Shougo/neocomplcache.vim'
@@ -72,6 +73,7 @@ Plug 'bruno-/vim-husk'
 Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ciaranm/detectindent'
+Plug 'derekwyatt/vim-scala'
 Plug 'dockyard/vim-easydir'
 Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
 Plug 'gcmt/taboo.vim'
