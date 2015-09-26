@@ -1048,10 +1048,10 @@ nnoremap       g<Space> :call ToggleLaststatus()<CR>
 " }}}
 " generate map for alt and <C-Space> in both vim and gvim {{{
 function! Altmap(char)
-  if has('gui_running') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
+  if has('gui_running') || has('nvim') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
 function! AltShiftmap(char)
-  if has('gui_running') | return '<A-S-'.a:char.'>' | else | return '<Esc>'.a:char|endif
+  if has('gui_running') || has('nvim') | return '<A-S-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
 let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 " }}}
