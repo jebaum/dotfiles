@@ -912,7 +912,7 @@ set listchars=tab:▸\ ,trail:•,extends:>,eol:¬
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
 set path+=./**
-set shell=bash
+set shell=zsh
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
