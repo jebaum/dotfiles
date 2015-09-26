@@ -1,7 +1,5 @@
 ZSH=$HOME/dotfiles/zsh
 COMPLETION_WAITING_DOTS="true"
-# opp.zsh is a big bottleneck in the shell starting, and loading them any other way didn't work
-alias oppzsh=". $ZSH/opp.zsh/opp.zsh; . $ZSH/opp.zsh/opp/surround.zsh; . $ZSH/opp.zsh/opp/textobj-between.zsh"
 
 # need `pkgfile' installed + must run `sudo pgkfile --update` to get list of commands
 [[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
