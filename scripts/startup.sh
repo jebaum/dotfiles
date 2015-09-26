@@ -10,6 +10,7 @@ if ! pgrep ncmpcpp > /dev/null ; then
 fi
 
 if ! pgrep mutt > /dev/null ; then
+  rm -f "$HOME/.mutt/mail/selected"
   urxvt -name mutt    -e mutt &
 fi
 

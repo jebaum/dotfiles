@@ -16,6 +16,7 @@ alias grep='grep --color=auto'
 alias gvim='gvim -p'
 alias hlerrors="sed -e 's/Exception/\x1b[36;7m&\x1b[0m/ig' -e 's/Error/\x1b[33;7m&\x1b[0m/ig' -e 's/Fault/\x1b[31;7m&\x1b[0m/ig'"
 alias make='make -j4'
+alias mutt="rm -f $HOME/.mutt/mail/selected; mutt"
 alias myip='curl icanhazip.com'
 alias nyan='nc -v nyancat.dakko.us 23' # nyan cat
 alias ocaml='rlwrap -m ocaml'
