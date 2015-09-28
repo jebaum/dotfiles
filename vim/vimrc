@@ -1354,7 +1354,9 @@ nnoremap <silent> \l  :TxClear!<CR>
 nnoremap          \o  :call TxCreateWrapper()<CR>
 nnoremap <silent> \s  "vyy:TxSend!(@v)<CR>
 vnoremap <silent> \s  "vy:TxSend!(@v)<CR>
-nnoremap <silent> \t  :TxSetPane!<CR>
+" TODO - if somebody C-c's or puts invalid input in the prompt, errors aren't handled
+nnoremap <silent> \t  :TxSetPane<CR>
+nnoremap <silent> \T  :TxSetPane!<CR>
 nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u', '!')<CR>:TxClear!<CR>
 nnoremap <silent> \x  :TxKill!<CR>
 nnoremap <silent> \|  :TxSend!<CR>
