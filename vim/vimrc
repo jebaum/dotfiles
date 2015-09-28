@@ -55,32 +55,19 @@ else
   Plug 'eparreno/vim-l9'
 endif
 
-
-" unite-giti has been updated, maybe it doesn't suck anymore?
-" https://github.com/kmnk/vim-unite-giti
-Plug 'Shougo/unite.vim'
-Plug 'lambdalisue/vim-gista'
-Plug 'majkinetor/unite-cmdmatch'
-Plug 'sgur/unite-qf'
-Plug 'Shougo/unite-help'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/unite-session'
-Plug 'tsukkee/unite-tag'
-Plug 'ujihisa/unite-locate'
-
-Plug 'blueyed/vim-diminactive'
+" Plug 'lambdalisue/vim-gista'
+" Plug 'blueyed/vim-diminactive'
 Plug 'bruno-/vim-husk'
 Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ciaranm/detectindent'
-Plug 'derekwyatt/vim-scala'
+Plug 'derekwyatt/vim-scala', {'for': ['scala']}
 Plug 'dockyard/vim-easydir'
 Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
 Plug 'gcmt/taboo.vim'
 Plug 'godlygeek/tabular',    {'on': ['Tabularize', 'TabFirst']} " TODO replace with junegunn easy-align?
 Plug 'jamessan/vim-gnupg'
 Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
-Plug 'jaxbot/semantic-highlight.vim', {'on': ['SemanticHighlightToggle', 'SemanticHighlight', 'SemanticHighlightRevert']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
@@ -99,7 +86,6 @@ Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'O
 Plug 'rking/ag.vim',         {'on': ['Ag', 'AgAdd', 'AgFromSearch', 'LAg', 'LAgAdd', 'AgFile', 'AgHelp', 'LAgHelp']}
 Plug 'scrooloose/nerdcommenter' " https://github.com/tpope/vim-commentary
 Plug 'scrooloose/syntastic'
-Plug 'Shougo/vimfiler.vim',  {'on': ['VimFiler', 'VimFilerExplorer']}
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
@@ -673,13 +659,7 @@ let g:rainbow_conf = {
 " scratch {{{
 let g:scratch_filetype = 'vim'
 " }}}
-" semantic-highlight {{{
-" TODO: make these suck less
-let g:semanticTermColors = [28,1,2,3,4,5,6,7,25,9,10,34,12,13,14,15,16,125,124,19]
-let g:semanticGUIColors = [ '#72d572', '#c5e1a5', '#e6ee9c', '#fff59d', '#ffe082', '#ffcc80', '#ffab91', '#bcaaa4', '#b0bec5', '#ffa726', '#ff8a65', '#f9bdbb', '#f9bdbb', '#f8bbd0', '#e1bee7', '#d1c4e9', '#ffe0b2', '#c5cae9', '#d0d9ff', '#b3e5fc', '#b2ebf2', '#b2dfdb', '#a3e9a4', '#dcedc8' , '#f0f4c3', '#ffb74d' ]
-" }}}
-" sessions {{{
-" settings for both vim-simple-session and unite-session
+" simple-session {{{
 call system('mkdir -p ~/.vim/session')
 let g:session_dir = "~/.vim/session"
 let g:unite_source_session_path = g:session_dir
@@ -816,37 +796,6 @@ let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-h>"
 let g:UltiSnipsListSnippets        = "<C-f>"
 let g:snips_author                 = 'James Baumgarten'
-" }}}
-" vimfiler {{{
-let g:vimfiler_as_default_explorer  = 1
-let g:vimfiler_safe_mode_by_default = 0
-let g:vimfiler_ignore_pattern       = '\.o\|^\.'  " ignore object files and dotfiles
-let g:vimfiler_explorer_columns     = ""
-augroup vimfiler
-  autocmd!
-  autocmd FileType vimfiler call s:vimfiler_my_settings()
-augroup END
-
-function! s:vimfiler_my_settings()
-  silent! execute 'nunmap <buffer> <CR>'
-  nmap <buffer> <CR>    <Plug>(vimfiler_choose_action)
-  nmap <buffer> <Tab>   <Plug>(vimfiler_toggle_mark_current_line)
-  nmap <buffer> <S-Tab> <Plug>(vimfiler_toggle_mark_current_line_up)
-  nmap <buffer> l       <Plug>(vimfiler_expand_tree)
-  nmap <buffer> gl      <Plug>(vimfiler_smart_l)
-  nmap <buffer> cc      <Plug>(vimfiler_copy_file)
-  nmap <buffer> dd      <Plug>(vimfiler_delete_file)
-  nmap <silent><buffer><expr> v vimfiler#do_action('vsplit')
-  nmap <silent><buffer><expr> s vimfiler#do_action('split')
-  nmap <silent><buffer><expr> p vimfiler#do_action('tabdrop')
-  nmap <silent><buffer><expr> o vimfiler#do_action('above')
-  nmap <silent><buffer><expr> b vimfiler#do_action('below')
-  nmap <silent><buffer><expr> x vimfiler#do_action('ex')
-  nmap <silent><buffer><expr> f vimfiler#do_action('grep')
-  nmap <silent><buffer><expr> t vimfiler#do_action('tabopen')
-  nmap <silent><buffer><expr> u vimfiler#do_action('rec/async')
-  nnoremap <buffer> <C-b> <C-^>zvzz
-endfunction
 " }}}
 " }}}
 " General {{{
@@ -1173,6 +1122,7 @@ nnoremap          <leader>sv   :source %<CR>
 nnoremap          <leader>sC   :source ~/dotfiles/vim/colors/guimiromod.vim<CR>
 nnoremap          <leader>sV   :source $MYVIMRC<CR>
 vnoremap          <leader>sv   :Source %<CR>
+" TODO - somehow modify this to accept a range? e.g. 5,S
 nnoremap <silent> <leader>S    :let c=col(".")<CR>V:Source<CR>:call cursor(line("."),c)<CR>
 vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call cursor(line("."),g:c)<CR>
 
