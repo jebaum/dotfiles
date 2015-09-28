@@ -77,6 +77,7 @@ Plug 'justinmk/vim-matchparenalways', {'for': ['c', 'cpp', 'java', 'javascript',
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
 Plug 'justinmk/vim-sneak'
 Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
+Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
 Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)']}
 Plug 'mhinz/vim-startify'
@@ -108,6 +109,7 @@ Plug 'wellle/targets.vim'
 " Plug 'gcavallanti/vim-noscrollbar'
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline(50,'■','◫',['◧'],['◨'])}
 
+Plug 'dahu/vimple'
 call plug#end()
 
 " setup colorscheme
@@ -662,7 +664,34 @@ let g:scratch_filetype = 'vim'
 " simple-session {{{
 call system('mkdir -p ~/.vim/session')
 let g:session_dir = "~/.vim/session"
-let g:unite_source_session_path = g:session_dir
+set sessionoptions-=blank
+set sessionoptions-=options
+
+function! Fzfvimsessions()
+    " TODO - errors when switching back and forth between sessions
+    " need to figure out if that's something in my setup or if it's a bug with simple-session
+    " when creating sessions with just one buffer, no split, with vim -u NONE -noplugin,
+    " manually making session files and switching back and forth by :source works fine
+  let current  = session#current()
+  let sessions = session#list()
+  " mark current session with '* ' prefix, this will be stripped out by the sink function
+  call map(sessions, 'v:val == current ? "* " . v:val : v:val')
+
+  call fzf#run({
+  \ 'source':   sessions,
+  \ 'sink*':    function('CallSimpleSessionSwitch'),
+  \ 'window':  '8new',
+  \ 'options': '--print-query -x --tiebreak=index --ansi --prompt="Sessions> "',
+  \})
+endfunction
+
+function! CallSimpleSessionSwitch(name)
+  " due to --print-query, first item in list will be the type query
+  " printf "* test3\ntest4" | fzf --delimiter : --nth 1 --bind "enter:execute(echo {} | grep -Eo --color=never '[[:alnum:]]+')"
+  let session_name = substitute(a:name[-1], '* ', '', '')
+  call SCall('plugin/session.vim', 'SwitchSession', [session_name])
+endfunction
+
 " }}}
 " signify {{{
 let g:signify_disable_by_default = 0            " disable run by default
@@ -1192,7 +1221,7 @@ nnoremap <silent> <Space>H   :History<CR>
 nnoremap          <Space>l   :Locate<Space>
 nnoremap <silent> <Space>m   :Marks<CR>
 nnoremap <silent> <Space>r   :Files<CR>
-nnoremap          <Space>s   :Snippets<CR>
+nnoremap          <Space>S   :Snippets<CR>
 nnoremap <silent> <Space>t   :Tags<CR>
 nnoremap <silent> <Space>T   :BTags<CR>
 
