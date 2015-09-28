@@ -4,3 +4,4 @@ tags-ja
 *.taghl
 *.zip
 Session.vim
+.vimrc
