@@ -260,13 +260,17 @@ augroup END
 " }}}
 " }}}
 " Functions {{{
-" StripTrailingWhitespace function {{{
-function! StripTrailingWhitespace()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
+" StripWhitespace function {{{
+function! StripWhitespace(line1, line2)
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    execute ':' . a:line1 . ',' . a:line2 . 's/\s\+$//e'
+    let @/=_s
+    call cursor(l, c)
 endfunction
+
+command! -range=% StripWhitespace call StripWhitespace(<line1>, <line2>)
 " }}}
 " CustomMatch function {{{
 function! CustomMatch(pattern)
