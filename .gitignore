@@ -26,11 +26,15 @@ config/dwb/default/*
 config/gtk-youtube-viewer/*.??t
 config/youtube-viewer/*.cat
 
+config/transmission-daemon/dht.dat
+config/transmission-daemon/stats.json
+
 firefox/vimperator/info
 
 vim/.netrwhist
 vim/bundle/*
 vim/session/*
+vim/shada
 vim/nvimrc
 vim/view
 vim/eclim
