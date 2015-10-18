@@ -16,7 +16,7 @@ echo "Getting aur packages..."
 # perl -nle 'print $1 if /href='"'"'\/git\/aur-mirror.git\/tree\/([^'"'"']+)/' < $TMPFILE > $AURFILE
 
 # inspired by aurpkglist command provided by python3-aur package
-IFS=' ' AURLIST=$(curl -# https://aur.archlinux.org/packages.gz | gunzip --stdout 2>/dev/null)
+IFS=' ' AURLIST=$(curl --progress-bar https://aur.archlinux.org/packages.gz | gunzip --stdout 2>/dev/null)
 if [ "$?" = "1" ]; then
     echo "could not get aur package list. bad connection?"
 else
