@@ -28,6 +28,7 @@ config/youtube-viewer/*.cat
 
 config/transmission-daemon/dht.dat
 config/transmission-daemon/stats.json
+config/transmission-daemon/blocklists
 
 firefox/vimperator/info
 
