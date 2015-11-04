@@ -12,6 +12,9 @@ set $widetop    DFP2
 set $widebottom DFP1
 set $barmodifier modifier Mod3
 
+gaps inner 5
+smart_borders on
+
 # fake-outputs 1200x1920+0+689,1200x1920+1200+689,2560x1440+2400+1467,2560x1440+2400+0,1200x1920+4960+689,1200x1920+6160+689
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
 new_window 1pixel
