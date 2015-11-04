@@ -102,18 +102,18 @@ bindsym XF86AudioNext       exec echo playlist_next > ~/.mpv/mpvfifo
 bindsym XF86AudioPrev       exec echo playlist_prev > ~/.mpv/mpvfifo
 
   ### volume controls
-bindsym $mod+$alt+minus         exec volume.sh 1% -
-bindsym $mod+$alt+plus          exec volume.sh 1% +
-bindsym XF86AudioLowerVolume    exec volume.sh 1% -
-bindsym XF86AudioRaiseVolume    exec volume.sh 1% +
-bindsym $mod+Control+minus      exec volume.sh 5% -
-bindsym $mod+Control+plus       exec volume.sh 5% +
-bindsym $mod+$alt+Control+minus exec volume.sh 10% -
-bindsym $mod+$alt+Control+plus  exec volume.sh 10% +
+bindsym $mod+$alt+minus         exec ~/dotfiles/scripts/audio/volume.sh 1% -
+bindsym $mod+$alt+plus          exec ~/dotfiles/scripts/audio/volume.sh 1% +
+bindsym XF86AudioLowerVolume    exec ~/dotfiles/scripts/audio/volume.sh 1% -
+bindsym XF86AudioRaiseVolume    exec ~/dotfiles/scripts/audio/volume.sh 1% +
+bindsym $mod+Control+minus      exec ~/dotfiles/scripts/audio/volume.sh 5% -
+bindsym $mod+Control+plus       exec ~/dotfiles/scripts/audio/volume.sh 5% +
+bindsym $mod+$alt+Control+minus exec ~/dotfiles/scripts/audio/volume.sh 10% -
+bindsym $mod+$alt+Control+plus  exec ~/dotfiles/scripts/audio/volume.sh 10% +
 bindsym $mod+$alt+Shift+minus   exec amixer -M set Master 1%-
 bindsym $mod+$alt+Shift+plus    exec amixer -M set Master 1%+
-bindsym $mod+$alt+m             exec volume.sh toggle
-bindsym XF86AudioMute           exec volume.sh toggle
+bindsym $mod+$alt+m             exec ~/dotfiles/scripts/audio/volume.sh toggle
+bindsym XF86AudioMute           exec ~/dotfiles/scripts/audio/volume.sh toggle
 
   ### mpc controls
 bindsym $mod+$alt+n     exec mpc -h $mpdhost next
