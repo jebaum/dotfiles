@@ -31,12 +31,12 @@ mpd_host localhost
 mpd_port 6600
 TEXT
 
-[{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 35} ${mpd_elapsed}/${mpd_length}${endif} [${exec conkyvol.sh}] ", "color" :
+[{ "full_text" : "♪ ${mpd_status} ${if_mpd_playing}${mpd_title 35} ${mpd_elapsed}/${mpd_length}${endif} [${exec ~/dotfiles/scripts/audio/conkyvol.sh}] ", "color" :
     ${if_match "${mpd_status}"=="Playing"}"\#ff0000"${else}"\#a71f52"${endif}},
  { "full_text": " ≣ $mem/$memmax [$memperc%] ", "color":"\#e68a8a"},
  { "full_text": " ❤ $cpu% ${loadavg}   ${running_processes}/${processes}  ${running_threads}/${threads} ","color": "\#ca55d3"},
- { "full_text": " ≈ ${if_up enp7s0}${addr enp7s0} U/D[${upspeed enp7s0}/${downspeed enp7s0}] ${else}N/A ${endif}","color":"\#3da0c5"},
-  { "full_text": " ${totalup enp7s0}/${totaldown enp7s0} ", "color":"\#69afff"},
+ { "full_text": " ≈ ${if_up eno1}${addr eno1} U/D[${upspeed eno1}/${downspeed eno1}] ${else}N/A ${endif}","color":"\#3da0c5"},
+  { "full_text": " ${totalup eno1}/${totaldown eno1} ", "color":"\#69afff"},
  { "full_text": " ☇ RIG5 $uptime ", "color":"\#4dff4d"},
  { "full_text": " ${time %j,%U- %a %b %d} ${time %I:%M:%S %p} "}
 ],
