@@ -41,6 +41,7 @@ vim/view
 vim/eclim
 vim/plugin/eclim.vim
 vim/autoload/plug.vim.old
+vim/init.vim
 
 zsh/cache/*
 
