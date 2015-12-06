@@ -32,7 +32,7 @@ if has('unix')
   Plug 'mhinz/vim-tmuxify'
 endif
 
-if has('python')
+if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 1
   Plug 'honza/vim-snippets'
   Plug 'SirVer/ultisnips'
   Plug 'Valloric/MatchTagAlways'
@@ -46,6 +46,7 @@ if has('python') && (exists('g:ycm')) " invoke vim with `vim --cmd 'let g:ycm=1'
 elseif has('nvim')
   Plug 'Shougo/deoplete.nvim'
   let g:deoplete#enable_at_startup = 1
+  let g:deoplete#enable_smart_case = 1
 elseif has('lua')
   Plug 'Shougo/neocomplete.vim'
   " Plug 'Shougo/neocomplcache.vim'
