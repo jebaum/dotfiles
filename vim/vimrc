@@ -1214,21 +1214,27 @@ nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " space leader maps. fzf + tabularize + vim-plug {{{
 " TODO go through various fzf.vim functions and figure out which ones to use, how to customize them
-nnoremap <silent> <Space>a   :Ag<CR>
-nnoremap          <Space>A   :Ag<Space>
-nnoremap <silent> <Space>b   :Buffers<CR>
-nnoremap          <Space>c   :Commands<CR>
-nnoremap <silent> <Space>f   :Files<CR>
-nnoremap <silent> <Space>g   :Lines<CR>
-nnoremap <silent> <Space>G   :BLines<CR>
-nnoremap          <Space>h   :Helptags<CR>
-nnoremap <silent> <Space>H   :History<CR>
-nnoremap          <Space>l   :Locate<Space>
-nnoremap <silent> <Space>m   :Marks<CR>
-nnoremap <silent> <Space>r   :Files<CR>
-nnoremap          <Space>S   :Snippets<CR>
-nnoremap <silent> <Space>t   :Tags<CR>
-nnoremap <silent> <Space>T   :BTags<CR>
+let g:fzf_command_prefix = 'FZF' " easy autocompletion, and prevent overlap with ag.vim
+nnoremap <silent> <Space>a   :FZFAg<CR>
+nnoremap          <Space>A   :FZFAg<Space>
+nnoremap <silent> <Space>b   :FZFBuffers<CR>
+nnoremap          <Space>c   :FZFCommands<CR>
+nnoremap <silent> <Space>f   :FZFFiles<CR>
+nnoremap <silent> <Space>g   :FZFLines<CR>
+nnoremap <silent> <Space>G   :FZFBLines<CR>
+nnoremap          <Space>h   :FZFHelptags<CR>
+" search and command history
+nnoremap <silent> <Space>H   :FZFHistory<CR>
+nnoremap          <Space>l   :FZFLocate<Space>
+nnoremap <silent> <Space>m   :FZFMarks<CR>
+nnoremap <silent> <Space>M   :FZFMaps<CR>
+nnoremap <silent> <Space>r   :FZFFiles<CR>
+nnoremap          <Space>S   :FZFSnippets<CR>
+nnoremap <silent> <Space>t   :FZFTags<CR>
+nnoremap <silent> <Space>T   :FZFBTags<CR>
+nnoremap <silent> <Space>v   :FZFCommits<CR>
+nnoremap <silent> <Space>V   :FZFBCommits<CR>
+nnoremap <silent> <Space>w   :FZFWindows<CR>
 
 nnoremap <Space>pu       :PlugUpdate<CR>
 nnoremap <Space>pU       :PlugUpgrade<CR>
