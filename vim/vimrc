@@ -29,7 +29,7 @@ Plug 'morhetz/gruvbox'
 if has('unix')
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'gregsexton/gitv',    {'on': 'Gitv'}
-  Plug 'mhinz/vim-tmuxify'
+  Plug 'jebaum/vim-tmuxify'
 endif
 
 if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 1
