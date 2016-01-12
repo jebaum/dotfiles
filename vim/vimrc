@@ -111,6 +111,7 @@ Plug 'wellle/targets.vim'
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline(50,'■','◫',['◧'],['◨'])}
 
 Plug 'dahu/vimple'
+let g:vimple_init_vn = 0
 call plug#end()
 
 " setup colorscheme
@@ -733,7 +734,7 @@ omap <Esc>; <Plug>SneakPrevious
 xmap <Esc>; <Plug>SneakPrevious
 " }}}
 " startify {{{
-let g:startify_list_order        = ['bookmarks', 'dir', 'files', 'sessions']
+let g:startify_list_order        = ['bookmarks']
 let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO.txt' ]
 let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
@@ -839,7 +840,6 @@ set relativenumber             " use relative line numbers
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
 set lazyredraw                 " don't redraw the screen w ile executing macros
-set restorescreen=on           " restore screen contents on exit
 set clipboard=unnamed          " by default, * system clipboard
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
@@ -876,6 +876,7 @@ set timeout
 set timeoutlen=3000
 set ttimeoutlen=100
 if !has('nvim')
+  set restorescreen=on         " restore screen contents on exit
   set ttyfast                  " redraw screen faster
   set cryptmethod=blowfish     " more secure encryption for vim -x
 endif
@@ -1000,7 +1001,7 @@ if !has('gui_running')
   set ttimeoutlen=10
   augroup FastEscape
     autocmd!
-    autocmd InsertEnter * set timeoutlen=0
+    autocmd InsertEnter * set timeoutlen=0 ttimeoutlen=-1
     autocmd InsertLeave * set timeoutlen=2000
   augroup END
 endif
