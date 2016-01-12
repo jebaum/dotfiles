@@ -480,7 +480,7 @@ visualizer_color = "yellow"
 empty_tag_color = "yellow"
 song_library_format = "{%n - }{%t}|{%f}"
 # media_library_album_format = "{(%y) }%b"
-tag_editor_album_format = "{(%y) }%b"
+#tag_editor_album_format = "{(%y) }%b"
 browser_playlist_prefix = "$7playlist$9 "
 
 media_library_primary_tag = genre
