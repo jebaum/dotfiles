@@ -897,6 +897,7 @@ set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
 set path+=./**
 set shell=zsh
+set modeline                   " debian.vim defaults in ubuntu 12.04 unset this
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
