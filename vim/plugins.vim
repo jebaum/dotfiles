@@ -1,7 +1,5 @@
 " Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
 
-" https://github.com/justinmk/vim-dirvish
-" https://github.com/justinmk/vim-gtfo
 " Plug 'terryma/vim-multiple-cursors'
 " https://github.com/gregsexton/gitv
 https://github.com/tpope/vim-commentary
@@ -108,3 +106,18 @@ let g:markology_enable = 0
 
 Plug 'FelikZ/ctrlp-py-matcher'
 " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch' }
+
+https://github.com/dahu/VimRegexTutor
+https://www.reddit.com/r/neovim/comments/3t6k8i/looking_for_a_nice_way_to_use_the_neovims/
+https://www.reddit.com/r/vim/comments/3tbghl/canonical_way_of_searching_project_from_within_vim/
+https://github.com/vimwiki/vimwiki
+https://github.com/jeetsukumaran/vim-filebeagle
+https://github.com/justinmk/vim-dirvish
+" https://github.com/justinmk/vim-gtfo
+https://github.com/gabesoft/vim-ags
+https://www.reddit.com/r/vim/comments/3w45yx/ann_vimgrepper_10_release/
+https://www.reddit.com/r/vim/comments/3ysfnn/how_to_quickly_view_changes_gitfugitive_workflow/
+http://davidosomething.com/blog/vim-for-javascript/
+https://github.com/junegunn/fzf.vim/issues/47
+https://github.com/dhruvasagar/vim-dotoo
+https://github.com/jceb/vim-orgmode
