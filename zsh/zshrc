@@ -174,3 +174,8 @@ zle -N all fzimpl
 zle -N installed fzimpl
 bindkey '\ep' all
 bindkey '\eP' installed
+
+if [ -n "$STARTUPDIR" ] && [ -d "$STARTUPDIR" ]; then
+    cd $STARTUPDIR
+    unset STARTUPDIR
+fi

@@ -165,7 +165,7 @@ bindsym --release Shift+Print   exec gnome-screenshot -w -B
 bindsym --release Print         exec grab
 bindsym $mod+Print              exec pasta
 bindsym $mod+Shift+Return       exec urxvt
-bindsym $mod+Return             exec urxvt -cd "`~/.i3/xcwd/xcwd`"
+bindsym $mod+Return             exec STARTUPDIR="`~/.i3/xcwd/xcwd`" st
 bindsym $mod+Escape             exec i3lock -c '#181818'
 bindsym $mod+F2                 exec firefox
 bindsym $mod+Shift+F2           exec google-chrome-stable
