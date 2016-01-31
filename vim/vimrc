@@ -105,6 +105,7 @@ Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim'
+Plug 'jreybert/vimagit'
 " Plug '~/.vim/eclim', {'for': 'java'}
 
 " Plug 'gcavallanti/vim-noscrollbar'
@@ -238,6 +239,7 @@ augroup FileTypeSettings
   autocmd FileType markdown,pandoc nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
+  autocmd FIleType magit setlocal foldnestmax=20
 augroup END
 " }}}
 " align quickfix output {{{
