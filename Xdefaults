@@ -1,23 +1,16 @@
-! vim: set filetype=xdefaults :
-# XFT
-Xft*dpi: 98
+Xft.dpi: 98
 Xft.antialias: true
 Xft.hinting: true
 Xft.hintstyle: hintfull
 Xft.rgba: rgb
-Xft.lcdfilter : lcddefault
+Xft.lcdfilter: lcddefault
 
-URxvt*background: #181818
-URxvt.foreground : #EBDBB2
-URxvt.perl-ext-common : default,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
+URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
 
 # https://github.com/Vifon/autocomplete-ALL-the-things
 URxvt.keysym.M-C-slash:   perl:aAtt:word-complete
 URxvt.keysym.M-question:  perl:aAtt:fuzzy-complete
 URxvt.keysym.M-quotedbl:  perl:aAtt:undo
-
-URxvt*transparent:false
-URxvt*shading:15
 
 URxvt.keysym.M-x           : perl:keyboard-select:activate
 URxvt.keysym.M-u           : perl:url-select:select_next
@@ -32,61 +25,20 @@ URxvt.matcher.button       : 1
 
 !  anti aliasing of xft fonts in urxvt makes w3m image preview in ranger misbehave, see:
 !  https://github.com/hut/ranger/issues/86
-URxvt.font     : xft:Deja Vu Sans Mono:size=12
-! URxvt.font     : xft:Terminus:size=13
-! URxvt.font     : xft:Inconsolata-dz:size=9.5
-! URxvt.font     : xft:Ubuntu:size=8
-! URxvt.font     : xft:Andale Mono:size=8
-
-URxvt.termName : rxvt-unicode-256color
-URxvt.iso14755 : false
-
+URxvt.font        : xft:Deja Vu Sans Mono:size=12
+URxvt.termName    : rxvt-unicode-256color
+URxvt.iso14755    : false
 URxvt.saveLines   : 12000
 URxvt.scrollBar   : false
 URxvt.scrollstyle : rxvt
 ! mark i3 workspace urgent when bell received
 URxvt.urgentOnBell: true
-
 URxvt.cursorBlink: 0
 URxvt.cursorUnderline: 0
-URxvt.cursorColor            : #FFFF87
-URxvt.pointerColorBackground : #586E75
-URxvt.pointerColorForeground : #93A1A1
+URxvt*transparent:false
+URxvt*shading:15
 
+!needs to be an absolute path
+#include "/home/james/dotfiles/urxvt/gruvbox"
 
-URxvt.colorBD : #FFFFFF
-URxvt.colorUL : #CCCC66
-
-! black
-URxvt.color0  : #151713
-URxvt.color8  : #181818
-
-! red
-URxvt.color1  : #DC322F
-URxvt.color9  : #E84F4F
-
-! green
-URxvt.color2  : #859900
-URxvt.color10 : #99FF66
-
-! yellow
-URxvt.color3  : #fd971f
-URxvt.color11 : #E1AA5D
-
-! blue
-URxvt.color4  : #224488
-URxvt.color12 : #6699FF
-
-! magenta
-URxvt.color5  : #ff33CC
-URxvt.color13 : #ff66FF
-
-! cyan
-URxvt.color6  : #33CC99
-URxvt.color14 : #93A1A1
-
-! white
-URxvt.color7  : #EEE8D5
-URxvt.color15 : #FDF6E3
-
-!#include "/home/james/.colors/clean"
+! vim: set filetype=xdefaults :
