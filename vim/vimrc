@@ -1238,6 +1238,7 @@ nnoremap <silent> <Space>v   :FZFCommits<CR>
 nnoremap <silent> <Space>V   :FZFBCommits<CR>
 nnoremap <silent> <Space>w   :FZFWindows<CR>
 
+nnoremap <Space>pi       :PlugInstall<CR>
 nnoremap <Space>pu       :PlugUpdate<CR>
 nnoremap <Space>pU       :PlugUpgrade<CR>
 " }}}
