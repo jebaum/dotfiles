@@ -180,24 +180,22 @@ bindsym $mod+Control+y          exec notify-send "preparing to play youtube vide
 # use xprop to get instance/class, WM_CLASS(STRING) line
 
 for_window [instance="vimtmp"] move scratchpad; scratchpad show
-for_window [instance="wxremind" class="Wxremind"] floating disable
 
 for_window [instance="Navigator" class="Firefox"] border none
 assign     [instance="Navigator" class="Firefox"] → 2: web
 
 for_window [instance="chromium" class="Chromium"] border none
 
-for_window [instance="dwb" class="Dwb"] border none
-assign     [instance="dwb" class="Dwb"] → 2: web
+for_window [instance="vps|st-256color" class="vps|URxvt"] border 1pixel
+assign     [instance="vps|st-256color" class="vps|URxvt"] → 3: vps
 
-for_window [instance="vps"] border 1pixel
-assign     [instance="vps"] → 3: vps
-for_window [instance="ncmpcpp"] border 1pixel
-assign     [instance="ncmpcpp"] → 4: music
-for_window [instance="mutt"] border 1pixel
-assign     [instance="mutt"] → 5: mail
-for_window [instance="ranger"] border 1pixel
-assign     [instance="ranger"] → 6: files
+for_window [instance="ncmpcpp|st-256color" class="ncmpcpp|URxvt"] border 1pixel
+assign     [instance="ncmpcpp|st-256color" class="ncmpcpp|URxvt"] → 4: music
+
+for_window [instance="mutt|st-256color" class="mutt|URxvt"] border 1pixel
+assign     [instance="mutt|st-256color" class="mutt|URxvt"] → 5: mail
+for_window [instance="ranger|st-256color" class="ranger|URxvt"] border 1pixel
+assign     [instance="ranger|st-256color" class="ranger|URxvt"] → 6: files
 
 for_window [instance="Steam" class="Steam"] border none
 assign     [instance="Steam" class="Steam"] → 11: steam

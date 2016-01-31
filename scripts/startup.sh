@@ -6,18 +6,18 @@ if ! pgrep mpd > /dev/null ; then
 fi
 
 if ! pgrep ncmpcpp > /dev/null ; then
-  urxvt -name ncmpcpp -e ncmpcpp &
+  st -c 'ncmpcpp' -e ncmpcpp &
 fi
 
 if ! pgrep mutt > /dev/null ; then
   rm -f "$HOME/.mutt/mail/selected"
-  urxvt -name mutt    -e mutt &
+  st -c 'mutt' -e mutt &
 fi
 
 if ! pgrep ranger > /dev/null ; then
-  EDITOR=vim urxvt -name ranger -e ranger &
+  EDITOR=vim st -c 'ranger' -e ranger &
 fi
 
-if [[ $(ps aux | grep "urxvt -name vps" | wc -l) != 2 ]]; then
-  urxvt -name vps -e zsh -c "mosh james@jbaumy.com" &
+if [[ $(ps aux | grep "st -c vps" | wc -l) != 2 ]]; then
+  st -c vps -e zsh -c "mosh james@jbaumy.com" &
 fi
