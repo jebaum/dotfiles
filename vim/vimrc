@@ -117,15 +117,14 @@ call plug#end()
 
 " setup colorscheme
 let g:gruvbox_invert_selection=0
+let g:gruvbox_contrast_dark='hard'
+set background=dark
 colorscheme gruvbox
 " override some defaults
 function! TweakColors()
   " TODO make sure current selection in oblique, or incsearch.vim if I switch to
   " it, is highlighted a distinct color from other matches
 
-  highlight Normal                    ctermbg=8                                  guibg=#181818
-  " for some reason, I need to have this line twice for it to work in neovim. ???
-  highlight Normal                    ctermbg=8                                  guibg=#181818
   highlight UniteSel     ctermfg=16   ctermbg=73      cterm=none  guifg=#000000  guibg=#5FAFAF  gui=none
   highlight SpecialKey   ctermfg=243  ctermbg=237
   highlight IncSearch                 ctermbg=254
