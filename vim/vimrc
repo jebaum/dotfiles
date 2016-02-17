@@ -808,6 +808,7 @@ set virtualedit=block          " allow visual block mode to move to where there 
 set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
+set cursorline
 set listchars=tab:▸\ ,trail:•,extends:>,eol:¬
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
