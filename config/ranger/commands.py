@@ -1317,11 +1317,16 @@ class fzfcd(Command):
     def execute(self):
         currentdir = str(self.fm.thisdir)
         currentdirlen = len(currentdir)
+
+        if currentdir.startswith('/home/james/big1'): # symlink stupidity
+            currentdir = currentdir.replace('/home/james/big1', '/home/plex', 1)
+            currentdirlen = len(currentdir)
+
         if currentdir != "/":
-            currentdirlen += 2 # + 2 to get rid of the whole pwd and the trailing slash with cut
+            currentdirlen += 2 # + 2 to get rid of the whole cwd and the trailing slash with cut
 
         if self.arg(1) == "files":
-            command="locate '" + currentdir + "' 2>/dev/null | fzf -x --inline-info"
+            command="locate '" + currentdir + "' 2>/dev/null | cut -b " + str(currentdirlen) + "- | fzf -x --inline-info"
         else:
             command="strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | sed '/^$/d' | fzf -x --inline-info"
 
