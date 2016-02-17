@@ -282,36 +282,7 @@ function! CustomMatch(pattern)
 endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 command! -nargs=1 MT        call CustomMatch(<f-args>)
-highlight MatchTarget ctermfg=16  ctermbg=231
-" }}}
-" Qargs, Qdof, Qdol {{{
-" :Qargs will populate the arglist with the files in the quickfix list
-command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
-" cnoreabbrev qargs Qargs
-
-" :Qdol applies an arbitrary command to every line found by :vimgrep (:Qdol normal @q)
-command! -nargs=1 Qdol try | sil cfirst |
-  \ while 1 | exec <q-args> | sil cn | endwhile |
-  \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
-  \ endtry
-" cnoreabbrev qdol Qdol
-
-" :Qdof applies an arbitrary command to every file found by :vimgrep (at line of first match)
-command! -nargs=1 Qdof try | sil cfirst |
-  \ while 1 | exec <q-args> | sil cnf | endwhile |
-  \ catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/ |
-  \ endtry
-" cnoreabbrev qdof Qdof
-
-" implementation of Qargs
-function! QuickfixFilenames()
-  " Building a hash ensures we get each buffer only once
-  let buffer_numbers = {}
-  for quickfix_item in getqflist()
-    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
-  endfor
-  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
-endfunction
+highlight MatchTarget ctermfg=231 ctermbg=124
 " }}}
 " Location list loop function {{{
 function! WrapCommand(window, direction)
@@ -341,59 +312,6 @@ function! Increment()
     execute 'normal! '.c.'|'.a."\<C-a>"
   endif
   normal `<
-endfunction
-" }}}
-" Preserve, OpenQuickfix, AgOpenQF, BufGrep, CurBufGrep {{{
-function! Preserve(command, ...)
-  let curbuf = bufnr('%')
-  let view = winsaveview()
-  let search = @/
-
-  let g:last_preserve = a:command
-  execute a:command
-
-  execute 'buffer ' . curbuf
-  call winrestview(view)
-  let @/ = search
-
-  " optional command to run when done
-  if a:0
-    execute a:1
-  endif
-endfunction
-
-function! OpenQuickfix(...)
-  let curwin = winnr()
-  if a:0
-    execute a:1
-  endif
-  cwindow
-  execute curwin . 'wincmd w'
-endfunction
-autocmd QuickFixCmdPost * call OpenQuickfix()
-
-command! -nargs=1 -bar AgOpenQF call OpenQuickfix('Ag! ' . <f-args>)
-" /dev/empty doesn't exist, error is suppressed by `silent!`. used to set title of quickfix window, since [l]vimgrepadd doesn't update that
-command! -nargs=1 -bar BufGrep call Preserve('silent! vimgrep /' . <f-args> . '/gj /dev/empty | silent! noautocmd bufdo vimgrepadd /' . <f-args> . '/gj %', 'call OpenQuickfix()')
-command! -nargs=1 -bar CurBufGrep execute 'vimgrep /' . <f-args> . '/gj %'
-" }}}
-" VisualStarSearch function and maps {{{
-function! VSetSearch(cmdtype) " makes * and # work on visual mode too.
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-" }}}
-" toggle laststatus {{{
-function! ToggleLaststatus()
-  if &laststatus == 2
-    set laststatus=1
-    echo 'laststatus=1'
-  else
-    set laststatus=2
-    echo 'laststatus=2'
-  endif
 endfunction
 " }}}
 " Red/Green Bar {{{
@@ -592,17 +510,9 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
 " oblique {{{
 let g:oblique#incsearch_highlight_all = 1
-" TODO: the current match that gets special highlighting can't be cleared by nohlsearch. oblique bug or lack of feature?
-let g:oblique#clear_highlight = 1
+let g:oblique#clear_highlight = 0
 map n <Plug>(Oblique-n)<Plug>(anzu-update-search-status-with-echo)zv
 map N <Plug>(Oblique-N)<Plug>(anzu-update-search-status-with-echo)zv
-
-" nnoremap <silent><expr> <CR> ':set hls! ' . (&hls == 1 ? 'nocuc nocul' : 'cuc cul') . '<CR>'
-" nnoremap <silent><C-c> :set nocuc nocul<CR>
-augroup FancyCR
-  autocmd!
-  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
-augroup END
 " }}}
 " pandoc {{{
 augroup PandocMaps
@@ -1170,18 +1080,7 @@ nnoremap <silent> <leader>x    :x!<CR>
 vnoremap <silent> <leader>y    y`]
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
-" buffer search
-nnoremap <silent> <leader>tt :silent! vimgrep /\CTODO/gj %<CR>
-vnoremap <silent> <leader>ss :<C-u>call VSetSearch('/')<CR>:CurBufGrep <C-r>=@/<CR><CR>
-nnoremap          <leader>ss :CurBufGrep<Space>
-" all buffer search
-nnoremap <silent> <leader>to :silent! vimgrep /\CTODO/gj /dev/empty<CR>:BufGrep \CTODO<CR>
-vnoremap <silent> <leader>so :<C-u>call VSetSearch('/')<CR>:BufGrep <C-r>=@/<CR><CR>
-nnoremap          <leader>so :BufGrep<Space>
-" recursive search
-nnoremap <silent> <leader>tr :AgOpenQF TODO<CR>
 vnoremap <silent> <leader>sr :<C-u>call VSetSearch('/')<CR>gv"sy:Ag -Q <C-r>=@s<CR><CR>
-nnoremap          <leader>sr :AgOpenQF<Space>
 
 nnoremap <silent> <leader><leader>r  :redraw!<CR>
 nnoremap <silent> <leader><leader>d  :Dispatch<CR>
