@@ -93,7 +93,7 @@ fzf-edit-widget() {
   if [ -z "$filelist" ]; then
     zle redisplay
   else
-    opencmd="vim -p "
+    opencmd="${EDITOR} -p "
     opencmd+=$(for item in $filelist; do
       echo -n \"$item\"
       echo -n " "
