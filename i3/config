@@ -148,13 +148,13 @@ bindsym $mod+Control+q      exec killall mpv
 # TODO this thing is shit
 bindsym $mod+Shift+t            exec ~/dotfiles/scripts/torrentadd.sh
 bindsym $mod+Shift+y            exec ~/dotfiles/scripts/ytdl.sh
-bindsym $mod+b                  exec ~/dotfiles/scripts/firefox_history.sh
+bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
 #bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
 bindsym --release $mod+c        exec /home/james/fuck.sh
 bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+g                  exec gvim
 bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
-bindsym $mod+p                  exec dmenu_run -h 24 -uh 1 -uc \#FF0000 -p SUP\? -i
+bindsym $mod+p                  exec dmenu_run -nf \#C0C0C0 -nb \#141214 -sf \#28F028 -sb \#303030 -centerx -centery -w 800 -l 20 -p SUP\? -i
 bindsym $mod+q                  exec quickswitch.py
 bindsym XF86TouchpadToggle      exec touchpadtoggle.sh
 bindsym $mod+backslash          exec dmenu_extended_run
