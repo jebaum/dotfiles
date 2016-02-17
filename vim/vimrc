@@ -261,6 +261,59 @@ augroup QuickfixAlign
             \| setl nomodifiable
 augroup END
 " }}}
+" amazon wikiUtil {{{
+function s:WikiJobHandler(job_id, data, event)
+    if a:event == 'stdout' || a:event == 'stderr'
+        let self.output .= join(a:data)
+      else
+        let self.exitstatus = a:data
+        if self.exitstatus == 0
+            echo 'wiki node uploaded successfully'
+        else
+            echom 'problem with wiki upload'
+            echom self.output
+        endif
+      endif
+endfunction
+
+function! WikiPut()
+    " let summary = input("change summary [or leave blank]: ")
+    " if strlen(summary) == 0
+        " let summary = ""
+    " endif
+
+    let s:callbacks = {
+    \ 'on_stdout': function('s:WikiJobHandler'),
+    \ 'on_stderr': function('s:WikiJobHandler'),
+    \ 'on_exit': function('s:WikiJobHandler'),
+    \ 'output' : '',
+    \ 'exitstatus': -1
+    \ }
+    if has('nvim')
+        let g:wikijob = jobstart(["/home/local/ANT/jbbaumga/wiki/remoteWikiUtil.sh", "put", expand('%:t')], s:callbacks)
+    else
+        silent let g:wiki = system("/home/local/ANT/jbbaumga/wiki/remoteWikiUtil.sh put " . shellescape(expand('%:t')))
+        let g:exit = v:shell_error
+        if g:exit == 0
+            echo 'wiki node uploaded successfully'
+        else
+            echo 'problem with wiki upload. showing g:wiki'
+            echo g:wiki
+        endif
+    endif
+endfunction
+
+function! WikiGet()
+    let url = input("url: ")
+    if strlen(url) == 0
+        echoerr 'you goofed'
+    else
+        silent exe "!./remoteWikiUtil get '" . url . "'"
+endfunction
+
+command! WikiPut call WikiPut()
+nnoremap ,,w :WikiPut<CR>
+" }}}
 " }}}
 " Functions {{{
 " StripWhitespace function {{{
