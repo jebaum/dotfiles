@@ -141,14 +141,14 @@ updirkey() {
     zle reset-prompt
 }
 zle -N updirkey updirkey
-bindkey "" updirkey
+bindkey "" updirkey # Ctrl + /
 
 homedirkey() {
     cd ~
     zle reset-prompt
 }
 zle -N homedirkey homedirkey
-bindkey "" homedirkey
+bindkey "" homedirkey # Alt + Ctrl + /
 
 agfullsearch() {
     # TODO
