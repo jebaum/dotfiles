@@ -72,6 +72,7 @@ Plug 'junegunn/vim-pseudocl'
 Plug 'justinmk/vim-matchparenalways', {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
 Plug 'justinmk/vim-sneak'
+Plug 'Konfekt/FastFold'
 Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
