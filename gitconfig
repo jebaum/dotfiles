@@ -14,13 +14,11 @@
   co  = checkout
   cp  = cherry-pick
 
-  d   = diff
-  df  = "!git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | ~/dotfiles/scripts/diff-so-fancy/third_party/diff-highlight/diff-highlight | less"
-  dfh = "!git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | less"
+  d   = "!d() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | less;}; d"
+  dn  = diff
   dw  = diff --color-words
   dc  = diff --cached
   dcw = diff --cached --color-words
-
   l     = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit
   lp    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit -p
   la    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset' --abbrev-commit
