@@ -28,7 +28,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'morhetz/gruvbox'
 if has('unix')
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'gregsexton/gitv',    {'on': 'Gitv'}
+  Plug 'gregsexton/gitv',    {'on': 'Gitv'} " TODO: fix <C-j> keymap of Gitv! window
   Plug 'jebaum/vim-tmuxify'
 endif
 
@@ -45,18 +45,12 @@ if has('python') && (exists('g:ycm')) " invoke vim with `vim --cmd 'let g:ycm=1'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('nvim')
   Plug 'Shougo/deoplete.nvim'
-  let g:deoplete#enable_at_startup = 1
-  let g:deoplete#enable_smart_case = 1
-elseif has('lua')
-  Plug 'Shougo/neocomplete.vim'
-  " Plug 'Shougo/neocomplcache.vim'
-  " Plug 'JazzCore/neocomplcache-ultisnips'
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
 endif
 
-" Plug 'lambdalisue/vim-gista'
+Plug 'lambdalisue/vim-gista'
 " Plug 'blueyed/vim-diminactive'
 Plug 'bruno-/vim-husk'
 Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
@@ -65,6 +59,7 @@ Plug 'ciaranm/detectindent'
 Plug 'derekwyatt/vim-scala', {'for': ['scala']}
 Plug 'dockyard/vim-easydir'
 Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
+Plug 'inside/vim-search-pulse'
 Plug 'gcmt/taboo.vim'
 Plug 'godlygeek/tabular',    {'on': ['Tabularize', 'TabFirst']} " TODO replace with junegunn easy-align?
 Plug 'jamessan/vim-gnupg'
@@ -72,7 +67,7 @@ Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
-Plug 'junegunn/vim-oblique' " https://github.com/haya14busa/incsearch.vim/ looks like it may be better?
+Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
 Plug 'justinmk/vim-matchparenalways', {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
@@ -94,7 +89,6 @@ Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
 Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
-Plug 'tpope/vim-dispatch' " ,   {'on': ['Make', 'Copen', 'Dispatch', 'FocusDispatch', 'Start', 'Spawn']}
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -107,27 +101,32 @@ Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim'
 Plug 'jreybert/vimagit'
 " Plug '~/.vim/eclim', {'for': 'java'}
-
 " Plug 'gcavallanti/vim-noscrollbar'
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline(50,'■','◫',['◧'],['◨'])}
 
 Plug 'dahu/vimple'
-let g:vimple_init_vn = 0
+let g:vimple_init_vn = 0 " vimple has a dumb version check that breaks in neovim
 call plug#end()
 
-" setup colorscheme
 let g:gruvbox_invert_selection=0
 let g:gruvbox_contrast_dark='hard'
 set background=dark
 colorscheme gruvbox
 " override some defaults
 function! TweakColors()
-  " TODO make sure current selection in oblique, or incsearch.vim if I switch to
-  " it, is highlighted a distinct color from other matches
 
-  highlight UniteSel     ctermfg=16   ctermbg=73      cterm=none  guifg=#000000  guibg=#5FAFAF  gui=none
-  highlight SpecialKey   ctermfg=243  ctermbg=237
-  highlight IncSearch                 ctermbg=254
+  " current match when hitting n/N to navigate
+  highlight ObliqueCurrentMatch     ctermfg=16  ctermbg=40
+  " current match when actively searching
+  highlight ObliqueCurrentIncSearch ctermfg=16  ctermbg=40
+  " color of search text in command line
+  highlight ObliqueLine             ctermfg=229
+  " color of matches the cursor isn't on when actively searching
+  highlight IncSearch               ctermfg=250 ctermbg=24
+  " color of matches the cursor isn't on after finished searching
+  highlight Search                  ctermfg=255 ctermbg=24
+
+  highlight Function ctermfg=43
 
   " copied from statline.vim
   highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
@@ -136,7 +135,7 @@ function! TweakColors()
   highlight User4 ctermfg=49   ctermbg=232  cterm=none guifg=#00FFAF  guibg=#080808  gui=none
   highlight User5 ctermfg=47   ctermbg=232  cterm=none guifg=#00FF5F  guibg=#080808  gui=none
   highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
-  highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
+  highlight User7 ctermfg=253  ctermbg=232  cterm=none guifg=#DADADA  guibg=#080808  gui=none
   highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
   highlight User9 ctermfg=208  ctermbg=232  cterm=none guifg=#FF8700  guibg=#080808  gui=none
 endfunction
@@ -314,6 +313,15 @@ endfunction
 command! WikiPut call WikiPut()
 nnoremap ,,w :WikiPut<CR>
 " }}}
+" generate map for alt and <C-Space> in both vim and gvim {{{
+function! Altmap(char)
+  if has('gui_running') || has('nvim') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
+endfunction
+function! AltShiftmap(char)
+  if has('gui_running') || has('nvim') | return '<A-S-'.a:char.'>' | else | return '<Esc>'.a:char|endif
+endfunction
+let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
+" }}}
 " }}}
 " Functions {{{
 " StripWhitespace function {{{
@@ -481,6 +489,8 @@ let g:detectindent_max_lines_to_analyse = 1024
 highlight ColorColumn ctermbg=16 guibg=#000000
 " }}}
 " deoplete {{{
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['buffer']
 let g:deoplete#sources.text = ['buffer', 'dictionary']
@@ -513,7 +523,7 @@ autocmd User fugitive  " .. to go back up to parent directory when browsing git 
 autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
 " }}}
 " fzf {{{
-let g:fzf_launcher='urxvt -e sh -c %s'
+let g:fzf_launcher='urxvt -e sh -c %s' " TODO change to st
 " }}}
 " gista {{{
 let g:gista#post_private = 1
@@ -567,10 +577,19 @@ let NERDCompactSexyComs = 0
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
 " oblique {{{
-let g:oblique#incsearch_highlight_all = 1
-let g:oblique#clear_highlight = 0
-map n <Plug>(Oblique-n)<Plug>(anzu-update-search-status-with-echo)zv
-map N <Plug>(Oblique-N)<Plug>(anzu-update-search-status-with-echo)zv
+let g:oblique#incsearch_highlight_all=1
+let g:oblique#clear_highlight = 1
+map n <Plug>(Oblique-n!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
+map N <Plug>(Oblique-N!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
+
+augroup Oblique
+  autocmd! User Oblique
+  " TODO make sure the anzu command and pulse function exist, just in case
+  autocmd User Oblique AnzuUpdateSearchStatus | call search_pulse#Pulse()
+augroup END
+
+" nnoremap <expr> n 'Nn'[v:searchforward]
+" nnoremap <expr> N 'nN'[v:searchforward]
 " }}}
 " pandoc {{{
 augroup PandocMaps
@@ -636,6 +655,14 @@ let g:rainbow_conf = {
 " scratch {{{
 let g:scratch_filetype = 'vim'
 " }}}
+" search-pulse {{{
+let g:vim_search_pulse_mode = 'cursor_line'
+let g:vim_search_pulse_duration = 100
+let g:vim_search_pulse_disable_auto_mappings = 1
+let g:vim_search_pulse_color_list = has('gui_running') ?
+        \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
+        \ [238, 239, 240, 241, 242]
+" }}}
 " simple-session {{{
 call system('mkdir -p ~/.vim/session')
 let g:session_dir = "~/.vim/session"
@@ -695,16 +722,19 @@ xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
 
-nmap ; <Plug>SneakNext
-omap ; <Plug>SneakNext
-xmap ; <Plug>VSneakNext
-nmap <Esc>; <Plug>SneakPrevious
-omap <Esc>; <Plug>SneakPrevious
-xmap <Esc>; <Plug>SneakPrevious
+" nnoremap <expr> ; getcharsearch().forward ? ';' : ','
+" nnoremap <expr> , getcharsearch().forward ? ',' : ';'
+let g:sneak#streak = 1
+nmap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
+omap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
+xmap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
+exec 'nmap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
+exec 'omap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
+exec 'xmap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
 " }}}
 " startify {{{
 let g:startify_list_order        = ['bookmarks']
-let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/dotfiles/aliases', '~/Dropbox/todo/TODO.txt' ]
+let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/Dropbox/todo/TODO.txt' ]
 let g:startify_files_number      = 7
 let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
 let g:startify_session_autoload  = 0 " opening directories with a Session.vim will have it auto load
@@ -748,16 +778,6 @@ endif
 let g:syntastic_c_compiler_options       = ' -Wall -Wextra'
 let g:syntastic_cpp_compiler_options     = ' -Wall -Wextra'
 
-function! SyntasticOpenMP()
-  let g:syntastic_c_compiler         = 'gcc'
-  let g:syntastic_c_compiler_options = ' -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -fopenmp -Wall -Wextra'
-endfunction
-
-augroup OPENMP
-  autocmd!
-  autocmd BufEnter /home/james/Dropbox/Documents/UCLA/Y3Q2/CS133/* call SyntasticOpenMP()
-augroup END
-
 let g:syntastic_java_javac_config_file_enabled = 1
 " for allowing syntastic to find symbols in java classpath, put this in .syntastic_javac_config. must be in cwd
 " let g:syntastic_java_javac_custom_classpath_command = "brazil-path testlib.classpath | gawk 'BEGIN {RS=\":\"} {print $1;}' | tr '\n' ':'"
@@ -769,9 +789,6 @@ let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in loc
 let g:syntastic_error_symbol             = '✗✗'
 let g:syntastic_warning_symbol           = '⚠⚠'
 let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
-let g:syntastic_ignore_files = [
-    \ '/home/james/Dropbox/Documents/UCLA/Y3Q1/CS118/Homework',
-    \ '\m\.tex']
 " }}}
 " taboo {{{
 " let g:taboo_tab_format = "%N %1a%m "
@@ -961,10 +978,6 @@ endif
 " always show multiple tag options, <C-w> to open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
-
-" repeat last substitute like :s, but preserve flags
-nnoremap & :&&<CR>
-xnoremap & :&&<CR>
 nnoremap <BS> :<C-U>OverCommandLine<CR>%s/\V\<lt><c-r><c-w>\>//g<left><left>
 " }}}
 " fix the esc/alt mapping problem in terminal vim {{{
@@ -999,16 +1012,6 @@ nnoremap          g?    :<C-u>OverCommandLine<CR>/
 xnoremap          g?    :<C-u>OverCommandLine<CR>/\%V
 nnoremap          g;    g;zz
 nnoremap          g,    g,zz
-nnoremap       g<Space> :call ToggleLaststatus()<CR>
-" }}}
-" generate map for alt and <C-Space> in both vim and gvim {{{
-function! Altmap(char)
-  if has('gui_running') || has('nvim') | return '<A-'.a:char.'>' | else | return '<Esc>'.a:char|endif
-endfunction
-function! AltShiftmap(char)
-  if has('gui_running') || has('nvim') | return '<A-S-'.a:char.'>' | else | return '<Esc>'.a:char|endif
-endfunction
-let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 " }}}
 " changed default keys M - _ K {{{
 nnoremap M %
@@ -1076,12 +1079,6 @@ augroup QuickFix
   autocmd FileType qf nnoremap <buffer><silent> <leader>q  :cclose <Bar> lclose<CR>zz
 augroup END
 " }}}
-" arrow keys {{{
-inoremap <up>   <C-O>gk
-inoremap <down> <C-O>gj
-vnoremap <up>        gk
-vnoremap <down>      gj
-" }}}
 " Text Object / targets.vim maps {{{
 let g:targets_pairs       = '()p {}c []r <>g'
 let g:targets_quotes      = "\"d 's `e"
@@ -1106,7 +1103,6 @@ nnoremap <F2>          :set spell!<CR>
 " Main {{{
 nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
-nnoremap <silent> <leader>d    :Dispatch!<CR>
 nnoremap <silent> <leader>e    :lclose<CR>:silent! let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
 nnoremap <silent> <leader>E    :lclose<CR>:silent! let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 "                         f    fzf maps
@@ -1118,14 +1114,12 @@ nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-"                         s and t taken by search/todo
 nnoremap <silent> <leader>sd   :SDelete<CR><CR>
 nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sl   :Session<Space>
 
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
 nnoremap          <leader>sv   :source %<CR>
-nnoremap          <leader>sC   :source ~/dotfiles/vim/colors/guimiromod.vim<CR>
 nnoremap          <leader>sV   :source $MYVIMRC<CR>
 vnoremap          <leader>sv   :Source %<CR>
 " TODO - somehow modify this to accept a range? e.g. 5,S
@@ -1136,13 +1130,7 @@ nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
-vnoremap <silent> <leader>y    y`]
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
-
-vnoremap <silent> <leader>sr :<C-u>call VSetSearch('/')<CR>gv"sy:Ag -Q <C-r>=@s<CR><CR>
-
-nnoremap <silent> <leader><leader>r  :redraw!<CR>
-nnoremap <silent> <leader><leader>d  :Dispatch<CR>
 " }}}
 " <leader>g[jkht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
@@ -1157,20 +1145,9 @@ nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
 nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
 nnoremap          <leader>gm  :Gmove<Space>
-nnoremap <silent> <leader>gp  :Dispatch! git push<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
-" }}}
-" <leader>m[acfq] Make {{{
-nnoremap <leader>ma          :Make! -j4 all<CR>
-nnoremap <leader><leader>ma  :Make  -j4 all<CR>
-nnoremap <leader>mc          :Make! clean<CR>
-nnoremap <leader><leader>mc  :Make  clean<CR>
-nnoremap <leader>mf          :Make! -j4 <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader><leader>mf  :Make  -j4 <C-r>=expand('%:r')<CR><CR>
-nnoremap <leader>mm          :Make! -j4<CR>
-nnoremap <leader><leader>mm  :Make  -j4<CR>
 " }}}
 " }}}
 " space leader maps. fzf + tabularize + vim-plug {{{
@@ -1217,6 +1194,7 @@ inoremap <C-e>   <End>
 inoremap <Esc>   <Esc>`^
 " }}}
 " alt normal mode {{{
+" move windows
 nnoremap          gh    <C-w>H
 nnoremap          gj    <C-w>J
 nnoremap          gk    <C-w>K
