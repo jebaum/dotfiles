@@ -21,8 +21,8 @@ highlight User4 ctermfg=49   ctermbg=232  cterm=none guifg=#00FFAF  guibg=#08080
 highlight User5 ctermfg=47   ctermbg=232  cterm=none guifg=#00FF5F  guibg=#080808  gui=none
 "empty space
 highlight User6 ctermfg=231  ctermbg=232  cterm=none guifg=#FFFFFF  guibg=#080808  gui=none
-" mode message
-highlight User7 ctermfg=255  ctermbg=232  cterm=none guifg=#EEEEEE  guibg=#080808  gui=none
+" anzu message
+highlight User7 ctermfg=253  ctermbg=232  cterm=none guifg=#DADADA  guibg=#080808  gui=none
 "scroll percent
 highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
 "current byte
@@ -87,9 +87,6 @@ if g:statline_show_n_buffers
 else
     set statusline+=[%n]\ %<
 endif
-
-" show mode
-" let &stl.="%7*\ %{Mode()} %0*"
 " }}}
 "filename (relative or tail) {{{
 if exists('g:statline_filename_relative')
@@ -108,6 +105,11 @@ if !exists('g:statline_fugitive')
 endif
 if g:statline_fugitive
    set statusline+=%9*%{exists('g:loaded_fugitive')?fugitive#statusline():''}%*
+endif
+" }}}
+" anzu {{{
+if exists('g:loaded_anzu')
+  set statusline+=%7*\ %{anzu#search_status()}%*
 endif
 " }}}
 " separation between left/right aligned items
