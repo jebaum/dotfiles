@@ -3,7 +3,6 @@
 " Plug 'terryma/vim-multiple-cursors'
 " https://github.com/gregsexton/gitv
 https://github.com/tpope/vim-commentary
-https://github.com/haya14busa/incsearch.vim
 " Plug 'osyo-manga/vim-brightest'  " maybe just use * and # instead?
 
 Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do' : 'npm install'}
@@ -121,3 +120,12 @@ http://davidosomething.com/blog/vim-for-javascript/
 https://github.com/junegunn/fzf.vim/issues/47
 https://github.com/dhruvasagar/vim-dotoo
 https://github.com/jceb/vim-orgmode
+
+search plugins:
+https://github.com/dahu/SearchParty
+https://github.com/henrik/vim-indexed-search
+https://github.com/junegunn/vim-oblique
+https://github.com/ivyl/vim-bling
+https://github.com/haya14busa/vim-asterisk
+https://github.com/osyo-manga/vim-anzu
+https://github.com/inside/vim-search-pulse
