@@ -75,12 +75,12 @@ Plug 'justinmk/vim-sneak'
 Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
+Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)']}
 Plug 'mhinz/vim-startify'
 Plug 'mmozuras/vim-github-comment', {'on': 'GHComment'}
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
-Plug 'rking/ag.vim',         {'on': ['Ag', 'AgAdd', 'AgFromSearch', 'LAg', 'LAgAdd', 'AgFile', 'AgHelp', 'LAgHelp']}
 Plug 'scrooloose/nerdcommenter' " https://github.com/tpope/vim-commentary
 Plug 'scrooloose/syntastic'
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
@@ -549,6 +549,13 @@ let g:github_dashboard = {'username': 'jebaum'}
 " gitv {{{
 let g:Gitv_OpenHorizontal = 1
 let g:Gitv_WipeAllOnClose = 1
+" }}}
+" grepper {{{
+let g:grepper = {}
+let g:grepper.tools  = ['ag', 'git', 'grep']
+let g:grepper.open   = 1
+let g:grepper.jump   = 0
+let g:grepper.switch = 0
 " }}}
 " match tag {{{
 let g:mta_filetypes = {
@@ -1124,6 +1131,8 @@ nnoremap <silent> <leader>e    :lclose<CR>:silent! let g:ToggleList.cmd.copen="c
 nnoremap <silent> <leader>E    :lclose<CR>:silent! let g:ToggleList.cmd.copen="Copen"<CR>:ToggleQF<CR>
 "                         f    fzf maps
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
+nmap              <leader>G    <Plug>(GrepperOperator)
+xmap              <leader>G    <Plug>(GrepperOperator)
 "                         g    fugitive and signify maps
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
@@ -1148,6 +1157,8 @@ nnoremap <silent> <leader>u    yyp^v$r
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
+
+nnoremap          <leader>*    :Grepper -tool ag -cword -noprompt<cr>
 " }}}
 " <leader>g[jkht] signify {{{
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
