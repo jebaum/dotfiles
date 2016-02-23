@@ -22,7 +22,7 @@ if empty(glob("~/.vim/autoload/plug.vim"))
 endif
 
 let g:plug_threads = 70
-let @p="03df/IPlug 'A':wV:Source:PlugInstallq"
+let @p="03df/IPlug 'A':wV:Source:PlugInstall"
 
 call plug#begin('~/.vim/bundle')
 Plug 'morhetz/gruvbox'
