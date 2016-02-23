@@ -72,7 +72,6 @@ Plug 'junegunn/vim-pseudocl'
 Plug 'justinmk/vim-matchparenalways', {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
 Plug 'justinmk/vim-sneak'
-Plug 'Konfekt/FastFold'
 Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
@@ -322,6 +321,18 @@ function! AltShiftmap(char)
   if has('gui_running') || has('nvim') | return '<A-S-'.a:char.'>' | else | return '<Esc>'.a:char|endif
 endfunction
 let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
+" }}}
+" fastfold functionality {{{
+augroup FastFold
+  autocmd!
+  autocmd InsertEnter * let w:lastfdm = &l:foldmethod | setlocal foldmethod=manual
+  autocmd InsertLeave * call ResetFolds()
+augroup END
+function! ResetFolds()
+  if exists('w:lastfdm') && &l:foldmethod ==# 'manual'
+    let &l:foldmethod= w:lastfdm
+  endif
+endfunction
 " }}}
 " }}}
 " Functions {{{
