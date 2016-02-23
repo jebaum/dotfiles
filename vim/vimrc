@@ -1174,6 +1174,7 @@ nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap          <leader>*    :Grepper -tool ag -cword -noprompt<cr>
 " }}}
 " <leader>g[jkht] signify {{{
+" TODO gitv maps? use https://github.com/lambdalisue/vim-gita for git blame maybe? it's really nice
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
 nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Gblame<CR>
@@ -1181,7 +1182,7 @@ nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap          <leader>gC  :Gcheckout<Space>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap          <leader>ge  :Gedit<Space>
-nnoremap          <leader>gg  :Ggrep<Space>
+nnoremap          <leader>gg  :Grepper<CR>
 nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
 nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
