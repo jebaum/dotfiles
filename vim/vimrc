@@ -1142,6 +1142,7 @@ nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>e    :lclose<CR>:silent! let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
 "                         f    fzf maps
+nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nmap              <leader>G    <Plug>(GrepperOperator)
 xmap              <leader>G    <Plug>(GrepperOperator)
