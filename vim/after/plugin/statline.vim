@@ -110,6 +110,11 @@ endif
 " anzu {{{
 if exists('g:loaded_anzu')
   set statusline+=%7*\ %{anzu#search_status()}%*
+  " update the search status when leaving insert mode
+  augroup AnzuUpdate
+    autocmd!
+    autocmd InsertLeave,CursorMoved,TextChanged * AnzuUpdateSearchStatus
+  augroup END
 endif
 " }}}
 " separation between left/right aligned items
