@@ -598,17 +598,23 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " oblique {{{
 let g:oblique#incsearch_highlight_all=1
 let g:oblique#clear_highlight = 1
-map n <Plug>(Oblique-n!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
-map N <Plug>(Oblique-N!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
-
-augroup Oblique
-  autocmd! User Oblique
-  " TODO make sure the anzu command and pulse function exist, just in case
-  autocmd User Oblique AnzuUpdateSearchStatus | call search_pulse#Pulse()
-augroup END
+" map n <Plug>(Oblique-n!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
+" map N <Plug>(Oblique-N!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
 
 " nnoremap <expr> n 'Nn'[v:searchforward]
 " nnoremap <expr> N 'nN'[v:searchforward]
+map n <Plug>(Oblique-n!)
+map N <Plug>(Oblique-N!)
+
+augroup Oblique
+  autocmd! User Oblique
+  autocmd! User ObliqueStar
+  autocmd! User ObliqueRepeat
+  " TODO make sure the anzu command and pulse function exist, just in case
+  autocmd User Oblique       AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
+  autocmd User ObliqueStar   AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
+  autocmd User ObliqueRepeat AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
+augroup END
 " }}}
 " pandoc {{{
 augroup PandocMaps
@@ -680,7 +686,14 @@ let g:vim_search_pulse_duration = 100
 let g:vim_search_pulse_disable_auto_mappings = 1
 let g:vim_search_pulse_color_list = has('gui_running') ?
         \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
-        \ [238, 239, 240, 241, 242]
+        \ [238, 240, 242, 244, 246]
+augroup Pulse
+    autocmd! User PrePulse
+    autocmd! User PostPulse
+    autocmd  User PrePulse  set cursorcolumn
+    autocmd  User PostPulse set nocursorcolumn
+augroup END
+
 " }}}
 " simple-session {{{
 call system('mkdir -p ~/.vim/session')
