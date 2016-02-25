@@ -31,8 +31,8 @@
   rc  = rebase --continue
   ri  = rebase -i
 
-  s   = status
-  sc  = status --column
+  s   = status --column
+  snc = status --column
   ss  = status -s
 
   sa  = stash apply
