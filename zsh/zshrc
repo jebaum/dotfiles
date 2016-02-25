@@ -124,17 +124,17 @@ bindkey '\eL' lslkey
 gitstatuskeyimpl() {
     if [ "$(git_prompt_string)" ]; then
         if [ "$WIDGET" = "gitstatuskey" ]; then
-            BUFFER="git status"
-        elif [ "$WIDGET" = "gitstatuscolumnkey" ]; then
             BUFFER="git status --column"
+        elif [ "$WIDGET" = "gitstatusshortkey" ]; then
+            BUFFER="git status --short"
         fi
         zle accept-line
     fi
 }
 zle -N gitstatuskey gitstatuskeyimpl
-zle -N gitstatuscolumnkey gitstatuskeyimpl
+zle -N gitstatusshortkey gitstatuskeyimpl
 bindkey '\eg' gitstatuskey
-bindkey '\eG' gitstatuscolumnkey
+bindkey '\eG' gitstatusshortkey
 
 updirkey() {
     cd ..
@@ -151,12 +151,17 @@ zle -N homedirkey homedirkey
 bindkey "" homedirkey # Alt + Ctrl + /
 
 agfullsearch() {
-    # TODO
-    # process results
-    # remove empty lines
-    ag "." --nocolor | fzf -m | cut -f 1,2 -d ":"
-    echo ""
+    # remove empty / duplicate lines? or keep current behavior of opening all in tabs
+    filelist=($(ag "." --nocolor | fzf -m | cut -f 1,2 -d ":" | tr '\n' ' '))
+    opencmd="${EDITOR} -p "
+    opencmd+=$(for item in $filelist; do
+      echo -n \"$item\"
+      echo -n " "
+    done)
+    zle kill-whole-line
     zle redisplay
+    BUFFER=$opencmd
+    zle accept-line
 }
 zle -N agfullsearch agfullsearch
 bindkey "^X" agfullsearch
