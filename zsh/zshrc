@@ -153,15 +153,19 @@ bindkey "" homedirkey # Alt + Ctrl + /
 agfullsearch() {
     # remove empty / duplicate lines? or keep current behavior of opening all in tabs
     filelist=($(ag "." --nocolor | fzf -m | cut -f 1,2 -d ":" | tr '\n' ' '))
-    opencmd="${EDITOR} -p "
-    opencmd+=$(for item in $filelist; do
-      echo -n \"$item\"
-      echo -n " "
-    done)
-    zle kill-whole-line
-    zle redisplay
-    BUFFER=$opencmd
-    zle accept-line
+    if [ -z "$filelist" ]; then
+        zle redisplay
+    else
+        opencmd="${EDITOR} -p "
+        opencmd+=$(for item in $filelist; do
+            echo -n \"$item\"
+            echo -n " "
+        done)
+        zle kill-whole-line
+        zle redisplay
+        BUFFER=$opencmd
+        zle accept-line
+    fi
 }
 zle -N agfullsearch agfullsearch
 bindkey "^X" agfullsearch
