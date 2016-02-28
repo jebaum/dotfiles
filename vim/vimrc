@@ -1368,5 +1368,11 @@ nnoremap <silent> <down>  :call tmuxify#pane_send_raw('C-d', '!')<CR>
 nnoremap <silent> <left>  :call tmuxify#pane_send_raw('C-b', '!')<CR>
 nnoremap <silent> <right> :call tmuxify#pane_send_raw('C-f', '!')<CR>
 " }}}
+" neovim terminal maps {{{
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+endif
+let g:terminal_scrollback_buffer_size = 100000
+" }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1
