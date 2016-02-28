@@ -68,14 +68,19 @@ Plug 'gcmt/taboo.vim'
 Plug 'godlygeek/tabular',    {'on': ['Tabularize', 'TabFirst']} " TODO replace with junegunn easy-align?
 Plug 'jamessan/vim-gnupg'
 Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
+Plug 'jebaum/neosyntax'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
 Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
-Plug 'justinmk/vim-matchparenalways', {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
 Plug 'justinmk/vim-sneak'
+Plug 'justinmk/vim-matchparenalways' ", {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
+Plug 'kopischke/vim-fetch'
+Plug 'kopischke/vim-stay'
 Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
@@ -85,7 +90,8 @@ Plug 'mhinz/vim-startify'
 Plug 'mmozuras/vim-github-comment', {'on': 'GHComment'}
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
-Plug 'scrooloose/nerdcommenter' " https://github.com/tpope/vim-commentary
+Plug 'powerman/vim-plugin-AnsiEsc' " why is this suddenly necessary? vim-plug diff windows used to be fine without it
+Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
@@ -96,6 +102,7 @@ Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'} " breaks textwidth?
@@ -103,6 +110,9 @@ Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim'
+Plug 'wellle/tmux-complete.vim'
+Plug 'Yggdroot/indentLine', {'on': ['IndentLinesEnable', 'IndentLinesDisable', 'IndentLinesReset', 'IndentLinesToggle']}
+let g:indentLine_char='│'
 Plug 'jreybert/vimagit'
 " Plug '~/.vim/eclim', {'for': 'java'}
 " Plug 'gcavallanti/vim-noscrollbar'
@@ -564,6 +574,34 @@ let g:grepper.open   = 1
 let g:grepper.jump   = 0
 let g:grepper.switch = 0
 " }}}
+" goyo {{{
+let g:goyo_width  = '100%'
+let g:goyo_height = '100%'
+augroup Goyo
+    autocmd!
+    autocmd! User GoyoEnter nested call <SID>goyo_enter()
+    autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup END
+function! s:goyo_enter()
+  " silent !tmux set status off
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  Limelight
+endfunction
+
+function! s:goyo_leave()
+  " silent !tmux set status on
+  set showmode
+  set showcmd
+  set scrolloff=1
+  call TweakColors()
+  Limelight!
+endfunction
+" }}}
+" limelight {{{
+let g:limelight_conceal_ctermfg = 240
+" }}}
 " match tag {{{
 let g:mta_filetypes = {
     \ 'html' : 1,
@@ -689,11 +727,14 @@ let g:scratch_filetype = 'vim'
 " }}}
 " search-pulse {{{
 let g:vim_search_pulse_mode = 'cursor_line'
+" XXX the speed with which this actually happens seems to depend on the size
+" of the buffer currently displayed. also affected by if folds are closed.
+" some kind of very slow redrawing being done?
 let g:vim_search_pulse_duration = 100
 let g:vim_search_pulse_disable_auto_mappings = 1
 let g:vim_search_pulse_color_list = has('gui_running') ?
         \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
-        \ [238, 240, 242, 244, 246]
+        \ [238, 239, 240, 241, 242, 243, 244, 245, 246]
 augroup Pulse
     autocmd! User PrePulse
     autocmd! User PostPulse
@@ -837,9 +878,6 @@ let g:taboo_tab_format = "%N %f%m "
 " `:TabFirst =` to align to first equal sign. similar to `:Tabularize /=.*/`
 command! -nargs=1 -range TabFirst exec <line1> . ',' . <line2> . 'Tabularize /^[^' . escape(<q-args>, '\^$.[?*~') . ']*\zs' . escape(<q-args>, '\^$.[?*~')
 " }}}
-" tmux-complete {{{
-let g:tmuxcomplete#trigger = '' " empty for neocomplete, 'omnifunc' for youcompleteme
-" }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
@@ -917,7 +955,9 @@ set virtualedit=block          " allow visual block mode to move to where there 
 set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
+set viewoptions=cursor,folds,slash,unix " vim-stay configuration
 set cursorline
+set mouse=                     " disable mouse
 augroup CursorLine
     autocmd!
     autocmd BufEnter,WinEnter * setlocal cursorline
@@ -933,7 +973,8 @@ if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
 set nojoinspaces        " use only one space after a period when joining lines
-syntax sync minlines=256       " speed up syntax hilighting
+syntax sync minlines=10        " speed up syntax hilighting
+syntax sync maxlines=100       " speed up syntax hilighting
 set synmaxcol=500
 augroup SyntaxSync
   autocmd!
@@ -1144,7 +1185,7 @@ nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : '
 nnoremap <F1>          :call StripTrailingWhitespace()<CR>
 nnoremap <F2>          :set spell!<CR>
 " }}}
-" defualt (comma) leader maps {{{
+" defualt comma leader maps {{{
 " Main {{{
 nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
@@ -1156,6 +1197,8 @@ nmap              <leader>G    <Plug>(GrepperOperator)
 xmap              <leader>G    <Plug>(GrepperOperator)
 "                         g    fugitive and signify maps
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
+nmap     <silent> <Leader>L    :Limelight!!<CR>
+xmap              <Leader>L    <Plug>(Limelight)
 nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
 "                         m    make maps
 nnoremap <silent> <leader>p    "0p
@@ -1179,6 +1222,7 @@ nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
+" TODO maybe change this to #? and <leader>* can be for vim-brightest?
 nnoremap          <leader>*    :Grepper -tool ag -cword -noprompt<cr>
 " }}}
 " <leader>g[jkht] signify {{{
