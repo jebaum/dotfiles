@@ -77,7 +77,7 @@
 [github]
   user = jebaum
 [core]
-  editor = vim
+  editor = nvim
   pager = less
   excludesfile = "~/.gitignore"
   whitespace = trailing-space,space-before-tab
