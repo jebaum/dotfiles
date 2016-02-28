@@ -763,7 +763,7 @@ omap T <Plug>Sneak_T
 
 " nnoremap <expr> ; getcharsearch().forward ? ';' : ','
 " nnoremap <expr> , getcharsearch().forward ? ',' : ';'
-let g:sneak#streak = 1
+let g:sneak#streak = 0
 nmap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
 omap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
 xmap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
