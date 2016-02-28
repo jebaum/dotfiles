@@ -19,6 +19,8 @@ alias make='make -j4'
 alias mutt="rm -f $HOME/.mutt/mail/selected; mutt"
 alias myip='curl icanhazip.com'
 alias nvim='nvim -p'
+alias nvimlisten='rm -f /tmp/nvim; NVIM_LISTEN_ADDRESS=/tmp/nvim nvim -p'
+alias nvimapi='nvim --api-info | python2 -c "import msgpack, sys, yaml; print yaml.dump(msgpack.unpackb(sys.stdin.read()))" | less'
 alias nyan='nc -v nyancat.dakko.us 23' # nyan cat
 alias ocaml='rlwrap -m ocaml'
 alias open='xdg-open'
