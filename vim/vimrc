@@ -1071,6 +1071,7 @@ nnoremap Q q:
 augroup CmdWindow
   autocmd!
   autocmd CmdwinEnter * nnoremap <buffer><silent> Q :q<CR>
+  autocmd CmdwinEnter * nnoremap <buffer><silent> <C-c> <Esc>
 augroup END
 " }}}
 " visual mode increment, search, shift, gV {{{
