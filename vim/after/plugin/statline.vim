@@ -113,7 +113,8 @@ if exists('g:loaded_anzu')
   " update the search status when leaving insert mode
   augroup AnzuUpdate
     autocmd!
-    autocmd InsertLeave,CursorMoved,TextChanged * AnzuUpdateSearchStatus
+    " g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus for CursorMoved autocmd
+    autocmd InsertLeave,TextChanged * AnzuUpdateSearchStatus
   augroup END
 endif
 " }}}

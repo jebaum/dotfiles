@@ -496,6 +496,9 @@ command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1
 " }}}
 " }}}
 " Plugins {{{
+" anzu {{{
+let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus =1
+" }}}
 " detectindent {{{
 let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
