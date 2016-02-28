@@ -28,7 +28,11 @@ call plug#begin('~/.vim/bundle')
 Plug 'morhetz/gruvbox'
 if has('unix')
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+  " TODO would be really nice to combine the functionality of these two.
+  " extradite has great but semi broken previewing of diffs, gitv is way
+  " prettier. both are broken in opening things
   Plug 'gregsexton/gitv',    {'on': 'Gitv'} " TODO: fix <C-j> keymap of Gitv! window
+  Plug 'int3/vim-extradite'
   Plug 'jebaum/vim-tmuxify'
 endif
 
