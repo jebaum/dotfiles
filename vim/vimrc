@@ -145,6 +145,7 @@ function! TweakColors()
   highlight Search                  ctermfg=255 ctermbg=24
 
   highlight Function ctermfg=43
+  highlight MatchParen ctermbg=201 ctermfg=16
 
   " copied from statline.vim
   highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
