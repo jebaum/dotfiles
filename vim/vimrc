@@ -523,11 +523,34 @@ let g:detectindent_max_lines_to_analyse = 1024
 highlight ColorColumn ctermbg=16 guibg=#000000
 " }}}
 " deoplete {{{
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['buffer']
-let g:deoplete#sources.text = ['buffer', 'dictionary']
+let g:deoplete#enable_at_startup            = 1
+let g:deoplete#enable_smart_case            = 1
+let g:deoplete#auto_completion_start_length = 1
+let g:deoplete#sources                      = {}
+let g:deoplete#sources._                    = ['buffer', 'omni']
+let g:deoplete#sources.text                 = ['buffer', 'dictionary']
+let g:deoplete#sources.pandoc               = ['buffer', 'dictionary']
+
+" https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
+" augroup DeopletePclose " close preview window when finishing completion or leaving insert mode
+    " autocmd!
+    " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" augroup END
+
+" omnifuncs
+augroup omnifuncs
+  autocmd!
+  " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+  " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup end
 " }}}
 " exchange {{{
 " need to define default mappings in vimrc for vim-plug lazy loading to work
