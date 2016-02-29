@@ -92,7 +92,11 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
 Plug 'powerman/vim-plugin-AnsiEsc' " why is this suddenly necessary? vim-plug diff windows used to be fine without it
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
+if has('nvim')
+    Plug 'benekastah/neomake'
+else
+    Plug 'scrooloose/syntastic'
+endif
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
