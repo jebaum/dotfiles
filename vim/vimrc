@@ -638,6 +638,19 @@ function! Multiple_cursors_after()
   AutoComplPopEnable
 endfunction
 " }}}
+" neomake {{{
+if has('nvim')
+    augroup NeoMakeAutoRun
+        autocmd!
+        autocmd! BufWritePost *.js Neomake
+    augroup END
+    let g:neomake_javascript_jshint_maker = {
+        \ 'args': ['--verbose'],
+        \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+        \ }
+    let g:neomake_javascript_enabled_makers = ['jshint']
+endif
+" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
