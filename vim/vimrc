@@ -73,6 +73,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
 Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
