@@ -65,7 +65,6 @@ Plug 'dockyard/vim-easydir'
 Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
 Plug 'inside/vim-search-pulse'
 Plug 'gcmt/taboo.vim'
-Plug 'godlygeek/tabular',    {'on': ['Tabularize', 'TabFirst']} " TODO replace with junegunn easy-align?
 Plug 'jamessan/vim-gnupg'
 Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
 Plug 'jebaum/neosyntax'
@@ -552,6 +551,11 @@ augroup omnifuncs
   " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
 " }}}
+" easy-align {{{
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+" }}}
 " exchange {{{
 " need to define default mappings in vimrc for vim-plug lazy loading to work
 nmap cx <Plug>(Exchange)
@@ -915,9 +919,6 @@ let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 " let g:taboo_tab_format = "%N %1a%m "
 let g:taboo_tab_format = "%N %f%m "
 " }}}
-" tabular {{{
-" `:TabFirst =` to align to first equal sign. similar to `:Tabularize /=.*/`
-command! -nargs=1 -range TabFirst exec <line1> . ',' . <line2> . 'Tabularize /^[^' . escape(<q-args>, '\^$.[?*~') . ']*\zs' . escape(<q-args>, '\^$.[?*~')
 " }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
@@ -1285,7 +1286,7 @@ nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 " }}}
 " }}}
-" space leader maps. fzf + tabularize + vim-plug {{{
+" space leader maps. fzf + vim-plug {{{
 " TODO go through various fzf.vim functions and figure out which ones to use, how to customize them
 let g:fzf_command_prefix = 'FZF' " easy autocompletion, and prevent overlap with ag.vim
 nnoremap <silent> <Space>a   :FZFAg<CR>
