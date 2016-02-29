@@ -71,3 +71,5 @@ https://github.com/inside/vim-search-pulse
 
 need maps for :Limelight!! and :Goyo
 send PR to goyo to make it use <nomodeline> in its doautocmd
+
+https://github.com/Olical/vim-enmasse
