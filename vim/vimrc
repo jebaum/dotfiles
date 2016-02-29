@@ -123,6 +123,10 @@ Plug 'jreybert/vimagit'
 
 Plug 'dahu/vimple'
 let g:vimple_init_vn = 0 " vimple has a dumb version check that breaks in neovim
+
+Plug 'jelera/vim-javascript-syntax', {'for': ['javascript']}
+Plug 'pangloss/vim-javascript', {'for': ['javascript']}
+Plug 'ternjs/tern_for_vim', {'for': ['javascript'], 'do': 'npm install' }
 call plug#end()
 
 let g:gruvbox_invert_selection=0
@@ -919,6 +923,12 @@ let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 " let g:taboo_tab_format = "%N %1a%m "
 let g:taboo_tab_format = "%N %f%m "
 " }}}
+" tern {{{
+if exists('g:plugs["tern_for_vim"]')
+  let g:tern_show_argument_hints   = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+  let g:tern#command               = ['tern', '--no-port-file']
+endif
 " }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
