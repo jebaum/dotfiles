@@ -79,7 +79,6 @@ Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
 Plug 'justinmk/vim-sneak'
-Plug 'justinmk/vim-matchparenalways' ", {'for': ['c', 'cpp', 'java', 'javascript', 'lisp']}
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
 Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
