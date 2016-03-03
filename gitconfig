@@ -57,7 +57,7 @@
   email = jebaum@ucla.edu
   signingkey = jebaum@ucla.edu
 [color]
-    ui = always
+    ui = auto
 [color "branch"]
     current = yellow reverse
     local = yellow
