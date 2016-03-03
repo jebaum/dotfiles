@@ -775,7 +775,7 @@ let g:rainbow_conf = {
 let g:scratch_filetype = 'vim'
 " }}}
 " search-pulse {{{
-let g:vim_search_pulse_mode = 'cursor_line'
+let g:vim_search_pulse_mode = 'pattern'
 " XXX the speed with which this actually happens seems to depend on the size
 " of the buffer currently displayed. also affected by if folds are closed.
 " some kind of very slow redrawing being done?
