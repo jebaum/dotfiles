@@ -184,8 +184,8 @@ def_key "G"
 #def_key "enter"
 #  press_enter
 #
-#def_key "delete"
-#  delete_playlist_items
+def_key "x"
+ delete_playlist_items
 #
 #def_key "delete"
 #  delete_stored_playlist
