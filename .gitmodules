@@ -1,9 +1,6 @@
 [submodule "i3/xcwd"]
 	path = i3/xcwd
 	url = https://github.com/schischi-a/xcwd.git
-[submodule "scripts/pirate-get"]
-	path = scripts/pirate-get
-	url = https://github.com/vikstrous/pirate-get
 [submodule "scripts/git/git-extras"]
 	path = scripts/git/git-extras
 	url = https://github.com/tj/git-extras
