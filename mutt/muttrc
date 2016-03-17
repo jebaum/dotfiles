@@ -20,6 +20,9 @@ set wait_key = no
 set date_format="%m/%d %T"
 #set index_format="%2C%Z (%D) %-30.30F (%-4.4c) %s"
 set index_format="%?M?+& ?%3M %3C%5Z (%D) %-30.30F  %s"
+set index_format="%2C%Z (%D) %-30.30F  %s"
+set index_format="%2C%Z (%D) %-30.30F (%-4.4c) %s"
+set index_format="%2C%Z (%D) %-20.20F  %s"
 set mbox_type=Maildir
 set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
@@ -175,3 +178,7 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 macro index <esc>r "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+macro index \Ca "<sidebar-next-new><sidebar-open>"
+macro pager \Ca "<exit><sidebar-next-new><sidebar-open>"
+macro index \Cb "<sidebar-prev-new><sidebar-open>"
+macro pager \Cb "<exit><sidebar-prev-new><sidebar-open>"
