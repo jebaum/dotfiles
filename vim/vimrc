@@ -1054,7 +1054,7 @@ syntax sync maxlines=100       " speed up syntax hilighting
 set synmaxcol=500
 augroup SyntaxSync
   autocmd!
-  autocmd BufReadPost syntax sync fromstart
+  autocmd BufEnter * syntax sync fromstart
 augroup END
 let g:no_ocaml_maps = 1
 if executable('ag')
