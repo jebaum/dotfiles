@@ -18,7 +18,7 @@ firefox_history         $HOME/dotfiles/scripts/firefox_history.sh
 fzf_utilities           $HOME/dotfiles/scripts/fzf_utilities.sh
 fzf.zsh                 $HOME/dotfiles/zsh/fzf.zsh
 zshrc                   $HOME/dotfiles/zsh/zshrc
-aliases.zsh             $HOME/dotfiles/zsh/lib/aliases.zsh
+aliases.zsh             $HOME/dotfiles/zsh/aliases.zsh
 muttrc                  $HOME/dotfiles/mutt/muttrc
 tmux.conf               $HOME/dotfiles/tmux.conf
 vimperatorrc            $HOME/dotfiles/firefox/vimperator/vimperatorrc

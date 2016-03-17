@@ -4,7 +4,6 @@ autoload -U colors && colors # Enable colors in prompt
 
 function _prompt_char() {
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    # echo " %{%F{201}%}±%{%f%k%b%} "
     echo " %{%F{201}%}❯%{%f%k%b%} "
   else
     echo ' ❯%{%f%k%b%} '
@@ -55,7 +54,7 @@ git_prompt_string() {
   [ -n "$git_where" ] && echo " $GIT_PROMPT_PREFIX%{$fg[magenta]%}%K{16}${git_where#(refs/heads/|tags/)}$(parse_git_state)$GIT_PROMPT_SUFFIX"
 }
 
-# sexy prompt chars: ❯  »
+# sexy prompt chars: ❯ » ±
 PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}devbox%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%~$(git_prompt_string)%E%{%f%k%b%}
 $(_prompt_char)'
 
@@ -63,12 +62,14 @@ $(_prompt_char)'
 
 # http://paulgoscicki.com/archives/2012/09/vi-mode-indicator-in-zsh-prompt/
 vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}%(?..[%?])"
-vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}%(?..[%?])"
+vim_cmd_mode="%{$fg[magenta]%}[CMD]%{$reset_color%}%(?..[%?])"
 vim_mode=$vim_ins_mode
 
 function zle-keymap-select {
   vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  zle reset-prompt
+  zle editor-info # call this prezto function instead of reset-prompt
+                  # editor-info also calls reset-prompt
+                  # having two calls to reset-prompt was causing the redraw to erase the last line in the term
 }
 zle -N zle-keymap-select
 
@@ -79,7 +80,9 @@ zle -N zle-line-finish
 
 function TRAPINT() {
   vim_mode=$vim_ins_mode
-  zle && zle reset-prompt
+  # zle && zle reset-prompt
+  zle && zle kill-buffer
+  zle && zle accept-line
   return $(( 128 + $1 ))
 }
 RPROMPT='${vim_mode}'

@@ -1,5 +1,5 @@
 alias aliases='vim ~/dotfiles/zsh/lib/aliases.zsh && source ~/dotfiles/zsh/lib/aliases.zsh'
-alias reload='source ~/dotfiles/zsh/lib/aliases.zsh'
+alias reload='source ~/dotfiles/zsh/aliases.zsh'
 alias lock='i3lock -b -c 000000'
 
 # command aliases
@@ -25,6 +25,8 @@ alias nvimapi='nvim --api-info | python2 -c "import msgpack, sys, yaml; print ya
 alias nyan='nc -v nyancat.dakko.us 23' # nyan cat
 alias ocaml='rlwrap -m ocaml'
 alias open='xdg-open'
+alias paclsorphans='pacman-list-orphans' # pacman-list-orphans defined by prezto
+alias pacrmorphans='pacman-remove-orphans' # pacman-remove-orphans defined by prezto
 alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
 alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
@@ -47,6 +49,12 @@ alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias yt='youtube-viewer'
 
 ytdl() { youtube-dl "${1-$(xclip -o)}" }
+
+
+upgrade() {
+   sudo pacman -Syu
+   pacaur -u
+ }
 
 # cp with progress
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"

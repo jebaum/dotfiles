@@ -109,4 +109,59 @@ bindkey '^O'   fzf-edit-widget-ag
 zle -N fzf-edit-widget-locate
 bindkey '\eo'  fzf-edit-widget-locate
 
+fzgshowkey() {
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        fzgshow
+    fi
+    zle redisplay
+}
+zle -N fzgshowkey fzgshowkey
+bindkey '^G' fzgshowkey
+
+
+agfullsearch() {
+    # remove empty / duplicate lines? or keep current behavior of opening all in tabs
+    # TODO currently remove blank lines, maybe remove lines with only a few characters on them as well? unlikely to be searching for them
+    # would get rid of brackets and close parens and stuff like that
+    filelist=($(ag "." --nocolor 2>/dev/null | grep -Ev ':[0-9]+:$' | fzf -m | cut -f 1,2 -d ":" | tr '\n' ' '))
+    if [ -z "$filelist" ]; then
+        zle redisplay
+    else
+        opencmd="${EDITOR} -p "
+        opencmd+=$(for item in $filelist; do
+            echo -n \"$item\"
+            echo -n " "
+        done)
+        zle kill-whole-line
+        zle redisplay
+        BUFFER=$opencmd
+        zle accept-line
+    fi
+}
+zle -N agfullsearch agfullsearch
+bindkey "^X" agfullsearch
+
+
+brazilwscd() {
+    if [ ! -d "$HOME/workspace" ]; then
+        return
+    fi
+    local WS=$(find $HOME/workspace -maxdepth 3 -type d -path '*src/*' | sed "s|$HOME/workspace/||" | fzf --delimiter="/" --nth=3..)
+    if [ -n "$WS" ] && [ -d "$HOME/workspace/$WS" ]; then
+        cd "$HOME/workspace/$WS"
+    fi
+    if [ -n "$WIDGET" ]; then
+        zle reset-prompt
+    fi
+}
+zle -N brazilwscd brazilwscd
+bindkey "\ew" brazilwscd # Alt + w
+
+
+# zle -N <widget name> <function name>
+zle -N all fzimpl
+zle -N installed fzimpl
+bindkey '\ep' all
+bindkey '\eP' installed
+
 fi

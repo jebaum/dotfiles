@@ -7,15 +7,6 @@
 [submodule "scripts/git/git-extras"]
 	path = scripts/git/git-extras
 	url = https://github.com/tj/git-extras
-[submodule "zsh/completions"]
-	path = zsh/completions
-	url = https://github.com/zsh-users/zsh-completions
-[submodule "zsh/opp.zsh"]
-	path = zsh/opp.zsh
-	url = https://github.com/hchbaw/opp.zsh
-[submodule "zsh/zsh-syntax-highlighting"]
-	path = zsh/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting
 [submodule "scripts/diff-so-fancy"]
 	path = scripts/diff-so-fancy
 	url = https://github.com/so-fancy/diff-so-fancy

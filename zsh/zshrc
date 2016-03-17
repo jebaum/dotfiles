@@ -1,66 +1,12 @@
-ZSH=$HOME/dotfiles/zsh
-COMPLETION_WAITING_DOTS="true"
-
-# need `pkgfile' installed + must run `sudo pgkfile --update` to get list of commands
-[[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
-
-fpath=($ZSH/functions $ZSH/completions/src $fpath)
-
-for config_file ($ZSH/lib/*.zsh); do
-  source $config_file
-done
-
-if [ -z "$ZSH_COMPDUMP" ]; then
-  ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${ZSH_VERSION}"
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-autoload -U compinit
-compinit -i -d "${ZSH_COMPDUMP}" # compdefs must come after compinit
-compdef mosh=ssh
-compdef g=git
-
-autoload -U select-bracketed
-zle -N select-bracketed
-for m in visual viopp; do
-    for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
-        # bindkey -M $m $c select-bracketed
-        # echo $m
-        # echo $c
-    done
-done
-
-autoload -U select-quoted
-zle -N select-quoted
-for m in visual viopp; do
-    for c in {a,i}{\',\",\`}; do
-        # bindkey -M $m $c select-quoted
-        # echo $m
-        # echo $c
-    done
-done
-
-
-export PATH=/apollo/env/SDETools/bin:$HOME/dev/idea-IC-141.1532.4/bin:/usr/NX/bin:$HOME/dev:$HOME/dev/dmenu2:$HOME/dev/neovim/build/bin:$HOME/dev/ranger:$HOME/.local/bin:$HOME/dev/calcurse/src:$HOME/dev/local/bin:$HOME/dev/ag:$PATH:$HOME/dotfiles/vim/bundle/fzf/bin
-source ~/dotfiles/scripts/fzf_utilities.sh
-
-source $ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # load syntax highlighting before history search
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
-for config_file ($ZSH/plugins/*.zsh); do
-  source $config_file
-done
-
-setopt BRACE_CCL
-setopt NO_CASE_GLOB
-setopt NUMERIC_GLOB_SORT
 export EDITOR=nvim
-export LANG="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
-export LANGUAGE="en_US.UTF-8"
-
-if [ -f "/usr/bin/src-hilite-lesspipe.sh" ]; then
-  export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
-fi
+export VISUAL="nvim -u NONE" # TODO mini nvimrc here just to set up a few convenience maps, maybe targets.vim
+export LESS='-g -i -M -R -S -w -z-4'
+export PATH=/apollo/env/SDETools/bin:$HOME/dev/idea-IC-141.1532.4/bin:/usr/NX/bin:$HOME/dev:$HOME/dev/dmenu2:$HOME/dev/neovim/build/bin:$HOME/dev/ranger:$HOME/.local/bin:$HOME/dev/calcurse/src:$HOME/dev/local/bin:$HOME/dev/ag:$PATH:$HOME/dotfiles/vim/bundle/fzf/bin
 
 stty -ixon  # stop C-s from activating scroll lock
 ulimit -c unlimited
@@ -68,19 +14,27 @@ ulimit -c unlimited
 GPG_TTY=$(tty)
 export GPG_TTY
 
+for config_file ($HOME/dotfiles/zsh/{*.zsh,plugins/*.zsh}); do
+    source $config_file
+done
+source $HOME/dotfiles/scripts/fzf_utilities.sh
+# TODO i only used "main" and "brackets" syntax highlighters, zpreztorc can turn on more
+
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
-bindkey -v
+# bindkey -v    prezto sets vi mode for me
 bindkey "^[[3~" delete-char         # make delete key work
 bindkey "^[[7~" beginning-of-line   # make home key work
 bindkey "^[[8~" end-of-line         # make end key work
 bindkey "^[f"   forward-word
 bindkey "^[b"   backward-word
+bindkey "^[m"   copy-prev-shell-word
 bindkey "^A"    beginning-of-line
 bindkey "^B"    backward-char
 bindkey "^E"    end-of-line
 bindkey "^F"    forward-char
 bindkey "^G"    delete-char         # C-g deletes character in front of cursor, opposite C-h
 bindkey "^H"    backward-delete-char
+# bindkey '^I'    expand-or-complete  # expand-or-complete-with-dots by default, but fzf-completion takes it
 bindkey "^K"    kill-line
 bindkey "^L"    clear-screen
 bindkey "^Q"    delete-word         # C-q deletes word in front of cursor, opposite C-w
@@ -97,22 +51,14 @@ bindkey '^P'    history-substring-search-up           # bind P and N for EMACS m
 bindkey '^N'    history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up      # bind k and j for VI mode history-substring-search
 bindkey -M vicmd 'j' history-substring-search-down
+bindkey -M vicmd 'V' visual-mode                      # prezto binds 'v' to open $VISUAL
+KEYTIMEOUT=1
 
 # http://sgeb.io/articles/zsh-zle-closer-look-custom-widgets/
-fzgshowkey() {
-    if [ "$(git_prompt_string)" ]; then
-        fzgshow
-    fi
-    zle redisplay
-}
-zle -N fzgshowkey fzgshowkey
-bindkey '^G' fzgshowkey
-
+# zle -N <widget name> <function name>
 lskeyimpl() {
-    if [ "$WIDGET" = "lskey" ]; then
-        BUFFER="ls"
-    elif [ "$WIDGET" = "lslkey" ]; then
-        BUFFER="ls -l"
+    if   [ "$WIDGET" = "lskey" ];  then BUFFER="ls"
+    elif [ "$WIDGET" = "lslkey" ]; then BUFFER="ls -l"
     fi
     zle accept-line
 }
@@ -122,7 +68,7 @@ bindkey '\el' lskey
 bindkey '\eL' lslkey
 
 gitstatuskeyimpl() {
-    if [ "$(git_prompt_string)" ]; then
+    if git rev-parse --git-dir > /dev/null 2>&1; then
         if [ "$WIDGET" = "gitstatuskey" ]; then
             BUFFER="git status --column"
         elif [ "$WIDGET" = "gitstatusshortkey" ]; then
@@ -137,52 +83,16 @@ bindkey '\eg' gitstatuskey
 bindkey '\eG' gitstatusshortkey
 
 updirkey() {
-    cd ..
-    zle reset-prompt
+    cd .. && zle reset-prompt
 }
 zle -N updirkey updirkey
 bindkey "" updirkey # Ctrl + /
 
-homedirkey() {
-    cd ~
-    zle reset-prompt
+popdkey() {
+    if [ "$#dirstack" != "0" ]; then popd && zle reset-prompt; fi
 }
-zle -N homedirkey homedirkey
-bindkey "" homedirkey # Alt + Ctrl + /
-
-agfullsearch() {
-    # remove empty / duplicate lines? or keep current behavior of opening all in tabs
-    filelist=($(ag "." --nocolor | fzf -m | cut -f 1,2 -d ":" | tr '\n' ' '))
-    if [ -z "$filelist" ]; then
-        zle redisplay
-    else
-        opencmd="${EDITOR} -p "
-        opencmd+=$(for item in $filelist; do
-            echo -n \"$item\"
-            echo -n " "
-        done)
-        zle kill-whole-line
-        zle redisplay
-        BUFFER=$opencmd
-        zle accept-line
-    fi
-}
-zle -N agfullsearch agfullsearch
-bindkey "^X" agfullsearch
-
-KEYTIMEOUT=1
-
-source $ZSH/fzf.zsh # .fzf.zsh is generated by fzf install script and placed in ~ by default, but I tweak it
-source $ZSH/fzf_completion.zsh
-export FZF_COMPLETION_TRIGGER=''
-bindkey '^I' expand-or-complete # expand-or-complete-with-dots by default, but fzf-completion takes it
-bindkey '^Z' fzf-completion     # I want fzf-completion to be ^Z, not ^I
-
-# zle -N <widget name> <function name>
-zle -N all fzimpl
-zle -N installed fzimpl
-bindkey '\ep' all
-bindkey '\eP' installed
+zle -N popdkey popdkey
+bindkey "" popdkey # Alt + Ctrl + /
 
 if [ -n "$STARTUPDIR" ] && [ -d "$STARTUPDIR" ]; then
     cd $STARTUPDIR
