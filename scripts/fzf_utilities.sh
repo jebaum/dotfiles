@@ -1,4 +1,5 @@
 # various functions for using fzf
+# keep in sync with https://github.com/junegunn/fzf/wiki/Examples
 AURFILE="$HOME/.aur.dat"
 PACFILE="$HOME/.pacman.dat"
 alias fzkill="$HOME/dotfiles/scripts/fkill.sh"
@@ -130,6 +131,49 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
       fi
     done < <(sed '1,2d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
     [ "$keypress" != "$expect" ] && git show --color $shalist
+  done
+}
+
+# fzsha - get git commit sha, copy to clipboard
+# example usage: git rebase -i `fcs`
+fzsha() {
+  local commits commit long
+  if [ "$1" = "long" ]; then
+      long=""
+  else
+      long="--abbrev-commit"
+  fi
+  commits=$(git log --color=always --pretty=oneline $long --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s +m --ansi --reverse --nth=2..) &&
+  echo -n $(echo "$commit" | sed "s/ .*//") | xsel
+}
+
+# fzstash - easier way to deal with stashes
+# type fstash to get a list of your stashes
+# enter shows you the contents of the stash
+# ctrl-d shows a diff of the stash against your current HEAD
+# ctrl-b checks the stash out as a branch, for easier merging
+fzstash() {
+  local out q k sha
+  while out=$(
+    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+    fzf --ansi --no-sort --query="$q" --print-query \
+        --expect=ctrl-d,ctrl-b);
+  do
+    mapfile -t out <<< "$out"
+    q="${out[0]}"
+    k="${out[1]}"
+    sha="${out[-1]}"
+    sha="${sha%% *}"
+    [[ -z "$sha" ]] && continue
+    if [[ "$k" == 'ctrl-d' ]]; then
+      git diff $sha
+    elif [[ "$k" == 'ctrl-b' ]]; then
+      git stash branch "stash-$sha" $sha
+      break;
+    else
+      git stash show -p $sha
+    fi
   done
 }
 
