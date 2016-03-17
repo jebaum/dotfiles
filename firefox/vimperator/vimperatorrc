@@ -15,10 +15,10 @@ qmark w w.jbaumy.com
 " }}}
 
 " set options {{{
-set maxitems=35
+set maxitems=50
 set animations=true
 set noscrollbars
-set complete=sltb
+set complete=sl
 set defsearch="google"
 set focuscontent
 set hintchars="asdfghjueryitbncv"
@@ -30,6 +30,7 @@ set shell="bash"
 set smartcase
 set notabnumbers
 set gui=nonavigation
+set editor='st -e nvim'
 " TODO :h 'complete'
 " set nextpattern="\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\bmore\b,next ›"
 " set previouspattern="\bprev|previous\b,^<$,^(<<|«)$,^(<|«),(<|«)$,‹ prev"
@@ -39,6 +40,9 @@ set previouspattern="‹ prev,< Prev,« Prev"
 
 " maps {{{
 command Selecttab -count tabmove <count>
+
+nnoremap ,f :set toolbars=addons,nobookmarks,nomenu,nonavigation,tabs<CR>
+nnoremap ,F :set toolbars=addons,nobookmarks,nomenu,nonavigation,notabs<CR>
 
 nnoremap gq    :qmarks<CR>
 inoremap <C-c> <Esc>
@@ -66,7 +70,7 @@ nnoremap <A-p> :tabmove! -1<CR>
 
 nnoremap ,a  :addons<CR>
 nnoremap ,e  :extoptions<Space>
-nnoremap ,t  :tabopen about:sync-tabs<CR>
+nnoremap ,t  :styletoggle -name globaldark<CR>
 
 nnoremap ,q :sbclose<CR>
 nnoremap ,s :saveas!<CR>
