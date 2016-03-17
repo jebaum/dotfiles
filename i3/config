@@ -4,11 +4,11 @@ set $mod Mod4
 set $alt Mod1
 set $narrowbarfont font pango:Times New Roman 9
 floating_modifier $mod
-set $narrow1 DFP9
-set $narrow2 DFP5
+set $narrow1 DP-2
+set $narrow2 DP-3
 set $narrow3 DFP6
 set $narrow4 DFP10
-set $widetop    DFP2
+set $widetop    DP-1
 set $widebottom DFP1
 set $barmodifier modifier Mod3
 
@@ -69,8 +69,8 @@ exec --no-startup-id amixer set Master 25
 # exec --no-startup-id device.sh xfi
 exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
-exec --no-startup-id ~/dotfiles/scripts/imap_daemon.sh
-exec --no-startup-id ~/dotfiles/scripts/mailbox_notify_daemon.sh
+#exec --no-startup-id ~/dotfiles/scripts/imap_daemon.sh
+#exec --no-startup-id ~/dotfiles/scripts/mailbox_notify_daemon.sh
 exec --no-startup-id ~/dotfiles/scripts/startup.sh
 # }}}
 # KEYBINDS {{{
