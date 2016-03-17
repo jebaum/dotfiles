@@ -14,6 +14,7 @@ amazon_sellercentral    $HOME/dotfiles/scripts/amazon_scurls.sh
 amazon_tools            $HOME/dotfiles/scripts/amazon_tools.sh
 amazon_wiki             $HOME/dotfiles/scripts/amazon_wiki.sh
 dmenu_utilities         $HOME/dotfiles/scripts/dmenu_utilities.sh
+firefox_history         $HOME/dotfiles/scripts/firefox_history.sh
 fzf_utilities           $HOME/dotfiles/scripts/fzf_utilities.sh
 fzf.zsh                 $HOME/dotfiles/zsh/fzf.zsh
 zshrc                   $HOME/dotfiles/zsh/zshrc
