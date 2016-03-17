@@ -43,12 +43,12 @@ if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 
 endif
 
 " settings for completion plugins defined in `after/plugin` directory
-set shortmess+=c " helps with completion flicker
 if has('python') && (exists('g:ycm')) " invoke vim with `vim --cmd 'let g:ycm=1'`
   Plug 'Valloric/YouCompleteMe'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('nvim')
   Plug 'Shougo/deoplete.nvim'
+  set shortmess+=c " helps with completion flicker
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
@@ -67,7 +67,7 @@ Plug 'inside/vim-search-pulse'
 Plug 'gcmt/taboo.vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
-Plug 'jebaum/neosyntax'
+" Plug 'jebaum/neosyntax'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -127,6 +127,8 @@ let g:vimple_init_vn = 0 " vimple has a dumb version check that breaks in neovim
 Plug 'jelera/vim-javascript-syntax', {'for': ['javascript']}
 Plug 'pangloss/vim-javascript', {'for': ['javascript']}
 Plug 'ternjs/tern_for_vim', {'for': ['javascript'], 'do': 'npm install' }
+Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+let g:used_javascript_libs = 'jquery,underscore,backbone'
 call plug#end()
 
 let g:gruvbox_invert_selection=0
@@ -149,6 +151,7 @@ function! TweakColors()
 
   highlight Function ctermfg=43
   highlight MatchParen ctermbg=201 ctermfg=16
+  highlight SpecialKey ctermbg=236 ctermfg=231
 
   " copied from statline.vim
   highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
@@ -647,8 +650,21 @@ let g:mta_filetypes = {
     \ 'php' : 1,
     \}
 " }}}
-" matchparenalways {{{
-let g:blockify_pairs = { 'lisp': [ '(', ')' ] }
+" matchparen {{{
+" let g:loaded_matchparen = 1 put this in neovim remote plugin!
+augroup MatchParenTimeout
+    autocmd!
+    autocmd BufEnter * call SetMatchParenTimeout()
+augroup END
+function! SetMatchParenTimeout()
+    let bytes = line2byte(line('$') + 1)
+    if bytes > 1000000
+        let b:matchparen_timeout = 1
+        let b:matchparen_insert_timeout = 1
+        setlocal nocursorline nocursorcolumn " TODO conflicts with general cursorline autocmd used in all bufs
+        " TODO also turn off anzu here
+    endif
+endfunction
 " }}}
 " multiple cursors {{{
 let g:multi_cursor_exit_from_visual_mode=0
@@ -705,6 +721,8 @@ augroup Oblique
   autocmd! User ObliqueStar
   autocmd! User ObliqueRepeat
   " TODO make sure the anzu command and pulse function exist, just in case
+  " also do I even want these? makes the search pattern flash in the command line
+  " instead of just updating the anzu count
   autocmd User Oblique       AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
   autocmd User ObliqueStar   AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
   autocmd User ObliqueRepeat AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
@@ -779,6 +797,12 @@ let g:vim_search_pulse_mode = 'pattern'
 " XXX the speed with which this actually happens seems to depend on the size
 " of the buffer currently displayed. also affected by if folds are closed.
 " some kind of very slow redrawing being done?
+
+" let g:vim_search_pulse_disable=0 " toggle this on huge buffers?
+" TODO pulse seems to do some kind of intelligent interrupting of the drawing loop
+" if you hit n again while it's still in the middle of the loop
+" i should figure out how that's done and reimplement a simpler version that
+" just does cursor line /column flashing, instead of arbitrary patterns
 let g:vim_search_pulse_duration = 100
 let g:vim_search_pulse_disable_auto_mappings = 1
 let g:vim_search_pulse_color_list = has('gui_running') ?
@@ -1015,7 +1039,7 @@ augroup CursorLine
     autocmd BufEnter,WinEnter * setlocal cursorline
     autocmd BufLeave,WinLeave * setlocal nocursorline
 augroup END
-set listchars=tab:▸\ ,trail:•,extends:>,eol:¬
+set listchars=tab:▶-,trail:•,extends:>,eol:¬
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
 set path+=./**
@@ -1472,4 +1496,12 @@ endif
 let g:terminal_scrollback_buffer_size = 100000
 " }}}
 " }}}
+
+" augroup NvimPythonDev
+"     autocmd!
+"     autocmd VimLeavePre * UpdateRemotePlugins
+"     autocmd BufEnter nvim.py syntax off
+"     autocmd BufEnter test.sh syntax off
+"     autocmd BufWritePost neosyntax.py call system("tmux send-keys -t '0:1.1' 'ZQ'")
+" augroup END
 " vim: foldmethod=marker foldlevel=1
