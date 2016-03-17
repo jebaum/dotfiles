@@ -4,9 +4,10 @@ autoload -U colors && colors # Enable colors in prompt
 
 function _prompt_char() {
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    echo "%{%F{yellow}%}±%{%f%k%b%}"
+    # echo " %{%F{201}%}±%{%f%k%b%} "
+    echo " %{%F{201}%}❯%{%f%k%b%} "
   else
-    echo ' '
+    echo ' ❯%{%f%k%b%} '
   fi
 }
 
@@ -54,8 +55,9 @@ git_prompt_string() {
   [ -n "$git_where" ] && echo " $GIT_PROMPT_PREFIX%{$fg[magenta]%}%K{16}${git_where#(refs/heads/|tags/)}$(parse_git_state)$GIT_PROMPT_SUFFIX"
 }
 
-PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%~$(git_prompt_string)%E%{%f%k%b%}
-$(_prompt_char) $%{%f%k%b%} '
+# sexy prompt chars: ❯  »
+PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}devbox%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%~$(git_prompt_string)%E%{%f%k%b%}
+$(_prompt_char)'
 
 # RPROMPT='%{%F{39}%}%D{%I:%M:%S}'
 
