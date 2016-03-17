@@ -1,4 +1,7 @@
 ## smart urls
+# TODO why isn't this working?
+# https://github.com/zsh-users/zsh/blob/master/Functions/Zle/url-quote-magic
+# https://github.com/sorin-ionescu/prezto/issues/978
 autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
 
