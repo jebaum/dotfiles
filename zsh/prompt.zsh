@@ -78,11 +78,11 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
-function TRAPINT() {
-  vim_mode=$vim_ins_mode
-  # zle && zle reset-prompt
-  zle && zle kill-buffer
-  zle && zle accept-line
-  return $(( 128 + $1 ))
-}
+#function TRAPINT() {
+#  vim_mode=$vim_ins_mode
+#  # zle && zle reset-prompt
+#  zle && zle kill-buffer
+#  zle && zle accept-line
+#  return $(( 128 + $1 ))
+#}
 RPROMPT='${vim_mode}'
