@@ -1,14 +1,6 @@
 " Plug 'terryma/vim-multiple-cursors'
 " Plug 'osyo-manga/vim-brightest'  " maybe just use * and # instead?
 
-Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do' : 'npm install'}
-" autocmd FileType javascript setlocal omnifunc=tern#Complete
-
-" Plug 'justinmk/vim-syntax-extra', {'for': ['c', 'lex', 'yacc']}
-
-Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
-
 " Plug 'dbakker/vim-projectroot' " there's also a thing called rooter that's more automatic
 
 " Plug 'jeetsukumaran/vim-markology', {'on': ['MarkologyEnable', 'MarkologyDisable', 'MarkologyToggle', 'MarkologyPlaceMarkToggle', 'MarkologyPlaceMark', 'MarkologyClearMark', 'MarkologyClearAll', 'MarkologyNextLocalMarkPos', 'MarkologyPrevLocalMarkPos', 'MarkologyNextLocalMarkByAlpha', 'MarkologyPrevLocalMarkByAlpha', 'MarkologyLocationList', 'MarkologyQuickFix']}
@@ -73,3 +65,4 @@ need maps for :Limelight!! and :Goyo
 send PR to goyo to make it use <nomodeline> in its doautocmd
 
 https://github.com/Olical/vim-enmasse
+https://github.com/lfv89/vim-interestingwords
