@@ -16,6 +16,7 @@ if [ -z "$THING" ]; then
 else
     firefox $THING
     # TODO actually focus a firefox window here using i3 instead of just workspace 2?
+    # TODO cache the result of running the above sqlite command somewhere, and cron it every couple minutes? with long history it takes a couple seconds which is annoying
     ~/dotfiles/scripts/vimperator_hack.sh
 fi
 
