@@ -49,13 +49,15 @@ parse_git_state() {
 }
 
 # If inside a Git repository, print its branch and state
-git_prompt_string() {
+git_prompt_string() { # TODO this seems "better" than how prezto/steeef does it
+                      # ctrl + / and ctrl + alt + / and other keybinds update the prompt
+                      # but, it's definitely slower. hold enter.
   local git_where="$(parse_git_branch)"
   [ -n "$git_where" ] && echo " $GIT_PROMPT_PREFIX%{$fg[magenta]%}%K{16}${git_where#(refs/heads/|tags/)}$(parse_git_state)$GIT_PROMPT_SUFFIX"
 }
 
 # sexy prompt chars: ❯ » ±
-PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}devbox%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%~$(git_prompt_string)%E%{%f%k%b%}
+PROMPT='%{%B%F{green}%K{16}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{16}%}%~$(git_prompt_string)%E%{%f%k%b%}
 $(_prompt_char)'
 
 # RPROMPT='%{%F{39}%}%D{%I:%M:%S}'
