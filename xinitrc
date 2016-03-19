@@ -2,7 +2,7 @@ eval $(gpg-agent --daemon)
 xset s off
 xset -dpms
 xset s noblank
-xset r rate 200 50
+xset r rate 200 60
 start-pulseaudio-x11
 
 xrandr \
