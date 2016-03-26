@@ -48,6 +48,7 @@ if has('python') && (exists('g:ycm')) " invoke vim with `vim --cmd 'let g:ycm=1'
   let g:EclimCompletionMethod = 'omnifunc'
 elseif has('nvim')
   Plug 'Shougo/deoplete.nvim'
+  Plug 'carlitux/deoplete-ternjs'
   set shortmess+=c " helps with completion flicker
 else
   Plug 'othree/vim-autocomplpop'
@@ -533,14 +534,17 @@ let g:deoplete#enable_at_startup            = 1
 let g:deoplete#enable_smart_case            = 1
 let g:deoplete#auto_completion_start_length = 1
 let g:deoplete#sources                      = {}
-let g:deoplete#sources._                    = ['buffer', 'omni']
+let g:deoplete#sources._                    = ['omni', 'buffer']
 let g:deoplete#sources.text                 = ['buffer', 'dictionary']
 let g:deoplete#sources.pandoc               = ['buffer', 'dictionary']
+let g:deoplete#sources.javascript           = ['omni', 'buffer']
 
 " https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
 if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
+let g:deoplete#omni#input_patterns.javascript = ['[^. \t0-9]\.\w*']
+" let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
 " augroup DeopletePclose " close preview window when finishing completion or leaving insert mode
     " autocmd!
@@ -548,7 +552,7 @@ endif
 " augroup END
 
 " omnifuncs
-augroup omnifuncs
+augroup Omnifuncs
   autocmd!
   " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -951,7 +955,8 @@ let g:taboo_tab_format = "%N %f%m "
 if exists('g:plugs["tern_for_vim"]')
   let g:tern_show_argument_hints   = 'on_hold'
   let g:tern_show_signature_in_pum = 1
-  let g:tern#command               = ['tern', '--no-port-file']
+  let g:tern_request_timeout       = 1
+  let g:tern#command               = ['tern']
 endif
 " }}}
 " tmuxify {{{
