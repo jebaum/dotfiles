@@ -105,6 +105,7 @@ Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)'
 Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
 Plug 'tpope/vim-surround'
@@ -413,6 +414,18 @@ function! Increment()
   normal `<
 endfunction
 " }}}
+" ProcessJSON {{{
+function! ProcessJSON()
+    %s/\s\+$//e  " strip trailing whitespace
+    g/^$/d       " delete empty lines
+    %join        " join whole file into one line
+    %s/^\s\+//e  " strip any leading whitespace from opening line
+    call Stab(2) " set tabstop to 2
+    call jdaddy#reformat('jdaddy#outer_pos', 0) " tpope jdaddy
+endfunction
+nnoremap <silent> <leader>j :<C-u>call ProcessJSON()<CR>
+command! JSON call ProcessJSON()
+" }}}
 " Red/Green Bar {{{
 function! WideMsg(msg)
   let x=&ruler | let y=&showcmd
@@ -615,7 +628,7 @@ let g:grepper = {}
 let g:grepper.tools  = ['ag', 'git', 'grep']
 let g:grepper.open   = 1
 let g:grepper.jump   = 0
-let g:grepper.switch = 0
+let g:grepper.switch = 1
 " }}}
 " goyo {{{
 let g:goyo_width  = '100%'
@@ -1069,6 +1082,7 @@ let g:no_ocaml_maps = 1
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
+filetype plugin indent on
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
@@ -1101,8 +1115,12 @@ set textwidth=0     " disables textwidth
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
-function! Stab()
-  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+function! Stab(...)
+  if a:0 == 1
+    let l:tabstop = 1 * a:1
+  else
+    let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  endif
   if l:tabstop > 0
     let &l:sts = l:tabstop
     let &l:ts = l:tabstop
