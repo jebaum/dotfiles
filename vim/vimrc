@@ -81,7 +81,7 @@ Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowP
 Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
-Plug 'kshenoy/vim-togglelist', {'on': ['ToggleLL', 'ToggleQF']}
+Plug 'Valloric/ListToggle'
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
@@ -644,6 +644,10 @@ endfunction
 " }}}
 " limelight {{{
 let g:limelight_conceal_ctermfg = 240
+" }}}
+" listtoggle {{{
+let g:lt_quickfix_list_toggle_map = '<leader>e'
+let g:lt_location_list_toggle_map = '<leader>l'
 " }}}
 " match tag {{{
 let g:mta_filetypes = {
@@ -1270,7 +1274,7 @@ nnoremap <F2>          :set spell!<CR>
 " Main {{{
 nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
-nnoremap <silent> <leader>e    :lclose<CR>:silent! let g:ToggleList.cmd.copen="copen"<CR>:ToggleQF<CR>
+"                 <leader>e    ListToggle
 "                         f    fzf maps
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
@@ -1280,7 +1284,7 @@ xmap              <leader>G    <Plug>(GrepperOperator)
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 nmap     <silent> <Leader>L    :Limelight!!<CR>
 xmap              <Leader>L    <Plug>(Limelight)
-nnoremap <silent> <leader>l    :cclose<CR>:ToggleLL<CR>
+"                 <leader>l    ListToggle
 "                         m    make maps
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
