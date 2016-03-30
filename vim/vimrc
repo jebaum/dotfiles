@@ -64,8 +64,8 @@ Plug 'ciaranm/detectindent'
 Plug 'derekwyatt/vim-scala', {'for': ['scala']}
 Plug 'dockyard/vim-easydir'
 Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
-Plug 'inside/vim-search-pulse'
 Plug 'gcmt/taboo.vim'
+Plug 'inside/vim-search-pulse'
 Plug 'jamessan/vim-gnupg'
 Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
 " Plug 'jebaum/neosyntax'
@@ -81,6 +81,7 @@ Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowP
 Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
+Plug 'lordm/vim-browser-reload-linux'
 Plug 'Valloric/ListToggle'
 Plug 'manuel-colmenero/vim-simple-session'
 Plug 'mattn/webapi-vim' " required by vim-github-comment
@@ -126,9 +127,9 @@ Plug 'jreybert/vimagit'
 Plug 'dahu/vimple'
 let g:vimple_init_vn = 0 " vimple has a dumb version check that breaks in neovim
 
-Plug 'jelera/vim-javascript-syntax', {'for': ['javascript']}
-Plug 'pangloss/vim-javascript', {'for': ['javascript']}
-Plug 'ternjs/tern_for_vim', {'for': ['javascript'], 'do': 'npm install' }
+" Plug 'jelera/vim-javascript-syntax'
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'ternjs/tern_for_vim',     {'for': ['javascript'], 'do': 'npm install' }
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 let g:used_javascript_libs = 'jquery,underscore,backbone'
 call plug#end()
@@ -265,6 +266,7 @@ augroup FileTypeSettings
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
   autocmd FIleType magit setlocal foldnestmax=20
+  autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
 augroup END
 " }}}
 " align quickfix output {{{
@@ -564,8 +566,7 @@ let g:deoplete#omni#input_patterns.javascript = ['[^. \t0-9]\.\w*']
     " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " augroup END
 
-" omnifuncs
-augroup Omnifuncs
+augroup DeopleteOmniFuncs
   autocmd!
   " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -1167,6 +1168,8 @@ endif
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
 nnoremap <BS> :<C-U>OverCommandLine<CR>%s/\V\<lt><c-r><c-w>\>//g<left><left>
+nnoremap H ^
+nnoremap L g_
 " }}}
 " fix the esc/alt mapping problem in terminal vim {{{
 if !has('gui_running')
@@ -1531,4 +1534,4 @@ let g:terminal_scrollback_buffer_size = 100000
 "     autocmd BufEnter test.sh syntax off
 "     autocmd BufWritePost neosyntax.py call system("tmux send-keys -t '0:1.1' 'ZQ'")
 " augroup END
-" vim: foldmethod=marker foldlevel=1
+" vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}}
