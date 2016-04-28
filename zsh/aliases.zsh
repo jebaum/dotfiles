@@ -45,9 +45,9 @@ alias vi='vim'
 alias vim='vim -p'
 alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
-alias ytdlmp3='youtube-dl --audio-quality 0 --audio-format mp3 -x'
 alias yt='youtube-viewer'
 
+ytdlmp3() { youtube-dl --audio-quality 0 --audio-format mp3 -x "${1-$(xclip -o)}" }
 ytdl() { youtube-dl "${1-$(xclip -o)}" }
 
 
