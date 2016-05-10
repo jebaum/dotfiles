@@ -265,7 +265,7 @@ augroup FileTypeSettings
   autocmd FileType markdown,pandoc nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
-  autocmd FIleType magit setlocal foldnestmax=20
+  autocmd FileType magit setlocal foldnestmax=20
   autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
 augroup END
 " }}}
@@ -825,7 +825,7 @@ let g:vim_search_pulse_mode = 'pattern'
 " if you hit n again while it's still in the middle of the loop
 " i should figure out how that's done and reimplement a simpler version that
 " just does cursor line /column flashing, instead of arbitrary patterns
-let g:vim_search_pulse_duration = 100
+let g:vim_search_pulse_duration = 50
 let g:vim_search_pulse_disable_auto_mappings = 1
 let g:vim_search_pulse_color_list = has('gui_running') ?
         \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
