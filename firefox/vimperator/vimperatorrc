@@ -45,6 +45,7 @@ nnoremap ,f :set toolbars=addons,nobookmarks,nomenu,nonavigation,tabs<CR>
 nnoremap ,F :set toolbars=addons,nobookmarks,nomenu,nonavigation,notabs<CR>
 
 nnoremap gq    :qmarks<CR>
+nnoremap <C-c> :stop<CR>
 inoremap <C-c> <Esc>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
