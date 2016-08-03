@@ -31,6 +31,7 @@ if has('unix')
   " TODO would be really nice to combine the functionality of these two.
   " extradite has great but semi broken previewing of diffs, gitv is way
   " prettier. both are broken in opening things
+  " junegunn has a non broken version of gitv
   Plug 'gregsexton/gitv',    {'on': 'Gitv'} " TODO: fix <C-j> keymap of Gitv! window
   Plug 'int3/vim-extradite'
   Plug 'jebaum/vim-tmuxify'
@@ -78,6 +79,7 @@ Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
 Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
+Plug 'justinmk/vim-dirvish'
 Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
@@ -91,7 +93,7 @@ Plug 'mhinz/vim-startify'
 Plug 'mmozuras/vim-github-comment', {'on': 'GHComment'}
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
-Plug 'powerman/vim-plugin-AnsiEsc' " why is this suddenly necessary? vim-plug diff windows used to be fine without it
+" Plug 'powerman/vim-plugin-AnsiEsc' " why is this suddenly necessary? vim-plug diff windows used to be fine without it
 Plug 'scrooloose/nerdcommenter'
 if has('nvim')
     Plug 'benekastah/neomake'
@@ -549,7 +551,7 @@ let g:deoplete#enable_at_startup            = 1
 let g:deoplete#enable_smart_case            = 1
 let g:deoplete#auto_completion_start_length = 1
 let g:deoplete#sources                      = {}
-let g:deoplete#sources._                    = ['omni', 'buffer']
+let g:deoplete#sources._                    = ['omni', 'buffer', 'ultisnips']
 let g:deoplete#sources.text                 = ['buffer', 'dictionary']
 let g:deoplete#sources.pandoc               = ['buffer', 'dictionary']
 let g:deoplete#sources.javascript           = ['omni', 'buffer']
@@ -1272,7 +1274,7 @@ augroup QuickFix
 augroup END
 " }}}
 " Text Object / targets.vim maps {{{
-let g:targets_pairs       = '()P {}c []r <>g'
+let g:targets_pairs       = '()b {}c []r <>g'
 let g:targets_quotes      = "\"d 's `e"
 
 function! Append(type, ...)
