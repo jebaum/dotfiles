@@ -7,7 +7,7 @@ Xft.lcdfilter: lcddefault
 
 URxvt.perl-ext-common: default,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
 
-# https://github.com/Vifon/autocomplete-ALL-the-things
+! https://github.com/Vifon/autocomplete-ALL-the-things
 URxvt.keysym.M-C-slash:   perl:aAtt:word-complete
 URxvt.keysym.M-question:  perl:aAtt:fuzzy-complete
 URxvt.keysym.M-quotedbl:  perl:aAtt:undo
