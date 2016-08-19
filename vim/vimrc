@@ -8,10 +8,6 @@ augroup VIMRCMAP
   autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
 augroup END
 augroup EXPERIMENTAL
-  " this can be pretty jarring going in and out of insert mode, but it seems
-  " to make completion menus much more smooth/unflickery
-  " autocmd InsertEnter * syntax off
-  " autocmd InsertLeave * syntax on
   autocmd InsertEnter * set norelativenumber
   autocmd InsertLeave * set relativenumber
 augroup END
@@ -28,12 +24,9 @@ call plug#begin('~/.vim/bundle')
 Plug 'morhetz/gruvbox'
 if has('unix')
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  " TODO would be really nice to combine the functionality of these two.
-  " extradite has great but semi broken previewing of diffs, gitv is way
-  " prettier. both are broken in opening things
-  " junegunn has a non broken version of gitv
-  Plug 'gregsexton/gitv',    {'on': 'Gitv'} " TODO: fix <C-j> keymap of Gitv! window
-  Plug 'int3/vim-extradite'
+  Plug 'int3/vim-extradite' ", {'on': ['Extradite']}
+  Plug 'junegunn/gv.vim',    {'on': ['GV']}
+  " Plug 'lambdalisue/vim-gita'
   Plug 'jebaum/vim-tmuxify'
 endif
 
@@ -44,10 +37,7 @@ if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 
 endif
 
 " settings for completion plugins defined in `after/plugin` directory
-if has('python') && (exists('g:ycm')) " invoke vim with `vim --cmd 'let g:ycm=1'`
-  Plug 'Valloric/YouCompleteMe'
-  let g:EclimCompletionMethod = 'omnifunc'
-elseif has('nvim')
+if has('nvim')
   Plug 'Shougo/deoplete.nvim'
   Plug 'carlitux/deoplete-ternjs'
   set shortmess+=c " helps with completion flicker
@@ -55,52 +45,50 @@ else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
 endif
-
-Plug 'lambdalisue/vim-gista'
-" Plug 'blueyed/vim-diminactive'
 Plug 'bruno-/vim-husk'
 Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ciaranm/detectindent'
+Plug 'dahu/vimple'
 Plug 'derekwyatt/vim-scala', {'for': ['scala']}
 Plug 'dockyard/vim-easydir'
 Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
-Plug 'gcmt/taboo.vim'
+Plug 'gcmt/taboo.vim',       {'on': ['TabooOpen', 'TabooRename', 'TabooReset']}
 Plug 'inside/vim-search-pulse'
 Plug 'jamessan/vim-gnupg'
-Plug 'jaxbot/github-issues.vim', {'on': ['Gissues', 'Giadd', 'Giedit']}
 " Plug 'jebaum/neosyntax'
+Plug 'jreybert/vimagit',     {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim',    {'on': ['Goyo']}
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-github-dashboard', {'on': ['GHActivity', 'GHDashboard']}
 Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
-Plug 'justinmk/vim-dirvish'
+Plug 'justinmk/vim-dirvish', {'on': ['Dirvish']}
 Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
-Plug 'lordm/vim-browser-reload-linux'
+Plug 'lambdalisue/vim-gista'
+Plug 'lordm/vim-browser-reload-linux', {'on': ['ChromeReload', 'FirefoxReload', 'ChromeReloadStart', 'FirefoxReloadStart', 'ChromeReloadStop', 'FirefoxReloadStop']}
 Plug 'Valloric/ListToggle'
-Plug 'manuel-colmenero/vim-simple-session'
-Plug 'mattn/webapi-vim' " required by vim-github-comment
+" Plug 'mattn/webapi-vim' " required by vim-github-comment
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)']}
 Plug 'mhinz/vim-startify'
-Plug 'mmozuras/vim-github-comment', {'on': 'GHComment'}
 Plug 'osyo-manga/vim-anzu'
+Plug 'osyo-manga/vim-brightest'
 Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
-" Plug 'powerman/vim-plugin-AnsiEsc' " why is this suddenly necessary? vim-plug diff windows used to be fine without it
 Plug 'scrooloose/nerdcommenter'
 if has('nvim')
     Plug 'benekastah/neomake'
 else
     Plug 'scrooloose/syntastic'
 endif
+Plug 'Shougo/unite.vim'      " required for vimfiler
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
+Plug 'Shougo/vimfiler.vim'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
@@ -113,6 +101,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'} " breaks textwidth?
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
@@ -120,43 +110,38 @@ Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim'
 Plug 'wellle/tmux-complete.vim'
 Plug 'Yggdroot/indentLine', {'on': ['IndentLinesEnable', 'IndentLinesDisable', 'IndentLinesReset', 'IndentLinesToggle']}
-let g:indentLine_char='│'
-Plug 'jreybert/vimagit'
-" Plug '~/.vim/eclim', {'for': 'java'}
+Plug 'artur-shaik/vim-javacomplete2', {'for': ['java']}
 " Plug 'gcavallanti/vim-noscrollbar'
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline(50,'■','◫',['◧'],['◨'])}
 
-Plug 'dahu/vimple'
-let g:vimple_init_vn = 0 " vimple has a dumb version check that breaks in neovim
-
-" Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'ternjs/tern_for_vim',     {'for': ['javascript'], 'do': 'npm install' }
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
-let g:used_javascript_libs = 'jquery,underscore,backbone'
 call plug#end()
 
 let g:gruvbox_invert_selection=0
-let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_dark='medium'
 set background=dark
 colorscheme gruvbox
 " override some defaults
 function! TweakColors()
-
   " current match when hitting n/N to navigate
-  highlight ObliqueCurrentMatch     ctermfg=16  ctermbg=40
+  highlight ObliqueCurrentMatch     ctermfg=16  ctermbg=40 guifg=#000000 guibg=#00D700
   " current match when actively searching
-  highlight ObliqueCurrentIncSearch ctermfg=16  ctermbg=40
+  highlight ObliqueCurrentIncSearch ctermfg=16  ctermbg=40  guifg=#000000 guibg=#00D700
   " color of search text in command line
-  highlight ObliqueLine             ctermfg=229
+  highlight ObliqueLine             ctermfg=229 guifg=#FFFFAF
   " color of matches the cursor isn't on when actively searching
-  highlight IncSearch               ctermfg=250 ctermbg=24
+  highlight IncSearch               ctermfg=250 ctermbg=24  guifg=#BCBCBC guibg=#005F87
   " color of matches the cursor isn't on after finished searching
-  highlight Search                  ctermfg=255 ctermbg=24
+  highlight Search                  ctermfg=255 ctermbg=24  guifg=#EEEEEE guibg=#005F87
 
-  highlight Function ctermfg=43
-  highlight MatchParen ctermbg=201 ctermfg=16
-  highlight SpecialKey ctermbg=236 ctermfg=231
+  highlight Folded     ctermbg=16                               guibg=#000000
+  highlight Function   ctermfg=43                guifg=#00D7AF
+  highlight MatchParen ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
+  highlight Normal                                              guibg=#202020
+  highlight SpecialKey ctermfg=231  ctermbg=236  guifg=#FFFFFF  guibg=#303030
+  highlight String     ctermfg=46                guifg=#00FF00
 
   " copied from statline.vim
   highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
@@ -168,6 +153,10 @@ function! TweakColors()
   highlight User7 ctermfg=253  ctermbg=232  cterm=none guifg=#DADADA  guibg=#080808  gui=none
   highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
   highlight User9 ctermfg=208  ctermbg=232  cterm=none guifg=#FF8700  guibg=#080808  gui=none
+
+  let g:vim_search_pulse_color_list = has('gui_running') || (has('nvim') && &termguicolors) ?
+        \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
+        \ [238, 239, 240, 241, 242, 243, 244, 245, 246]
 endfunction
 call TweakColors()
 augroup TweakColors
@@ -211,9 +200,6 @@ command! -bang Q  :q<bang>
 command! -bang QA :qa<bang>
 command! -bang Qa :qa<bang>
 
-cnoremap <C-p>  <Up>
-cnoremap <C-n>  <Down>
-
 " use one of these maps in the middle of a search to move, copy, or delete text
 cnoremap $t <CR>:t''<CR>
 cnoremap $T <CR>:''t.<CR>
@@ -246,7 +232,6 @@ augroup END
 " FileType autocmds {{{
 augroup FileTypeSettings
   autocmd!
-  " autocmd BufWritePre * :call StripTrailingWhitespace()
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
@@ -255,20 +240,9 @@ augroup FileTypeSettings
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
   autocmd BufRead,BufNewFile *.md set filetype=pandoc
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>m1 :call MarkdownMargin(1)<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mb :call MarkdownToggle('md_linebreak', '+hard_line_breaks', 'turned on hard line breaks', 'turned off hard line breaks')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>md :call MarkdownToggle('md_doublespace', ' -H ~/dotfiles/pandoc/doublespace.sty', 'turned on double spacing', 'turned off double spacing')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mm :call MarkdownToggle('md_mla', ' --template=mla_pandoc.tex', 'using MLA, double space and hard line break turned off. make sure mla_pandoc.tex is in current directory', 'not using MLA')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mp :call MarkdownToggle('md_presentation', ' -t beamer --slide-level=2 -V theme:Copenhagen', 'using beamer with Copenhagen theme, slide level 2', 'not using beamer')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>ms :call MarkdownToggle('md_highlight', ' --no-highlight', 'turned on highlighting', 'turned off highlighting')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mr :w!<CR>:silent call MarkdownCommandRun('','removed','pdf')<CR>:echo b:md_msg<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer> <leader>mv :call MarkdownCommandRun('','open', 'pdf')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer><silent> <leader>mw :w!<CR>:silent call MarkdownCommandRun('quickrun','built','html')<CR>
-  autocmd FileType markdown,pandoc nnoremap <buffer><silent> gr :w!<CR>:silent call MarkdownCommandRun('quickrun','built','pdf')<CR>
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
-  autocmd FileType tex      nnoremap <buffer><silent> gr  :w!<CR>:exe 'QuickRun latex -args "--pdf --warn all ' . shellescape(expand('%:p')) . '"'<CR>
-  autocmd FileType magit setlocal foldnestmax=20
   autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
 augroup END
 " }}}
 " align quickfix output {{{
@@ -377,7 +351,7 @@ function! StripWhitespace(line1, line2)
     call cursor(l, c)
 endfunction
 
-command! -range=% StripWhitespace call StripWhitespace(<line1>, <line2>)
+command! -range=% Strip call StripWhitespace(<line1>, <line2>)
 " }}}
 " CustomMatch function {{{
 function! CustomMatch(pattern)
@@ -386,7 +360,7 @@ function! CustomMatch(pattern)
 endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 command! -nargs=1 MT        call CustomMatch(<f-args>)
-highlight MatchTarget ctermfg=231 ctermbg=124
+highlight MatchTarget ctermfg=231 ctermbg=124 guifg=#FFFFFF guibg=#AF0000
 " }}}
 " Location list loop function {{{
 function! WrapCommand(window, direction)
@@ -427,7 +401,6 @@ function! ProcessJSON()
     call Stab(2) " set tabstop to 2
     call jdaddy#reformat('jdaddy#outer_pos', 0) " tpope jdaddy
 endfunction
-nnoremap <silent> <leader>j :<C-u>call ProcessJSON()<CR>
 command! JSON call ProcessJSON()
 " }}}
 " Red/Green Bar {{{
@@ -535,16 +508,26 @@ command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1
 " }}}
 " }}}
 " Plugins {{{
+" airline {{{
+let g:airline_theme='bubblegum'
+let g:airline_powerline_fonts          = 1
+let g:airline_skip_empty_sections      = 1
+let g:airline#extensions#hunks#enabled = 1
+" }}}
 " anzu {{{
 let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus =1
+" }}}
+" brightest {{{
+augroup DisableBrightestOnStart
+    autocmd VimEnter * if exists(':Brightest') | BrightestDisable | endif
+augroup END
+let g:brightest#highlight = { 'group': 'BrightestCustom' }
+highlight BrightestCustom guifg=#000000 guibg=#00FF00
 " }}}
 " detectindent {{{
 let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
 let g:detectindent_max_lines_to_analyse = 1024
-" }}}
-" diminactive {{{
-highlight ColorColumn ctermbg=16 guibg=#000000
 " }}}
 " deoplete {{{
 let g:deoplete#enable_at_startup            = 1
@@ -555,12 +538,22 @@ let g:deoplete#sources._                    = ['omni', 'buffer', 'ultisnips']
 let g:deoplete#sources.text                 = ['buffer', 'dictionary']
 let g:deoplete#sources.pandoc               = ['buffer', 'dictionary']
 let g:deoplete#sources.javascript           = ['omni', 'buffer']
+let g:deoplete#sources.java                 = ['javacomplete2', 'omni', 'buffer', 'ultisnips']
 
 " https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
 if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
 let g:deoplete#omni#input_patterns.javascript = ['[^. \t0-9]\.\w*']
+    let g:deoplete#omni#input_patterns.java = [
+        \'[^. \t0-9]\.\w*',
+        \'[^. \t0-9]\->\w*',
+        \'[^. \t0-9]\::\w*',
+        \]
+    let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
+    let g:deoplete#ignore_sources = {}
+    let g:deoplete#ignore_sources._ = ['javacomplete2']
+
 " let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
 " augroup DeopletePclose " close preview window when finishing completion or leaving insert mode
@@ -580,7 +573,6 @@ augroup end
 " }}}
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 " }}}
 " exchange {{{
@@ -589,6 +581,7 @@ nmap cx <Plug>(Exchange)
 xmap X <Plug>(Exchange)
 nmap cxc <Plug>(ExchangeClear)
 nmap cxx <Plug>(ExchangeLine)
+let g:easy_align_bypass_fold = 1
 " }}}
 " fugitive {{{
 command! -nargs=1 -bar Gbranch   call GitBranch(<f-args>)
@@ -616,22 +609,12 @@ let g:fzf_launcher='urxvt -e sh -c %s' " TODO change to st
 " gista {{{
 let g:gista#post_private = 1
 " }}}
-" github-comment {{{
-let g:github_user = 'jebaum'
-" }}}
-" github-dashboard {{{
-let g:github_dashboard = {'username': 'jebaum'}
-" }}}
-" gitv {{{
-let g:Gitv_OpenHorizontal = 1
-let g:Gitv_WipeAllOnClose = 1
-" }}}
 " grepper {{{
 let g:grepper = {}
 let g:grepper.tools  = ['ag', 'git', 'grep']
 let g:grepper.open   = 1
 let g:grepper.jump   = 0
-let g:grepper.switch = 1
+let g:grepper.switch = 0
 " }}}
 " goyo {{{
 let g:goyo_width  = '100%'
@@ -657,6 +640,9 @@ function! s:goyo_leave()
   call TweakColors()
   Limelight!
 endfunction
+" }}}
+" indentline {{{
+let g:indentLine_char='│'
 " }}}
 " limelight {{{
 let g:limelight_conceal_ctermfg = 240
@@ -688,25 +674,6 @@ function! SetMatchParenTimeout()
         setlocal nocursorline nocursorcolumn " TODO conflicts with general cursorline autocmd used in all bufs
         " TODO also turn off anzu here
     endif
-endfunction
-" }}}
-" multiple cursors {{{
-let g:multi_cursor_exit_from_visual_mode=0
-let g:multi_cursor_exit_from_insert_mode=0
-" Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-  if exists(':NeoCompleteLock')==2
-    exe 'NeoCompleteLock'
-  endif
-  AutoComplPopDisable
-endfunction
-
-" Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-  if exists(':NeoCompleteUnlock')==2
-    exe 'NeoCompleteUnlock'
-  endif
-  AutoComplPopEnable
 endfunction
 " }}}
 " neomake {{{
@@ -791,28 +758,6 @@ function! QuickRunTimeToggle()
   endif
 endfunction
 " }}}
-" rainbow {{{
-" TODO update this for junegunn version, current config is for luochen
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-\   'guifgs': ['#5FFF00', '#FF5F00', '#FFFF00', '#FF00FF', '#FFFFFF', '#FF0000'],
-\   'ctermfgs': ['82', '202', '226', '201', '231', '196'],
-\   'operators': '_,_',
-\   'parentheses': [['(',')'], ['\[','\]'], ['{','}']],
-\   'separately': {
-\       '*': {},
-\       'lisp': {
-\           'guifgs': ['#5FFF00', '#FF5F00', '#FFFFFF', '#FF00FF', '#FFFF00', '#FF0000'],
-\           'ctermfgs': ['82', '202', '231', '201', '226', '196'],
-\       },
-\       'java': {
-\           'parentheses': [['(',')'], ['\[','\]'], ['{','}'], ['<','>']],
-\       },
-\       'css': 0,
-\       'stylus': 0,
-\   }
-\}
-" }}}
 " scratch {{{
 let g:scratch_filetype = 'vim'
 " }}}
@@ -829,7 +774,7 @@ let g:vim_search_pulse_mode = 'pattern'
 " just does cursor line /column flashing, instead of arbitrary patterns
 let g:vim_search_pulse_duration = 50
 let g:vim_search_pulse_disable_auto_mappings = 1
-let g:vim_search_pulse_color_list = has('gui_running') ?
+let g:vim_search_pulse_color_list = has('gui_running') || (has('nvim') && &termguicolors) ?
         \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
         \ [238, 239, 240, 241, 242, 243, 244, 245, 246]
 augroup Pulse
@@ -838,38 +783,6 @@ augroup Pulse
     autocmd  User PrePulse  set cursorcolumn
     autocmd  User PostPulse set nocursorcolumn
 augroup END
-
-" }}}
-" simple-session {{{
-call system('mkdir -p ~/.vim/session')
-let g:session_dir = "~/.vim/session"
-set sessionoptions-=blank
-set sessionoptions-=options
-
-function! Fzfvimsessions()
-    " TODO - errors when switching back and forth between sessions
-    " need to figure out if that's something in my setup or if it's a bug with simple-session
-    " when creating sessions with just one buffer, no split, with vim -u NONE -noplugin,
-    " manually making session files and switching back and forth by :source works fine
-  let current  = session#current()
-  let sessions = session#list()
-  " mark current session with '* ' prefix, this will be stripped out by the sink function
-  call map(sessions, 'v:val == current ? "* " . v:val : v:val')
-
-  call fzf#run({
-  \ 'source':   sessions,
-  \ 'sink*':    function('CallSimpleSessionSwitch'),
-  \ 'window':  '8new',
-  \ 'options': '--print-query -x --tiebreak=index --ansi --prompt="Sessions> "',
-  \})
-endfunction
-
-function! CallSimpleSessionSwitch(name)
-  " due to --print-query, first item in list will be the type query
-  " printf "* test3\ntest4" | fzf --delimiter : --nth 1 --bind "enter:execute(echo {} | grep -Eo --color=never '[[:alnum:]]+')"
-  let session_name = substitute(a:name[-1], '* ', '', '')
-  call SCall('plugin/session.vim', 'SwitchSession', [session_name])
-endfunction
 
 " }}}
 " signify {{{
@@ -996,6 +909,9 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-h>"
 let g:UltiSnipsListSnippets        = "<C-f>"
 let g:snips_author                 = 'James Baumgarten'
 " }}}
+" vimple {{{
+let g:vimple_init_vn = 0 " vimple has a dumb version check that breaks in neovim
+" }}}
 " }}}
 " General {{{
 " Set options {{{
@@ -1043,6 +959,8 @@ if !has('nvim')
   set restorescreen=on         " restore screen contents on exit
   set ttyfast                  " redraw screen faster
   set cryptmethod=blowfish     " more secure encryption for vim -x
+else
+  set termguicolors
 endif
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
 set formatoptions-=r           " don't continue comment when hitting enter in insert mode
@@ -1086,11 +1004,12 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 filetype plugin indent on
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item, not used right now due to neocomplete
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
@@ -1183,17 +1102,6 @@ if !has('gui_running')
   augroup END
 endif
 " }}}
-" make/run maps with quickrun/vimproc, gm gr {{{
-nnoremap <silent> gma :QuickRun make -args all<CR>
-nnoremap <silent> gmc :QuickRun make -args clean<CR>
-nnoremap <silent> gmm :QuickRun make<CR>
-nnoremap <silent> gmk :call vimproc#kill(b:quickrun_pid,9)<CR>
-nnoremap          gml :echo vimproc#get_last_errmsg()<CR>
-nnoremap <silent> gms :call quickrun#sweep_sessions()<CR>
-nnoremap <silent> gmt :call QuickRunTimeToggle()<CR>
-nnoremap <silent> gr :QuickRun -mode n -runner vimproc<CR>
-vnoremap <silent> gr :QuickRun -mode v -runner vimproc<CR>
-" }}}
 " misc g maps {{{
 nnoremap          go    :ls<CR>:sb<Space>
 nnoremap          gO    :ls<CR>:b<Space>
@@ -1226,8 +1134,6 @@ augroup END
 " visual mode increment, search, shift, gV {{{
 vnoremap <C-a> :call Increment()<CR>
 xnoremap <C-f> <Esc>/\%V
-vnoremap < <gv
-vnoremap > >gv
 nnoremap gV `[v`]
 " }}}
 " diff[update,put,obtain] gd[upo] {{{
@@ -1289,52 +1195,40 @@ endfunction
 nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
-" function keys {{{
-nnoremap <F1>          :call StripTrailingWhitespace()<CR>
-nnoremap <F2>          :set spell!<CR>
-" }}}
 " defualt comma leader maps {{{
 " Main {{{
 nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 "                         c    nerdcommenter maps
 "                 <leader>e    ListToggle
-"                         f    fzf maps
-nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 nmap              <leader>G    <Plug>(GrepperOperator)
 xmap              <leader>G    <Plug>(GrepperOperator)
+nnoremap <silent> <leader>h    :BrightestToggle<CR>
 "                         g    fugitive and signify maps
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 nmap     <silent> <Leader>L    :Limelight!!<CR>
 xmap              <Leader>L    <Plug>(Limelight)
 "                 <leader>l    ListToggle
-"                         m    make maps
+nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-nnoremap <silent> <leader>sd   :SDelete<CR><CR>
-nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
-nnoremap          <leader>sl   :Session<Space>
-
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
+nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sv   :source %<CR>
 nnoremap          <leader>sV   :source $MYVIMRC<CR>
 vnoremap          <leader>sv   :Source %<CR>
-" TODO - somehow modify this to accept a range? e.g. 5,S
 nnoremap <silent> <leader>S    :let c=col(".")<CR>V:Source<CR>:call cursor(line("."),c)<CR>
 vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call cursor(line("."),g:c)<CR>
-
 nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
-nnoremap <silent> <leader>u    yyp^v$r
+nnoremap <silent> <leader>u    yyp^v$r=
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
-" TODO maybe change this to #? and <leader>* can be for vim-brightest?
-nnoremap          <leader>*    :Grepper -tool ag -cword -noprompt<cr>
+nnoremap          <leader>#    :Grepper -tool ag -cword -noprompt<cr>
 " }}}
 " <leader>g[jkht] signify {{{
-" TODO gitv maps? use https://github.com/lambdalisue/vim-gita for git blame maybe? it's really nice
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
 nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Gblame<CR>
@@ -1528,12 +1422,4 @@ endif
 let g:terminal_scrollback_buffer_size = 100000
 " }}}
 " }}}
-
-" augroup NvimPythonDev
-"     autocmd!
-"     autocmd VimLeavePre * UpdateRemotePlugins
-"     autocmd BufEnter nvim.py syntax off
-"     autocmd BufEnter test.sh syntax off
-"     autocmd BufWritePost neosyntax.py call system("tmux send-keys -t '0:1.1' 'ZQ'")
-" augroup END
 " vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}}
