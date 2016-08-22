@@ -73,9 +73,8 @@ Plug 'kopischke/vim-stay'
 Plug 'lambdalisue/vim-gista'
 Plug 'lordm/vim-browser-reload-linux', {'on': ['ChromeReload', 'FirefoxReload', 'ChromeReloadStart', 'FirefoxReloadStart', 'ChromeReloadStop', 'FirefoxReloadStop']}
 Plug 'Valloric/ListToggle'
-" Plug 'mattn/webapi-vim' " required by vim-github-comment
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
-Plug 'mhinz/vim-signify',    {'on': ['SignifyToggle', 'SignifyToggleHighlight', '<Plug>(signify-next-hunk', '<Plug>(signify-prev-hunk)']}
+Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-brightest'
@@ -139,9 +138,9 @@ function! TweakColors()
   highlight Folded     ctermbg=16                               guibg=#000000
   highlight Function   ctermfg=43                guifg=#00D7AF
   highlight MatchParen ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
-  highlight Normal                                              guibg=#202020
+  highlight Normal     ctermfg=223               guifg=#FFD7AF  guibg=#202020
   highlight SpecialKey ctermfg=231  ctermbg=236  guifg=#FFFFFF  guibg=#303030
-  highlight String     ctermfg=46                guifg=#00FF00
+  highlight String     ctermfg=46                guifg=#33D933
 
   " copied from statline.vim
   highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
@@ -788,13 +787,13 @@ augroup END
 " signify {{{
 let g:signify_disable_by_default = 0            " disable run by default
 let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
-let g:signify_mapping_next_hunk  = '<leader>gj' " easier to use [c and ]c
-let g:signify_mapping_prev_hunk  = '<leader>gk'
 let g:signify_sign_change        = '~'
-nmap <leader>gh :SignifyToggleHighlight \| SignifyToggle \| SignifyToggle<CR>
-nmap <leader>gt :SignifyToggle<CR>
-nmap ]c         <Plug>(signify-next-hunk)
-nmap [c         <Plug>(signify-prev-hunk)
+let g:signify_sign_show_count = 1
+nnoremap <leader>gh :SignifyToggleHighlight<CR>
+nnoremap <leader>gt :SignifyToggle<CR>
+nnoremap <leader>gf :SignifyFold<CR>
+nmap ]c             <Plug>(signify-next-hunk)
+nmap [c             <Plug>(signify-prev-hunk)
 " }}}
 " sneak  {{{
 let g:sneak#use_ic_scs = 1
@@ -1249,26 +1248,26 @@ nnoremap <silent> <leader>gw  :Gwrite<CR>
 " space leader maps. fzf + vim-plug {{{
 " TODO go through various fzf.vim functions and figure out which ones to use, how to customize them
 let g:fzf_command_prefix = 'FZF' " easy autocompletion, and prevent overlap with ag.vim
-nnoremap <silent> <Space>a   :FZFAg<CR>
-nnoremap          <Space>A   :FZFAg<Space>
 nnoremap <silent> <Space>b   :FZFBuffers<CR>
 nnoremap          <Space>c   :FZFCommands<CR>
 nnoremap <silent> <Space>f   :FZFFiles<CR>
 nnoremap <silent> <Space>g   :FZFLines<CR>
 nnoremap <silent> <Space>G   :FZFBLines<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>
-" search and command history
 nnoremap <silent> <Space>H   :FZFHistory<CR>
 nnoremap          <Space>l   :FZFLocate<Space>
 nnoremap <silent> <Space>m   :FZFMarks<CR>
 nnoremap <silent> <Space>M   :FZFMaps<CR>
-nnoremap <silent> <Space>r   :FZFFiles<CR>
-nnoremap          <Space>S   :FZFSnippets<CR>
+nnoremap          <Space>s   :FZFSnippets<CR>
 nnoremap <silent> <Space>t   :FZFTags<CR>
 nnoremap <silent> <Space>T   :FZFBTags<CR>
 nnoremap <silent> <Space>v   :FZFCommits<CR>
 nnoremap <silent> <Space>V   :FZFBCommits<CR>
 nnoremap <silent> <Space>w   :FZFWindows<CR>
+nnoremap <silent> <Space>x   :FZFAg<CR>
+nnoremap          <Space>X   :FZFAg<Space>
+nnoremap <silent> <Space>:   :FZFHistory:<CR>
+nnoremap <silent> <Space>/   :FZFHistory/<CR>
 
 nnoremap <Space>pi       :PlugInstall<CR>
 nnoremap <Space>pu       :PlugUpdate<CR>
