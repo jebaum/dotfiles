@@ -98,8 +98,6 @@ nnoremap j <Down>
 " CSS file added using vimperator `:style`
 source ~/dotfiles/firefox/vimperator/globaldark.vimp
 
-hi Hint font-family: DejaVu Sans Mono; letter-spacing:2px; font-size: 12pt; color:#FFFFFF; font-weight:bold; border-color:#3333CC; border-width: 2px; border-style:solid; padding 0px 1px 0px 1px; background: linear-gradient(to bottom left, #000000, #303030); text-transform:uppercase; border-radius: 5px;
-
 hi Filter color: #FF5F00
 hi CompItem[selected] background: #331033; color: #FFFFFF;
 hi Normal color: #AFAFAF; background: #080808;

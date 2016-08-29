@@ -35,7 +35,8 @@ hi ErrorMsg color: #ffffff; background: red; font-weight: bold;
 
 
 "Hint section
-hi Hint font-family: DejaVu Sans Mono; letter-spacing:2px; font-size: 12pt; color:#FFFFFF; font-weight:bold; border-color:#3333CC; border-width: 2px; border-style:solid; padding 0px 1px 0px 1px; background: linear-gradient(to bottom left, #000000, #303030); text-transform:uppercase; border-radius: 5px;
+" hi Hint font-family: monospace; letter-spacing:1px; font-size: 11px; color:#000000; font-weight:bold; border-color:#E3BE23; border-width: 1px; border-style:solid; background: linear-gradient(to bottom left, #FFF785, #FFC542); text-transform:uppercase; border-radius: 5px; padding-left:1px;
+hi Hint font-family: monospace; letter-spacing:1px; font-size: 11px; color:#FFF755 !important; font-weight:bold; border-color:#E3BE23; border-width: 1px; border-style:solid; background: linear-gradient(to bottom left, #181818, #555555); text-transform:uppercase; border-radius: 5px; padding-left:1px; padding-right:1px; text-align:center;
 hi Hint::after content: attr(number);
 hi HintActive background: blue; color: #f6e9e9;
 hi HintElem clear
