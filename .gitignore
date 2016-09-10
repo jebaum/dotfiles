@@ -32,6 +32,9 @@ config/transmission-daemon/blocklists
 config/transmission-daemon/resume
 config/transmission-daemon/torrents
 
+config/qutebrowser/bookmarks
+config/qutebrowser/quickmarks
+
 firefox/vimperator/info
 
 vim/.netrwhist
