@@ -1,8 +1,29 @@
 #=Boring Details=======================================#
 
 set realname = "James Baumgarten"
-set folder=~/.mutt/mail
-source ~/.mutt/mailboxes
+set folder=~/.mail
+
+mailboxes "+------ ucla ------"
+mailboxes +ucla/all
+mailboxes +ucla/inbox
+mailboxes +ucla/sent
+mailboxes +ucla/drafts
+mailboxes +ucla/trash
+
+mailboxes "+----- jbaumy -----"
+mailboxes +jbaumy/all
+mailboxes +jbaumy/inbox
+mailboxes +jbaumy/sent
+mailboxes +jbaumy/drafts
+mailboxes +jbaumy/trash
+
+mailboxes "+---- neurionb ----"
+mailboxes +neurionb/all
+mailboxes +neurionb/inbox
+mailboxes +neurionb/sent
+mailboxes +neurionb/drafts
+mailboxes +neurionb/trash
+
 source ~/.mutt/colors/ivyleague.muttrc
 source ~/.mutt/gpg.rc
 set use_from = yes
@@ -29,7 +50,7 @@ set mask="!^\\.[^.]"
 set sort_browser=alpha        # Sort mailboxes by alpha(bet)
 set mark_old=no
 folder-hook * "exec collapse-all"
-source ~/.mutt/jebaumg.muttrc # Startup folder
+source ~/.mutt/jbaumy.muttrc # Startup folder
 #=Headers==============================================#
 
 ignore *
@@ -56,8 +77,8 @@ set confirmappend=no
 set fast_reply=yes                   # skip to compose when replying
 #=Aliases==============================================#
 
-set alias_file = ~/.mutt/aliases # In their own file
-source ~/.mutt/aliases           # Source them
+# set alias_file = ~/.mutt/aliases # In their own file
+# source ~/.mutt/aliases           # Source them
 set sort_alias=alias             # Sort alphabetically
 #=Odds and Ends========================================#
 
@@ -71,19 +92,23 @@ set mailcap_path  = ~/.mutt/mailcap
 auto_view text/html
 set thorough_search
 
-folder-hook ~/.mutt/mail/jebaumg/*  source ~/.mutt/jebaumg.muttrc
-folder-hook ~/.mutt/mail/jbaumy/*   source ~/.mutt/jbaumy.muttrc
-folder-hook ~/.mutt/mail/neurionb/* source ~/.mutt/neurionb.muttrc
+folder-hook ~/.mail/ucla/*  source ~/.mutt/ucla.muttrc
+folder-hook ~/.mail/jbaumy/*   source ~/.mutt/jbaumy.muttrc
+folder-hook ~/.mail/neurionb/* source ~/.mutt/neurionb.muttrc
 #=Status Bar===========================================#
 
 set status_chars  = " *%A"
 set status_format = "───[ Folder: %f ]───[%r%M messages%?V? (%V)? %L%?u? (%u new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 #=Sidebar==============================================#
 
-set sidebar_delim   = '│'
-set sidebar_visible = yes
-set sidebar_width   = 24
-# set sidebar_shortpath=yes # option now deprecated https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=741853
+set sidebar_visible       = yes
+set sidebar_width         = 22
+set sidebar_short_path    = yes
+set sidebar_delim_chars   = '/.'
+set sidebar_next_new_wrap = yes
+set sidebar_divider_char  = '│'
+set sidebar_format        = '%B%?N?(%N)?%* %?F?%F:?%S'
+set mail_check_stats
 #=Pager================================================#
 
 set pager_index_lines = 10 # number of index lines to show
@@ -97,9 +122,9 @@ set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/plain text/enriched text/html
 #=Macros===============================================#
 
-macro index,pager \e1 "<enter-command>source ~/.mutt/neurionb.muttrc<enter><change-folder>~/.mutt/mail/neurionb/all_mail<enter>"
-macro index,pager \e2 "<enter-command>source ~/.mutt/jebaumg.muttrc<enter><change-folder>~/.mutt/mail/jebaumg/all_mail<enter>"
-macro index,pager \e3 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter><change-folder>~/.mutt/mail/jbaumy/all_mail<enter>"
+macro index,pager \e1 "<enter-command>source ~/.mutt/ucla.muttrc<enter><change-folder>~/.mail/ucla/all<enter>"
+macro index,pager \e2 "<enter-command>source ~/.mutt/jbaumy.muttrc<enter><change-folder>~/.mail/jbaumy/all<enter>"
+macro index,pager \e3 "<enter-command>source ~/.mutt/neurionb.muttrc<enter><change-folder>~/.mail/neurionb/all<enter>"
 
 macro index a "<limit>all\n" "show all messages (undo limit)"
 # macro index,pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"

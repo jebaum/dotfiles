@@ -1,7 +1,7 @@
 set from = "james@jbaumy.com"
 
 # NOTE - do not end folder path with '/'
-set spoolfile = +jbaumy/INBOX    # controls what folder is in mutt on load
+set spoolfile = +jbaumy/inbox    # controls what folder is in mutt on load
 # set record = +jbaumy/sent
 unset record  # avoid duplicates
 set postponed = +jbaumy/drafts

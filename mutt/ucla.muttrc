@@ -1,10 +1,10 @@
 set from = "jebaum@ucla.edu"
 
 # NOTE - do not end folder path with '/'
-set spoolfile = +jebaumg/all_mail   # controls what folder is in mutt on load
+set spoolfile = +ucla/inbox   # controls what folder is in mutt on load
 # set record = +jebaumg/sent
 unset record  # avoid duplicates
-set postponed = +jebaumg/drafts
+set postponed = +ucla/drafts
 
 set sendmail = "/usr/bin/msmtp -a jebaumg"
 color status color51 default

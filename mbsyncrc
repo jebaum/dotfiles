@@ -1,0 +1,143 @@
+IMAPAccount jbaumy
+Host imap.gmail.com
+User james@jbaumy.com
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mutt/jbaumypw.gpg"
+SSLType IMAPS
+AuthMechs LOGIN
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore jbaumy-remote
+Account jbaumy
+
+MaildirStore jbaumy-local
+# The trailing "/" is important
+Path ~/.mail/jbaumy/
+Inbox ~/.mail/jbaumy/inbox
+
+Channel jbaumy-default
+Master :jbaumy-remote:
+Slave :jbaumy-local:
+Patterns INBOX
+
+Channel jbaumy-sent
+Master :jbaumy-remote:"[Gmail]/Sent Mail"
+slave  :jbaumy-local:sent
+
+Channel jbaumy-trash
+Master :jbaumy-remote:"[Gmail]/Trash"
+slave  :jbaumy-local:trash
+
+Channel jbaumy-archive
+Master :jbaumy-remote:"[Gmail]/All Mail"
+slave  :jbaumy-local:all
+
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Automatically delete messages on either side if they are found deleted on the other.
+Expunge Both
+# Save the synchronization state files in the relevant directory
+SyncState *
+
+Group jbaumy
+Channel jbaumy-default
+Channel jbaumy-trash
+Channel jbaumy-archive
+Channel jbaumy-sent
+
+
+
+# https://myaccount.google.com/security?pli=1#signin  had to turn "Allow less secure apps: ON". investigate?
+IMAPAccount ucla
+Host imap.gmail.com
+User jebaum@g.ucla.edu
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mutt/uclapw.gpg"
+SSLType IMAPS
+AuthMechs LOGIN
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore ucla-remote
+Account ucla
+
+MaildirStore ucla-local
+# The trailing "/" is important
+Path ~/.mail/ucla/
+Inbox ~/.mail/ucla/inbox
+
+Channel ucla-default
+Master :ucla-remote:
+Slave :ucla-local:
+Patterns INBOX
+
+Channel ucla-sent
+Master :ucla-remote:"[Gmail]/Sent Mail"
+slave  :ucla-local:sent
+
+Channel ucla-trash
+Master :ucla-remote:"[Gmail]/Trash"
+slave  :ucla-local:trash
+
+Channel ucla-archive
+Master :ucla-remote:"[Gmail]/All Mail"
+slave  :ucla-local:all
+
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Automatically delete messages on either side if they are found deleted on the other.
+Expunge Both
+# Save the synchronization state files in the relevant directory
+SyncState *
+
+Group ucla
+Channel ucla-default
+Channel ucla-trash
+Channel ucla-archive
+Channel ucla-sent
+
+
+
+
+IMAPAccount neurionb
+Host imap.gmail.com
+User neurionb@gmail.com
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mutt/neurionbpw.gpg"
+SSLType IMAPS
+AuthMechs LOGIN
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore neurionb-remote
+Account neurionb
+
+MaildirStore neurionb-local
+# The trailing "/" is important
+Path ~/.mail/neurionb/
+Inbox ~/.mail/neurionb/inbox
+
+Channel neurionb-default
+Master :neurionb-remote:
+Slave :neurionb-local:
+Patterns INBOX
+
+Channel neurionb-sent
+Master :neurionb-remote:"[Gmail]/Sent Mail"
+slave  :neurionb-local:sent
+
+Channel neurionb-trash
+Master :neurionb-remote:"[Gmail]/Trash"
+slave  :neurionb-local:trash
+
+Channel neurionb-archive
+Master :neurionb-remote:"[Gmail]/All Mail"
+slave  :neurionb-local:all
+
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Automatically delete messages on either side if they are found deleted on the other.
+Expunge Both
+# Save the synchronization state files in the relevant directory
+SyncState *
+
+Group neurionb
+Channel neurionb-default
+Channel neurionb-trash
+Channel neurionb-archive
+Channel neurionb-sent
