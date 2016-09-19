@@ -81,6 +81,7 @@
   pager = less
   excludesfile = "~/.gitignore"
   whitespace = trailing-space,space-before-tab
+  untrackedCache = true
 [merge]
   tool = vimdiff
 [init]
