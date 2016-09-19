@@ -7,7 +7,6 @@ setopt CLOBBER
 export EDITOR=nvim
 export VISUAL="nvim -u NONE" # TODO mini nvimrc here just to set up a few convenience maps, maybe targets.vim
 export LESS='-g -i -M -R -S -w -z-4'
-export PATH=/apollo/env/SDETools/bin:$HOME/dev/idea-IC-141.1532.4/bin:/usr/NX/bin:$HOME/dev:$HOME/dev/dmenu2:$HOME/dev/neovim/build/bin:$HOME/dev/ranger:$HOME/.local/bin:$HOME/dev/calcurse/src:$HOME/dev/local/bin:$HOME/dev/ag:$PATH:$HOME/dotfiles/vim/bundle/fzf/bin
 
 stty -ixon  # stop C-s from activating scroll lock
 ulimit -c unlimited
