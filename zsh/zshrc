@@ -98,3 +98,7 @@ if [ -n "$STARTUPDIR" ] && [ -d "$STARTUPDIR" ]; then
     cd $STARTUPDIR
     unset STARTUPDIR
 fi
+
+if [[ -e ~/dotfiles/zsh/zshrc.local ]]; then
+    source ~/dotfiles/zsh/zshrc.local
+fi
