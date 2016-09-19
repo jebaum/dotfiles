@@ -1,13 +1,8 @@
 " Initial setup {{{
 colorscheme default
 runtime macros/matchit.vim
-set guifont=DejaVuSansMono\ 11
 let mapleader = ','
-augroup VIMRCMAP
-  autocmd!
-  autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
-augroup END
-augroup EXPERIMENTAL
+augroup LineNumberAutoToggle
   autocmd InsertEnter * set norelativenumber
   autocmd InsertLeave * set relativenumber
 augroup END
@@ -38,12 +33,13 @@ endif
 
 " settings for completion plugins defined in `after/plugin` directory
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'carlitux/deoplete-ternjs'
   set shortmess+=c " helps with completion flicker
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'benekastah/neomake'
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
+  Plug 'scrooloose/syntastic'
 endif
 Plug 'bruno-/vim-husk'
 Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
@@ -60,8 +56,6 @@ Plug 'jamessan/vim-gnupg'
 Plug 'jreybert/vimagit',     {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim',    {'on': ['Goyo']}
-Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-pseudocl'
@@ -70,8 +64,6 @@ Plug 'justinmk/vim-dirvish', {'on': ['Dirvish']}
 Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
-Plug 'lambdalisue/vim-gista'
-Plug 'lordm/vim-browser-reload-linux', {'on': ['ChromeReload', 'FirefoxReload', 'ChromeReloadStart', 'FirefoxReloadStart', 'ChromeReloadStop', 'FirefoxReloadStop']}
 Plug 'Valloric/ListToggle'
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
@@ -80,14 +72,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-brightest'
 Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
 Plug 'scrooloose/nerdcommenter'
-if has('nvim')
-    Plug 'benekastah/neomake'
-else
-    Plug 'scrooloose/syntastic'
-endif
-Plug 'Shougo/unite.vim'      " required for vimfiler
 Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
-Plug 'Shougo/vimfiler.vim'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
@@ -109,12 +94,8 @@ Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim'
 Plug 'wellle/tmux-complete.vim'
 Plug 'Yggdroot/indentLine', {'on': ['IndentLinesEnable', 'IndentLinesDisable', 'IndentLinesReset', 'IndentLinesToggle']}
-Plug 'artur-shaik/vim-javacomplete2', {'for': ['java']}
-" Plug 'gcavallanti/vim-noscrollbar'
-" set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %{noscrollbar#statusline(50,'■','◫',['◧'],['◨'])}
 
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-Plug 'ternjs/tern_for_vim',     {'for': ['javascript'], 'do': 'npm install' }
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 call plug#end()
 
@@ -231,11 +212,11 @@ augroup END
 " FileType autocmds {{{
 augroup FileTypeSettings
   autocmd!
+  autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
   autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
-  autocmd FileType vimfiler setlocal relativenumber
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
   autocmd BufRead,BufNewFile *.md set filetype=pandoc
@@ -605,9 +586,6 @@ autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from maki
 " fzf {{{
 let g:fzf_launcher='urxvt -e sh -c %s' " TODO change to st
 " }}}
-" gista {{{
-let g:gista#post_private = 1
-" }}}
 " grepper {{{
 let g:grepper = {}
 let g:grepper.tools  = ['ag', 'git', 'grep']
@@ -615,36 +593,8 @@ let g:grepper.open   = 1
 let g:grepper.jump   = 0
 let g:grepper.switch = 0
 " }}}
-" goyo {{{
-let g:goyo_width  = '100%'
-let g:goyo_height = '100%'
-augroup Goyo
-    autocmd!
-    autocmd! User GoyoEnter nested call <SID>goyo_enter()
-    autocmd! User GoyoLeave nested call <SID>goyo_leave()
-augroup END
-function! s:goyo_enter()
-  " silent !tmux set status off
-  set noshowmode
-  set noshowcmd
-  set scrolloff=999
-  Limelight
-endfunction
-
-function! s:goyo_leave()
-  " silent !tmux set status on
-  set showmode
-  set showcmd
-  set scrolloff=1
-  call TweakColors()
-  Limelight!
-endfunction
-" }}}
 " indentline {{{
 let g:indentLine_char='│'
-" }}}
-" limelight {{{
-let g:limelight_conceal_ctermfg = 240
 " }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
@@ -883,14 +833,6 @@ let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
 " let g:taboo_tab_format = "%N %1a%m "
 let g:taboo_tab_format = "%N %f%m "
 " }}}
-" tern {{{
-if exists('g:plugs["tern_for_vim"]')
-  let g:tern_show_argument_hints   = 'on_hold'
-  let g:tern_show_signature_in_pum = 1
-  let g:tern_request_timeout       = 1
-  let g:tern#command               = ['tern']
-endif
-" }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
 let g:tmuxify_map_prefix = ''
@@ -1007,7 +949,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
-" hitting enter when completion menu is visible selects item, not used right now due to neocomplete
+" hitting enter when completion menu is visible selects item
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
 " Fold {{{
@@ -1274,8 +1216,6 @@ nnoremap <Space>pu       :PlugUpdate<CR>
 nnoremap <Space>pU       :PlugUpgrade<CR>
 " }}}
 " ctrl normal mode {{{
-nnoremap <C-w><C-b>         :VimFilerExplorer -find<CR>:redraw!<CR>
-nnoremap <C-b>              :VimFiler -find<CR>:redraw!<CR>
 nnoremap <C-n>              gt
 nnoremap <C-p>              gT
 nnoremap <C-w>o             <C-w>o:redraw!<CR>
