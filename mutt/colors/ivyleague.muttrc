@@ -25,7 +25,8 @@ color index color51  default "~v~(~O)"        # collapsed thread with Old
 
 # header stuff
 color  hdrdefault  color193   color16
-color  header      color142   color16   "^Subject"
+color  header      color226   color16   "^Subject"
+color  header      color226   color16   "^Date"
 
 # gpg stuff
 color  body  color34    color233 "^gpg: Good signature.*"
