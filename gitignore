@@ -5,3 +5,6 @@ tags-ja
 *.zip
 Session.vim
 .vimrc
+build
+*.iml
+*.idea/*
