@@ -4,6 +4,6 @@
 input = file=/home/everyone/mpvfifo
 
 [default]
-input = file=/home/james/.mpv/mpvfifo
+input = file=~/.mpv/mpvfifo
 audio-display=no
 softvol=yes
