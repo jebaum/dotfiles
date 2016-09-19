@@ -56,7 +56,7 @@
 
 [user]
   name = James Baumgarten
-  email = jebaum@ucla.edu
+  email = jbbaumga@amazon.com
 [color]
     ui = auto
 [color "branch"]
@@ -98,3 +98,6 @@
   default = simple
 [pull]
   rebase = true
+[amazon]
+  append-cr-url = true
+  pull-request-by-default = true

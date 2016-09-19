@@ -1,7 +1,13 @@
+if [ "$ZSH_VERSION" = "4.3.10" ]; then
+    exec /usr/local/bin/zsh
+fi
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
 
 setopt CLOBBER
 export COLORTERM=truecolor

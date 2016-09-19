@@ -3,25 +3,26 @@ set $mpdhost localhost
 set $mpvfifo ~/.config/mpv/mpvfifo
 set $mod Mod4
 set $alt Mod1
-set $barfont font pango:Times New Roman 12
+set $barfont font pango:DejaVu Sans Mono
 floating_modifier $mod
 set $barmodifier modifier Mod3
 
 ### MONITOR SETTINGS
-set $wide DP-0
+set $laptop eDP-1-1
+set $wide HDMI-0
 set $narrowleft DP-2
-set $narrowright DP-4.8
+set $narrowright DP-6
 ### END MONITOR SETTINGS
 
 ### WORKSPACE NAMES
 set $workspace01 1: main
 set $workspace02 2: web
 set $workspace03 3: vps
-set $workspace04 4: music
+set $workspace04 4: ec2
 set $workspace05 5: mail
 set $workspace06 6: files
-set $workspace07 7: code
-set $workspace08 8: code
+set $workspace07 7: comms
+set $workspace08 8: ec2
 set $workspace09 9: code
 set $workspace10 10: code
 ### END WORKSPACE NAMES
@@ -30,13 +31,12 @@ smart_gaps on
 smart_borders on
 gaps outer 0
 gaps inner 5
-
 # WINDOW STYLE: <normal | 1pixel | none | pixel X>
 new_window pixel 1
 new_float pixel 1
   # <none | vertical | horizontal | both>
 hide_edge_borders smart
-font pango:DejaVu Sans Mono 10
+font pango:Times New Roman 12
 
 # MISC SETTINGS
 focus_follows_mouse no
@@ -52,15 +52,15 @@ popup_during_fullscreen smart
 # }}}
 # COLORS {{{
 # window class             tbar bor      tbar bg        tbar text       indicator
-client.focused             #224488       #224488         #FFFFFF         #2e9ef4
-client.focused_inactive    #114411       #114411         #FFFFFF         #484e50
-client.unfocused           #606060       #404040         #DDDDDD         #292d2e
+client.focused             #000000       #FDB927         #000000         #B0B033
+client.focused_inactive    #4A206A       #220030         #FFFFFF         #505005
+client.unfocused           #606060       #404040         #DDDDDD         #502050
 client.urgent              #2f343a       #900000         #FFFFFF         #900000
 client.background          #000000
 
 #                              class         border     bg      text
-set $focused_workspace   focused_workspace  #224488  #224488  #FFFFFF
-set $active_workspace    active_workspace   #114411  #114411  #FFFFFF
+set $focused_workspace   focused_workspace  #4A154A  #542583  #FFFFFF
+set $active_workspace    active_workspace   #7A154A  #2A0A30  #FFFFFF
 set $inactive_workspace  inactive_workspace #404040  #404040  #AAAAAA
 set $urgent_workspace    urgent_workspace   #A04040  #A04040  #FFFFFF
 set $background          background         #000000
@@ -71,15 +71,10 @@ set $statusline          statusline         #CCCCCC
 exec --no-startup-id dunst
 exec --no-startup-id unclutter
 exec --no-startup-id hsetroot -solid "#181818"
-exec --no-startup-id pasystray
+#exec --no-startup-id pasystray # TODO this is starting twice on the adder in i3+gnome, so something else must be starting it too
 exec --no-startup-id nm-applet
-exec --no-startup-id clipit
-
-exec --no-startup-id xset m 0 0
-exec --no-startup-id dropbox-cli start
-exec --no-startup-id amixer set PCM 208
-exec --no-startup-id amixer set Master 25
-exec --no-startup-id ~/dotfiles/scripts/startup.sh
+# TODO explore replacing with clipster, easier rofi integration is nice
+exec --no-startup-id diodon
 # }}}
 # KEYBINDS {{{
   ### conky and config controls
@@ -141,7 +136,7 @@ bindsym $mod+Control+q      exec killall mpv
   ### program/script hotkeys
 bindsym $mod+Return             exec STARTUPDIR="`~/dotfiles/i3/xcwd/xcwd`" st
 bindsym $mod+Shift+Return       exec st
-bindsym $mod+Escape             exec i3lock -c '#181818'
+bindsym $mod+Escape             exec ~/dotfiles/i3/i3lock-multimonitor -i ~/dotfiles/i3/lakers.png
 # bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
 bindsym $mod+p                  exec rofi -show run
 bindsym $mod+q                  exec rofi -show window
@@ -149,11 +144,26 @@ bindsym XF86TouchpadToggle      exec ~/dotfiles/scripts/touchpadtoggle.sh
 bindsym $mod+BackSpace          exec ~/dotfiles/scripts/vimtmp.sh
 bindsym $mod+Shift+BackSpace    exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+Shift+F            exec ~/dotfiles/i3/i3-bar-toggle.py
-bindsym --release Print		exec scrot --select --line style=dash --line width=2 --freeze --quality 100 '%Y-%m-%d_%H:%M:%S.png' -e 'mv $f ~/'
-bindsym --release Control+Print exec scrot --focused --quality 100 '%Y-%m-%d_%H:%M:%S.png' -e 'mv $f ~/'
-
+bindsym --release Print		exec scrot --select --line style=dash --line width=2 --freeze --quality 100 '%Y-%m-%d_%H:%M:%S.png' -e 'mv $f ~/media/pictures/screenshots/'
+bindsym --release Control+Print exec scrot --focused --quality 100 '%Y-%m-%d_%H:%M:%S.png' -e 'mv $f ~/media/pictures/screenshots/'
 bindsym $mod+Control+y          exec notify-send "preparing to play youtube video..." && mpv $(xclip -o)
 bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
+
+  ### amazon specific binds
+bindsym $mod+c  	        exec /usr/local/bin/clipit_history.py
+bindsym $mod+Shift+M            exec ~/dotfiles/scripts/monitors.sh
+bindsym $mod+Control+$alt+j     exec --no-startup-id ~/notes/workjournal/open_last.sh
+#bindsym --release $mod+backslash          exec ~/.type.sh user
+#bindsym --release $mod+Control+backslash  exec ~/.type.sh pass
+#bindsym --release $mod+$alt+backslash     exec ~/.type.sh userpass
+
+# TODO add commands for sharing pastes / images with amazon drive or paste.amazon.com. maybe use $mod+insert for paste, consistent with shift+insert
+bindsym $mod+Print		exec ~/dotfiles/scripts/amazon-paste-wrapper.sh
+bindsym XF86ScreenSaver		exec ~/dotfiles/scripts/monitors.sh laptop
+
+# these rely on 'light' being setup with udev rules, and user being in 'video' group. otherwise the command requires root
+bindsym XF86MonBrightnessDown	exec light -U 5
+bindsym XF86MonBrightnessUp	exec light -A 5
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
 # for_window <criteria> command; command
@@ -185,6 +195,12 @@ for_window [instance="vdpau" class="mpv"] border 1pixel
 
 for_window [instance="rangermpvaudio"] move scratchpad
 for_window [instance="rangermpvaudio"] border normal 1pixel
+
+assign     [instance="amazonchime" class="AmazonChime"] → $workspace07
+assign	   [instance="jetbrains-idea-ce" class="jetbrains-idea-ce"] → $workspace01
+for_window [instance="app.chime.aws" class="Google-chrome"] border 1pixel
+assign     [instance="app.chime.aws" class="Google-chrome"] → $workspace07
+
 # }}}
 # WINDOW MANAGEMENT KEYBINDS {{{
   ### hjkl for moving focus
@@ -238,9 +254,9 @@ workspace "$workspace01"  output $wide
 workspace "$workspace02"  output $wide
 workspace "$workspace03"  output $narrowright
 workspace "$workspace04"  output $narrowleft
-workspace "$workspace05"  output $narrowleft
+workspace "$workspace05"  output $wide
 workspace "$workspace06"  output $narrowleft
-workspace "$workspace07"  output $narrowleft
+workspace "$workspace07"  output $narrowright
 workspace "$workspace08"  output $narrowleft
 workspace "$workspace09"  output $wide
 workspace "$workspace10"  output $narrowright
@@ -325,11 +341,13 @@ bar {
   position top
   workspace_buttons yes
   $barfont
-  status_command bumblebee-status \
-        -m title cpu memory mpd pasink pasource pomodoro datetime dunst \
+  # TODO: pihole, formatting
+  # https://bumblebee-status.readthedocs.io/en/master/modules.html
+  status_command python3 ~/dev/bumblebee-status/bumblebee-status \
+        -m title cpu memory mpd pasink pasource pomodoro brightness battery datetime dunst \
         -p memory.format='{used}/{total} ({percent:.1f}%)' \
-           mpd.format='{title} - {artist} {position}/{duration}' \
-           title.max=120 \
+           battery.interval=1m \
+           title.max=80 \
            pomodoro.work=55 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
         -t iceberg-dark-powerline
   tray_output primary
@@ -351,7 +369,7 @@ bar {
   position top
   workspace_buttons yes
   $barfont
-  status_command bumblebee-status \
+  status_command python3 ~/dev/bumblebee-status/bumblebee-status \
         -m title weather datetime \
         -p title.max=30 weather.location=Seattle weather.unit=imperial weather.showminmax=true \
         -t iceberg-dark-powerline
@@ -374,8 +392,8 @@ bar {
   position top
   workspace_buttons yes
   $barfont
-  status_command bumblebee-status \
-        -m arch-update title weather datetime \
+  status_command python3 ~/dev/bumblebee-status/bumblebee-status \
+        -m title weather datetime \
         -p title.max=30 weather.location=Seattle weather.unit=imperial weather.showminmax=true \
         -t iceberg-dark-powerline
   tray_output primary
@@ -388,5 +406,35 @@ bar {
     $urgent_workspace
   }
 }
+# }}}
+# BAR LAPTOP {{{
+bar {
+  output $laptop
+  mode dock
+  $barmodifier
+  position top
+  workspace_buttons yes
+  $barfont
+  status_command python3 ~/dev/bumblebee-status/bumblebee-status \
+        -m title cpu memory mpd pasink pasource brightness battery datetime dunst \
+        -a cpu memory \
+        -p memory.format='{used}/{total} ({percent:.1f}%)' memory.warning=50 \
+           mpd.format='{title} - {artist} {position}/{duration}' \
+           cpu.warning=50 \
+           battery.interval=1m \
+           title.max=45 \
+           pomodoro.work=55 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
+        -t iceberg-dark-powerline
+  tray_output $laptop
+  colors {
+    $background
+    $statusline
+    $focused_workspace
+    $active_workspace
+    $inactive_workspace
+    $urgent_workspace
+  }
+}
+# }}}
 # }}}
 # vim:filetype=i3 foldmethod=marker foldlevel=0

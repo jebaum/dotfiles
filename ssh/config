@@ -12,3 +12,8 @@ Host phone
     HostName 192.168.0.102
     User root
     Compression no
+
+Host ec2
+    Hostname jbbaumga.corp.amazon.com
+    Port 22
+    User jbbaumga

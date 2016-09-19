@@ -1,0 +1,277 @@
+export BROWSER=firefox
+export HOST=adder
+export HISTORY_SUBSTRING_SEARCH_FUZZY=1 # enable fuzzy. latest version in zsh-users/zsh-history-substring-search has this, prezto hasn't updated
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+export COLORTERM=truecolor # tells delta to use 24 bit color
+export BRAZIL_WORKSPACE_DEFAULT_LAYOUT=short # no idea what this does
+
+if [[ -s "/usr/bin/bat" ]]; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+path=( $path $HOME/.toolbox/bin /apollo/env/SDETools/bin /opt/cisco/anyconnect/bin )
+
+alias bb='brazil-build'
+alias bba='brazil-build apollo-pkg'
+alias bbc='brazil-build clean'
+alias bbs='brazil-build server'
+alias bbr='brazil-build release'
+alias bre='brazil-runtime-exec'
+alias brc='brazil-recursive-cmd'
+alias bws='brazil ws'
+alias bwsuse='bws use -p'
+alias bwscreate='bws create -n'
+alias bbr='brc brazil-build'
+alias bball='brc --allPackages'
+alias bbb='brc --allPackages brazil-build'
+alias bbra='bbr apollo-pkg'
+
+alias upgrade='sudo apt update && sudo apt upgrade && sudo apt autoclean && sudo apt autoremove'
+
+alias cpu-throttling-temp-check='sudo rdmsr -f 29:24 -d 0x1a2'
+alias drive="mount ${HOME}/.drive"
+alias tmux='tmux-next'
+
+# https://w.amazon.com/bin/view/Cmccomb/UbuntuLaptop/NinjaDevSync/
+alias nds-log='journalctl --follow --pager-end --user-unit=ninja-dev-sync'
+alias nds-restart='systemctl --user restart ninja-dev-sync.service'
+alias nds-start='systemctl --user start ninja-dev-sync.service'
+alias nds-status='systemctl --user status ninja-dev-sync.service'
+alias nds-stop='systemctl --user stop ninja-dev-sync.service'
+
+function fisharchive {
+  export PGPASSWORD=$(ssh ec2 '/apollo/env/envImprovement/bin/odin-get com.amazon.fba-dev-inbound-shipm.FishArchiveEdx.redshift-master' | tail -1)
+  echo "to list tables:\nselect distinct(tablename) from pg_table_def where schemaname = 'public';\nto describe a table:\n\d+ shipments_prod_usamazon"
+  psql -h fishdatarsedx.aka.amazon.com -U fish_master -d fishdatarsedx -p 8192
+}
+
+
+function getdate() {
+    if [ ${#1} -eq 13 ]; then
+      TIME=$(($1 / 1000))
+    elif [ ${#1} -eq 10 ]; then
+      TIME=$1
+    else
+      echo "badly formatted date, should have 10 or 13 characters. instead had ${#1}"
+      return 1
+    fi
+    date --utc -d @$TIME
+    date -d @$TIME
+}
+
+function getdriveURL {
+  baseURL="https://drive.corp.amazon.com/view/jbbaumga@/"
+  filename=$(realpath --relative-to "${HOME}/.drive" -- "$1")
+  echo -n "${baseURL}${filename}" | xclip
+  echo "copied to clipboard:  $(xclip -o)"
+  notify-send "copied to clipboard:\n$(xclip -o)"
+}
+
+function share {
+  # require a filename
+  if [ "$#" != "1" ]; then
+    echo "need an argument"
+    return 1
+  fi
+
+  # mount drive if needed
+  if ! mount -l | grep -q "drive.corp.amazon.com"; then
+    echo "need to mount..."
+    if mount "${HOME}/.drive"; then
+      echo "mounted!"
+    else
+      echo "had a problem mounting"
+      return 1
+    fi
+  fi
+  # if we're here, drive is mounted
+
+  # set extension for files containing text so they load in browser
+  if file --brief -- "${1}" | grep -q text; then
+    filename="$(basename --suffix=.txt -- "${1}").txt"
+  else
+    filename="$(basename "${1}")"
+  fi
+
+  newfile="${HOME}/.drive/${filename}"
+  cp --interactive --verbose "$1" "$newfile"
+  getdriveURL "$newfile"
+}
+
+
+# Restart the edge cache in case I went from the office -> VPN and vice versa
+function brazil-find-best-edge-cache {
+  brazil-package-cache stop
+  brazil-package-cache disable_edge_cache
+  #brazil-package-cache enable_edge_cache
+  brazil-package-cache start
+}
+
+function random-team-member {
+  (ldapsearch -x -h ldap.amazon.com -p389 -b "o=amazon.com" -s sub "uid=ranganaj" | grep "amznmanageremployees:" | grep -v $USER | sed 's/^.*(//; s/).*//'; echo lordjere) | shuf -n 1
+}
+alias cr-random='cr --reviewers user:$(random-team-member):optional,team:fba-dev-inbound-shipm --publish'
+
+alias register_with_aaa='/apollo/env/AAAWorkspaceSupport/bin/register_with_aaa.py'
+
+### BARK ###
+alias setup-bark-config="touch $HOME/.bark/config && bark -SetConfig -ConfigFile=$HOME/.bark/config -ms=com.amazon.FulfillmentByAmazon.LogPulling -os=1 -o=fba-alchemy@amazon.com"
+
+function bark-search-groups {
+  _bark-pick-endpoint $1
+  shift
+  /apollo/env/BarkCLI/bin/bark -ConfigFile=$HOME/.bark/config -ep $endpoint -lg -g ${1}%
+}
+
+function _bark-pick-endpoint {
+  if [ $# -ne 1 ]; then
+    echo "requires 1 argument: na, eu, fe/jp, or devo"
+    return 1
+  fi
+  if [ "$1" = "na" ]; then
+    endpoint="https://timber-corp-iad.iad.proxy.amazon.com"
+    groupsfile="$HOME/.bark/na"
+  elif [ "$1" = "eu" ]; then
+    endpoint="https://timber-corp-dub.dub.proxy.amazon.com"
+    groupsfile="$HOME/.bark/eu"
+  elif [ "$1" = "fe" ] || [ "$1" = "jp" ]; then
+    endpoint="https://timber-corp-pdx.pdx.proxy.amazon.com"
+    groupsfile="$HOME/.bark/fe"
+  elif [ "$1" = "devo" ]; then
+    endpoint="https://timber-corp-pdx.pdx.proxy.amazon.com"
+    groupsfile="$HOME/.bark/devo"
+  else
+    echo "argument must be one of: na, eu, fe|jp, or devo"
+    return 1
+  fi
+}
+
+function bark-wrapper {
+  _bark-pick-endpoint $1
+  if group=$(cat $groupsfile | fzf --reverse --height 50%); then # Control-c in fzf quits whole script
+    echo $group
+  else
+    return 1
+  fi
+  echo -n "Start Time in UTC [i.e. 2017-12-25T11]: "
+  read starttime
+  echo -n "End Time in UTC   [i.e. 2017-12-25T13]: "
+  read endtime
+  echo -n "(optional) Filter command [i.e. qlgrep Fault=1]: "
+  read filtercommand
+  servicename=$(echo $group | awk -F'/' '{print $1}')
+  logtype=$(echo $group | awk -F'/' '{print $NF}')
+  filename="${servicename}-${logtype}_${starttime}-${endtime}.barklog"
+  echo "saving to ${filename}..."
+
+  if [ "$filtercommand" != "" ]; then
+    /apollo/env/BarkCLI/bin/bark -ConfigFile=${HOME}/.bark/config -ep ${endpoint} -fl -g=${group} -s=${starttime} -e=${endtime} -fc="${filtercommand}" -dc > "${filename}"
+    print -S "/apollo/env/BarkCLI/bin/bark -ConfigFile=${HOME}/.bark/config -ep ${endpoint} -fl -g=${group} -s=${starttime} -e=${endtime} -fc=\"${filtercommand}\" -dc > \"${filename}\""
+  else
+    /apollo/env/BarkCLI/bin/bark -ConfigFile=${HOME}/.bark/config -ep ${endpoint} -fl -g=${group} -s=${starttime} -e=${endtime} -dc > "${filename}"
+    print -S "/apollo/env/BarkCLI/bin/bark -ConfigFile=${HOME}/.bark/config -ep ${endpoint} -fl -g=${group} -s=${starttime} -e=${endtime} -dc > \"${filename}\""
+  fi
+
+  filesize=$(du -m "${filename}" | cut -f1)
+  echo "retrieved ${filesize}mb from bark"
+}
+
+alias bark-na="bark-wrapper na"
+alias bark-eu="bark-wrapper eu"
+alias bark-fe="bark-wrapper fe"
+alias bark-jp=bark-fe
+alias bark-devo="bark-wrapper devo"
+
+### TIMBER ###
+function timber-wrapper {
+  if [ $# -ne 1 ]; then
+    echo "requires 1 argument: na, eu, fe/jp, or devo"
+    return 1
+  fi
+  if [ "$1" = "na" ]; then
+    local apolloenv="TimberFS/IAD/FBA"
+    local groupsfile="$HOME/.bark/na"
+  elif [ "$1" = "eu" ]; then
+    local apolloenv="TimberFS/DUB/FBA"
+    local groupsfile="$HOME/.bark/eu"
+  elif [ "$1" = "fe" ] || [ "$1" = "jp" ]; then
+    local apolloenv="TimberFS/PDX/FBA"
+    local groupsfile="$HOME/.bark/fe"
+  elif [ "$1" = "devo" ]; then
+    local apolloenv="TimberFS/PDX/FBA"
+    local groupsfile="$HOME/.bark/devo"
+  else
+    echo "argument must be one of: na, eu, fe|jp, or devo"
+    return 1
+  fi
+  if group=$(cat $groupsfile | fzf --reverse --height 50%); then # Control-c in fzf quits whole script
+    echo $group
+    # default "timberpath" taken from logging into a timber host without passing my own $PATH
+    local timberpath="/usr/local/bin:/bin:/usr/bin:/home/jbbaumga/bin:/usr/local/sbin:/usr/sbin:/sbin"
+    /apollo/env/envImprovement/bin/sshenv -e $apolloenv -s Prod -t "export PATH=$timberpath:/apollo/env/envImprovement/bin && cd /timber/fba-alchemy@amazon.com/$group; zsh"
+  else
+    return 1
+  fi
+
+}
+alias timber-na="timber-wrapper na"
+alias timber-eu="timber-wrapper eu"
+alias timber-fe="timber-wrapper fe"
+alias timber-devo="timber-wrapper devo"
+
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+        start_agent;
+    }
+else
+    start_agent;
+fi
+
+alias yubi='mwinit && ssh-add'
+function yubi-check {
+  if [ $(($(date +%s) - $(date +%s -r $HOME/.midway/cookie))) -ge 43200 ]; then
+    echo "yubikey has not been initialized in over 12 hours - do it now 😠 "
+    yubi
+  else
+    # echo "yubikey is good to go"
+    # stat $HOME/.midway/cookie
+  fi
+}
+
+# TODO pgrep openconnect?
+if route -n | grep -i vpn >/dev/null; then
+  yubi-check
+  if ! klist -s; then
+    echo "No kerberos ticket found. Generating new one"
+    kinit ${USER}@ANT.AMAZON.COM -f -k -t $HOME/.${USER}.keytab
+    # when password changes:
+    # echo "addent -password -p ${USER}@ANT.AMAZON.COM -k 2 -e arcfour-hmac\nPASSWORDHERE\nwkt $HOME/.${USER}.keytab" | ktutil
+  fi
+fi
+
+alias amzninit="yubi;kinit ${USER}@ANT.AMAZON.COM -f -k -t $HOME/.${USER}.keytab"
+
+if [ "$PWD" = "/usr/local/amazon/bin" ]; then cd $HOME; fi # fix opening terminals from firefox
+
+
+# List packages by size
+function apt-list-packages {
+  dpkg-query -W --showformat='${Installed-Size} ${Package} ${Status}\n' | \
+  grep -v deinstall | \
+  sort -n | \
+  awk '{print $1" "$2}'
+}
+
