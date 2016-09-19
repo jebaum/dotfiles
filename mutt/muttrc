@@ -54,7 +54,7 @@ source ~/.mutt/jbaumy.muttrc # Startup folder
 #=Headers==============================================#
 
 ignore *
-unignore Date: From: User-Agent: \
+unignore Date: From: To: User-Agent: \
          Cc: Reply-To: Subject: Mail-Followup-To:
 hdr_order Date From Subject To CC
 set sort=threads
@@ -106,7 +106,8 @@ set sidebar_width         = 22
 set sidebar_short_path    = yes
 set sidebar_delim_chars   = '/.'
 set sidebar_next_new_wrap = yes
-set sidebar_divider_char  = '│'
+set sidebar_divider_char  = '│ '
+set sidebar_format        = '%B%?F? [%F]?%* %?N?%N/?%S'
 set sidebar_format        = '%B%?N?(%N)?%* %?F?%F:?%S'
 set mail_check_stats
 #=Pager================================================#
@@ -199,8 +200,13 @@ bind index \ef     forget-passphrase
 bind index <space> collapse-thread
 bind index -       collapse-all
 
+# http://blog.jwcxz.com/?p=810
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-macro index <esc>r "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
+macro index \Cr '<tag-pattern>~N|~O<enter> <tag-prefix-cond> <tag-prefix><clear-flag>N <tag-prefix><clear-flag>O <untag-pattern>~T<enter>' "mark all messages read"
+macro index \Cr "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
+
+# macro   index   M "<tag-pattern>~N\r<tag-prefix><clear-flag>N<untag-pattern>.*\r" "Mark all messages in this mailbox as read"
+# macro index <esc>r "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 macro index \Ca "<sidebar-next-new><sidebar-open>"
