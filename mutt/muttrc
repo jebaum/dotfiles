@@ -207,3 +207,6 @@ macro index \Ca "<sidebar-next-new><sidebar-open>"
 macro pager \Ca "<exit><sidebar-next-new><sidebar-open>"
 macro index \Cb "<sidebar-prev-new><sidebar-open>"
 macro pager \Cb "<exit><sidebar-prev-new><sidebar-open>"
+
+set pipe_decode=yes
+macro pager \\ <pipe-message>'$HOME/dotfiles/scripts/urlpipe.sh'<enter> 'Show urls in dmenu'
