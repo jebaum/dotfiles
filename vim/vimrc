@@ -667,6 +667,21 @@ augroup Oblique
   autocmd User ObliqueStar   AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
   autocmd User ObliqueRepeat AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
 augroup END
+
+" implement search pulse with oblique autocmd
+function! ColumnFlash()
+    for _ in range (1, 5)
+        set cursorcolumn!
+        redraw
+        if getchar(1) != 0
+            break
+        endif
+        sleep 50m
+    endfor
+    set nocursorcolumn
+endfunction
+" autocmd User Oblique        call ColumnFlash()
+" autocmd User ObliqueRepeat  call ColumnFlash()
 " }}}
 " pandoc {{{
 augroup PandocMaps
