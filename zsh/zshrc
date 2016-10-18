@@ -1,6 +1,6 @@
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# Source zim
+if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
+  source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
 fi
 
 setopt CLOBBER
@@ -14,6 +14,7 @@ ulimit -c unlimited
 GPG_TTY=$(tty)
 export GPG_TTY
 
+bindkey -v
 for config_file ($HOME/dotfiles/zsh/{*.zsh,plugins/*.zsh}); do
     source $config_file
 done
@@ -21,7 +22,6 @@ source $HOME/dotfiles/scripts/fzf_utilities.sh
 # TODO i only used "main" and "brackets" syntax highlighters, zpreztorc can turn on more
 
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
-# bindkey -v    prezto sets vi mode for me
 bindkey "^[[3~" delete-char         # make delete key work
 bindkey "^[[7~" beginning-of-line   # make home key work
 bindkey "^[[8~" end-of-line         # make end key work

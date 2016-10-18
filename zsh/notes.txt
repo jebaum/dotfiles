@@ -1,21 +1,15 @@
-I use prezto, and modify zshrc and zpreztorc
+I use zim, and modify zshrc and zimrc
 
-as far as prezto is concerned, zshrc pretty much only exists to source the prezto config
-as of March 17 2016, it hasn't been updated in 2 years, and probably won't be. doesn't do much
+as far as zim is concerned, zshrc only exists to source the zim init.zsh file
+(init.zsh then also sources ~/.zimrc)
 
-zpreztorc is updated from time to time, but not very often
+I keep them in my dotfiles repo and change the zim install to symlink to them
+instead of to the ones in ~/.zim.
 
-I keep them in my dotfiles repo and change the prezto install to symlink to them instead
-of to the ones in ~/.zprezto. That way, prezto updates can be done with
-    `git pull && git submodule update --init --recursive`
-All of my config changes remain in my dotfiles repo, and I don't have to maintain a fork of prezto.
+if zim/templates/{zshrc,zimrc} get updated upstream, I'll have to edit the changes in manually
 
-if prezto/runcoms/{zshrc,zpreztorc} get updated upstream, I'll have to edit the changes in manually
-
-the prezto zshrc template sources prezto/init.zsh, which sources zpreztorc
-the customized section of zshrc is all sourced after init.zsh and zpreztorc
-
-1. zpreztorc
-    enable modules and set editor mode
+1. zimrc
+    enable modules, setup syntax highlighting.
+    optionally choose prompt, muck with completion
 2. zshrc
-    my specific config - other files to source, bindkeys, overriding anything from prezto, etc
+    my specific config - other files to source, bindkeys, overriding anything from zim, etc

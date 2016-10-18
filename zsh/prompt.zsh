@@ -69,9 +69,7 @@ vim_mode=$vim_ins_mode
 
 function zle-keymap-select {
   vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  zle editor-info # call this prezto function instead of reset-prompt
-                  # editor-info also calls reset-prompt
-                  # having two calls to reset-prompt was causing the redraw to erase the last line in the term
+  zle reset-prompt
 }
 zle -N zle-keymap-select
 
