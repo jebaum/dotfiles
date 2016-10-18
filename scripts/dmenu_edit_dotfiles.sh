@@ -9,10 +9,6 @@ rcwide                  $HOME/dotfiles/i3/conky/rcwide
 vimrc                   $HOME/dotfiles/vim/vimrc
 guimiromod              $HOME/dotfiles/vim/colors/guimiromod.vim
 dmenu_edit_dotfiles     $HOME/dotfiles/scripts/dmenu_edit_dotfiles.sh
-amazon_apollo_envs      $HOME/dotfiles/scripts/amazon_apollo.sh
-amazon_sellercentral    $HOME/dotfiles/scripts/amazon_scurls.sh
-amazon_tools            $HOME/dotfiles/scripts/amazon_tools.sh
-amazon_wiki             $HOME/dotfiles/scripts/amazon_wiki.sh
 dmenu_utilities         $HOME/dotfiles/scripts/dmenu_utilities.sh
 firefox_history         $HOME/dotfiles/scripts/firefox_history.sh
 fzf_utilities           $HOME/dotfiles/scripts/fzf_utilities.sh
@@ -22,6 +18,8 @@ aliases.zsh             $HOME/dotfiles/zsh/aliases.zsh
 muttrc                  $HOME/dotfiles/mutt/muttrc
 tmux.conf               $HOME/dotfiles/tmux.conf
 vimperatorrc            $HOME/dotfiles/firefox/vimperator/vimperatorrc
+qutebrowser.conf        $HOME/dotfiles/config/qutebrowser/qutebrowser.conf
+keys.conf               $HOME/dotfiles/config/qutebrowser/keys.conf
 Xdefaults               $HOME/dotfiles/Xdefaults"
 
 
