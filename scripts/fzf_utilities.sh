@@ -118,7 +118,7 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
   expect="ctrl-o"
   while out=$(
       git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
-      fzf --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect"); do
+      fzf --bind='ctrl-t:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {2}"); do
     query=$(head -1 <<< "$out")
     keypress=$(sed -n '2p' <<< "$out")
     shalist=()
