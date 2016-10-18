@@ -2,15 +2,13 @@ eval $(gpg-agent --daemon)
 xset s off
 xset -dpms
 xset s noblank
-xset r rate 200 60
+xset r rate 200 70
 start-pulseaudio-x11
 
 xrandr \
-    --output DFP9  --mode 1920x1200 --rotate left   --pos 0x689 \
-    --output DFP5  --mode 1920x1200 --rotate left   --pos 1200x689 \
-    --output DFP2  --mode 2560x1440 --rotate normal --pos 2400x0 \
-    --output DFP1  --mode 2560x1440 --rotate normal --pos 2400x1440 \
-    --output DFP6  --mode 1920x1200 --rotate left   --pos 4960x689 \
-    --output DFP10 --mode 1920x1200 --rotate left   --pos 6160x689
-
+    --output DP-3   --mode 2560x1440 --pos 0x0      --rotate left \
+    --output DP-1   --mode 2560x1440 --pos 1440x0   --rotate left \
+    --output HDMI-1 --mode 2560x1440 --pos 2880x552 --rotate normal \
+    --output DP-2   --mode 2560x1440 --pos 5440x0   --rotate right \
+    --output DVI-D-1 --off
 exec i3

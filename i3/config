@@ -4,21 +4,19 @@ set $mod Mod4
 set $alt Mod1
 set $narrowbarfont font pango:Times New Roman 9
 floating_modifier $mod
-set $narrow1 DP-2
-set $narrow2 DP-3
-set $narrow3 DFP6
-set $narrow4 DFP10
-set $widetop    DP-1
-set $widebottom DFP1
+set $narrow1 DP-3
+set $narrow2 DP-1
+set $narrow3 DP-2
+set $wide HDMI-1
 set $barmodifier modifier Mod3
 
 gaps inner 5
 smart_borders on
 
 # fake-outputs 1200x1920+0+689,1200x1920+1200+689,2560x1440+2400+1467,2560x1440+2400+0,1200x1920+4960+689,1200x1920+6160+689
-# WINDOW STYLE: <normal | 1pixel | none | pixel X>
-new_window 1pixel
-new_float 1pixel
+# WINDOW STYLE: <normal | none | pixel X>
+new_window pixel 1
+new_float pixel 1
   # <none | vertical | horizontal | both>
 hide_edge_borders none
 font pango:DejaVu Sans Mono 10
@@ -53,6 +51,7 @@ set $statusline          statusline         #CCCCCC
 # }}}
 # STARTUP APPLICATIONS {{{
 # exec_always will run when i3 is restarted, not just initially
+exec --no-startup-id dunst
 exec --no-startup-id unclutter
 # also add clipmenu in here instead of clipit history search?
 # would need to modify it to sort by date, use sexier dmenu
@@ -63,14 +62,12 @@ exec --no-startup-id xset m 0 0
 # exec --no-startup-id nitrogen --restore
 exec --no-startup-id xsetroot -solid "#331133"
 exec --no-startup-id dropbox-cli start
-exec --no-startup-id udiskie &
+# exec --no-startup-id udiskie &
 exec --no-startup-id amixer set PCM 208
 exec --no-startup-id amixer set Master 25
-# exec --no-startup-id device.sh xfi
 exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
-#exec --no-startup-id ~/dotfiles/scripts/imap_daemon.sh
-#exec --no-startup-id ~/dotfiles/scripts/mailbox_notify_daemon.sh
+# exec --no-startup-id ~/dotfiles/scripts/mailbox_notify_daemon.sh # TODO fix this
 exec --no-startup-id ~/dotfiles/scripts/startup.sh
 # }}}
 # KEYBINDS {{{
@@ -82,8 +79,8 @@ bindsym $mod+Shift+Q    kill
 bindsym $mod+Shift+C    reload
 
   ### borders
-bindsym $mod+t          border normal 1pixel
-bindsym $mod+y          border 1pixel
+bindsym $mod+t          border normal 1
+bindsym $mod+y          border pixel 1
 bindsym $mod+n          border none
 
  ### scratchpad
@@ -91,10 +88,11 @@ bindsym $mod+Shift+minus    move scratchpad
 bindsym $mod+minus          scratchpad show
 
   ### switch audio device
-bindsym $mod+$alt+Control+m exec device.sh mobo
-bindsym $mod+$alt+Control+x exec device.sh xfi
-bindsym $mod+$alt+Control+h exec device.sh headset
-bindsym $mod+$alt+Control+t exec device.sh hdmi; exec hdmi.sh on
+# TODO update these for pulse
+# bindsym $mod+$alt+Control+m exec device.sh mobo
+# bindsym $mod+$alt+Control+x exec device.sh xfi
+# bindsym $mod+$alt+Control+h exec device.sh headset
+# bindsym $mod+$alt+Control+t exec device.sh hdmi; exec hdmi.sh on
 
 bindsym Pause               exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
 bindsym XF86AudioPause      exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
@@ -126,9 +124,6 @@ bindsym $mod+$alt+Down  exec mpc -h $mpdhost seek -60
 bindsym $mod+$alt+Up    exec mpc -h $mpdhost seek +60
 bindsym $mod+$alt+Next  exec mpc -h $mpdhost seek -60
 bindsym $mod+$alt+Prior exec mpc -h $mpdhost seek +60
-# TODO: revamp this keymap since it's now used for navigation
-# bindsym $mod+$alt+h     exec mpc -h $mpdhost enable only headset
-bindsym $mod+$alt+x     exec mpc -h $mpdhost enable only xfi
 bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
@@ -146,32 +141,26 @@ bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
 # TODO this thing is shit
-bindsym $mod+Shift+t            exec ~/dotfiles/scripts/torrentadd.sh
-bindsym $mod+Shift+y            exec ~/dotfiles/scripts/ytdl.sh
-bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
-#bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
-bindsym --release $mod+c        exec /home/james/fuck.sh
-bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
-bindsym $mod+g                  exec gvim
+# bindsym $mod+Shift+t            exec ~/dotfiles/scripts/torrentadd.sh
+# bindsym $mod+Shift+y            exec ~/dotfiles/scripts/ytdl.sh
+# TODO change this to use qutebrowser
+# bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
+# bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
+# bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
-bindsym $mod+p                  exec dmenu_run -nf \#C0C0C0 -nb \#141214 -sf \#28F028 -sb \#303030 -centerx -centery -w 800 -l 20 -p SUP\? -i
-bindsym $mod+q                  exec quickswitch.py
-bindsym XF86TouchpadToggle      exec touchpadtoggle.sh
-bindsym $mod+backslash          exec dmenu_extended_run
+bindsym $mod+p                  exec dmenu_run -nf \#C0C0C0 -nb \#141214 -sf \#28F028 -sb \#303030 -centerx -centery -w 800 -l 20 -p SUP\? -i -fn 'Hack-12'
+bindsym XF86TouchpadToggle      exec ~/dotfiles/scripts/touchpadtoggle.sh
 bindsym $mod+BackSpace          exec ~/dotfiles/i3/i3-bar-toggle.py
-
-bindsym --release Control+Print exec gnome-screenshot -a
-bindsym --release Shift+Print   exec gnome-screenshot -w -B
+bindsym --release Shift+Print   exec gnome-screenshot -a
+bindsym --release Control+Print exec gnome-screenshot -w -B
 bindsym --release Print         exec grab
 bindsym $mod+Print              exec pasta
-bindsym $mod+Shift+Return       exec urxvt
+bindsym $mod+Shift+Return       exec st
 bindsym $mod+Return             exec STARTUPDIR="`~/.i3/xcwd/xcwd`" st
 bindsym $mod+Escape             exec i3lock -c '#181818'
-bindsym $mod+F2                 exec firefox
-bindsym $mod+Shift+F2           exec google-chrome-stable
 bindsym $mod+F4                 exec puddletag
+bindsym $mod+F5                 exec mkvtoolnix-gui
 
-bindsym $mod+i                  exec ~/dotfiles/scripts/vimperator_hack.sh
 bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
 bindsym $mod+Control+y          exec notify-send "preparing to play youtube video..." && mpv $(xclip -o)
 # }}}
@@ -204,9 +193,7 @@ assign     [instance="hl2_linux" class="hl2_linux"] → 12: tf2
 
 for_window [instance="vdpau" class="mplayer2"] border none
 for_window [instance="vdpau" class="mpv"] border 1pixel
-#assign     [instance="vdpau" class="mplayer2"] → 13: tv
 
-for_window [instance="firefox.exe" class="Wine"] border none
 for_window [instance="rangermpvaudio"] move scratchpad
 for_window [instance="rangermpvaudio"] border normal 1pixel
 # }}}
@@ -259,22 +246,18 @@ bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto m
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
 workspace "1: main"   output $narrow3
-workspace "2: web"    output $widebottom
+workspace "2: web"    output $wide
 workspace "3: vps"    output $narrow3
 workspace "4: music"  output $narrow1
-workspace "5: mail"   output $narrow4
+workspace "5: mail"   output $narrow1
 workspace "6: files"  output $narrow2
 workspace "7: code"   output $narrow1
 workspace "8: code"   output $narrow2
-workspace "9: code"   output $widetop
+workspace "9: code"   output $wide
 workspace "10: code"  output $narrow3
-workspace "11: steam" output $widebottom
-workspace "12: tf2"   output $widebottom
-workspace "13: tv"    output $widebottom
-workspace "14"        output $narrow1
-workspace "15"        output $narrow2
-workspace "16"        output $widebottom
-workspace "17"        output $narrow3
+workspace "11: steam" output $wide
+workspace "12: tf2"   output $wide
+workspace "13: tv"    output $wide
 
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
@@ -287,7 +270,6 @@ bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+l move workspace to output right
 
   ### switch to workspace
-    # TODO - numpad?
 bindsym $mod+1    workspace number 1: main
 bindsym $mod+2    workspace number 2: web
 bindsym $mod+3    workspace number 3: vps
@@ -363,36 +345,16 @@ mode " " {
   bindsym $mod+bracketleft mode "default"
 }
 # }}}
-# BAR WIDEBOTTOM {{{
+# BAR WIDE {{{
 bar {
-  output $widebottom
+  output $wide
   mode dock
   $barmodifier
   position top
   workspace_buttons yes
   font pango:Times New Roman 16
   status_command ~/.i3/conky/wide
-  tray_output $widebottom
-  colors {
-    $background
-    $statusline
-    $focused_workspace
-    $active_workspace
-    $inactive_workspace
-    $urgent_workspace
-  }
-}
-# }}}
-# BAR WIDETOP {{{
-bar {
-  output $widetop
-  mode dock
-  $barmodifier
-  position top
-  workspace_buttons yes
-  font pango:Times New Roman 16
-  status_command ~/.i3/conky/wide
-  tray_output none
+  tray_output $wide
   colors {
     $background
     $statusline
@@ -451,27 +413,6 @@ bar {
   position top
   workspace_buttons yes
   $narrowbarfont
-  status_command ~/.i3/conky/narrow3
-  tray_output none
-  colors {
-    $background
-    $statusline
-    $focused_workspace
-    $active_workspace
-    $inactive_workspace
-    $urgent_workspace
-  }
-}
-# }}}
-# BAR NARROW 4 {{{
-bar {
-  output $narrow4
-  mode dock
-  $barmodifier
-  position top
-  workspace_buttons yes
-  $narrowbarfont
-  # TODO fix this
   status_command ~/.i3/conky/narrow3
   tray_output none
   colors {
