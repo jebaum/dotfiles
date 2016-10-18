@@ -28,7 +28,7 @@ data_fetching_delay = "no"
 ## set it in order to make tag editor and renaming files work properly
 #
 # mpd_host = "localhost"
-mpd_host = "192.168.1.100"
+mpd_host = "192.168.0.100"
 #
 mpd_port = "6600"
 #

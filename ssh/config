@@ -1,10 +1,10 @@
 Host rigl
-  HostName 192.168.1.100
+  HostName 192.168.0.100
   Port 50000
   User james
 
 Host thinkpad
-  Hostname 192.168.1.101
+  Hostname 192.168.0.103
   Port 50000
   User james
 
@@ -24,6 +24,6 @@ Host lug
   User jebaum
 
 Host phone
-    HostName 192.168.1.2
+    HostName 192.168.0.102
     User root
     Compression no
