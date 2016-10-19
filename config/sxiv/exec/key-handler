@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# TODO: doesn't seem to work anymore? unless I'm dumb, $2 isn't being passed, and is supposed to be the filename
+# /usr/share/sxiv/exec/key-handler
+readonly KEY="$1";
+readonly TAGFILE="$HOME/.config/sxiv/tags"
+readonly TMPFILE="/tmp/sxiv.$$"
+
 case "$1" in
 "C-d")
-        mv "$2" ~/.trash ;;
+        while read file; do mv "$file" ~/.trash; done ;;
 "C-r")
-        convert -rotate 90 "$2" "$2" ;;
-"C-c")
-        echo -n "$2" | xclip -selection clipboard ;;
-"C-w")
-        nitrogen --save --set-zoom-fill "$2" ;;
+        while read file; do convert -rotate 90 "$file" "$file"; done ;;
 esac
