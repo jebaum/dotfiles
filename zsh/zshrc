@@ -7,6 +7,8 @@ setopt CLOBBER
 export EDITOR=nvim
 export VISUAL="nvim -u NONE" # TODO mini nvimrc here just to set up a few convenience maps, maybe targets.vim
 export LESS='-g -i -M -R -S -w -z-4'
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 stty -ixon  # stop C-s from activating scroll lock
 ulimit -c unlimited
@@ -53,6 +55,13 @@ bindkey -M vicmd 'k' history-substring-search-up      # bind k and j for VI mode
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -M vicmd 'V' visual-mode                      # prezto binds 'v' to open $VISUAL
 KEYTIMEOUT=1
+
+my-backward-delete-word() {
+    local WORDCHARS=${WORDCHARS/\//} # delete back to '/' character
+    zle backward-delete-word
+}
+zle -N my-backward-delete-word
+bindkey '^W' my-backward-delete-word
 
 # http://sgeb.io/articles/zsh-zle-closer-look-custom-widgets/
 # zle -N <widget name> <function name>
