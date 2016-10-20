@@ -8,4 +8,4 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 export EDITOR=nvim
-export PATH=/apollo/env/SDETools/bin:$HOME/dev:$HOME/dev/ranger:$HOME/.local/bin:/opt/cisco/anyconnect/bin:$PATH
+export PATH=$PATH:$HOME/dev:$HOME/.local/bin
