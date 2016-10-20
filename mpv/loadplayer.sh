@@ -16,7 +16,7 @@ if pgrep mpv >/dev/null; then
   done
 else
   if [[ "$TYPE" = "video" ]]; then
-    mpv --force-window -input file="$FIFO" -- "$@" &>/dev/null &
+    mpv --force-window -input-file="$FIFO" -- "$@" &>/dev/null &
   elif [[ "$TYPE" == "audio" ]]; then
     # at some point --force-window stopped working, then started again
     # if it stops again, solution is to create a playlist file using mpv --playlist=
