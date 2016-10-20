@@ -8,4 +8,6 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 export EDITOR=nvim
-export PATH=$PATH:$HOME/dev:$HOME/.local/bin
+
+typeset -aU path
+path=( $path $HOME/dev $HOME/.local/bin )
