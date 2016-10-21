@@ -26,6 +26,7 @@
   lnc   = log --color --graph --pretty=format:'%h -%d %s (%cr)' --abbrev-commit
   last  = log -p --stat --abbrev-commit --max-count 1
 
+  p   = pull --rebase
   r   = rebase
   ra  = rebase --abort
   rc  = rebase --continue
