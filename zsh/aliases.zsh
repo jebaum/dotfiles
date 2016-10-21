@@ -5,51 +5,38 @@ alias lock='i3lock -b -c 000000'
 # command aliases
 alias sudo='sudo -E '
 alias beep='echo -en "\a"'
-alias eclimd='~/.eclipse/org.eclipse.platform_4.4.1_1543616141_linux_gtk_x86_64/eclimd'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
 alias g='git'
 alias gsu='git submodule foreach git checkout master && git submodule foreach git pull'
-alias gpr='git pull --rebase'
-alias gist='gist -c -p'
-alias gpa='for i in *; do cd $i; pwd; git pull; cd ..; done'
-alias grep='grep --color=auto'
 alias gvim='gvim -p'
-alias hlerrors="sed -e 's/Exception/\x1b[36;7m&\x1b[0m/ig' -e 's/Error/\x1b[33;7m&\x1b[0m/ig' -e 's/Fault/\x1b[31;7m&\x1b[0m/ig'"
 alias make='make -j4'
 alias mutt="rm -f $HOME/.mutt/mail/selected; mutt"
 alias myip='curl icanhazip.com'
-alias myssh='TERM=xterm-256color ssh'
 alias nvim='nvim -p'
 alias nvimlisten='rm -f /tmp/nvim; NVIM_LISTEN_ADDRESS=/tmp/nvim nvim -p'
 alias nvimapi='nvim --api-info | python2 -c "import msgpack, sys, yaml; print yaml.dump(msgpack.unpackb(sys.stdin.read()))" | less'
 alias nyan='nc -v nyancat.dakko.us 23' # nyan cat
-alias ocaml='rlwrap -m ocaml'
 alias open='xdg-open'
-alias paclsorphans='pacman-list-orphans' # pacman-list-orphans defined by prezto
-alias pacrmorphans='pacman-remove-orphans' # pacman-remove-orphans defined by prezto
+alias paclsorphans="sudo pacman --query --deps --unrequired"
+alias pacrmorphans="sudo pacman --remove --recursive $(pacman --quiet --query --deps --unrequired)"
 alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
 alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
 alias pandocunicode='pandoc --latex-engine=xelatex -V geometry:margin=0.5in -f markdown+hard_line_breaks' # requires texlive-latexextra on arch
 alias pong='ping 8.8.8.8 -c 4'
 alias pyhttp='python3 -m http.server 8080'
-alias rcd='cd "`xclip -o`"'
 alias redshift='redshift -l "50:8" -t "6500:5500" -b 1.0'
-alias sedtree="find . -type d |sed 's:[^-][^/]*/:--:g; s:^-: |:'"
 alias tags='./.git/hooks/ctags >/dev/null'
 alias termcolors='~/dotfiles/scripts/color/colortest.pl -w -r'
-alias top='htop'
 alias tree='tree -C'
 alias tron='ssh sshtron.zachlatta.com'
 alias vi='vim'
 alias vim='vim -p'
 alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
-alias yt='youtube-viewer'
 
-ytdlmp3() { youtube-dl --audio-quality 0 --audio-format mp3 -x "${1-$(xclip -o)}" }
-ytdl() { youtube-dl "${1-$(xclip -o)}" }
-
+ytdlmp3() { youtube-dl --audio-quality 0 --audio-format mp3 -x "${1-$(xsel)}" }
+ytdl() { youtube-dl "${1-$(xsel)}" }
 
 upgrade() {
    sudo pacman -Syu
@@ -69,20 +56,6 @@ pf() { # process filter
   else
     ps aux | grep --color=auto -i "$@"
   fi
-}
-
-function mountandroid() {
-  mkdir ~/android
-  # phone has DHCP reservation set to be 192.168.1.102
-  sshfs -p 2222 james@192.168.1.${1-102}:/storage/extSdCard/Android/data/com.theolivetree.sshserver/files ~/android
-  cd ~/android
-  ranger
-}
-
-function umountandroid() {
-  cd ~
-  fusermount -u ~/android
-  rmdir ~/android
 }
 
 recordwindow() {
@@ -107,7 +80,7 @@ function syn() {
     local RIG="192.168.1.100"
     local THINKPAD="192.168.1.101"
 
-    if [ "$HOST" = "rig5" ]; then
+    if [ "$HOST" = "rig6" ]; then
         local CLIENT=$THINKPAD
         local SERVER=$RIG
     else
@@ -139,7 +112,7 @@ pget() {
     pirate-get --port 9092 -t "$@"
 }
 torrentadd() {
-    transmission-remote -a "${1-$(xclip -o)}"
+    transmission-remote -a "${1-$(xsel)}"
 }
 torrentdaemonstart() {
     if [ "$(pidof transmission-daemon)" ]; then
@@ -162,8 +135,6 @@ torrentstop()        { transmission-remote -t $1 -S }
 torrentwatch()       { watch -n 1 transmission-remote 9092 -l }
 
 
-function say() { echo mpv -really-quiet "http://translate.google.com/translate_tts?tl=en\&q=$*" | sed 's/ /+/3g' | sh 2>/dev/null; }
-
 function up() {
   LIMIT=$1
   P=$PWD
@@ -173,12 +144,6 @@ function up() {
   done
   cd $P
   export MPWD=$P
-}
-
-function iwhois() {
-    resolver="whois.geek.nz"
-    tld=`echo ${@: -1} | awk -F "." '{print $NF}'`
-    whois -h ${tld}.${resolver} "$@" ;
 }
 
 function quote()
