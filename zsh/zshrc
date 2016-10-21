@@ -20,8 +20,8 @@ bindkey -v
 for config_file ($HOME/dotfiles/zsh/{*.zsh,plugins/*.zsh}); do
     source $config_file
 done
+source $HOME/dotfiles/scripts/git/git-extras/etc/git-extras-completion.zsh
 source $HOME/dotfiles/scripts/fzf_utilities.sh
-# TODO i only used "main" and "brackets" syntax highlighters, zpreztorc can turn on more
 
 # list of actions here http://www.cs.elte.hu/zsh-manual/zsh_14.html
 bindkey "^[[3~" delete-char         # make delete key work
