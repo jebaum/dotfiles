@@ -875,7 +875,7 @@ set number                     " show line numbers
 set relativenumber             " use relative line numbers
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
-set lazyredraw                 " don't redraw the screen w ile executing macros
+set nolazyredraw               " don't redraw the screen w ile executing macros
 set clipboard=unnamed          " by default, * system clipboard
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
