@@ -17,8 +17,7 @@ alias nvimlisten='rm -f /tmp/nvim; NVIM_LISTEN_ADDRESS=/tmp/nvim nvim -p'
 alias nvimapi='nvim --api-info | python2 -c "import msgpack, sys, yaml; print yaml.dump(msgpack.unpackb(sys.stdin.read()))" | less'
 alias nyan='nc -v nyancat.dakko.us 23' # nyan cat
 alias open='xdg-open'
-alias paclsorphans="sudo pacman --query --deps --unrequired"
-alias pacrmorphans="sudo pacman --remove --recursive $(pacman --quiet --query --deps --unrequired)"
+alias paclsorphans="pacman --query --deps --unrequired"
 alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
 alias pandocnohighlight='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --no-highlight'
@@ -35,6 +34,9 @@ alias vim='vim -p'
 alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 
+pacrmorphans() {
+    sudo pacman --remove --recursive $(pacman --quiet --query --deps --unrequired)
+}
 ytdlmp3() { youtube-dl --audio-quality 0 --audio-format mp3 -x "${1-$(xsel)}" }
 ytdl() { youtube-dl "${1-$(xsel)}" }
 
