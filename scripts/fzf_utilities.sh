@@ -117,8 +117,8 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
   local out sha query keypress expect
   expect="ctrl-o"
   while out=$(
-      git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
-      fzf --bind='ctrl-t:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {2}"); do
+      git log --color=always --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
+      fzf --bind='ctrl-t:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1}"); do
     query=$(head -1 <<< "$out")
     keypress=$(sed -n '2p' <<< "$out")
     shalist=()
