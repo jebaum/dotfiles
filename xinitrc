@@ -2,7 +2,7 @@ eval $(gpg-agent --daemon)
 xset s off
 xset -dpms
 xset s noblank
-xset r rate 200 70
+#xset r rate 200 70 # set in ~/.xserverrc now. 1000 / 70 = 14 milliseconds between repeats
 start-pulseaudio-x11
 
 xrandr \
