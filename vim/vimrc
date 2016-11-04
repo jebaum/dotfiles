@@ -214,15 +214,12 @@ augroup FileTypeSettings
   autocmd!
   autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
-  autocmd FileType lisp setlocal foldmethod=indent foldlevel=0
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
-  autocmd FileType ocaml call MapInterpreter('ocaml', 'ocaml')
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
-  autocmd BufRead,BufNewFile *.md set filetype=pandoc
+  autocmd BufRead,BufNewFile *.md   set filetype=pandoc
   autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
-  autocmd FileType java setlocal omnifunc=javacomplete#Complete
 augroup END
 " }}}
 " align quickfix output {{{
