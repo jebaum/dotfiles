@@ -914,6 +914,9 @@ if !has('nvim')
   set cryptmethod=blowfish     " more secure encryption for vim -x
 else
   set termguicolors
+  if exists('&inccommand')
+    set inccommand=nosplit
+  endif
 endif
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
 set formatoptions-=r           " don't continue comment when hitting enter in insert mode
