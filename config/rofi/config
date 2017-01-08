@@ -60,3 +60,5 @@ rofi.scroll-method:                  0
 rofi.kb-clear-line:
 rofi.kb-remove-word-back:            Control+Alt+h,Control+BackSpace,Control+w
 rofi.kb-cancel:                      Escape,Control+g,Control+bracketleft,Control+c
+rofi.kb-row-tab:
+rofi.kb-row-select:                  Tab
