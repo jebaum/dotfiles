@@ -22,7 +22,7 @@ else
     # if it stops again, solution is to create a playlist file using mpv --playlist=
     # newline separated, no need to escape spaces, stick it in a predefined location in /tmp
     # then, start a new terminal with the mpv command to read out of the playlist file
-    nohup mpv --osd-level=3 --osd-status-msg='${filename}\n${time-pos} / ${length}\n\n${playlist}' --osd-font-size=20 --force-window --x11-name rangermpvaudio -input-file="$FIFO" -- "$@" 2>&1 >/dev/null &
+    nohup mpv --osd-level=3 --osd-msg3='${filename}\n${time-pos} / ${duration}\n\n${playlist}' --osd-font-size=20 --force-window --x11-name rangermpvaudio -input-file="$FIFO" -- "$@" 2>&1 >/dev/null &
   fi
 fi
 
