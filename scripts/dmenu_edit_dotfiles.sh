@@ -23,7 +23,7 @@ keys.conf               $HOME/dotfiles/config/qutebrowser/keys.conf
 Xdefaults               $HOME/dotfiles/Xdefaults"
 
 
-config_file=$(echo "$myvar" | rofi -dmenu -width 100 -location 6 | sed -e "s/ \+ / /g" | cut -f 2 -d' ')
+config_file=$(echo "$myvar" | rofi -dmenu -i -width 100 -location 6 | sed -e "s/ \+ / /g" | cut -f 2 -d' ')
 
 echo $config_file
 if [ -z $config_file ]; then
