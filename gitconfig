@@ -14,6 +14,9 @@
   co  = checkout
   cp  = cherry-pick
 
+  fancyblame = log -p -M --follow --stat --
+  fancyblamesearch = log --pretty=format:'%h %an -- %s -- %ad' -S
+
   d   = "!d() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | less;}; d"
   dn  = diff
   dw  = diff --color-words
