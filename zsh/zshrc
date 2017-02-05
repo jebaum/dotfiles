@@ -5,7 +5,7 @@ fi
 
 setopt CLOBBER
 export EDITOR=nvim
-export VISUAL="nvim -u NONE" # TODO mini nvimrc here just to set up a few convenience maps, maybe targets.vim
+export VISUAL=nvim
 export LESS='-g -i -M -R -S -w -z-4'
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
