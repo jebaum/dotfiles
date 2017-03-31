@@ -877,7 +877,6 @@ set clipboard=unnamed          " by default, * system clipboard
 set titlestring=%t\            " file name
 set title titlelen=150         " max length of title string
 set backspace=indent,eol,start " allow backspace in insert mode
-set esckeys                    " make numpad work
 set autoread                   " reload files changed outside of vim
 set splitbelow                 " splits open below
 set splitright                 " vsplits open on right
@@ -912,6 +911,7 @@ if !has('nvim')
   set restorescreen=on         " restore screen contents on exit
   set ttyfast                  " redraw screen faster
   set cryptmethod=blowfish     " more secure encryption for vim -x
+  set esckeys                    " make numpad work
 else
   set termguicolors
   if exists('&inccommand')
