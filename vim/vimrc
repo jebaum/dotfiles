@@ -19,45 +19,37 @@ call plug#begin('~/.vim/bundle')
 Plug 'morhetz/gruvbox'
 if has('unix')
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'int3/vim-extradite' ", {'on': ['Extradite']}
   Plug 'junegunn/gv.vim',    {'on': ['GV']}
-  " Plug 'lambdalisue/vim-gita'
   Plug 'jebaum/vim-tmuxify'
 endif
 
 if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 1
   Plug 'honza/vim-snippets'
   Plug 'SirVer/ultisnips'
-  Plug 'Valloric/MatchTagAlways'
+  Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 endif
 
 " settings for completion plugins defined in `after/plugin` directory
 if has('nvim')
   set shortmess+=c " helps with completion flicker
   Plug 'Shougo/deoplete.nvim'
-  Plug 'benekastah/neomake'
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
-  Plug 'scrooloose/syntastic'
 endif
+
+Plug 'airblade/vim-rooter'
 Plug 'bruno-/vim-husk'
-Plug 'bruno-/vim-man', {'on': ['Man', 'Vman', 'Mangrep']}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ciaranm/detectindent'
 Plug 'dahu/vimple'
-Plug 'derekwyatt/vim-scala', {'for': ['scala']}
 Plug 'dockyard/vim-easydir'
-Plug 'mtth/scratch.vim',     {'on': ['Scratch', 'ScratchInsert', 'ScratchSelection']}
-Plug 'gcmt/taboo.vim',       {'on': ['TabooOpen', 'TabooRename', 'TabooReset']}
-Plug 'inside/vim-search-pulse'
 Plug 'jamessan/vim-gnupg'
-" Plug 'jebaum/neosyntax'
 Plug 'jreybert/vimagit',     {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-oblique'
+Plug 'junegunn/vim-oblique' " incsearch.vim is more maintained, currently has bug in neovim
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']}
 Plug 'justinmk/vim-dirvish', {'on': ['Dirvish']}
@@ -65,14 +57,14 @@ Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
 Plug 'Valloric/ListToggle'
+Plug 'machakann/vim-highlightedyank'
+Plug 'matze/vim-move'
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
 Plug 'osyo-manga/vim-anzu'
-Plug 'osyo-manga/vim-brightest'
-Plug 'osyo-manga/vim-over',  {'on': ['OverCommandLine', 'OverCommandLineMap', 'OverCommandLineNoremap']}
+Plug 'osyo-manga/vim-brightest' ", {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
 Plug 'scrooloose/nerdcommenter'
-Plug 'Shougo/vinarise.vim',  {'on': ['Vinarise', 'VinariseDump', 'VinariseScript2Hex']}
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
@@ -91,14 +83,11 @@ Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'} " breaks textwidth?
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
+Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'wellle/tmux-complete.vim'
-Plug 'Yggdroot/indentLine', {'on': ['IndentLinesEnable', 'IndentLinesDisable', 'IndentLinesReset', 'IndentLinesToggle']}
 
-Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 call plug#end()
-
 let g:gruvbox_invert_selection=0
 let g:gruvbox_contrast_dark='medium'
 set background=dark
@@ -116,12 +105,15 @@ function! TweakColors()
   " color of matches the cursor isn't on after finished searching
   highlight Search                  ctermfg=255 ctermbg=24  guifg=#EEEEEE guibg=#005F87
 
-  highlight Folded     ctermbg=16                               guibg=#000000
-  highlight Function   ctermfg=43                guifg=#00D7AF
-  highlight MatchParen ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
-  highlight Normal     ctermfg=223               guifg=#FFD7AF  guibg=#202020
-  highlight SpecialKey ctermfg=231  ctermbg=236  guifg=#FFFFFF  guibg=#303030
-  highlight String     ctermfg=46                guifg=#33D933
+  highlight HighlightedyankRegion   ctermfg=253 ctermbg=16  guifg=#DADADA guibg=#000000
+
+  highlight Folded        ctermbg=16                               guibg=#000000
+  highlight Function      ctermfg=43                guifg=#00D7AF
+  highlight MatchParen    ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
+  highlight Normal        ctermfg=223               guifg=#FFD7AF  guibg=#202020
+  highlight SpecialKey    ctermfg=231  ctermbg=236  guifg=#FFFFFF  guibg=#303030
+  highlight String        ctermfg=46                guifg=#33D933
+  highlight QuickFixLine               ctermbg=16                  guibg=#000000
 
   " copied from statline.vim
   highlight User1 ctermfg=221  ctermbg=232  cterm=none guifg=#FFD75F  guibg=#080808  gui=none
@@ -134,9 +126,6 @@ function! TweakColors()
   highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
   highlight User9 ctermfg=208  ctermbg=232  cterm=none guifg=#FF8700  guibg=#080808  gui=none
 
-  let g:vim_search_pulse_color_list = has('gui_running') || (has('nvim') && &termguicolors) ?
-        \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
-        \ [238, 239, 240, 241, 242, 243, 244, 245, 246]
 endfunction
 call TweakColors()
 augroup TweakColors
@@ -161,15 +150,6 @@ if has('gui_gtk') && has('gui_running')
     exe 'silent !echo ''widget "vim-main-window.*GtkForm" style "vimfix"'''.
                 \' >> ~/.gtkrc-2.0.mine'
 endif
-" }}}
-" Return to last edit position when opening files {{{
-augroup ReturnToLast
-  autocmd!
-  autocmd BufReadPost *
-       \ if line("'\"") > 0 && line("'\"") <= line("$") |
-       \   exe "normal! g`\"" |
-       \ endif
-augroup END
 " }}}
 " Command mode maps and abbreviations {{{
 command! CD cd %:p:h
@@ -218,7 +198,6 @@ augroup FileTypeSettings
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
   autocmd BufRead,BufNewFile *.md   set filetype=pandoc
-  autocmd FileType tex      nnoremap <buffer> <leader>mv :call system("mupdf " . shellescape(expand('%:p:r')).'.pdf &')<CR>
   autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
 augroup END
 " }}}
@@ -327,7 +306,6 @@ function! StripWhitespace(line1, line2)
     let @/=_s
     call cursor(l, c)
 endfunction
-
 command! -range=% Strip call StripWhitespace(<line1>, <line2>)
 " }}}
 " CustomMatch function {{{
@@ -338,26 +316,6 @@ endfunction
 command! -nargs=1 MatchText call CustomMatch(<f-args>)
 command! -nargs=1 MT        call CustomMatch(<f-args>)
 highlight MatchTarget ctermfg=231 ctermbg=124 guifg=#FFFFFF guibg=#AF0000
-" }}}
-" Location list loop function {{{
-function! WrapCommand(window, direction)
-  if a:direction == "up"
-    try
-      execute a:window . 'previous'
-    catch /^Vim\%((\a\+)\)\=:E553/
-      execute a:window . 'last'
-    endtry
-  elseif a:direction == "down"
-    try
-      execute a:window . 'next'
-    catch /^Vim\%((\a\+)\)\=:E553/
-      execute a:window . 'first'
-    endtry
-  endif
-endfunction
-
-" nnoremap <Home> :call WrapCommand("l", "up")<CR>
-" nnoremap <End>  :call WrapCommand("l", "down")<CR>
 " }}}
 " Visual mode increment function {{{
 function! Increment()
@@ -483,6 +441,22 @@ endfunction
 " visually selected lines of the buffer.
 command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1>, <line2>) | else | exec "so <args>" | endif
 " }}}
+" Manipulate help window on open {{{
+function! OpenHelp()
+    if winwidth(0) >= 160
+        setlocal textwidth=78
+        wincmd L
+        vertical resize 80
+        normal ze
+    else
+        wincmd J
+    endif
+endfunction
+augroup AutoSizeHelpWindow
+  autocmd!
+  " autocmd BufEnter * if &ft == 'help' | call OpenHelp()
+augroup END
+" }}}
 " }}}
 " Plugins {{{
 " airline {{{
@@ -490,6 +464,13 @@ let g:airline_theme='base16_3024'
 let g:airline_powerline_fonts          = 1
 let g:airline_skip_empty_sections      = 1
 let g:airline#extensions#hunks#enabled = 1
+" let g:airline#extensions#branch#enabled = 0 " workaround. https://github.com/junegunn/fzf/issues/632
+let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#tabline#enabled = 0
+" }}}
+" ale {{{
+let g:ale_lint_delay=2000
+let g:ale_lint_on_insert_leave=1
 " }}}
 " anzu {{{
 let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus =1
@@ -499,7 +480,7 @@ augroup DisableBrightestOnStart
     autocmd VimEnter * if exists(':Brightest') | BrightestDisable | endif
 augroup END
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
-highlight BrightestCustom guifg=#000000 guibg=#00FF00
+highlight BrightestCustom guifg=#000000 guibg=#00AA00
 " }}}
 " detectindent {{{
 let g:detectindent_preferred_expandtab  = 1
@@ -581,17 +562,41 @@ autocmd User fugitive  " .. to go back up to parent directory when browsing git 
 autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
 " }}}
 " fzf {{{
-let g:fzf_launcher='urxvt -e sh -c %s' " TODO change to st
+" Files command with preview window
+command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview('right', 'ctrl-space'), <bang>0)
+command! FZFColors call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
+
+" TODO: determine when to use which one of these based on rg availability
+
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "ctrl-space" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* FZFAg
+    \ call fzf#vim#ag(<q-args>,
+    \                 <bang>0 ? fzf#vim#with_preview('up:60%:hidden', 'ctrl-space')
+    \                         : fzf#vim#with_preview('right:50%:hidden', 'ctrl-space'),
+    \                 <bang>0)
+
+function! FZFRgWrapper(qargs, bang)
+    let rgcommand = "command rg --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:magenta' --column --line-number --no-heading --color=always "
+    if empty(a:qargs) " if no search term provided, only match lines with 10 or more characters, and don't highlight the results
+        let rgcommand .= " --colors 'match:none' " . '".{10,}"'
+    else " if we provided a search term, use it, and highlight the matches
+        let rgcommand .= " --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' " . shellescape(a:qargs)
+    endif
+    call fzf#vim#grep(rgcommand, 1,
+    \   a:bang ? fzf#vim#with_preview('up:60%:hidden', 'ctrl-space')
+    \           : fzf#vim#with_preview('right:50%:hidden', 'ctrl-space'),
+    \   a:bang)
+endfunction
+command! -bang -nargs=* FZFRg call FZFRgWrapper(<q-args>, <bang>0)
 " }}}
 " grepper {{{
+" TODO update this to prefer ripgrep
 let g:grepper = {}
 let g:grepper.tools  = ['ag', 'git', 'grep']
 let g:grepper.open   = 1
 let g:grepper.jump   = 0
 let g:grepper.switch = 0
-" }}}
-" indentline {{{
-let g:indentLine_char='│'
 " }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
@@ -622,18 +627,15 @@ function! SetMatchParenTimeout()
     endif
 endfunction
 " }}}
-" neomake {{{
-if has('nvim')
-    augroup NeoMakeAutoRun
-        autocmd!
-        autocmd! BufWritePost *.js Neomake
-    augroup END
-    let g:neomake_javascript_jshint_maker = {
-        \ 'args': ['--verbose'],
-        \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-        \ }
-    let g:neomake_javascript_enabled_makers = ['jshint']
-endif
+" move {{{
+let g:move_map_keys = 0 " default Alt+[jk] maps conflict with resizing
+augroup OverrideUnimpaired
+    autocmd!
+    autocmd VimEnter * nmap [e <Plug>MoveLineUp
+    autocmd VimEnter * nmap ]e <Plug>MoveLineDown
+    autocmd VimEnter * vmap [e <Plug>MoveBlockUp
+    autocmd VimEnter * vmap ]e <Plug>MoveBlockDown
+augroup End
 " }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
@@ -645,8 +647,6 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " oblique {{{
 let g:oblique#incsearch_highlight_all=1
 let g:oblique#clear_highlight = 1
-" map n <Plug>(Oblique-n!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
-" map N <Plug>(Oblique-N!)<Plug>(anzu-update-search-status)zv<Plug>Pulse
 
 " nnoremap <expr> n 'Nn'[v:searchforward]
 " nnoremap <expr> N 'nN'[v:searchforward]
@@ -657,28 +657,29 @@ augroup Oblique
   autocmd! User Oblique
   autocmd! User ObliqueStar
   autocmd! User ObliqueRepeat
-  " TODO make sure the anzu command and pulse function exist, just in case
+  " TODO make sure the anzu command exists, just in case
   " also do I even want these? makes the search pattern flash in the command line
   " instead of just updating the anzu count
-  autocmd User Oblique       AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
-  autocmd User ObliqueStar   AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
-  autocmd User ObliqueRepeat AnzuUpdateSearchStatus | call search_pulse#Pulse() | normal! zv
+  autocmd User Oblique       AnzuUpdateSearchStatus | call ColumnFlash() | normal! zv
+  autocmd User ObliqueStar   AnzuUpdateSearchStatus | call ColumnFlash() | normal! zv
+  autocmd User ObliqueRepeat AnzuUpdateSearchStatus | call ColumnFlash() | normal! zv
 augroup END
 
-" implement search pulse with oblique autocmd
+let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
+let g:sleepCommand = 'sleep ' . string(75 / len(g:colorList)) . 'm'
 function! ColumnFlash()
-    for _ in range (1, 5)
-        set cursorcolumn!
+    set cursorcolumn
+    for i in range (0, len(g:colorList) - 1)
+        execute 'highlight CursorLine guibg=' . g:colorList[i]
         redraw
         if getchar(1) != 0
             break
         endif
-        sleep 50m
+        execute g:sleepCommand
     endfor
+    execute 'highlight CursorLine guibg=' . g:colorList[0]
     set nocursorcolumn
 endfunction
-" autocmd User Oblique        call ColumnFlash()
-" autocmd User ObliqueRepeat  call ColumnFlash()
 " }}}
 " pandoc {{{
 augroup PandocMaps
@@ -719,32 +720,10 @@ function! QuickRunTimeToggle()
   endif
 endfunction
 " }}}
-" scratch {{{
-let g:scratch_filetype = 'vim'
-" }}}
-" search-pulse {{{
-let g:vim_search_pulse_mode = 'pattern'
-" XXX the speed with which this actually happens seems to depend on the size
-" of the buffer currently displayed. also affected by if folds are closed.
-" some kind of very slow redrawing being done?
-
-" let g:vim_search_pulse_disable=0 " toggle this on huge buffers?
-" TODO pulse seems to do some kind of intelligent interrupting of the drawing loop
-" if you hit n again while it's still in the middle of the loop
-" i should figure out how that's done and reimplement a simpler version that
-" just does cursor line /column flashing, instead of arbitrary patterns
-let g:vim_search_pulse_duration = 50
-let g:vim_search_pulse_disable_auto_mappings = 1
-let g:vim_search_pulse_color_list = has('gui_running') || (has('nvim') && &termguicolors) ?
-        \ ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#606060'] :
-        \ [238, 239, 240, 241, 242, 243, 244, 245, 246]
-augroup Pulse
-    autocmd! User PrePulse
-    autocmd! User PostPulse
-    autocmd  User PrePulse  set cursorcolumn
-    autocmd  User PostPulse set nocursorcolumn
+" rooter {{{
+augroup vimrc_rooter
+    autocmd VimEnter * :Rooter
 augroup END
-
 " }}}
 " signify {{{
 let g:signify_disable_by_default = 0            " disable run by default
@@ -784,13 +763,13 @@ exec 'omap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakN
 exec 'xmap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
 " }}}
 " startify {{{
-let g:startify_list_order        = ['bookmarks']
-let g:startify_bookmarks         = [ '~/dotfiles/vim/vimrc', '~/Dropbox/todo/TODO.txt' ]
-let g:startify_files_number      = 7
-let g:startify_session_detection = 1 " show session when Session.vim is found in current directory
-let g:startify_session_autoload  = 0 " opening directories with a Session.vim will have it auto load
-let g:startify_change_to_dir     = 1 " when opening file or bookmark, change to its directory
-let g:startify_custom_indices    = ['a','f','h','j','k','l','w','r','u','o','p','z','x','n','m']
+let g:startify_list_order         = ['bookmarks']
+let g:startify_bookmarks          = [ '~/dotfiles/vim/vimrc', '~/Dropbox/todo/TODO.txt' ]
+let g:startify_files_number       = 7
+let g:startify_session_detection  = 1 " show session when Session.vim is found in current directory
+let g:startify_session_autoload   = 0 " opening directories with a Session.vim will have it auto load
+let g:startify_change_to_vcs_root = 1 " NOTE: does duplicate work as vim-rooter
+let g:startify_custom_indices     = ['a','f','h','j','k','l','w','r','u','o','p','z','x','n','m']
 if has('nvim')
   let g:startify_custom_header     = [
     \ '    /\\\\\     /\\\  /\\\        /\\\  /\\\\\\\\\\\  /\\\\            /\\\\       ',
@@ -820,30 +799,6 @@ else
     \ '',
     \ ]
 endif
-" }}}
-" syntastic {{{
-if executable('clang')
-  let g:syntastic_c_compiler               = 'clang'
-  let g:syntastic_cpp_compiler             = 'clang++'
-endif
-let g:syntastic_c_compiler_options       = ' -Wall -Wextra'
-let g:syntastic_cpp_compiler_options     = ' -Wall -Wextra'
-
-let g:syntastic_java_javac_config_file_enabled = 1
-" for allowing syntastic to find symbols in java classpath, put this in .syntastic_javac_config. must be in cwd
-" let g:syntastic_java_javac_custom_classpath_command = "brazil-path testlib.classpath | gawk 'BEGIN {RS=\":\"} {print $1;}' | tr '\n' ':'"
-
-let g:syntastic_check_on_open            = 1
-let g:syntastic_check_on_wq              = 0
-let g:syntastic_aggregate_errors         = 1 " display all errors
-let g:syntastic_always_populate_loc_list = 1 " always put detecter errors in location list
-let g:syntastic_error_symbol             = '✗✗'
-let g:syntastic_warning_symbol           = '⚠⚠'
-let g:syntastic_stl_format               = '[%E{E:%fe-%e}%B{|}%W{W:%fw-%w}]'
-" }}}
-" taboo {{{
-" let g:taboo_tab_format = "%N %1a%m "
-let g:taboo_tab_format = "%N %f%m "
 " }}}
 " tmuxify {{{
 let g:tmuxify_custom_command = 'tmux split-window -dp 25'
@@ -893,7 +848,6 @@ set matchtime=3                " tenths of a second to flash to matching paren
 set incsearch                  " find as you type
 set hlsearch                   " hilight search terms
 set magic                      " change how backslashes are handled in searches
-" TODO: undofile, undo/backupdir, etc
 set ignorecase                 " case insensitive search by default
 set fileignorecase             " ignore case in commands like :buffer
 set smartcase                  " case sensitive search if search contains uppercase letter
@@ -956,8 +910,12 @@ augroup SyntaxSync
   autocmd BufEnter * syntax sync fromstart
 augroup END
 let g:no_ocaml_maps = 1
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+elseif executable('ag')
+  set grepprg=ag\ --vimgrep
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 filetype plugin indent on
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
@@ -1044,7 +1002,7 @@ endif
 " always show multiple tag options, <C-w> to open in new window
 "nnoremap <C-]> <C-w>g<C-]>
 nnoremap <C-]> g<C-]>
-nnoremap <BS> :<C-U>OverCommandLine<CR>%s/\V\<lt><c-r><c-w>\>//g<left><left>
+nnoremap <BS> :%s/\V\<lt><c-r><c-w>\>//g<left><left>
 nnoremap H ^
 nnoremap L g_
 " }}}
@@ -1053,7 +1011,7 @@ if !has('gui_running')
   set ttimeoutlen=10
   augroup FastEscape
     autocmd!
-    autocmd InsertEnter * set timeoutlen=0 ttimeoutlen=-1
+    autocmd InsertEnter * set timeoutlen=0
     autocmd InsertLeave * set timeoutlen=2000
   augroup END
 endif
@@ -1162,8 +1120,6 @@ xmap              <leader>G    <Plug>(GrepperOperator)
 nnoremap <silent> <leader>h    :BrightestToggle<CR>
 "                         g    fugitive and signify maps
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
-nmap     <silent> <Leader>L    :Limelight!!<CR>
-xmap              <Leader>L    <Plug>(Limelight)
 "                 <leader>l    ListToggle
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
@@ -1203,11 +1159,11 @@ nnoremap <silent> <leader>gw  :Gwrite<CR>
 " }}}
 " }}}
 " space leader maps. fzf + vim-plug {{{
-" TODO go through various fzf.vim functions and figure out which ones to use, how to customize them
-let g:fzf_command_prefix = 'FZF' " easy autocompletion, and prevent overlap with ag.vim
+let g:fzf_command_prefix = 'FZF' " easy autocompletion
 nnoremap <silent> <Space>b   :FZFBuffers<CR>
 nnoremap          <Space>c   :FZFCommands<CR>
 nnoremap <silent> <Space>f   :FZFFiles<CR>
+nnoremap <silent> <Space>F   :FZFFiles!<CR>
 nnoremap <silent> <Space>g   :FZFLines<CR>
 nnoremap <silent> <Space>G   :FZFBLines<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>
@@ -1221,8 +1177,8 @@ nnoremap <silent> <Space>T   :FZFBTags<CR>
 nnoremap <silent> <Space>v   :FZFCommits<CR>
 nnoremap <silent> <Space>V   :FZFBCommits<CR>
 nnoremap <silent> <Space>w   :FZFWindows<CR>
-nnoremap <silent> <Space>x   :FZFAg<CR>
-nnoremap          <Space>X   :FZFAg<Space>
+nnoremap <silent> <Space>x   :FZFRg<CR>
+nnoremap          <Space>X   :FZFRg<Space>
 nnoremap <silent> <Space>:   :FZFHistory:<CR>
 nnoremap <silent> <Space>/   :FZFHistory/<CR>
 
@@ -1370,10 +1326,13 @@ nnoremap <silent> <left>  :call tmuxify#pane_send_raw('C-b', '!')<CR>
 nnoremap <silent> <right> :call tmuxify#pane_send_raw('C-f', '!')<CR>
 " }}}
 " neovim terminal maps {{{
-if has('nvim')
-    tnoremap <Esc> <C-\><C-n>
-endif
 let g:terminal_scrollback_buffer_size = 100000
+if has('nvim')
+  augroup fzf_setup
+    autocmd!
+    autocmd TermOpen term://*FZF tnoremap <silent> <buffer><nowait> <esc> <c-c>
+  augroup END
+end
 " }}}
 " }}}
 " vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}}

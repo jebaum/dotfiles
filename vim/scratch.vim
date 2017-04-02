@@ -2,6 +2,9 @@
 " in my vimrc anymore
 
 
+" let g:syntastic_java_javac_config_file_enabled = 1
+" for allowing syntastic to find symbols in java classpath, put this in .syntastic_javac_config. must be in cwd
+" let g:syntastic_java_javac_custom_classpath_command = "brazil-path testlib.classpath | gawk 'BEGIN {RS=\":\"} {print $1;}' | tr '\n' ':'"
 
 " Run shell command, put output in split function {{{
 function! s:ExecuteInShell(command, bang)

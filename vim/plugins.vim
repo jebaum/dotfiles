@@ -1,6 +1,3 @@
-" Plug 'terryma/vim-multiple-cursors'
-" Plug 'osyo-manga/vim-brightest'  " maybe just use * and # instead?
-
 " Plug 'dbakker/vim-projectroot' " there's also a thing called rooter that's more automatic
 
 " Plug 'jeetsukumaran/vim-markology', {'on': ['MarkologyEnable', 'MarkologyDisable', 'MarkologyToggle', 'MarkologyPlaceMarkToggle', 'MarkologyPlaceMark', 'MarkologyClearMark', 'MarkologyClearAll', 'MarkologyNextLocalMarkPos', 'MarkologyPrevLocalMarkPos', 'MarkologyNextLocalMarkByAlpha', 'MarkologyPrevLocalMarkByAlpha', 'MarkologyLocationList', 'MarkologyQuickFix']}
@@ -22,13 +19,10 @@ let g:markology_enable = 0
 " Plug 'junegunn/vim-after-object'
 " https://github.com/junegunn/vim-easy-align
 " autocmd VimEnter * call after_object#enable(['>', '<'], '=', ':', '-', '#', ' ')
-" nnoremap >> >>
-" nnoremap << <<
 
 " Commands for editing wiki pages to Gitit
 " command! -nargs=1 Wiki execute ":split $HOME/Dropbox/wikidata/" . fnameescape("<args>.page") | execute ":Gwrite"
 
-" Plug 'tpope/vim-obsession'
 " Plug 'dhruvasagar/vim-prosession'
 
 " TODO look into this more, and remove other maps starting with " maybe
@@ -36,33 +30,20 @@ let g:markology_enable = 0
 
 " Plug 'pelodelfuego/vim-swoop' " TODO definite keeper, but needs maps and config
 
-https://github.com/gelguy/Cmd2.vim
-
 " Plug 'michaeljsmith/vim-indent-object'  <- doesn't have any maps that overlap with targets.vim
 
 https://github.com/dahu/VimRegexTutor
 https://www.reddit.com/r/neovim/comments/3t6k8i/looking_for_a_nice_way_to_use_the_neovims/
 https://www.reddit.com/r/vim/comments/3tbghl/canonical_way_of_searching_project_from_within_vim/
 https://github.com/vimwiki/vimwiki
-https://github.com/justinmk/vim-dirvish
-" https://github.com/justinmk/vim-gtfo
 https://www.reddit.com/r/vim/comments/3ysfnn/how_to_quickly_view_changes_gitfugitive_workflow/
-http://davidosomething.com/blog/vim-for-javascript/
 https://github.com/junegunn/fzf.vim/issues/47
 https://github.com/dhruvasagar/vim-dotoo
 https://github.com/jceb/vim-orgmode
 
 search plugins:
-https://github.com/dahu/SearchParty
 https://github.com/henrik/vim-indexed-search
-https://github.com/junegunn/vim-oblique
-https://github.com/ivyl/vim-bling
-https://github.com/haya14busa/vim-asterisk
 https://github.com/osyo-manga/vim-anzu
-https://github.com/inside/vim-search-pulse
-
-need maps for :Limelight!! and :Goyo
-send PR to goyo to make it use <nomodeline> in its doautocmd
 
 https://github.com/Olical/vim-enmasse
 https://github.com/lfv89/vim-interestingwords
