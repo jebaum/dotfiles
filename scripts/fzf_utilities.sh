@@ -40,14 +40,14 @@ fzimpl() { # fzf package management implementation
   fi
 
   expect="ctrl-k,ctrl-l,ctrl-s,ctrl-r,alt-l"
-  selected=$(fzf -m --expect="$expect" <<< $list | cut -d/ -f2 | cut -d' ' -f1)
+  selected=$(echo $list | fzf -m --expect="$expect" | cut -d/ -f2 | cut -d' ' -f1)
   if [ -z "$selected" ]; then
     [ -n "$WIDGET" ] && zle reset-prompt
     return
   fi
 
-  key=$(head -1 <<< $selected)
-  packages=($(sed '1d' <<< $selected))
+  key=$(echo $selected | head -1)
+  packages=($(echo $selected | sed '1d'))
 
   flags="-Sii"
   if [ "$key" = "ctrl-k" ]; then
@@ -79,16 +79,16 @@ fzimpl() { # fzf package management implementation
 ##### GIT
 fzgbr() { # checkout git branch
   local branches branch
-  branches=$(git branch) &&
+  branches=$(git branch -vv) &&
   branch=$(echo "$branches" | fzf +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //")
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 
 fzgbrall() { # checkout git branch (including remote branches)
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+           fzf-tmux -d $(( 2 + $(echo "$branches" | wc -l) )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
@@ -118,9 +118,9 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
   expect="ctrl-o"
   while out=$(
       git log --color=always --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' |
-      fzf --bind='ctrl-t:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1}"); do
-    query=$(head -1 <<< "$out")
-    keypress=$(sed -n '2p' <<< "$out")
+      fzf --bind='ctrl-space:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1}"); do
+    query=$(echo "$out" | head -1)
+    keypress=$(echo "$out" | sed -n '2p')
     shalist=()
     while read sha; do
       # if ctrl-o was pressed, open each commit sequentially. else, open all at once
@@ -129,14 +129,14 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
       else
         shalist+=$sha
       fi
-    done < <(sed '1,2d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
+    done < <(echo "$out" | sed '1,2d;s/^[^a-z0-9]*//;/^$/d' | awk '{print $1}')
     [ "$keypress" != "$expect" ] && git show --color $shalist
   done
 }
 
-# fzsha - get git commit sha, copy to clipboard
-# example usage: git rebase -i `fcs`
-fzsha() {
+# fzgsha - get git commit sha, copy to clipboard
+# example usage: git rebase -i `fzgsha`
+fzgsha() {
   local commits commit long
   if [ "$1" = "long" ]; then
       long=""
@@ -148,12 +148,13 @@ fzsha() {
   echo -n $(echo "$commit" | sed "s/ .*//") | xsel
 }
 
-# fzstash - easier way to deal with stashes
+# fzgstash - easier way to deal with stashes
 # type fstash to get a list of your stashes
 # enter shows you the contents of the stash
 # ctrl-d shows a diff of the stash against your current HEAD
 # ctrl-b checks the stash out as a branch, for easier merging
-fzstash() {
+# TODO make a repo to test this in, make sure eliminating the <<< redirection in favor of echo doesn't break it
+fzgstash() {
   local out q k sha
   while out=$(
     git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
@@ -179,11 +180,6 @@ fzstash() {
 
 
 ##### FILES AND DIRECTORIES
-fzcdf() { # change directory based on a file name
-   local file
-   local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
-}
 fzcd() { # change directory
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
@@ -194,29 +190,43 @@ fzcda() { # change directory, includes hidden directories
   local dir
   dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
-
-fzlocate() { # open file from locate command
-  local file
-  file=$(locate "$1" | fzf)
-  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+fzcdf() { # change directory based on a file name
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
-
-fzedit() { # edit a file
+fzcdlocate() {
   local file
-  file=$(fzf)
-  [ -n "$file" ] && ${EDITOR:-vim} "$file"
-}
-
-fzopen() { # CTRL-O to open with `xdg-open` command, CTRL-E or Enter key to open with $EDITOR
-  local out file key
-  out=$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
+  file="$(locate -Ai -0 "${@:-$HOME}" | grep -z -vE '~$' | fzf --read0 -0 -1)"
+  if [[ -n $file ]]
+  then
+     if [[ -d $file ]]
+     then
+        cd -- $file
+     else
+        cd -- ${file:h}
+     fi
   fi
 }
-
+fzlocate() { # open file from locate command
+  local files
+  files=($(locate -Ai -0 "${@:-$HOME}" | grep -z -vE '~$' | fzf --read0 -0 -1 -m))
+  [[ -n "$files" ]] && ${EDITOR:-vim} -p "${files[@]}"; print -l $files
+}
+fzedit() { # edit a file
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} -p "${files[@]}"; print -l $files
+}
+fzopen() { # CTRL-O to open with `xdg-open` command, CTRL-E or Enter key to open with $EDITOR
+  local out file key
+  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e,enter))
+  key=$(echo "$out" | head -1)
+  file=$(echo "$out" | sed -n '2p')
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
 fzviminfo() { # open files in ~/.viminfo
   local files
   files=$(grep '^>' ~/.viminfo | cut -c3- |
@@ -230,16 +240,18 @@ fzviminfo() { # open files in ~/.viminfo
 fztmux() { # select a tmux session
   local session
   session=$(tmux list-sessions -F "#{session_name}" | \
-    fzf) &&
+    fzf --query="$1" --select-1 --exit-0) &&
   tmux switch-client -t "$session"
 }
 
 fztpane () { # switch pane
-  local panes current_window target target_window target_pane
+# In tmux.conf: bind-key 0 run "tmux split-window -l 12 'bash -ci fztpane'"
+  local panes current_window current_pane target target_window target_pane
   panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
-  current_window=$(tmux display-message  -p '#I')
+  current_pane=$(tmux display-message -p '#I:#P')
+  current_window=$(tmux display-message -p '#I')
 
-  target=$(echo "$panes" | fzf) || return
+  target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
 
   target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
   target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)

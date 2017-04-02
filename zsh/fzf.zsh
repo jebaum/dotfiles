@@ -1,27 +1,32 @@
 # keep in sync with https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
-export FZF_DEFAULT_OPTS="-x --inline-info --color fg:-1,bg:-1,hl:80,fg+:3,bg+:233,hl+:46,info:150,prompt:110,spinner:150,pointer:167,marker:174"
+export FZF_DEFAULT_OPTS="--extended --bind='ctrl-space:toggle-preview' --inline-info --color fg:-1,bg:-1,hl:80,fg+:3,bg+:233,hl+:46,info:150,prompt:110,spinner:150,pointer:167,marker:174"
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
 
+__fzfcmd() { # currently does basically nothing, can be used to change behavior of all commands easily
+    echo "fzf"
+}
+
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
-  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
+  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type f -print \
     -o -type d -print \
-    -o -type l -print 2> /dev/null | sed 1d | cut -b3-"}"
-  eval "$cmd" | $(__fzfcmd) -m | while read item; do
-    printf '%q ' "$item"
+    -o -type l -print 2> /dev/null | cut -b3-"}"
+  setopt localoptions pipefail 2> /dev/null
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+    echo -n "${(q)item} "
   done
+  local ret=$?
   echo
+  return $ret
 }
-
-__fzfcmd() {
-  [ ${FZF_TMUX:-1} -eq 1 ] && echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-}
-
 fzf-file-widget() {
   LBUFFER="${LBUFFER}$(__fsel)"
+  local ret=$?
   zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
 }
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
@@ -40,16 +45,26 @@ bindkey '\et' fzf-locate-widget
 
 # ALT-d and ALT-D - cd into the selected directory using find/locate
 fzf-cd-find-widget() {
-  local cmd="${FZF_ALT_C_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
-    -o -type d -print 2> /dev/null | sed 1d | cut -b3-"}"
-  cd "${$(eval "$cmd" | $(__fzfcmd) +m):-.}"
+  local cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+    -o -type d -print 2> /dev/null | cut -b3-"}"
+  setopt localoptions pipefail 2> /dev/null
+  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
+  if [[ -z "$dir" ]]; then
+    zle redisplay
+    return 0
+  fi
+  cd "$dir"
+  local ret=$?
   zle reset-prompt
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
 }
 
 fzf-cd-locate-widget() {
   # $PWD will be expanded inside sed, so use a nonprinting bullshit character
   # as sed delimiter to make sure the whatever $PWD is doesn't screw up the command
-  DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^${PWD}" 2>/dev/null | sed "s^${PWD}/" | fzf):-.}"
+  # DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^/" 2>/dev/null | sed "s^${PWD}/" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse" $(__fzfcmd)):-.}"
+  DIR="${$(strings /var/lib/mlocate/mlocate.db | grep "^/" 2>/dev/null | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse" $(__fzfcmd)):-.}"
   cd $DIR
   zle reset-prompt
 }
@@ -62,7 +77,10 @@ bindkey '^[D' fzf-cd-locate-widget
 # CTRL-R - Paste the selected command from history into the command line
 fzf-history-widget() {
   local selected num
-  selected=( $(fc -l 1 | $(__fzfcmd) +s --tac +m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
+  setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
+  selected=( $(fc -l 1 |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(q)LBUFFER} +m" $(__fzfcmd)) )
+  local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]
     if [ -n "$num" ]; then
@@ -70,22 +88,33 @@ fzf-history-widget() {
     fi
   fi
   zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
 }
+
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
+
 # CTRL-O and ALT-O - open file from ag/locate commands
-fzf-edit-widget-ag() { fzf-edit-widget ag }
+# TODO determine whether to use ag or rg based on rg availability
+fzf-edit-widget-rg() { fzf-edit-widget rg }
+fzf-edit-widget-rg-all() { fzf-edit-widget rg-all }
 fzf-edit-widget-locate() { fzf-edit-widget locate }
 
 fzf-edit-widget() {
   local oldifs
   oldifs=$IFS
   IFS=$'\n'
-  if [ "$1" = "ag" ]; then
-    local filelist=( $(ag -g '.' 2>/dev/null | fzf -m) )
+  local OLD_FZF_DEFALUT_OPTS=$FZF_DEFAULT_OPTS
+  FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS --bind=ctrl-r:toggle-sort --query=${(q)LBUFFER} -m"
+  if [ "$1" = "rg" ]; then
+    local filelist=( $(command rg -g '' --files 2>/dev/null | $(__fzfcmd)) )
+    # local filelist=( $(ag -g '.' 2>/dev/null | $(__fzfcmd)) )
+  elif [ "$1" = "rg-all" ]; then
+    local filelist=( $(command rg -g '*' --files 2>/dev/null | $(__fzfcmd)) )
   elif [ "$1" = "locate" ]; then
-    local filelist=( $(locate --wholename "$PWD" 2>/dev/null | fzf -m) )
+    local filelist=( $(locate --wholename "$PWD" 2>/dev/null | $(__fzfcmd)) )
   fi
   if [ -z "$filelist" ]; then
     zle redisplay
@@ -101,13 +130,17 @@ fzf-edit-widget() {
     zle accept-line
   fi
   IFS=$oldifs
+  FZF_DEFAULT_OPTS=$OLD_FZF_DEFALUT_OPTS
 }
 
-zle -N fzf-edit-widget-ag
-bindkey '^O'   fzf-edit-widget-ag
+zle -N fzf-edit-widget-rg
+bindkey '^O'   fzf-edit-widget-rg
+
+zle -N fzf-edit-widget-rg-all
+bindkey '\eo'  fzf-edit-widget-rg-all
 
 zle -N fzf-edit-widget-locate
-bindkey '\eo'  fzf-edit-widget-locate
+bindkey '\eO'  fzf-edit-widget-locate
 
 fzgshowkey() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
@@ -116,14 +149,22 @@ fzgshowkey() {
     zle redisplay
 }
 zle -N fzgshowkey fzgshowkey
-bindkey '^G' fzgshowkey
+bindkey '\es' fzgshowkey
 
 
-agfullsearch() {
-    # remove empty / duplicate lines? or keep current behavior of opening all in tabs
-    # TODO currently remove blank lines, maybe remove lines with only a few characters on them as well? unlikely to be searching for them
-    # would get rid of brackets and close parens and stuff like that
-    filelist=($(ag "." --nocolor 2>/dev/null | grep -Ev ':[0-9]+:$' | fzf -m | cut -f 1,2 -d ":" | tr '\n' ' '))
+# TODO determine whether to use ag or rg based on rg availability
+fzf-search-widget() {
+    # rg '[^:]+:[0-9]+:.{5,}'   # matches lines with 5 characters or more after the metadata
+    # rg '[^:]+:[0-9]+:$'       # matches empty lines
+    # filelist=($(ag "." --nocolor 2>/dev/null | grep -Ev ':[0-9]+:$' | fzf -m | cut -f 1,2 -d ":" | tr '\n' ' '))
+    if [ "$1" = "rg-all" ]; then
+        local UARGS="-u"
+    elif [ "$1" = "rg-all-hidden" ]; then
+        local UARGS="-uu"
+    else
+        local UARGS=""
+    fi
+    filelist=($(command rg ".{7,}" $UARGS --color never --line-number 2>/dev/null | $(__fzfcmd) -m | cut -f 1,2 -d ":" | tr '\n' ' '))
     if [ -z "$filelist" ]; then
         zle redisplay
     else
@@ -138,15 +179,24 @@ agfullsearch() {
         zle accept-line
     fi
 }
-zle -N agfullsearch agfullsearch
-bindkey "^X" agfullsearch
+fzf-search-widget-rg() { fzf-search-widget rg }
+zle -N fzf-search-widget-rg
+bindkey "^X" fzf-search-widget-rg
+
+fzf-search-widget-rg-all() { fzf-search-widget rg-all }
+zle -N fzf-search-widget-rg-all
+bindkey "\ex" fzf-search-widget-rg-all
+
+fzf-search-widget-rg-all-hidden() { fzf-search-widget rg-all-hidden }
+zle -N fzf-search-widget-rg-all-hidden
+bindkey "\eX" fzf-search-widget-rg-all-hidden
 
 
 brazilwscd() {
     if [ ! -d "$HOME/workspace" ]; then
         return
     fi
-    local WS=$(find $HOME/workspace -maxdepth 3 -type d -path '*src/*' | sed "s|$HOME/workspace/||" | fzf --delimiter="/" --nth=3..)
+    local WS=$(find $HOME/workspace -maxdepth 3 -type d -path '*src/*' | sed "s|$HOME/workspace/||" | $(__fzfcmd) --delimiter="/" --nth=3..)
     if [ -n "$WS" ] && [ -d "$HOME/workspace/$WS" ]; then
         cd "$HOME/workspace/$WS"
     fi
