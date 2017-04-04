@@ -196,7 +196,7 @@ brazilwscd() {
     if [ ! -d "$HOME/workspace" ]; then
         return
     fi
-    local WS=$(find $HOME/workspace -maxdepth 3 -type d -path '*src/*' | sed "s|$HOME/workspace/||" | $(__fzfcmd) --delimiter="/" --nth=3..)
+    local WS=$(find $HOME/workspace -maxdepth 3 -type d -path '*src/*' | sed "s|$HOME/workspace/||" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) --delimiter="/" --nth=1,3..)
     if [ -n "$WS" ] && [ -d "$HOME/workspace/$WS" ]; then
         cd "$HOME/workspace/$WS"
     fi
