@@ -3,8 +3,8 @@ colorscheme default
 runtime macros/matchit.vim
 let mapleader = ','
 augroup LineNumberAutoToggle
-  autocmd InsertEnter * set norelativenumber
-  autocmd InsertLeave * set relativenumber
+  autocmd InsertEnter * let b:relativenumberSetting = &relativenumber | setlocal norelativenumber
+  autocmd InsertLeave * if b:relativenumberSetting | setlocal relativenumber | endif
 augroup END
 " Vim-Plug  {{{
 if empty(glob("~/.vim/autoload/plug.vim"))
@@ -138,7 +138,7 @@ augroup END
 " Mail / Mutt {{{
 augroup MUTT " spell check, textwidth, F1-3 for wrapping paragraphs in useful ways
   autocmd!
-  autocmd BufRead /tmp/mutt-* set tw=72  " for email with mutt
+  autocmd BufRead /tmp/mutt-* set tw=0   " for email with mutt
   autocmd BufRead /tmp/mutt-* set spell  " <-- vim 7 required
 augroup END
 " }}}
@@ -222,7 +222,7 @@ augroup QuickfixAlign
 augroup END
 " }}}
 " amazon wikiUtil {{{
-function s:WikiJobHandler(job_id, data, event)
+function s:WikiJobHandler(job_id, data, event) dict
     if a:event == 'stdout' || a:event == 'stderr'
         let self.output .= join(a:data)
       else
@@ -473,12 +473,15 @@ let g:ale_lint_delay=2000
 let g:ale_lint_on_insert_leave=1
 " }}}
 " anzu {{{
-let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus =1
+" NOTE: these options are not actually distinct. if either is true, cursormoved autocmd will run
+let g:anzu_enable_CursorHold_AnzuUpdateSearchStatus = 0
+let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus = 0
+augroup DisableAnzu " disable anzu autocmds, have map to run it just when I need to
+    autocmd VimEnter * augroup anzu | autocmd! | augroup END
+augroup END
 " }}}
 " brightest {{{
-augroup DisableBrightestOnStart
-    autocmd VimEnter * if exists(':Brightest') | BrightestDisable | endif
-augroup END
+let g:brightest_enable = 0
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
 highlight BrightestCustom guifg=#000000 guibg=#00AA00
 " }}}
@@ -567,6 +570,8 @@ command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#
 command! FZFColors call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
 
 " TODO: determine when to use which one of these based on rg availability
+" TODO override or add map to the FZFBuffers command to use :sbuffer, switch
+" to buffer if it's already open in a window somewhere. then can get rid of gO map
 
 "   :Ag  - Start fzf with hidden preview window that can be enabled with "ctrl-space" key
 "   :Ag! - Start fzf in fullscreen and display the preview window above
@@ -591,12 +596,12 @@ endfunction
 command! -bang -nargs=* FZFRg call FZFRgWrapper(<q-args>, <bang>0)
 " }}}
 " grepper {{{
-" TODO update this to prefer ripgrep
 let g:grepper = {}
-let g:grepper.tools  = ['ag', 'git', 'grep']
-let g:grepper.open   = 1
-let g:grepper.jump   = 0
-let g:grepper.switch = 0
+let g:grepper.tools  = ['rg', 'ag', 'git', 'grep']
+let g:grepper.open   = 1 " open quickfix window when done searching
+let g:grepper.switch = 0 " don't switch to the quickfix window when it opens
+let g:grepper.jump   = 0 " don't jump to the first match
+let g:grepper.side   = 0 " side window that has context for matches
 " }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
@@ -613,6 +618,7 @@ let g:mta_filetypes = {
 " }}}
 " matchparen {{{
 " let g:loaded_matchparen = 1 put this in neovim remote plugin!
+let g:matchparen_timeout = 50
 augroup MatchParenTimeout
     autocmd!
     autocmd BufEnter * call SetMatchParenTimeout()
@@ -657,18 +663,17 @@ augroup Oblique
   autocmd! User Oblique
   autocmd! User ObliqueStar
   autocmd! User ObliqueRepeat
-  " TODO make sure the anzu command exists, just in case
-  " also do I even want these? makes the search pattern flash in the command line
-  " instead of just updating the anzu count
-  autocmd User Oblique       AnzuUpdateSearchStatus | call ColumnFlash() | normal! zv
-  autocmd User ObliqueStar   AnzuUpdateSearchStatus | call ColumnFlash() | normal! zv
-  autocmd User ObliqueRepeat AnzuUpdateSearchStatus | call ColumnFlash() | normal! zv
+  autocmd User Oblique        call ColumnFlash() | normal! zv
+  autocmd User ObliqueStar    call ColumnFlash() | normal! zv
+  autocmd User ObliqueRepeat  call ColumnFlash() | normal! zv
 augroup END
 
+" call feedkeys("\<Plug>(anzu-echohl_search_status)")
 let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
 let g:sleepCommand = 'sleep ' . string(75 / len(g:colorList)) . 'm'
 function! ColumnFlash()
-    set cursorcolumn
+    let hadCursorline=&cursorline
+    setlocal cursorline cursorcolumn
     for i in range (0, len(g:colorList) - 1)
         execute 'highlight CursorLine guibg=' . g:colorList[i]
         redraw
@@ -678,7 +683,8 @@ function! ColumnFlash()
         execute g:sleepCommand
     endfor
     execute 'highlight CursorLine guibg=' . g:colorList[0]
-    set nocursorcolumn
+    if !hadCursorline | setlocal nocursorline | endif
+    setlocal nocursorcolumn
 endfunction
 " }}}
 " pandoc {{{
@@ -722,7 +728,7 @@ endfunction
 " }}}
 " rooter {{{
 augroup vimrc_rooter
-    autocmd VimEnter * :Rooter
+    autocmd VimEnter * if exists(':Rooter') | Rooter
 augroup END
 " }}}
 " signify {{{
@@ -865,9 +871,9 @@ if !has('nvim')
   set restorescreen=on         " restore screen contents on exit
   set ttyfast                  " redraw screen faster
   set cryptmethod=blowfish     " more secure encryption for vim -x
-  set esckeys                    " make numpad work
+  set esckeys                  " make numpad work
 else
-  set termguicolors
+  set termguicolors            " this is available in recent builds of vim as well as nvim
   if exists('&inccommand')
     set inccommand=nosplit
   endif
@@ -885,13 +891,8 @@ set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
 set viewoptions=cursor,folds,slash,unix " vim-stay configuration
-set cursorline
+set nocursorline
 set mouse=                     " disable mouse
-augroup CursorLine
-    autocmd!
-    autocmd BufEnter,WinEnter * setlocal cursorline
-    autocmd BufLeave,WinLeave * setlocal nocursorline
-augroup END
 set listchars=tab:▶-,trail:•,extends:>,eol:¬
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
 set suffixesadd+=.py,.rb       " suffixes to attempt to use for gf command
@@ -902,13 +903,10 @@ if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j  " delete comment character when joining commented lines
 endif
 set nojoinspaces        " use only one space after a period when joining lines
-syntax sync minlines=10        " speed up syntax hilighting
-syntax sync maxlines=100       " speed up syntax hilighting
-set synmaxcol=500
-augroup SyntaxSync
-  autocmd!
-  autocmd BufEnter * syntax sync fromstart
-augroup END
+syntax sync minlines=2         " speed up syntax hilighting
+syntax sync maxlines=5         " speed up syntax hilighting
+set synmaxcol=200
+set regexpengine=1 " XXX testing to see if this feels faster, some github issues/stackoverflow comments indicated so
 let g:no_ocaml_maps = 1
 if executable('rg')
     set grepprg=rg\ --vimgrep
@@ -918,7 +916,7 @@ elseif executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 filetype plugin indent on
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " :h guicursor?
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
@@ -1017,14 +1015,11 @@ if !has('gui_running')
 endif
 " }}}
 " misc g maps {{{
-nnoremap          go    :ls<CR>:sb<Space>
-nnoremap          gO    :ls<CR>:b<Space>
+nnoremap          gdu   :diffupdate<CR>
+xnoremap          gdp   :diffput <BAR> diffupdate<CR>
+xnoremap          gdo   :diffget <BAR> diffupdate<CR>
 nnoremap          gp    gw{gw}
 nnoremap          gs    gnv
-nnoremap          g/    :<C-u>OverCommandLine<CR>%s/
-xnoremap          g/    :<C-u>OverCommandLine<CR>%s/\%V
-nnoremap          g?    :<C-u>OverCommandLine<CR>/
-xnoremap          g?    :<C-u>OverCommandLine<CR>/\%V
 nnoremap          g;    g;zz
 nnoremap          g,    g,zz
 " }}}
@@ -1034,8 +1029,6 @@ onoremap M %
 vnoremap M %
 " make K do the opposite of J: split lines under the cursor
 nnoremap K i<CR><Esc>k$
-nnoremap - 10jzz
-nnoremap _ 10kzz
 " }}}
 " easily toggle command line window with Q {{{
 nnoremap Q q:
@@ -1050,14 +1043,9 @@ vnoremap <C-a> :call Increment()<CR>
 xnoremap <C-f> <Esc>/\%V
 nnoremap gV `[v`]
 " }}}
-" diff[update,put,obtain] gd[upo] {{{
-nnoremap gdu :diffupdate<CR>
-xnoremap gdp :diffput <BAR> diffupdate<CR>
-xnoremap gdo :diffget <BAR> diffupdate<CR>
-" }}}
 " line yanks Y yl yaa {{{
 nnoremap Y y$
-nnoremap yl :let c=col(".")<CR>^v$hy:call cursor(line("."),c)<CR>
+nnoremap yl :let c=col(".")<CR>$v^y:call cursor(line("."),c)<CR>
 nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>:echo 'yanked whole file'<CR>
 " }}}
 " c/C/x/X operators go to own registers instead of unnamed[plus] register specified by 'clipboard' {{{
@@ -1095,7 +1083,7 @@ augroup END
 " }}}
 " Text Object / targets.vim maps {{{
 let g:targets_pairs       = '()b {}c []r <>g'
-let g:targets_quotes      = "\"d 's `e"
+let g:targets_quotes      = "\"d 's `t"
 
 function! Append(type, ...)
     call feedkeys("`]a", 'n')
@@ -1110,15 +1098,13 @@ nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : '
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
 " defualt comma leader maps {{{
-" Main {{{
 nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
+nnoremap <silent> <leader>A    :AnzuUpdateSearchStatusOutput<CR>
+nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
 "                 <leader>e    ListToggle
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-nmap              <leader>G    <Plug>(GrepperOperator)
-xmap              <leader>G    <Plug>(GrepperOperator)
-nnoremap <silent> <leader>h    :BrightestToggle<CR>
-"                         g    fugitive and signify maps
+"                      [gG]    fugitive, signify and grepper maps below
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 "                 <leader>l    ListToggle
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
@@ -1138,9 +1124,7 @@ nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
-nnoremap          <leader>#    :Grepper -tool ag -cword -noprompt<cr>
-" }}}
-" <leader>g[jkht] signify {{{
+" <leader>g[jkht] taken by signify 
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
 nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Gblame<CR>
@@ -1148,7 +1132,6 @@ nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
 nnoremap          <leader>gC  :Gcheckout<Space>
 nnoremap <silent> <leader>gd  :Gdiff<CR>
 nnoremap          <leader>ge  :Gedit<Space>
-nnoremap          <leader>gg  :Grepper<CR>
 nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
 nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
 nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
@@ -1156,7 +1139,19 @@ nnoremap          <leader>gm  :Gmove<Space>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
-" }}}
+
+" TODO add grepper maps for -buffer and -buffers, and create something like
+command! Todo :Grepper
+        \ -noprompt
+        \ -buffer
+        \ -tool git
+        \ -grepprg git grep -nIi '\(TODO\|XXX\|FIXME\)'
+" TODO make a search that does -u at least, by overriding -grepprg in the :Grepper command line
+" TODO also see if i can add colors? just for shits. look at grepper highlight groups in the help as well
+nnoremap          <leader>#   :Grepper -cword -noprompt<cr>
+nnoremap          <leader>gg  :Grepper<CR>
+nmap              <leader>G   <Plug>(GrepperOperator)
+xmap              <leader>G   <Plug>(GrepperOperator)
 " }}}
 " space leader maps. fzf + vim-plug {{{
 let g:fzf_command_prefix = 'FZF' " easy autocompletion
@@ -1201,10 +1196,6 @@ inoremap <Esc>   <Esc>`^
 " }}}
 " alt normal mode {{{
 " move windows
-nnoremap          gh    <C-w>H
-nnoremap          gj    <C-w>J
-nnoremap          gk    <C-w>K
-nnoremap          gl    <C-w>L
 exec 'nnoremap <silent> ' . AltShiftmap('H') . ' :execute "ObviousResizeLeft " . (winwidth(0) * 1/6)<CR>'
 exec 'nnoremap <silent> ' . AltShiftmap('J') . ' :execute "ObviousResizeDown " . (winheight(0) * 1/6)<CR>'
 exec 'nnoremap <silent> ' . AltShiftmap('K') . ' :execute "ObviousResizeUp " . (winheight(0) * 1/6)<CR>'
