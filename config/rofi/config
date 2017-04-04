@@ -1,4 +1,4 @@
-rofi.modi:                           window,run,ssh,workspaces:/home/james/dotfiles/config/rofi/i3_switch_workspaces.sh
+rofi.modi:                           window,run,ssh,workspaces:~/dotfiles/config/rofi/i3_switch_workspaces.sh
 ! "Window width" Set from: Default (percentage if <100, otherwise pixels)
 rofi.width:                          800
 ! "Number of lines" Set from: Default
@@ -33,7 +33,7 @@ rofi.ssh-command:                    {terminal} -e {ssh-client} {host}
 ! "Disable history in run/ssh" Set from: Default
 ! rofi.disable-history:                false
 ! "Use levenshtein sorting" Set from: Default
-rofi.levenshtein-sort:               true
+rofi.levenshtein-sort:               false
 ! "Set case-sensitivity" Set from: Default
 ! rofi.case-sensitive:                 false
 ! "Cycle through the results list" Set from: Default
