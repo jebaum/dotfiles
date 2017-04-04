@@ -149,6 +149,7 @@ bindsym $mod+Control+q      exec killall mpv
 # bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
 bindsym $mod+p                  exec rofi -show run
+bindsym $mod+q                  exec rofi -show window
 bindsym XF86TouchpadToggle      exec ~/dotfiles/scripts/touchpadtoggle.sh
 bindsym $mod+BackSpace          exec ~/dotfiles/i3/i3-bar-toggle.py
 bindsym --release Shift+Print   exec gnome-screenshot -a
