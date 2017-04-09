@@ -38,6 +38,13 @@ else
   Plug 'eparreno/vim-l9'
 endif
 
+" Plug 'Shougo/denite.nvim'
+
+" Plug 'haya14busa/incsearch.vim'
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
+
 Plug 'airblade/vim-rooter'
 Plug 'bruno-/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
@@ -469,7 +476,7 @@ let g:airline#extensions#hunks#non_zero_only = 1
 let g:airline#extensions#tabline#enabled = 0
 " }}}
 " ale {{{
-let g:ale_lint_delay=2000
+let g:ale_lint_delay=1000
 let g:ale_lint_on_insert_leave=1
 " }}}
 " anzu {{{
@@ -602,6 +609,8 @@ let g:grepper.open   = 1 " open quickfix window when done searching
 let g:grepper.switch = 0 " don't switch to the quickfix window when it opens
 let g:grepper.jump   = 0 " don't jump to the first match
 let g:grepper.side   = 0 " side window that has context for matches
+command! TodoBuffer    :Grepper -noprompt -buffer  -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
+command! TodoBuffers   :Grepper -noprompt -buffers -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
 " }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
@@ -635,7 +644,7 @@ endfunction
 " }}}
 " move {{{
 let g:move_map_keys = 0 " default Alt+[jk] maps conflict with resizing
-augroup OverrideUnimpaired
+augroup OverrideUnimpaired " TODO this whole bs can be replaced by like 2 lines in my vimrc, then no need for plugin
     autocmd!
     autocmd VimEnter * nmap [e <Plug>MoveLineUp
     autocmd VimEnter * nmap ]e <Plug>MoveLineDown
@@ -849,7 +858,7 @@ set history=10000              " length of command history
 set showmode                   " show what mode we're in on the bottom line
 set showcmd                    " show current command or visual selection info in bottom line
 set cmdwinheight=10            " height of command line window
-set showmatch                  " flash to matching paren when typing
+set noshowmatch                " don't flash to matching paren when typing
 set matchtime=3                " tenths of a second to flash to matching paren
 set incsearch                  " find as you type
 set hlsearch                   " hilight search terms
@@ -916,7 +925,7 @@ elseif executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 filetype plugin indent on
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " :h guicursor?
+set guicursor=n-v:block,i-c-ci:ver30
 " }}}
 " Completion options {{{
 set completeopt=longest,menuone
@@ -1065,7 +1074,7 @@ nnoremap "*X "*X
 " quickfix maps {{{
 augroup QuickFix
   autocmd!
-  autocmd FileType qf setlocal nosplitbelow nosplitright
+  autocmd FileType qf setlocal nosplitbelow nosplitright norelativenumber
   autocmd FileType qf setlocal switchbuf=""
   autocmd FileType qf nnoremap <buffer><silent> <CR> <CR>zvzz
   autocmd FileType qf nnoremap <buffer><silent> t  <C-w><CR><C-w>Tzvzz
@@ -1140,18 +1149,12 @@ nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Gstatus<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 
-" TODO add grepper maps for -buffer and -buffers, and create something like
-command! Todo :Grepper
-        \ -noprompt
-        \ -buffer
-        \ -tool git
-        \ -grepprg git grep -nIi '\(TODO\|XXX\|FIXME\)'
-" TODO make a search that does -u at least, by overriding -grepprg in the :Grepper command line
-" TODO also see if i can add colors? just for shits. look at grepper highlight groups in the help as well
 nnoremap          <leader>#   :Grepper -cword -noprompt<cr>
-nnoremap          <leader>gg  :Grepper<CR>
-nmap              <leader>G   <Plug>(GrepperOperator)
-xmap              <leader>G   <Plug>(GrepperOperator)
+nnoremap          <leader>G   :Grepper<CR>
+nnoremap          <leader>gu  :Grepper -tool rg -grepprg rg -Hu  --no-heading --vimgrep<CR>
+nnoremap          <leader>gU  :Grepper -tool rg -grepprg rg -Huu --no-heading --vimgrep<CR>
+nmap              <leader>gg  <Plug>(GrepperOperator)
+xmap              <leader>gg  <Plug>(GrepperOperator)
 " }}}
 " space leader maps. fzf + vim-plug {{{
 let g:fzf_command_prefix = 'FZF' " easy autocompletion
