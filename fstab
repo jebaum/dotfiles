@@ -1,25 +1,15 @@
-#
-# /etc/fstab: static file system information
-#
-# <file system>	<dir>	<type>	<options>	<dump>	<pass>
-# /dev/sda1
-UUID=ce5c2b80-9b66-4b56-a859-36c759742882	/         	ext4      	rw,relatime,data=ordered	0 1
+# /dev/sdc1
+UUID=652ec8a0-d7b0-4798-aab6-d094ffee0b2f   /           ext4        rw,relatime,data=ordered    0 1
 
-# /dev/sda2
-UUID=79a67cc1-5e3d-4188-9988-73e9ce64bc49	/home     	ext4      	rw,relatime,data=ordered	0 2
+# /dev/sdc2
+UUID=8b2da6f5-db87-4d9d-912f-6482a5a64a1a   /home       ext4        rw,relatime,data=ordered    0 2
 
-##### MANUALLY ADDED STUFF STARTS HERE
+# /dev/sda1 LABEL=Storage
+UUID=e7e38873-9ccf-4bcd-8582-7fc49eed7f51   /home/james/storage ext4        rw,nofail,user,relatime,data=ordered    0 2
 
-#storage drive
-UUID=e7e38873-9ccf-4bcd-8582-7fc49eed7f51 /home/james/storage    ext4 defaults,users 0 0
-/home/james/storage/CBRMusic /home/everyone/music none bind 0 0
+# /dev/sdd1 LABEL=Big1
+UUID=d23ce4f3-2970-42ac-af9c-4562826c56fb   /home/big1          ext4        rw,nofail,user,relatime,data=ordered    0 2
 
-#2tb external
-UUID=5611db87-3658-4741-9bfd-e32aece31b7a   /home/james/external ext4 defaults,users 0 0
-#/home/james/external/Video /home/everyone/video none bind 0 0
+# /dev/sde1 LABEL=Big2
+UUID=8ac36a91-500d-47c6-b0ef-1b9062535adf   /home/big2    ext4        rw,nofail,user,relatime,data=ordered    0 2
 
-# pny usb drive
-UUID=0000-0001 /home/james/usb/pny vfat noauto,exec,rw,user,uid=james,gid=users,umask=077 0 0
-
-# emprex usb drive
-UUID=CDB9-894F /home/james/usb/emprex vfat noauto,exec,rw,user,uid=james,gid=users,umask=077 0 0
