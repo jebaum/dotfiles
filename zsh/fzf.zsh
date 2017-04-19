@@ -33,11 +33,11 @@ bindkey '^T' fzf-file-widget
 
 # ALT-T - Paste the selected entry from locate output into the command line
 fzf-locate-widget() {
-  local selected
-  if selected=$(locate / | fzf -q "$LBUFFER"); then
-    LBUFFER=$selected
-  fi
+LBUFFER="${LBUFFER}$(locate / | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) -m | while read item; do echo -n "${(q)item} "; done)"
+  local ret=$?
   zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
 }
 zle     -N    fzf-locate-widget
 bindkey '\et' fzf-locate-widget
@@ -114,7 +114,7 @@ fzf-edit-widget() {
   elif [ "$1" = "rg-all" ]; then
     local filelist=( $(command rg -g '*' --files 2>/dev/null | $(__fzfcmd)) )
   elif [ "$1" = "locate" ]; then
-    local filelist=( $(locate --wholename "$PWD" 2>/dev/null | $(__fzfcmd)) )
+    local filelist=( $(locate / 2>/dev/null | $(__fzfcmd)) )
   fi
   if [ -z "$filelist" ]; then
     zle redisplay
