@@ -145,7 +145,8 @@ fzgsha() {
   fi
   commits=$(git log --color=always --pretty=oneline $long --reverse) &&
   commit=$(echo "$commits" | fzf --tac +s +m --ansi --reverse --nth=2..) &&
-  echo -n $(echo "$commit" | sed "s/ .*//") | xsel
+  echo -n $(echo "$commit" | sed "s/ .*//" | xargs git rev-parse) | xsel # git rev-parse will get the full hash
+  echo "full hash from \`$commit' copied to clipboard"
 }
 
 # fzgstash - easier way to deal with stashes
