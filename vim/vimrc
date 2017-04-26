@@ -33,17 +33,14 @@ endif
 if has('nvim')
   set shortmess+=c " helps with completion flicker
   Plug 'Shougo/deoplete.nvim'
+  Plug 'zchee/deoplete-jedi'
+  " Plug 'jebaum/neosyntax'
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'eparreno/vim-l9'
 endif
 
 " Plug 'Shougo/denite.nvim'
-
-" Plug 'haya14busa/incsearch.vim'
-" map /  <Plug>(incsearch-forward)
-" map ?  <Plug>(incsearch-backward)
-" map g/ <Plug>(incsearch-stay)
 
 Plug 'airblade/vim-rooter'
 Plug 'bruno-/vim-husk'
@@ -73,7 +70,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-brightest' ", {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
 Plug 'scrooloose/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
-Plug 'thinca/vim-quickrun',  {'on': 'QuickRun'}
+Plug 'thinca/vim-quickrun' ",  {'on': 'QuickRun'}
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
 Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
@@ -478,14 +475,15 @@ let g:airline#extensions#tabline#enabled = 0
 " ale {{{
 let g:ale_lint_delay=1000
 let g:ale_lint_on_insert_leave=1
+let g:ale_python_flake8_options = '--max-line-length=120'
 " }}}
 " anzu {{{
 " NOTE: these options are not actually distinct. if either is true, cursormoved autocmd will run
-let g:anzu_enable_CursorHold_AnzuUpdateSearchStatus = 0
-let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus = 0
-augroup DisableAnzu " disable anzu autocmds, have map to run it just when I need to
-    autocmd VimEnter * augroup anzu | autocmd! | augroup END
-augroup END
+" let g:anzu_enable_CursorHold_AnzuUpdateSearchStatus = 0
+" let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus = 0
+" augroup DisableAnzu " disable anzu autocmds, have map to run it just when I need to
+    " autocmd VimEnter * augroup anzu | autocmd! | augroup END
+" augroup END
 " }}}
 " brightest {{{
 let g:brightest_enable = 0
@@ -500,44 +498,27 @@ let g:detectindent_max_lines_to_analyse = 1024
 " deoplete {{{
 let g:deoplete#enable_at_startup            = 1
 let g:deoplete#enable_smart_case            = 1
-let g:deoplete#auto_completion_start_length = 1
-let g:deoplete#sources                      = {}
-let g:deoplete#sources._                    = ['omni', 'buffer', 'ultisnips']
-let g:deoplete#sources.text                 = ['buffer', 'dictionary']
-let g:deoplete#sources.pandoc               = ['buffer', 'dictionary']
-let g:deoplete#sources.javascript           = ['omni', 'buffer']
-let g:deoplete#sources.java                 = ['javacomplete2', 'omni', 'buffer', 'ultisnips']
-
-" https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#omni#input_patterns.javascript = ['[^. \t0-9]\.\w*']
-    let g:deoplete#omni#input_patterns.java = [
-        \'[^. \t0-9]\.\w*',
-        \'[^. \t0-9]\->\w*',
-        \'[^. \t0-9]\::\w*',
-        \]
-    let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
-    let g:deoplete#ignore_sources = {}
-    let g:deoplete#ignore_sources._ = ['javacomplete2']
-
-" let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-
-" augroup DeopletePclose " close preview window when finishing completion or leaving insert mode
-    " autocmd!
-    " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-" augroup END
-
-augroup DeopleteOmniFuncs
-  autocmd!
-  " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType javascript setlocal omnifunc=tern#Complete
-  " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup end
+let g:deoplete#auto_completion_start_length = 0
+let g:deoplete#sources#jedi#show_docstring  = 1
+  " <C-h>, <BS>: close popup and delete backword char.
+  " inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+  " inoremap <expr><BS>  deoplete#mappings#smart_close_popup()."\<C-h>"
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_deoplete_cr_function()<CR>
+  function! s:my_deoplete_cr_function() abort
+    return deoplete#close_popup() . "\<CR>"
+  endfunction
+nnoremap <leader>C :<C-u>pclose<CR>
+nnoremap <Space>P :call ToggleCompletePreviewWindow()<CR>
+function! ToggleCompletePreviewWindow()
+    if &completeopt =~ "preview"
+        echo 'turning preview window off'
+        set completeopt-=preview
+    else
+        echo 'turning preview window on'
+        set completeopt+=preview
+    endif
+endfunction!
 " }}}
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
@@ -672,14 +653,14 @@ augroup Oblique
   autocmd! User Oblique
   autocmd! User ObliqueStar
   autocmd! User ObliqueRepeat
-  autocmd User Oblique        call ColumnFlash() | normal! zv
-  autocmd User ObliqueStar    call ColumnFlash() | normal! zv
-  autocmd User ObliqueRepeat  call ColumnFlash() | normal! zv
+  autocmd User Oblique        call ColumnFlash() | AnzuUpdateSearchStatusOutput | normal! zv
+  autocmd User ObliqueStar    call ColumnFlash() | AnzuUpdateSearchStatusOutput | normal! zv
+  autocmd User ObliqueRepeat  call ColumnFlash() | AnzuUpdateSearchStatusOutput | normal! zv
 augroup END
 
 " call feedkeys("\<Plug>(anzu-echohl_search_status)")
 let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
-let g:sleepCommand = 'sleep ' . string(75 / len(g:colorList)) . 'm'
+let g:sleepCommand = 'sleep ' . string(100 / len(g:colorList)) . 'm'
 function! ColumnFlash()
     let hadCursorline=&cursorline
     setlocal cursorline cursorcolumn
@@ -710,13 +691,17 @@ let g:pandoc#after#modules#enabled = ["ultisnips", "unite"]
 " }}}
 " quickrun {{{
 let g:quickrun_config         = {}  " initialize dictionary
-let g:quickrun_config._       = {'runner':'vimproc', 'runner/vimproc/updatetime':'250','hook/getpid/enable':'1'} " _ is fallback default value
+" let g:quickrun_config._       = {'runner':'vimproc', 'runner/vimproc/updatetime':'250','hook/getpid/enable':'1'} " _ is fallback default value
 let g:quickrun_config.generic = {'exec':'%c %a'}    " any arbitrary -command and -args, e.g. `QuickRun generic -command ls -args '-al ~'`
 let g:quickrun_config.make    = {'exec':'make %a','runner':'vimproc','outputter':'quickfix'}
 let g:quickrun_config.pandoc  = {'exec':'pandoc %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
-let g:quickrun_config.python  = {'cmdopt':'-u','runner':'vimproc'}      " prevent python from buffering output
+let g:quickrun_config.python  = {'cmdopt':'-u','runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}      " prevent python from buffering output
+let g:quickrun_config.pytest  = {'exec':'pytest '.expand('%:p'),'runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}
 let g:quickrun_config.latex   = {'exec':'rubber %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
-
+let g:quickrun_config._       = {'runner':'jobstart'} " TODO using jobstart when i have the updatetime / getpid stuff set for vimproc causes problems. also make sure to only do this in nvim
+nnoremap <silent> <leader>R :bwipeout __quickrun_output__<CR>
+nnoremap <silent> <leader>Q :bwipeout __quickrun_output__<CR>
+nnoremap <silent> <leader>T :execute 'QuickRun pytest -outputter/buffer/split "' . (winwidth(0) * 2 < winheight(0) * 5 ? '35' : 'vertical 90') . '"'<CR>
 function! QuickRunSplit()
     " figure out what to prepend to :split command for buffer output based on current window size
     return winwidth(0) * 2 < winheight(0) * 5 ? "15" : "vertical 45"
@@ -752,8 +737,10 @@ nmap ]c             <Plug>(signify-next-hunk)
 nmap [c             <Plug>(signify-prev-hunk)
 " }}}
 " sneak  {{{
+let g:sneak#label = 0
+let g:sneak#target_labels = ";sftunq/SFGHLTUNRMQZ?0"
 let g:sneak#use_ic_scs = 1
-let g:sneak#s_next = 0
+let g:sneak#absolute_dir = 1
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
 xmap f <Plug>Sneak_f
@@ -766,16 +753,10 @@ xmap t <Plug>Sneak_t
 xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
-
-" nnoremap <expr> ; getcharsearch().forward ? ';' : ','
-" nnoremap <expr> , getcharsearch().forward ? ',' : ';'
-let g:sneak#streak = 0
-nmap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
-omap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
-xmap <silent> <expr> ; sneak#state().reverse ? '<Plug>SneakPrevious' : '<Plug>SneakNext'
-exec 'nmap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
-exec 'omap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
-exec 'xmap <silent> <expr> '.Altmap(';').' sneak#state().reverse ? "<Plug>SneakNext" : "<Plug>SneakPrevious"'
+map <M-;> <Plug>Sneak_,
+" oblique fuzzy search steps on these omaps if I don't explicitly put them in
+omap z <Plug>Sneak_s
+omap Z <Plug>Sneak_S
 " }}}
 " startify {{{
 let g:startify_list_order         = ['bookmarks']
@@ -1120,6 +1101,7 @@ nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
+nnoremap <silent> <leader>r    :execute 'QuickRun -outputter/buffer/split ' . (winwidth(0) * 2 < winheight(0) * 5 ? "30" : "vertical 45")<CR>
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
 nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sv   :source %<CR>
@@ -1133,7 +1115,7 @@ nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
-" <leader>g[jkht] taken by signify 
+" <leader>g[jkht] taken by signify
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
 nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Gblame<CR>
