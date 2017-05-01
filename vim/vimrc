@@ -42,6 +42,7 @@ endif
 
 " Plug 'Shougo/denite.nvim'
 
+Plug 'carlitux/deoplete-ternjs'
 Plug 'airblade/vim-rooter'
 Plug 'bruno-/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
@@ -697,11 +698,12 @@ let g:quickrun_config.make    = {'exec':'make %a','runner':'vimproc','outputter'
 let g:quickrun_config.pandoc  = {'exec':'pandoc %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
 let g:quickrun_config.python  = {'cmdopt':'-u','runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}      " prevent python from buffering output
 let g:quickrun_config.pytest  = {'exec':'pytest '.expand('%:p'),'runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}
+let g:quickrun_config.javascript  = {'exec':'node '.expand('%:p'),'runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}      " prevent python from buffering output
 let g:quickrun_config.latex   = {'exec':'rubber %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
 let g:quickrun_config._       = {'runner':'jobstart'} " TODO using jobstart when i have the updatetime / getpid stuff set for vimproc causes problems. also make sure to only do this in nvim
 nnoremap <silent> <leader>R :bwipeout __quickrun_output__<CR>
 nnoremap <silent> <leader>Q :bwipeout __quickrun_output__<CR>
-nnoremap <silent> <leader>T :execute 'QuickRun pytest -outputter/buffer/split "' . (winwidth(0) * 2 < winheight(0) * 5 ? '35' : 'vertical 90') . '"'<CR>
+" nnoremap <silent> <leader>T :execute 'QuickRun pytest -outputter/buffer/split "' . (winwidth(0) * 2 < winheight(0) * 5 ? '35' : 'vertical 90') . '"'<CR>
 function! QuickRunSplit()
     " figure out what to prepend to :split command for buffer output based on current window size
     return winwidth(0) * 2 < winheight(0) * 5 ? "15" : "vertical 45"
@@ -1101,7 +1103,7 @@ nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-nnoremap <silent> <leader>r    :execute 'QuickRun -outputter/buffer/split ' . (winwidth(0) * 2 < winheight(0) * 5 ? "30" : "vertical 45")<CR>
+nnoremap <silent> <leader>r    :execute 'QuickRun -outputter/buffer/split ' . (winwidth(0) * 2 < winheight(0) * 5 ? "30" : "'vertical 45'")<CR>
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
 nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sv   :source %<CR>
