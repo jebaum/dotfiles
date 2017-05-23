@@ -15,7 +15,7 @@ if ! pgrep mutt > /dev/null ; then
 fi
 
 if ! pgrep ranger > /dev/null ; then
-  EDITOR=vim st -c 'ranger' -e ranger &
+  st -c 'ranger' -e ranger &
 fi
 
 if [[ $(ps aux | grep "st -c vps" | wc -l) != 2 ]]; then
