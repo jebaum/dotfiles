@@ -49,7 +49,7 @@ set move=no                   # Don't move mail from spool
 set mask="!^\\.[^.]"
 set sort_browser=alpha        # Sort mailboxes by alpha(bet)
 set mark_old=no
-folder-hook * "exec collapse-all"
+#folder-hook * "exec collapse-all"
 source ~/.mutt/jbaumy.muttrc # Startup folder
 #=Headers==============================================#
 
