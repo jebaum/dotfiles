@@ -33,7 +33,7 @@ rofi.ssh-command:                    {terminal} -e {ssh-client} {host}
 ! "Disable history in run/ssh" Set from: Default
 ! rofi.disable-history:                false
 ! "Use levenshtein sorting" Set from: Default
-rofi.levenshtein-sort:               false
+rofi.levenshtein-sort:               true
 ! "Set case-sensitivity" Set from: Default
 ! rofi.case-sensitive:                 false
 ! "Cycle through the results list" Set from: Default
