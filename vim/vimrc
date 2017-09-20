@@ -31,9 +31,12 @@ endif
 
 " settings for completion plugins defined in `after/plugin` directory
 if has('nvim')
-  set shortmess+=c " helps with completion flicker
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'zchee/deoplete-jedi'
+  " bug with CmSetup user autocmd in completion-manager: collapses folds when entering buffer
+  Plug 'roxma/nvim-completion-manager'
+  Plug 'Shougo/neco-vim'
+  Plug 'Shougo/neco-syntax'
+  " Plug 'roxma/ncm-github'
+  Plug 'davidhalter/jedi'
   " Plug 'jebaum/neosyntax'
 else
   Plug 'othree/vim-autocomplpop'
@@ -42,11 +45,9 @@ endif
 
 " Plug 'Shougo/denite.nvim'
 
-Plug 'carlitux/deoplete-ternjs'
 Plug 'airblade/vim-rooter'
 Plug 'bruno-/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'ciaranm/detectindent'
 Plug 'dahu/vimple'
 Plug 'dockyard/vim-easydir'
 Plug 'jamessan/vim-gnupg'
@@ -63,7 +64,7 @@ Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
 Plug 'Valloric/ListToggle'
 Plug 'machakann/vim-highlightedyank'
-Plug 'matze/vim-move'
+Plug 'matze/vim-move' " TODO stomped on by my obvious-resize maps, figure that out
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
@@ -80,6 +81,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
+Plug 'tpope/vim-sleuth' " auto detect indent settings
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
@@ -274,6 +276,7 @@ function! WikiGet()
         echoerr 'you goofed'
     else
         silent exe "!./remoteWikiUtil get '" . url . "'"
+    endif
 endfunction
 
 command! WikiPut call WikiPut()
@@ -496,31 +499,6 @@ let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
 let g:detectindent_max_lines_to_analyse = 1024
 " }}}
-" deoplete {{{
-let g:deoplete#enable_at_startup            = 1
-let g:deoplete#enable_smart_case            = 1
-let g:deoplete#auto_completion_start_length = 0
-let g:deoplete#sources#jedi#show_docstring  = 1
-  " <C-h>, <BS>: close popup and delete backword char.
-  " inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-  " inoremap <expr><BS>  deoplete#mappings#smart_close_popup()."\<C-h>"
-  " <CR>: close popup and save indent.
-  inoremap <silent> <CR> <C-r>=<SID>my_deoplete_cr_function()<CR>
-  function! s:my_deoplete_cr_function() abort
-    return deoplete#close_popup() . "\<CR>"
-  endfunction
-nnoremap <leader>C :<C-u>pclose<CR>
-nnoremap <Space>P :call ToggleCompletePreviewWindow()<CR>
-function! ToggleCompletePreviewWindow()
-    if &completeopt =~ "preview"
-        echo 'turning preview window off'
-        set completeopt-=preview
-    else
-        echo 'turning preview window on'
-        set completeopt+=preview
-    endif
-endfunction!
-" }}}
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -640,6 +618,12 @@ let NERDCompactSexyComs = 0
 " }}}
 " netrw {{{
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+" }}}
+" nvim-completion-manager {{{
+" When the <Enter> key is pressed while the popup menu is visible, it only hides the menu. Use this mapping to hide the menu and also start a new line.
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+let g:cm_matcher = {'module': 'cm_matchers.abbrev_matcher', 'case': 'smartcase'} " prefix substr, fuzzy, abbrev (requires ag binary)
+imap <C-n> <Plug>(cm_force_refresh)
 " }}}
 " oblique {{{
 let g:oblique#incsearch_highlight_all=1
@@ -856,6 +840,7 @@ set scrolloff=1                " start scrolling when 8 lines away from margins
 set updatetime=4000            " swap file writes and CursorHold autocmd. weird fold closing problem
 set encoding=utf8              " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
+set shortmess+=c               " don't give |ins-completion-menu| messages. helps with completion flicker
 set timeout
 set timeoutlen=3000
 set ttimeoutlen=100
@@ -913,7 +898,7 @@ set guicursor=n-v:block,i-c-ci:ver30
 " Completion options {{{
 set completeopt=longest,menuone
 " hitting enter when completion menu is visible selects item
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
@@ -928,14 +913,15 @@ augroup SyntaxFold
 augroup END
 " }}}
 " Tab/Indent {{{
+" I let vim-sleuth take care of these now
 set autoindent      " auto indent line to match above line when hitting enter
 "set cindent        " newer and better smartindent
-set smarttab        " make tabs more consistent with softtabstop
-set shiftwidth =4   " amount of whitespace to insert or remove using normal mode indentation commands
-set softtabstop=-1  " amount of whitespace deleted by backspace. -1 means use value of 'shiftwidth'
-set tabstop    =4   " width of tab character
-set shiftround      " indent by multiples of shiftwidth
-set expandtab       " use spaces instead of tabs
+" set smarttab        " make tabs more consistent with softtabstop
+" set shiftwidth =4   " amount of whitespace to insert or remove using normal mode indentation commands
+" set softtabstop=-1  " amount of whitespace deleted by backspace. -1 means use value of 'shiftwidth'
+" set tabstop    =4   " width of tab character
+" set shiftround      " indent by multiples of shiftwidth
+" set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
 
@@ -1177,7 +1163,7 @@ nnoremap <C-w>v             <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
 inoremap <C-a>   <Home>
-inoremap <C-c>   <Esc><Esc>`^
+inoremap <C-c>   <Esc>`^
 inoremap <C-e>   <End>
 inoremap <Esc>   <Esc>`^
 " }}}

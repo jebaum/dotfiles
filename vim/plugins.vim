@@ -16,6 +16,7 @@ let g:markology_enable = 0
 " Plug 'kana/vim-textobj-user'
 " Plug 'kana/vim-textobj-line' " TODO map conflict with 'in last' and 'around last' targets.vim objects
 " Plug 'kana/vim-textobj-entire'
+" https://github.com/glts/vim-textobj-comment
 " Plug 'junegunn/vim-after-object'
 " https://github.com/junegunn/vim-easy-align
 " autocmd VimEnter * call after_object#enable(['>', '<'], '=', ':', '-', '#', ' ')
