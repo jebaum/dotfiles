@@ -1,5 +1,5 @@
 # keep in sync with https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
-export FZF_DEFAULT_OPTS="--extended --bind='ctrl-space:toggle-preview' --inline-info --color fg:-1,bg:-1,hl:80,fg+:3,bg+:233,hl+:46,info:150,prompt:110,spinner:150,pointer:167,marker:174"
+export FZF_DEFAULT_OPTS="--extended --bind='ctrl-space:toggle-preview,alt-a:select-all,alt-d:deselect-all' --inline-info --color fg:-1,bg:-1,hl:80,fg+:3,bg+:233,hl+:46,info:150,prompt:110,spinner:150,pointer:167,marker:174"
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
 

@@ -513,7 +513,7 @@ let g:easy_align_bypass_fold = 1
 " }}}
 " fzf {{{
 " Files command with preview window
-command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview('right', 'ctrl-space'), <bang>0)
+command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'right', 'ctrl-space'), <bang>0)
 command! FZFColors call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
 
 " TODO: determine when to use which one of these based on rg availability
@@ -524,8 +524,8 @@ command! FZFColors call fzf#vim#colors({'left': '15%', 'options': '--reverse --m
 "   :Ag! - Start fzf in fullscreen and display the preview window above
 command! -bang -nargs=* FZFAg
     \ call fzf#vim#ag(<q-args>,
-    \                 <bang>0 ? fzf#vim#with_preview('up:60%:hidden', 'ctrl-space')
-    \                         : fzf#vim#with_preview('right:50%:hidden', 'ctrl-space'),
+    \                 <bang>0 ? fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'up:60%:hidden', 'ctrl-space')
+    \                         : fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'right:50%:hidden', 'ctrl-space'),
     \                 <bang>0)
 
 function! FZFRgWrapper(qargs, bang)
@@ -536,8 +536,8 @@ function! FZFRgWrapper(qargs, bang)
         let rgcommand .= " --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' " . shellescape(a:qargs)
     endif
     call fzf#vim#grep(rgcommand, 1,
-    \   a:bang ? fzf#vim#with_preview('up:60%:hidden', 'ctrl-space')
-    \           : fzf#vim#with_preview('right:50%:hidden', 'ctrl-space'),
+    \   a:bang ? fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'up:60%:hidden', 'ctrl-space')
+    \           : fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'right:50%:hidden', 'ctrl-space'),
     \   a:bang)
 endfunction
 command! -bang -nargs=* FZFRg call FZFRgWrapper(<q-args>, <bang>0)
