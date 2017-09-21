@@ -48,3 +48,4 @@ https://github.com/osyo-manga/vim-anzu
 
 https://github.com/Olical/vim-enmasse
 https://github.com/lfv89/vim-interestingwords
+https://github.com/xtal8/traces.vim

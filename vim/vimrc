@@ -62,7 +62,7 @@ Plug 'justinmk/vim-dirvish', {'on': ['Dirvish']}
 Plug 'justinmk/vim-sneak'
 Plug 'kopischke/vim-fetch'
 Plug 'kopischke/vim-stay'
-Plug 'Valloric/ListToggle'
+Plug 'lambdalisue/gina.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'matze/vim-move' " TODO stomped on by my obvious-resize maps, figure that out
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
@@ -77,13 +77,13 @@ Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
 Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
 Plug 'tpope/vim-sleuth' " auto detect indent settings
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'Valloric/ListToggle'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'} " breaks textwidth?
@@ -511,26 +511,6 @@ nmap cxc <Plug>(ExchangeClear)
 nmap cxx <Plug>(ExchangeLine)
 let g:easy_align_bypass_fold = 1
 " }}}
-" fugitive {{{
-command! -nargs=1 -bar Gbranch   call GitBranch(<f-args>)
-function! GitBranch(name)
-    execute 'silent Git checkout -b ' . a:name
-    redraw!
-endfunction
-
-command! -nargs=1 -bar Gcheckout   call GitCheckout(<f-args>)
-function! GitCheckout(name)
-    execute 'silent Git checkout ' . a:name
-    redraw!
-endfunction
-
-autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
-  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
-  \ endif
-
-autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
-" }}}
 " fzf {{{
 " Files command with preview window
 command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview('right', 'ctrl-space'), <bang>0)
@@ -561,6 +541,16 @@ function! FZFRgWrapper(qargs, bang)
     \   a:bang)
 endfunction
 command! -bang -nargs=* FZFRg call FZFRgWrapper(<q-args>, <bang>0)
+" }}}
+" gina {{{
+call gina#custom#command#option(
+      \ 'commit', '-v|--verbose'
+      \)
+
+call gina#custom#command#option(
+      \ '/\%(diff\|log\)',
+      \ '--opener', 'tabedit'
+      \)
 " }}}
 " grepper {{{
 let g:grepper = {}
@@ -1082,7 +1072,7 @@ nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
 "                 <leader>e    ListToggle
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-"                      [gG]    fugitive, signify and grepper maps below
+"                      [gG]    gina, signify and grepper maps below
 nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 "                 <leader>l    ListToggle
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
@@ -1104,20 +1094,15 @@ nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
 " <leader>g[jkht] taken by signify
-nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
-nnoremap          <leader>gb  :Gbranch<Space>
-nnoremap <silent> <leader>gB  :Gblame<CR>
-nnoremap <silent> <leader>gc  :Gcommit --verbose<CR>
-nnoremap          <leader>gC  :Gcheckout<Space>
-nnoremap <silent> <leader>gd  :Gdiff<CR>
-nnoremap          <leader>ge  :Gedit<Space>
-nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
-nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
-nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
+nnoremap <silent> <leader>ga  :Gina add %:p<CR>
+nnoremap          <leader>gb  :Gina branch -v<CR>
+nnoremap <silent> <leader>gB  :Gina blame :<CR>
+nnoremap <silent> <leader>gc  :Gina commit --verbose<CR>
+nnoremap <silent> <leader>gd  :Gina diff<CR>
+nnoremap <silent> <leader>glf :Gina log -- --follow %:p<CR>
+nnoremap <silent> <leader>gll :Gina log<CR>
 nnoremap          <leader>gm  :Gmove<Space>
-nnoremap <silent> <leader>gr  :Gread<CR>
-nnoremap <silent> <leader>gs  :Gstatus<CR>
-nnoremap <silent> <leader>gw  :Gwrite<CR>
+nnoremap <silent> <leader>gs  :Gina status<CR>
 
 nnoremap          <leader>#   :Grepper -cword -noprompt<cr>
 nnoremap          <leader>G   :Grepper<CR>
