@@ -11,6 +11,7 @@ alias gsu='git submodule foreach git checkout master && git submodule foreach gi
 alias gvim='gvim -p'
 alias make='make -j4'
 alias mutt="rm -f $HOME/.mutt/mail/selected; mutt"
+alias neomutt="rm -f $HOME/.mutt/mail/selected; neomutt" # TODO handle this better
 alias myip='curl icanhazip.com'
 alias nvim='nvim -p'
 alias nvimlisten='rm -f /tmp/nvim; NVIM_LISTEN_ADDRESS=/tmp/nvim nvim -p'

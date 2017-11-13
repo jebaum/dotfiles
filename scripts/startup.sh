@@ -11,7 +11,11 @@ fi
 
 if ! pgrep mutt > /dev/null ; then
   rm -f "$HOME/.mutt/mail/selected"
-  st -c 'mutt' -e mutt &
+  if hash mutt; then # can't use `command -v' because mutt is aliased
+    st -c 'mutt' -e mutt &
+  else
+    st -c 'neomutt' -e neomutt &
+  fi
 fi
 
 if ! pgrep ranger > /dev/null ; then
