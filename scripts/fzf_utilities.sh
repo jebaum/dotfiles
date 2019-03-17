@@ -64,13 +64,13 @@ fzimpl() { # fzf package management implementation
   fi
   if [ -n "$selected" ]; then
     if [ -n "$WIDGET" ]; then
-      BUFFER="pacaur $flags $packages $pipe"
+      BUFFER="yay $flags $packages $pipe"
       zle redisplay
       zle accept-line
     elif [ -n "$pipe" ]; then
-      pacaur $flags $packages | less
+      yay $flags $packages | less
     else
-      pacaur $flags $packages
+      yay $flags $packages
     fi
   fi
 }

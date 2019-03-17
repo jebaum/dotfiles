@@ -5,6 +5,7 @@ alias lock='i3lock -b -c 000000'
 # command aliases
 alias sudo='sudo -E '
 alias beep='echo -en "\a"'
+alias datednotes='nvim `date "+%Y-%m-%d"`.txt'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
 alias g='git'
 alias gsu='git submodule foreach git checkout master && git submodule foreach git pull'
@@ -36,6 +37,11 @@ alias vi='vim'
 alias vim='vim -p'
 alias vimtip='shuf -n 1 /home/james/Dropbox/Documents/Misc/learn/vim/vimtips.txt | cowsay -f $(ls /usr/share/cows | shuf -n 1)'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
+alias xprop='xprop | grep WM_CLASS && echo The first part of WM_CLASS is the instance, second part is the class'
+
+mem() {
+    ps -eo rss,pid,euser,args:100 --sort %mem | grep -v grep | grep -i $@ | awk '{printf $1/1024 "MB"; $1=""; print }'
+}
 
 man() { # colored man pages
     LESS_TERMCAP_md=$'\e[01;31m' \
@@ -54,8 +60,8 @@ ytdlmp3() { youtube-dl --audio-quality 0 --audio-format mp3 -x "${1-$(xsel)}" }
 ytdl() { youtube-dl "${1-$(xsel)}" }
 
 upgrade() {
-   sudo pacman -Syu
-   pacaur -u
+   #sudo pacman -Syu
+   yay -Syu --devel --timeupdate
  }
 
 # cp with progress
@@ -192,17 +198,17 @@ for c in $sudo_commands; do; alias sc-$c="sudo systemctl $c"; done
 
 
 magnet_to_torrent() {
-	[[ "$1" =~ xt=urn:btih:([^\&/]+) ]] || return 1
+  [[ "$1" =~ xt=urn:btih:([^\&/]+) ]] || return 1
 
-	hashh=${match[1]}
+  hashh=${match[1]}
 
-	if [[ "$1" =~ dn=([^\&/]+) ]];then
-	  filename=${match[1]}
-	else
-	  filename=$hashh
-	fi
+  if [[ "$1" =~ dn=([^\&/]+) ]];then
+    filename=${match[1]}
+  else
+    filename=$hashh
+  fi
 
-	echo "d10:magnet-uri${#1}:${1}e" > "$filename.torrent"
+  echo "d10:magnet-uri${#1}:${1}e" > "$filename.torrent"
 }
 
 zsh_stats() {
