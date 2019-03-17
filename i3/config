@@ -4,10 +4,10 @@ set $mod Mod4
 set $alt Mod1
 set $narrowbarfont font pango:Times New Roman 9
 floating_modifier $mod
-set $narrow1 DP-3
+set $narrow1 DP-1
 set $narrow2 DP-1
 set $narrow3 DP-2
-set $wide HDMI-1
+set $wide DP-3
 set $barmodifier modifier Mod3
 
 gaps inner 5
@@ -152,7 +152,7 @@ bindsym $mod+p                  exec rofi -show run
 bindsym $mod+q                  exec rofi -show window
 bindsym XF86TouchpadToggle      exec ~/dotfiles/scripts/touchpadtoggle.sh
 bindsym $mod+BackSpace          exec ~/dotfiles/i3/i3-bar-toggle.py
-bindsym --release Shift+Print   exec gnome-screenshot -a
+bindsym --release Shift+Print   exec gnome-screenshot
 bindsym --release Control+Print exec gnome-screenshot -w -B
 bindsym --release Print         exec grab
 bindsym $mod+Print              exec pasta
@@ -368,24 +368,24 @@ bar {
 }
 # }}}
 # BAR NARROW 1 {{{
-bar {
-  output $narrow1
-  mode dock
-  $barmodifier
-  position top
-  workspace_buttons yes
-  $narrowbarfont
-  status_command ~/.i3/conky/narrow1
-  tray_output none
-  colors {
-    $background
-    $statusline
-    $focused_workspace
-    $active_workspace
-    $inactive_workspace
-    $urgent_workspace
-  }
-}
+#bar {
+#  output $narrow1
+#  mode dock
+#  $barmodifier
+#  position top
+#  workspace_buttons yes
+#  $narrowbarfont
+#  status_command ~/.i3/conky/narrow1
+#  tray_output none
+#  colors {
+#    $background
+#    $statusline
+#    $focused_workspace
+#    $active_workspace
+#    $inactive_workspace
+#    $urgent_workspace
+#  }
+#}
 # }}}
 # BAR NARROW 2 {{{
 bar {
