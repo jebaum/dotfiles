@@ -6,9 +6,10 @@ xset s noblank
 start-pulseaudio-x11
 
 xrandr \
-    --output DP-3   --mode 2560x1440 --pos 0x0      --rotate left \
-    --output DP-1   --mode 2560x1440 --pos 1440x0   --rotate left \
-    --output HDMI-1 --mode 2560x1440 --pos 2880x552 --rotate normal --primary \
-    --output DP-2   --mode 2560x1440 --pos 5440x0   --rotate right \
-    --output DVI-D-1 --off
+    --output DP-3 --mode 2560x1440 --pos 1440x536 --rotate normal \
+    --output DP-2 --mode 2560x1440 --pos 4000x0 --rotate right \
+    --output DP-1 --mode 2560x1440 --pos 0x0 --rotate left \
+    --output DVI-D-1 --off \
+    --output HDMI-1 --off
+
 exec i3
