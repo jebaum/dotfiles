@@ -13,3 +13,5 @@ UUID=d23ce4f3-2970-42ac-af9c-4562826c56fb   /home/big1          ext4        rw,n
 # /dev/sde1 LABEL=Big2
 UUID=8ac36a91-500d-47c6-b0ef-1b9062535adf   /home/big2    ext4        rw,nofail,user,relatime,data=ordered    0 2
 
+# /dev/sdb1 LABEL=wd12
+UUID=ff58b0a8-8f61-4a4a-8299-9da1d838538b   /home/james/wd12 ext4        rw,nofail,user,relatime,data=ordered    0 2
