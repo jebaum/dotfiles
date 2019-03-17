@@ -6,8 +6,12 @@ readonly TAGFILE="$HOME/.config/sxiv/tags"
 readonly TMPFILE="/tmp/sxiv.$$"
 
 case "$1" in
-"C-d")
-        while read file; do mv "$file" ~/.trash; done ;;
+"d")
+        while read file; do mv "$file" ~/.trash; done ;; # fn-r
+"a")
+        while read file; do mv "$file" ~/ariel; done ;;  # fn-a
+"e")
+        while read file; do mv "$file" ~/saved; done ;;  # fn-e
 "C-r")
         while read file; do convert -rotate 90 "$file" "$file"; done ;;
 esac
