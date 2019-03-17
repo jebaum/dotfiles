@@ -1,7 +1,6 @@
 # Source zim
-if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
-  source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
-fi
+export ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+[[ -s ${ZIM_HOME}/init.zsh ]] && source ${ZIM_HOME}/init.zsh
 
 setopt CLOBBER
 export EDITOR=nvim
