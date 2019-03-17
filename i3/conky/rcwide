@@ -27,7 +27,7 @@ if_up_strictness address
 # set to 1 to disable averaging
 cpu_avg_samples 2
 
-mpd_host 192.168.0.100
+mpd_host localhost
 mpd_port 6600
 TEXT
 
