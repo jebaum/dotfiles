@@ -49,3 +49,7 @@ https://github.com/osyo-manga/vim-anzu
 https://github.com/Olical/vim-enmasse
 https://github.com/lfv89/vim-interestingwords
 https://github.com/xtal8/traces.vim
+
+these maps instead of vim move plugin thing
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '>-2<CR>gv=gv

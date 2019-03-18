@@ -31,12 +31,23 @@ endif
 
 " settings for completion plugins defined in `after/plugin` directory
 if has('nvim')
-  " bug with CmSetup user autocmd in completion-manager: collapses folds when entering buffer
-  Plug 'roxma/nvim-completion-manager'
+  Plug 'ncm2/ncm2'
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+
+  Plug 'roxma/nvim-yarp' " required for ncm2
+  Plug 'ncm2/ncm2-bufword'
+  Plug 'ncm2/ncm2-tmux'
+  Plug 'ncm2/ncm2-path'
+  Plug 'ncm2/ncm2-ultisnips'
+  Plug 'filipekiss/ncm2-look.vim'
   Plug 'Shougo/neco-vim'
+  Plug 'ncm2/ncm2-vim' " depends on neco-vim
   Plug 'Shougo/neco-syntax'
+  Plug 'ncm2/ncm2-syntax' " depends on neco-syntax
   " Plug 'roxma/ncm-github'
   Plug 'davidhalter/jedi'
+  Plug 'ncm2/ncm2-jedi'
+
   " Plug 'jebaum/neosyntax'
 else
   Plug 'othree/vim-autocomplpop'
@@ -79,9 +90,9 @@ Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-scriptease', {'on': ['Runtime', 'Scriptnames', 'Verbose', 'Time', 'Vedit', 'Vsplit', 'Vtabedit']}
+Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-sleuth' " auto detect indent settings
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround' " TODO vim-sandwich?
 Plug 'tpope/vim-unimpaired'
 Plug 'Valloric/ListToggle'
 Plug 'vim-airline/vim-airline'
@@ -480,6 +491,9 @@ let g:airline#extensions#tabline#enabled = 0
 let g:ale_lint_delay=1000
 let g:ale_lint_on_insert_leave=1
 let g:ale_python_flake8_options = '--max-line-length=120'
+let g:ale_linters = {
+      \ 'python': ['flake8'],
+\}
 " }}}
 " anzu {{{
 " NOTE: these options are not actually distinct. if either is true, cursormoved autocmd will run
@@ -495,6 +509,7 @@ let g:brightest#highlight = { 'group': 'BrightestCustom' }
 highlight BrightestCustom guifg=#000000 guibg=#00AA00
 " }}}
 " detectindent {{{
+" TODO delete this for sleuth ?
 let g:detectindent_preferred_expandtab  = 1
 let g:detectindent_preferred_indent     = 4
 let g:detectindent_max_lines_to_analyse = 1024
@@ -513,10 +528,13 @@ let g:easy_align_bypass_fold = 1
 " }}}
 " fzf {{{
 " Files command with preview window
-command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'right', 'ctrl-space'), <bang>0)
+" Files command uses FZF_DEFAULT_COMMAND (which currently is rg -u for me)
+" might want to make this just rg, no -u, or give various options for that with maps
+" may want to use pathshorten() here around the fnamemodify call, we'll see
+command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46', '--prompt', fnamemodify(getcwd(), ':~:.') . '.FZF > ']}, 'right', 'ctrl-space'), <bang>0)
 command! FZFColors call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
 
-" TODO: determine when to use which one of these based on rg availability
+" TODO: use rg for everything, it's better
 " TODO override or add map to the FZFBuffers command to use :sbuffer, switch
 " to buffer if it's already open in a window somewhere. then can get rid of gO map
 
@@ -609,12 +627,6 @@ let NERDCompactSexyComs = 0
 " netrw {{{
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
-" nvim-completion-manager {{{
-" When the <Enter> key is pressed while the popup menu is visible, it only hides the menu. Use this mapping to hide the menu and also start a new line.
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-let g:cm_matcher = {'module': 'cm_matchers.abbrev_matcher', 'case': 'smartcase'} " prefix substr, fuzzy, abbrev (requires ag binary)
-imap <C-n> <Plug>(cm_force_refresh)
-" }}}
 " oblique {{{
 let g:oblique#incsearch_highlight_all=1
 let g:oblique#clear_highlight = 1
@@ -695,11 +707,6 @@ function! QuickRunTimeToggle()
     echo 'disabled time hook'
   endif
 endfunction
-" }}}
-" rooter {{{
-augroup vimrc_rooter
-    autocmd VimEnter * if exists(':Rooter') | Rooter
-augroup END
 " }}}
 " signify {{{
 let g:signify_disable_by_default = 0            " disable run by default
@@ -800,8 +807,8 @@ set norelativenumber           " don't use relative line numbers
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
 set nolazyredraw               " don't redraw the screen w ile executing macros
-set clipboard=unnamed          " by default, * system clipboard
-set titlestring=%t\            " file name
+set clipboard=unnamedplus      " by default, * system clipboard
+set titlestring=%<%q%F%h%r%m   " file name
 set title titlelen=150         " max length of title string
 set backspace=indent,eol,start " allow backspace in insert mode
 set autoread                   " reload files changed outside of vim
@@ -827,7 +834,7 @@ set nostartofline              " don't reset cursor to start of line when moving
 set nrformats=hex              " for C-a and C-x. recognize '0x' prefix as hex
 set scrolljump=1               " lines to scroll when cursor leaves screen
 set scrolloff=1                " start scrolling when 8 lines away from margins
-set updatetime=4000            " swap file writes and CursorHold autocmd. weird fold closing problem
+set updatetime=400             " swap file writes and CursorHold autocmd. weird fold closing problem
 set encoding=utf8              " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
 set shortmess+=c               " don't give |ins-completion-menu| messages. helps with completion flicker
@@ -842,7 +849,7 @@ if !has('nvim')
 else
   set termguicolors            " this is available in recent builds of vim as well as nvim
   if exists('&inccommand')
-    set inccommand=nosplit
+    set inccommand=split
   endif
 endif
 set switchbuf=usetab           " look to see if buffer is already open in another window or tab
@@ -886,7 +893,7 @@ filetype plugin indent on
 set guicursor=n-v:block,i-c-ci:ver30
 " }}}
 " Completion options {{{
-set completeopt=longest,menuone
+set completeopt=noinsert,menuone,noselect " recommended setting for ncm2
 " hitting enter when completion menu is visible selects item
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
@@ -1090,6 +1097,7 @@ vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call curs
 nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>u    yyp^v$r=
 nnoremap <silent> <leader>w    :w!<CR>
+nnoremap <silent> <leader>W    :SudoWrite<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
