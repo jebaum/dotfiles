@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FIFO="$HOME/.config/.mpv/mpvfifo"
+FIFO="$HOME/.config/mpv/mpvfifo"
 if [ ! -p "$FIFO" ]; then
   mkfifo "$FIFO"
 fi

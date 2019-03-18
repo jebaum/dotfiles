@@ -1,5 +1,6 @@
 # GENERAL CONFIG {{{
 set $mpdhost localhost
+set $mpvfifo ~/.config/mpv/mpvfifo
 set $mod Mod4
 set $alt Mod1
 set $narrowbarfont font pango:Times New Roman 9
@@ -94,10 +95,10 @@ bindsym $mod+minus          scratchpad show
 # bindsym $mod+$alt+Control+h exec device.sh headset
 # bindsym $mod+$alt+Control+t exec device.sh hdmi; exec hdmi.sh on
 
-bindsym Pause               exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
-bindsym XF86AudioPause      exec mpc -h $mpdhost pause; exec echo cycle pause > ~/.mpv/mpvfifo
-bindsym XF86AudioNext       exec echo playlist_next > ~/.mpv/mpvfifo
-bindsym XF86AudioPrev       exec echo playlist_prev > ~/.mpv/mpvfifo
+bindsym Pause               exec mpc -h $mpdhost pause; exec echo cycle pause > $mpvfifo
+bindsym XF86AudioPause      exec mpc -h $mpdhost pause; exec echo cycle pause > $mpvfifo
+bindsym XF86AudioNext       exec echo playlist_next > $mpvfifo
+bindsym XF86AudioPrev       exec echo playlist_prev > $mpvfifo
 
   ### volume controls
 bindsym $mod+$alt+minus         exec ~/dotfiles/scripts/audio/volume.sh 1% -
@@ -127,16 +128,16 @@ bindsym $mod+$alt+Prior exec mpc -h $mpdhost seek +60
 bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
-bindsym $mod+Control+n      exec echo playlist_next > ~/.mpv/mpvfifo
-bindsym $mod+Control+p      exec echo playlist_prev > ~/.mpv/mpvfifo
-bindsym $mod+Control+s      exec echo stop > ~/.mpv/mpvfifo
-bindsym $mod+Control+space  exec echo cycle pause > ~/.mpv/mpvfifo
-bindsym $mod+Control+Left   exec echo seek -10 relative > ~/.mpv/mpvfifo
-bindsym $mod+Control+Right  exec echo seek 10 relative > ~/.mpv/mpvfifo
-bindsym $mod+Control+Down   exec echo seek -60 relative > ~/.mpv/mpvfifo
-bindsym $mod+Control+Up     exec echo seek 60 relative > ~/.mpv/mpvfifo
-bindsym $mod+Control+Next   exec echo seek -600 relative > ~/.mpv/mpvfifo
-bindsym $mod+Control+Prior  exec echo seek 600 relative > ~/.mpv/mpvfifo
+bindsym $mod+Control+n      exec echo playlist_next > $mpvfifo
+bindsym $mod+Control+p      exec echo playlist_prev > $mpvfifo
+bindsym $mod+Control+s      exec echo stop > $mpvfifo
+bindsym $mod+Control+space  exec echo cycle pause > $mpvfifo
+bindsym $mod+Control+Left   exec echo seek -10 relative > $mpvfifo
+bindsym $mod+Control+Right  exec echo seek 10 relative > $mpvfifo
+bindsym $mod+Control+Down   exec echo seek -60 relative > $mpvfifo
+bindsym $mod+Control+Up     exec echo seek 60 relative > $mpvfifo
+bindsym $mod+Control+Next   exec echo seek -600 relative > $mpvfifo
+bindsym $mod+Control+Prior  exec echo seek 600 relative > $mpvfifo
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
