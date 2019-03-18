@@ -1,9 +1,6 @@
 # Write your default config options here!
 
-[hdmi]
-input-file=/home/everyone/mpvfifo
-
 [default]
-input-file=~/.mpv/mpvfifo
+input-file=~/.config/mpv/mpvfifo
 audio-display=no
 softvol=yes

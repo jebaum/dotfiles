@@ -18,7 +18,7 @@ config/ranger/history
 config/ranger/bookmarks
 config/ranger/__pycache__/*
 
-mpv/watch_later
+config/mpv/watch_later
 
 config/dmenu-extended/cache/*
 config/dmenu-extended/plugins/*
