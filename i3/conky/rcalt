@@ -5,7 +5,7 @@ background no
 max_text_width 0
 
 # Update interval in seconds
-update_interval 2.0
+update_interval 1.0
 
 # This is the number of times Conky will update before quitting.
 # Set to zero to run forever.
