@@ -47,7 +47,8 @@ if has('nvim')
   " Plug 'roxma/ncm-github'
   Plug 'davidhalter/jedi'
   Plug 'ncm2/ncm2-jedi'
-
+  Plug 'ncm2/float-preview.nvim'
+  let g:float_preview#docked = 0
   " Plug 'jebaum/neosyntax'
 else
   Plug 'othree/vim-autocomplpop'
