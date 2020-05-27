@@ -85,4 +85,5 @@ zle -N zle-line-finish
 #  zle && zle accept-line
 #  return $(( 128 + $1 ))
 #}
-RPROMPT='${vim_mode}'
+# RPROMPT='%F{37}%D{%H}%F{127}%D{%M}%F{142}%D{%S} ${vim_mode}'
+RPROMPT='%F{44}%D{%H}%F{164}%D{%M}%F{184}%D{%S} ${vim_mode}'
