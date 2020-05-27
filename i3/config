@@ -19,7 +19,7 @@ smart_borders on
 new_window pixel 1
 new_float pixel 1
   # <none | vertical | horizontal | both>
-hide_edge_borders none
+hide_edge_borders smart
 font pango:DejaVu Sans Mono 10
 
 # MISC SETTINGS
@@ -88,18 +88,6 @@ bindsym $mod+n          border none
 bindsym $mod+Shift+minus    move scratchpad
 bindsym $mod+minus          scratchpad show
 
-  ### switch audio device
-# TODO update these for pulse
-# bindsym $mod+$alt+Control+m exec device.sh mobo
-# bindsym $mod+$alt+Control+x exec device.sh xfi
-# bindsym $mod+$alt+Control+h exec device.sh headset
-# bindsym $mod+$alt+Control+t exec device.sh hdmi; exec hdmi.sh on
-
-bindsym Pause               exec mpc -h $mpdhost pause; exec echo cycle pause > $mpvfifo
-bindsym XF86AudioPause      exec mpc -h $mpdhost pause; exec echo cycle pause > $mpvfifo
-bindsym XF86AudioNext       exec echo playlist_next > $mpvfifo
-bindsym XF86AudioPrev       exec echo playlist_prev > $mpvfifo
-
   ### volume controls
 bindsym $mod+$alt+minus         exec ~/dotfiles/scripts/audio/volume.sh 1% -
 bindsym $mod+$alt+plus          exec ~/dotfiles/scripts/audio/volume.sh 1% +
@@ -148,20 +136,15 @@ bindsym $mod+Control+q      exec killall mpv
 # bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
 # bindsym $mod+c                  exec ~/dotfiles/scripts/vimtmp.sh
 # bindsym $mod+Control+c          exec ~/dotfiles/scripts/vimtmp.sh last
-bindsym $mod+o                  exec ~/dotfiles/scripts/startup.sh
 bindsym $mod+p                  exec rofi -show run
 bindsym $mod+q                  exec rofi -show window
 bindsym XF86TouchpadToggle      exec ~/dotfiles/scripts/touchpadtoggle.sh
 bindsym $mod+BackSpace          exec ~/dotfiles/i3/i3-bar-toggle.py
 bindsym --release Shift+Print   exec gnome-screenshot
 bindsym --release Control+Print exec gnome-screenshot -w -B
-bindsym --release Print         exec grab
-bindsym $mod+Print              exec pasta
 bindsym $mod+Shift+Return       exec st
 bindsym $mod+Return             exec STARTUPDIR="`~/.i3/xcwd/xcwd`" st
 bindsym $mod+Escape             exec i3lock -c '#181818'
-bindsym $mod+F4                 exec puddletag
-bindsym $mod+F5                 exec mkvtoolnix-gui
 
 bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
 bindsym $mod+Control+y          exec notify-send "preparing to play youtube video..." && mpv $(xclip -o)
