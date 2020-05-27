@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO has issues with db being locked. may need to copy the file somewhere periodically and cache the results
 PLACES_SQLITE="$(find $HOME/.mozilla/firefox/ -maxdepth 1 -mindepth 1 -type d -iname '*.default' | xargs du -sh | sort -rh | head -1 | cut -f2)/places.sqlite"
 
 # URLS=$(sqlite3 ${PLACES_SQLITE} "SELECT url FROM moz_places;")

@@ -23,5 +23,5 @@ if [ "x$pid" != "x" ]; then
   done
   echo "======================"
   echo Killing PIDs with signal "$SIGNAL": "${pid[@]}"
-  kill $SIGNAL "${pid[@]}"
+  sudo kill $SIGNAL "${pid[@]}"
 fi

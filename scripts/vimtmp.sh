@@ -6,11 +6,11 @@ mkdir -p ${TMPDIR}
 if [ "$1" == "last" ]; then
     FILE="${TMPDIR}/$(ls -t /tmp/vimtmp | head -n 1)"
 else
-    TIMESTAMP="$(date +'%j_%H-%M-%S')"
+    TIMESTAMP="$(date +'%j_%H:%M:%S')"
     FILE="${TMPDIR}/${TIMESTAMP}.txt"
 fi
 
-urxvt -name vimtmp -e vim "${FILE}"
+st -e nvim "${FILE}"
 
 if [ -e "${FILE}" ]; then
     NUMLINES=$(wc -l "${FILE}" | cut -d ' ' -f 1)
