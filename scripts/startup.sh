@@ -9,14 +9,14 @@ if ! pgrep ncmpcpp > /dev/null ; then
   st -c 'ncmpcpp' -e ncmpcpp &
 fi
 
-if ! pgrep mutt > /dev/null ; then
-  rm -f "$HOME/.mutt/mail/selected"
-  if hash mutt; then # can't use `command -v' because mutt is aliased
-    st -c 'mutt' -e mutt &
-  else
-    st -c 'neomutt' -e neomutt &
-  fi
-fi
+#if ! pgrep mutt > /dev/null ; then
+#  rm -f "$HOME/.mutt/mail/selected"
+#  if hash mutt; then # can't use `command -v' because mutt is aliased
+#    st -c 'mutt' -e mutt &
+#  else
+#    st -c 'neomutt' -e neomutt &
+#  fi
+#fi
 
 if ! pgrep ranger > /dev/null ; then
   st -c 'ranger' -e ranger &
