@@ -8,6 +8,8 @@ export VISUAL=nvim
 export LESS='-g -i -M -R -S -w -z-4'
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export REPORTTIME=30
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
 
 stty -ixon  # stop C-s from activating scroll lock
 ulimit -c unlimited
@@ -90,6 +92,13 @@ zle -N gitstatusshortkey gitstatuskeyimpl
 bindkey '\eg' gitstatuskey
 bindkey '\eG' gitstatusshortkey
 
+killkeyimpl() {
+    BUFFER="~/dotfiles/scripts/fkill.sh -9 all"
+    zle accept-line
+}
+zle -N killkey killkeyimpl
+bindkey '\ek' killkey
+
 updirkey() {
     cd .. && zle reset-prompt
 }
@@ -106,6 +115,12 @@ if [ -n "$STARTUPDIR" ] && [ -d "$STARTUPDIR" ]; then
     cd $STARTUPDIR
     unset STARTUPDIR
 fi
+
+function chpwd() {
+  print -Pn "\e]0;st: ${PWD/#${HOME}/~}\a"
+  pwd > /tmp/whereami
+}
+chpwd # chpwd doesn't run on startup, so explicitly call it to set title when first opening shell
 
 if [[ -e ~/dotfiles/zsh/zshrc.local ]]; then
     source ~/dotfiles/zsh/zshrc.local
