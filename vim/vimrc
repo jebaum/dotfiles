@@ -891,7 +891,7 @@ elseif executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 filetype plugin indent on
-set guicursor=n-v:block,i-c-ci:ver30
+set guicursor=n-v:block,i-c-ci:ver30 " change ver30 to 'block' to get block cursor back during insert mode
 " }}}
 " Completion options {{{
 set completeopt=noinsert,menuone,noselect " recommended setting for ncm2
