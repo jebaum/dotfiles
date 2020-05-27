@@ -2,6 +2,7 @@ alias reload='source ~/dotfiles/zsh/aliases.zsh'
 
 # command aliases
 alias sudo='sudo -E '
+alias sc='systemctl'
 alias beep='echo -en "\a"'
 alias datednotes='nvim `date "+%Y-%m-%d"`.txt'
 alias fontlist='fc-list -f "%{family} : %{file}\n" :spacing=100 | sort'
@@ -93,25 +94,12 @@ function up() {
   export MPWD=$P
 }
 
-user_commands=(
-  list-units is-active status show help list-unit-files
-  is-enabled list-jobs show-environment)
-
-sudo_commands=(
-  start stop reload restart try-restart isolate kill
-  reset-failed enable disable reenable preset mask unmask
-  link load cancel set-environment unset-environment)
-
-for c in $user_commands; do; alias sc-$c="systemctl $c"; done
-for c in $sudo_commands; do; alias sc-$c="sudo systemctl $c"; done
-
-
 magnet_to_torrent() {
   [[ "$1" =~ xt=urn:btih:([^\&/]+) ]] || return 1
 
   hashh=${match[1]}
 
-  if [[ "$1" =~ dn=([^\&/]+) ]];then
+  if [[ "$1" =~ dn=([^\&/]+) ]]; then
     filename=${match[1]}
   else
     filename=$hashh
