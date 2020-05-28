@@ -55,6 +55,7 @@ zbell_end() {
 
 	if (( ! $has_ignored_cmd )) && (( ran_long )); then
 		print -n "\a"
+		# print -P "%B%F{green}>>> elapsed time $(($EPOCHSECONDS - $zbell_timestamp))s%b"
 	fi
 }
 
