@@ -76,7 +76,7 @@ bindkey '^W' my-backward-delete-word
 # zle -N <widget name> <function name>
 lskeyimpl() {
     if   [ "$WIDGET" = "lskey" ];  then BUFFER="ls"
-    elif [ "$WIDGET" = "lslkey" ]; then BUFFER="ls -l"
+    elif [ "$WIDGET" = "lslkey" ]; then BUFFER="ls -lh"
     fi
     zle accept-line
 }
