@@ -17,11 +17,9 @@
   fancyblame = log -p -M --follow --stat --
   fancyblamesearch = log --pretty=format:'%h %an -- %s -- %ad' -S
 
-  d   = "!d() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | less;}; d"
-  dn  = diff
-  dw  = diff --color-words
+  dsf   = "!dsf() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | less;}; dsf"
+  d  = diff
   dc  = diff --cached
-  dcw = diff --cached --color-words
   l     = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit
   lp    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit -p
   la    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset' --abbrev-commit
@@ -82,16 +80,14 @@
   user = jebaum
 [core]
   editor = nvim
-  pager = less
+  pager = delta --plus-color="#012800" --minus-color="#340001" --file-color="#FF00FF" --hunk-color="#FDB927" --theme='DarkNeon'
   excludesfile = "~/.gitignore"
   whitespace = trailing-space,space-before-tab
   untrackedCache = true
+[interactive]
+  diffFilter = delta --color-only
 [merge]
   tool = vimdiff
-[init]
-  # ctags integration with git hooks from here
-  # http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
-  templatedir = "~/.git_template"
 [advice]
   statusHints = false
 [diff]
@@ -100,4 +96,4 @@
 [branch]
   autosetupmerge = true
 [push]
-	default = simple
+  default = simple
