@@ -76,7 +76,8 @@ fzimpl() { # fzf package management implementation
 }
 
 
-##### GIT
+##### GIT - TODO take a couple things from here https://github.com/wfxr/forgit (git add, stash, etc. I prefer my log viewer to theirs)
+# also: https://github.com/bigH/git-fuzzy and https://github.com/jesseduffield/lazygit
 fzgbr() { # checkout git branch
   local branches branch
   branches=$(git branch -vv) &&
@@ -113,6 +114,9 @@ fzgcotag() { # checkout git branch/tag
   git checkout $(echo "$target" | awk '{print $2}')
 }
 
+# TODO sample code to enable copying a commit hash to clipboard from fzf
+#_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+#    --bind "alt-y:execute:$_gitLogLineToHash | xclip"
 fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially with Enter
   local out sha query keypress expect
   expect="ctrl-o"
