@@ -18,8 +18,8 @@
   fancyblamesearch = log --pretty=format:'%h %an -- %s -- %ad' -S
 
   dsf   = "!dsf() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | ~/dotfiles/scripts/diff-so-fancy/diff-so-fancy | less;}; dsf"
-  d  = diff
-  dc  = diff --cached
+  d     = diff
+  dc    = diff --cached
   l     = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit
   lp    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit -p
   la    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset' --abbrev-commit
