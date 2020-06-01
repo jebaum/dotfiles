@@ -7,7 +7,7 @@ update_interval 1.0
 total_run_times 0
 short_units yes
 if_up_strictness address
-#use_spacer left
+use_spacer left
 #override_utf8_locale no
 cpu_avg_samples 2
 mpd_host 192.168.1.100
@@ -15,10 +15,12 @@ mpd_port 6600
 
 TEXT
 
-# diskio stuff uses persistent symlinks created by '60-persistent-storage-dm.rules'
-[ { "full_text": " R: ${fs_used /}/${fs_size /} [${fs_used_perc /}%] ${diskio_read /dev/ssdroot}/${diskio_write /dev/ssdroot} ", "color":"\#ffb56c"},
-  { "full_text": " H: ${fs_used /home}/${fs_size /home} [${fs_used_perc /home}%] ${diskio_read /dev/ssdhome}/${diskio_write /dev/ssdhome} ", "color":"\#d65cff"},
-  { "full_text": " S: ${fs_used /home/james/storage}/${fs_size /home/james/storage} [${fs_used_perc /home/james/storage}%] ${diskio_read /dev/storage}/${diskio_write /dev/storage} ", "color":"\#47efef"},
-  { "full_text": " E: ${fs_used /home/james/external}/${fs_size /home/james/external} [${fs_used_perc /home/james/external}%] ${diskio_read /dev/external}/${diskio_write /dev/external} ", "color":"\#00a300"},
-  { "full_text": " ${time %I:%M:%S %p} "}
+[{ "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/weather.sh 98107} ", "color":"\#ff5930"},
+ { "full_text": "${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 1 | cut -c -40} -${execi 6000 /home/james/dotfiles/i3/conky/rss.sh | head -n 2 | tail -n 1} ", "color":"\#fa3ada"},
+ { "full_text": " ${sysname} ${kernel} ", "color":"\#4070af"},
+ { "full_text": " ${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh} ", "color":${if_match "${execi 300 /home/james/dotfiles/i3/conky/checkupdates.sh}"=="No new packages"}"\#209030"${else}"\#00ff00"${endif}},
+ { "full_text": " ${time %I:%M:%S %p} "}
 ],
+
+# this crashed a lot for some reason. cool idea though
+#{ "full_text": " ${scroll 80 15 ${execi 5 fortune | tr '\n' ' '}} "}

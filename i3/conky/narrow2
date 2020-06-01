@@ -10,4 +10,4 @@ echo '['
 echo '[],'
 
 # Now send blocks with information forever:
-conky -c ~/.i3/conky/rcnarrow2
+conky -c ~/.i3/conky/rcnarrow3

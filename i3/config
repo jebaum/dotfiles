@@ -5,10 +5,9 @@ set $mod Mod4
 set $alt Mod1
 set $narrowbarfont font pango:Times New Roman 9
 floating_modifier $mod
-set $narrow1 DP-1
-set $narrow2 DP-1
-set $narrow3 DP-2
-set $wide DP-3
+set $narrow1 DP-2
+set $narrow2 DP-4.8
+set $wide DP-0
 set $barmodifier modifier Mod3
 
 gaps inner 5
@@ -231,16 +230,16 @@ bindsym $mod+apostrophe exec i3-input -l 1 -F '[con_mark="%s"] focus' -P 'goto m
 # WORKSPACE MANAGEMENT KEYBINDS {{{
   ### automatically put workspace on certain screen on creation
     # named workspace must be quoted, eg: workspace "tf2" output DVI-D-0
-workspace "1: main"   output $narrow3
+workspace "1: main"   output $narrow2
 workspace "2: web"    output $wide
-workspace "3: vps"    output $narrow3
+workspace "3: vps"    output $narrow2
 workspace "4: music"  output $narrow1
 workspace "5: mail"   output $narrow1
-workspace "6: files"  output $narrow2
+workspace "6: files"  output $narrow1
 workspace "7: code"   output $narrow1
-workspace "8: code"   output $narrow2
+workspace "8: code"   output $narrow1
 workspace "9: code"   output $wide
-workspace "10: code"  output $narrow3
+workspace "10: code"  output $narrow2
 workspace "11: steam" output $wide
 workspace "12: tf2"   output $wide
 workspace "13: tv"    output $wide
@@ -352,34 +351,14 @@ bar {
 }
 # }}}
 # BAR NARROW 1 {{{
-#bar {
-#  output $narrow1
-#  mode dock
-#  $barmodifier
-#  position top
-#  workspace_buttons yes
-#  $narrowbarfont
-#  status_command ~/.i3/conky/narrow1
-#  tray_output none
-#  colors {
-#    $background
-#    $statusline
-#    $focused_workspace
-#    $active_workspace
-#    $inactive_workspace
-#    $urgent_workspace
-#  }
-#}
-# }}}
-# BAR NARROW 2 {{{
 bar {
-  output $narrow2
+  output $narrow1
   mode dock
   $barmodifier
   position top
   workspace_buttons yes
   $narrowbarfont
-  status_command ~/.i3/conky/narrow2
+  status_command ~/.i3/conky/narrow1
   tray_output none
   colors {
     $background
@@ -391,15 +370,15 @@ bar {
   }
 }
 # }}}
-# BAR NARROW 3 {{{
+# BAR NARROW 2 {{{
 bar {
-  output $narrow3
+  output $narrow2
   mode dock
   $barmodifier
   position top
   workspace_buttons yes
   $narrowbarfont
-  status_command ~/.i3/conky/narrow3
+  status_command ~/.i3/conky/narrow2
   tray_output none
   colors {
     $background
