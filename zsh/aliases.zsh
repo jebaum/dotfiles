@@ -60,7 +60,7 @@ pf() { # process filter
 }
 
 torrentadd() {
-    transmission-remote -a "${1-$(xsel)}"
+    transmission-remote 9092 -a "${1-$(xsel)}"
 }
 torrentdaemonstart() {
     if [ "$(pidof transmission-daemon)" ]; then
@@ -71,15 +71,15 @@ torrentdaemonstart() {
     fi
 }
 torrentdaemonstop() {
-    transmission-remote --exit
+    transmission-remote 9092 --exit
     killall transmission-daemon
 }
-torrentinfo()        { transmission-remote -t $1 -i }
-torrentlist()        { transmission-remote -l }
-torrentrmfiles()     { transmission-remote -t $1 --remove-and-delete }
-torrentrm()          { transmission-remote -t $1 -r }
-torrentstart()       { transmission-remote -t $1 -s }
-torrentstop()        { transmission-remote -t $1 -S }
+torrentinfo()        { transmission-remote 9092 -t $1 -i }
+torrentlist()        { transmission-remote 9092 -l }
+torrentrmfiles()     { transmission-remote 9092 -t $1 --remove-and-delete }
+torrentrm()          { transmission-remote 9092 -t $1 -r }
+torrentstart()       { transmission-remote 9092 -t $1 -s }
+torrentstop()        { transmission-remote 9092 -t $1 -S }
 torrentwatch()       { watch -n 1 transmission-remote 9092 -l }
 
 
