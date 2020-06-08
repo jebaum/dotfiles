@@ -1,0 +1,6 @@
+{
+	// https://github.com/neoclide/coc-python
+	// on arch, installed microsoft-python-language-server from aur
+	"python.jediEnabled": false,
+	"pyls.enable": false
+}
