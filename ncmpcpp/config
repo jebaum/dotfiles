@@ -197,9 +197,9 @@ playlist_disable_highlight_delay = "1"
 ## with reversed colors.
 ##
 #
-#alternative_header_first_line_format = "$b$1$aqqu$/a$9 {%t}|{%f} $1$atqq$/a$9$/b"
+alternative_header_first_line_format = "$b$1$aqqu$/a$9 {%t}|{%f} $1$atqq$/a$9$/b"
 #
-#alternative_header_second_line_format = "{{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}"
+alternative_header_second_line_format = "{{$4$b%a$/b$9}{ - $7%b$9}, Track %N { ($4%y$9)}}|{%D}"
 #
 ##
 ## Note: Below variables also supports
@@ -299,7 +299,7 @@ progressbar_look = "─╼ "
 #
 #default_place_to_search_in = "database" (database/playlist)
 #
-#user_interface = "classic" (classic/alternative)
+user_interface = "alternative" # (classic/alternative)
 #
 #media_library_left_column = "a" (possible values: a,y,g,c,p, legend above)
 #
@@ -471,8 +471,11 @@ volume_color = "white"
 state_line_color = "white"
 state_flags_color = "white"
 main_window_color = "white"
-main_window_highlight_color = "yellow"
-active_column_color = "green"
+#
+#main_window_highlight_color = "yellow"
+current_item_prefix = "$(yellow)$r"
+current_item_suffix = "$/r$(end)"
+
 color1 = "red"
 color2 = "green"
 progressbar_color = "blue"
