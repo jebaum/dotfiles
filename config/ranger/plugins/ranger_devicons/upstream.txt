@@ -1,0 +1,6 @@
+https://github.com/alexanderjeurissen/ranger_devicons
+
+putting this here because I don't feel like dealing wiht submodules for this
+
+on arch, had to install ttf-nerd-fonts-symbols package to make this work:
+https://github.com/ryanoasis/nerd-fonts
