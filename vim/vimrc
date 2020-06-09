@@ -16,7 +16,7 @@ let g:plug_threads = 70
 let @p="03df/IPlug 'A':wV:Source:PlugInstall"
 
 call plug#begin('~/.vim/bundle')
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 if has('unix')
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'junegunn/gv.vim',    {'on': ['GV']}
@@ -74,9 +74,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'Valloric/ListToggle'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-pandoc/vim-pandoc',        {'for': 'pandoc'} " breaks textwidth?
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
-Plug 'vim-pandoc/vim-pandoc-after',  {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim'
 Plug 'wellle/tmux-complete.vim'
@@ -176,7 +174,8 @@ augroup FileTypeSettings
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
-  autocmd BufRead,BufNewFile *.md   set filetype=pandoc
+  " autocmd BufRead,BufNewFile *.md   set filetype=pandoc
+  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc " from vin-pandoc-syntax
   autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
   autocmd BufRead coc-settings.json syntax match Comment +\/\/.\+$+ " coc-settings file uses jsonc, supports comments
 augroup END
