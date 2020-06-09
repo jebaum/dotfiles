@@ -50,7 +50,7 @@ fzf-cd-find-widget() {
   local cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"
   setopt localoptions pipefail 2> /dev/null
-  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='find . -mindepth 1 -type d > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) +m)"
+  local dir="$(FZF_DEFAULT_OPTS="--prompt='find . -mindepth 1 -type d > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) +m < <(eval "$cmd"))"
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
