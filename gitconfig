@@ -57,7 +57,6 @@
 [user]
   name = James Baumgarten
   email = jebaum@ucla.edu
-  signingkey = jebaum@ucla.edu
 [color]
     ui = auto
 [color "branch"]
@@ -98,4 +97,4 @@
 [push]
   default = simple
 [pull]
-	rebase = true
+  rebase = true

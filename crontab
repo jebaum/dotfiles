@@ -2,8 +2,5 @@
 # run 0 minutes after 6 PM every day
 0 18 * * *       $HOME/dotfiles/scripts/get_arch_packages.sh
 
-# run on the hour, every hour
-0    * * * *       $HOME/dotfiles/scripts/imap_log_checker.sh
-
-# run every 5 minutes
-*/5  * * * *       updatedb && notify-send 'UPDATED DB'
+# run every 5 minutes. requires sudo chgrp -R mlocate /var/lib/mlocate && sudo chmod g+w mlocate, and being in the mlocate group
+*/5 * * * * updatedb && date >> $HOME/.updatedb

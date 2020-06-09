@@ -1,27 +1,12 @@
 Host rigl
   HostName 192.168.0.100
-  Port 50000
-  User james
-
-Host thinkpad
-  Hostname 192.168.0.103
-  Port 50000
+  Port 50001
   User james
 
 Host jbaumy
   HostName jbaumy.com
   Port 22
   User james
-
-Host lnxsrv
-  HostName lnxsrv.seas.ucla.edu
-  Port 22
-  User baumgart
-
-Host lug
-  Hostname ssh.linux.ucla.edu
-  Port 22
-  User jebaum
 
 Host phone
     HostName 192.168.0.102
