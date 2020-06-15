@@ -16,6 +16,7 @@ pentadactyl/info/*
 
 config/ranger/history
 config/ranger/bookmarks
+config/ranger/tagged
 config/ranger/__pycache__/*
 
 config/mpv/watch_later
