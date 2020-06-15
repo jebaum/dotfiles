@@ -75,6 +75,7 @@ class fzfcd(Command):
         if currentdir != "/":
             currentdirlen += 2  # + 2 to get rid of the whole cwd and the trailing slash with cut
 
+        # TODO this has a bug in the "storage" folder, because i have a "music" and "music old". "old/whatever" appears in the search results
         if self.arg(1) == "files":
             command = "locate '" + currentdir + "' 2>/dev/null | cut -b " + str(currentdirlen) + "- | fzf -x --inline-info"
         else:
@@ -88,3 +89,32 @@ class fzfcd(Command):
             self.fm.select_file(os.path.abspath(result))
         else:
             self.fm.cd(result)
+
+
+class fzf_select(Command):
+    """
+    :fzf_select
+
+    Find a file using fzf.
+
+    With a prefix argument select only directories.
+    """
+    def execute(self):
+        import subprocess
+        import os.path
+        if self.arg(1) == "directories":
+            # match only directories
+            command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
+            -o -type d -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
+        else:
+            # match files and directories
+            command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
+            -o -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
+        fzf = self.fm.execute_command(command, universal_newlines=True, stdout=subprocess.PIPE)
+        stdout, stderr = fzf.communicate()
+        if fzf.returncode == 0:
+            fzf_file = os.path.abspath(stdout.rstrip('\n'))
+            if os.path.isdir(fzf_file):
+                self.fm.cd(fzf_file)
+            else:
+                self.fm.select_file(fzf_file)
