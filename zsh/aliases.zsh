@@ -36,7 +36,7 @@ mem() {
 pacrmorphans() {
     sudo pacman --remove --recursive $(pacman --quiet --query --deps --unrequired)
 }
-ytdlmp3() { youtube-dl --audio-quality 0 --audio-format mp3 -x "${1-$(xsel)}" }
+ytdlmp3() { youtube-dl --format bestaudio/best --ignore-errors --output "%(title)s.%(ext)s" --extract-audio --audio-format mp3 "${1-$(xsel)}" }
 ytdl() { youtube-dl "${1-$(xsel)}" }
 
 upgrade() {
