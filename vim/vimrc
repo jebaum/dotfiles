@@ -47,7 +47,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-oblique' " incsearch.vim is more maintained, currently has bug in neovim
 Plug 'junegunn/vim-pseudocl'
-Plug 'junegunn/rainbow_parentheses.vim', {'on': ['RainbowParentheses', 'RainbowParenthesesColors']} " https://github.com/luochen1990/rainbow ?
+Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 Plug 'justinmk/vim-sneak'
 Plug 'zhimsel/vim-stay'
 Plug 'wsdjeg/vim-fetch'
