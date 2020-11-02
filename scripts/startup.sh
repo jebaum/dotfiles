@@ -22,6 +22,6 @@ if ! pgrep ranger > /dev/null ; then
   st -c 'ranger' -e ranger &
 fi
 
-if [[ $(ps aux | grep "st -c vps" | wc -l) != 2 ]]; then
-  st -c vps -e zsh -c "mosh jbaumy -- zsh -c 'tmux attach -d'" &
-fi
+# if [[ $(ps aux | grep "st -c vps" | wc -l) != 2 ]]; then
+#   st -c vps -e zsh -c "mosh jbaumy -- zsh -c 'tmux attach -d'" &
+# fi
