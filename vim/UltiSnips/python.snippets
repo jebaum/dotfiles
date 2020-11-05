@@ -1,0 +1,17 @@
+snippet leetcodeunittest "unittest block for leetcode problems" b
+import unittest
+class SolutionTest(unittest.TestCase):
+    def test(self):
+        s = Solution()
+        self.assert$0
+
+if __name__ == '__main__':
+    unittest.main()
+endsnippet
+
+snippet leetcodepytest "pytest block for leetcode problems" b
+def test():
+    s = Solution()
+    assert s.$0 == 
+endsnippet
+

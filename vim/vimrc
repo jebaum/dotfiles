@@ -74,8 +74,9 @@ Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
 Plug 'Konfekt/FastFold'
-call plug#end()
 
+Plug 'nvim-treesitter/nvim-treesitter'
+call plug#end()
 let g:gruvbox_invert_selection=0
 let g:gruvbox_contrast_dark='medium'
 set background=dark
@@ -108,6 +109,7 @@ function! TweakColors()
   highlight User8 ctermfg=207  ctermbg=232  cterm=none guifg=#FF5FFF  guibg=#080808  gui=none
   highlight User9 ctermfg=208  ctermbg=232  cterm=none guifg=#FF8700  guibg=#080808  gui=none
 
+  highlight JustYanked         ctermfg=108 ctermbg=235 guibg=#552583
 endfunction
 call TweakColors()
 augroup TweakColors
@@ -172,10 +174,9 @@ endfunction
 let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 " }}}
 " autocmd to highlight yanked text {{{
-" https://github.com/neovim/neovim/pull/12279
 augroup HighlightYankedText
-  autocmd!
-  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("DiffChange", 500)
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="JustYanked", timeout=750}
 augroup END
 " }}}
 " }}}
@@ -460,16 +461,6 @@ function! SetMatchParenTimeout()
     endif
 endfunction
 " }}}
-" move {{{
-let g:move_map_keys = 0 " default Alt+[jk] maps conflict with resizing
-augroup OverrideUnimpaired " TODO this whole bs can be replaced by like 2 lines in my vimrc, then no need for plugin
-    autocmd!
-    autocmd VimEnter * nmap [e <Plug>MoveLineUp
-    autocmd VimEnter * nmap ]e <Plug>MoveLineDown
-    autocmd VimEnter * vmap [e <Plug>MoveBlockUp
-    autocmd VimEnter * vmap ]e <Plug>MoveBlockDown
-augroup End
-" }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
 let NERDCompactSexyComs = 0
@@ -566,6 +557,18 @@ let g:tmuxify_run = {
       \ 'ocaml':  'ocaml %',
       \ 'clisp':  'clisp %',
 \}
+" }}}
+" treesitter {{{
+" https://git.sr.ht/~seirdy/dotfiles/tree/master/.config/nvim/init.vim
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+EOF
 " }}}
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger       = "<C-l>"
@@ -832,6 +835,7 @@ nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
+"                        rt    " term/tmux/repl maps
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
 nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
@@ -840,7 +844,6 @@ nnoremap          <leader>sV   :source $MYVIMRC<CR>
 vnoremap          <leader>sv   :Source %<CR>
 nnoremap <silent> <leader>S    :let c=col(".")<CR>V:Source<CR>:call cursor(line("."),c)<CR>
 vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call cursor(line("."),g:c)<CR>
-nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>u    yyp^v$r=
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
@@ -863,6 +866,13 @@ nnoremap          <leader>gu  :Grepper -tool rg -grepprg rg -Hu  --no-heading --
 nnoremap          <leader>gU  :Grepper -tool rg -grepprg rg -Huu --no-heading --vimgrep<CR>
 nmap              <leader>gg  <Plug>(GrepperOperator)
 xmap              <leader>gg  <Plug>(GrepperOperator)
+
+augroup RunningAndTesting
+  " https://vi.stackexchange.com/questions/15431/how-can-i-make-the-neovim-terminal-run-the-current-file-in-python
+  autocmd!
+  autocmd FileType python  nnoremap <buffer><leader>r :sp <CR> :term python % <CR>
+  autocmd FileType python  nnoremap <buffer><leader>t :sp <CR> :term pytest % <CR>
+augroup END
 " }}}
 " space leader maps. fzf + vim-plug {{{
 let g:fzf_command_prefix = 'FZF' " easy autocompletion
