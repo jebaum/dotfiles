@@ -18,8 +18,8 @@ let @p="03df/IPlug 'A':wV:Source:PlugInstall"
 call plug#begin('~/.vim/bundle')
 Plug 'gruvbox-community/gruvbox'
 if has('unix')
-  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'junegunn/gv.vim',    {'on': ['GV']}
+  Plug 'tpope/vim-fugitive'
   Plug 'jebaum/vim-tmuxify'
 endif
 
@@ -39,20 +39,17 @@ endif
 Plug 'airblade/vim-rooter'
 Plug 'vim-utils/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'dahu/vimple' " disabled for now since I'm not really using it and it adds a ton to startup time
-Plug 'duggiefresh/vim-easydir'
 Plug 'jreybert/vimagit',     {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-oblique' " incsearch.vim is more maintained, currently has bug in neovim
-Plug 'junegunn/vim-pseudocl'
-Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
+Plug 'haya14busa/is.vim'
+Plug 'haya14busa/vim-asterisk'
+" Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 Plug 'justinmk/vim-sneak'
 Plug 'zhimsel/vim-stay'
 Plug 'wsdjeg/vim-fetch'
 Plug 'lambdalisue/gina.vim', {'on': ['Gina']}
-Plug 'matze/vim-move' " TODO stomped on by my obvious-resize maps, figure that out
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
@@ -60,14 +57,12 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
 Plug 'scrooloose/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
-Plug 'thinca/vim-quickrun' ",  {'on': 'QuickRun'}
+" Plug 'timakro/vim-searchant'
 Plug 'tmhedberg/SimpylFold', {'for': 'python'}
-Plug 'tommcdo/vim-exchange', {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
-Plug 'tpope/vim-abolish',    {'on': ['Abolish', 'Subvert', 'S']}
+Plug 'tommcdo/vim-exchange' ", {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-sleuth' " auto detect indent settings
 Plug 'tpope/vim-surround' " TODO vim-sandwich? https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
 Plug 'tpope/vim-unimpaired'
@@ -76,7 +71,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
-Plug 'wellle/targets.vim'
+Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
 Plug 'Konfekt/FastFold'
 call plug#end()
@@ -87,16 +82,10 @@ set background=dark
 colorscheme gruvbox
 " override some defaults
 function! TweakColors()
-  " current match when hitting n/N to navigate
-  highlight ObliqueCurrentMatch     ctermfg=16  ctermbg=40 guifg=#000000 guibg=#00D700
-  " current match when actively searching
-  highlight ObliqueCurrentIncSearch ctermfg=16  ctermbg=40  guifg=#000000 guibg=#00D700
-  " color of search text in command line
-  highlight ObliqueLine             ctermfg=229 guifg=#FFFFAF
-  " color of matches the cursor isn't on when actively searching
-  highlight IncSearch               ctermfg=250 ctermbg=24  guifg=#BCBCBC guibg=#005F87
-  " color of matches the cursor isn't on after finished searching
-  highlight Search                  ctermfg=255 ctermbg=24  guifg=#EEEEEE guibg=#005F87
+  highlight Search        ctermfg=250 ctermbg=24  guifg=#552583 guibg=#FDB927
+  highlight IncSearch     ctermfg=255 ctermbg=24  guifg=#FDB927 guibg=#552583
+  " for vim-searchant
+  highlight SearchCurrent ctermfg=250 ctermbg=24  guifg=#552583 guibg=#FDB927
 
   highlight HighlightedyankRegion   ctermfg=253 ctermbg=16  guifg=#DADADA guibg=#000000
 
@@ -132,39 +121,12 @@ augroup END
 command! CD cd %:p:h
 command! SearchCount %s///gn
 
-" common typos
-command! -bang Q  :q<bang>
-command! -bang QA :qa<bang>
-command! -bang Qa :qa<bang>
-
 " use one of these maps in the middle of a search to move, copy, or delete text
 cnoremap $t <CR>:t''<CR>
 cnoremap $T <CR>:''t.<CR>
 cnoremap $m <CR>:m''<CR>
 cnoremap $M <CR>:''m.<CR>
 cnoremap $d <CR>:d<CR>``
-" }}}
-" SyntaxRange autocmds {{{
-" last parameter is optional and can be any highlight group, determines delimiter colors
-augroup SyntaxNotes
-  autocmd!
-  " for backward compatibility
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=c@',    '@end=c@',    'c',    'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=cpp@',  '@end=cpp@',  'cpp',  'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=lisp@', '@end=lisp@', 'lisp', 'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=ml@',   '@end=ml@',   'ocaml','Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('@begin=text@', '@end=text@', 'text', 'Tabline')
-
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```c',      '```', 'c',      'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```cpp',    '```', 'cpp',    'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```java',   '```', 'java',   'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```lisp',   '```', 'lisp',   'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```ml',     '```', 'ocaml',  'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```prolog', '```', 'prolog', 'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```python', '```', 'python', 'Comment')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```text',   '```', 'text',   'Tabline')
-  autocmd BufEnter *.md,*.page call SyntaxRange#Include('```javascript',   '```', 'javascript',   'Comment')
-augroup END
 " }}}
 " FileType autocmds {{{
 augroup FileTypeSettings
@@ -175,7 +137,7 @@ augroup FileTypeSettings
   autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
   " autocmd BufRead,BufNewFile *.md   set filetype=pandoc
-  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc " from vin-pandoc-syntax
+  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc " from vim-pandoc-syntax
   autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
   autocmd BufRead coc-settings.json syntax match Comment +\/\/.\+$+ " coc-settings file uses jsonc, supports comments
 augroup END
@@ -335,9 +297,9 @@ command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1
 " Manipulate help window on open {{{
 function! OpenHelp()
     if winwidth(0) >= 160
-        setlocal textwidth=78
+        setlocal textwidth=118
         wincmd L
-        vertical resize 80
+        vertical resize 120
         normal ze
     else
         wincmd J
@@ -345,8 +307,27 @@ function! OpenHelp()
 endfunction
 augroup AutoSizeHelpWindow
   autocmd!
-  " autocmd BufEnter * if &ft == 'help' | call OpenHelp()
+  autocmd BufEnter * if &ft == 'help' | call OpenHelp()
 augroup END
+" }}}
+" ColumnFlash {{{
+let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
+let g:sleepCommand = 'sleep ' . string(150 / len(g:colorList)) . 'm'
+function! ColumnFlash()
+    let hadCursorline=&cursorline
+    setlocal cursorline cursorcolumn
+    for i in range (0, len(g:colorList) - 1)
+        execute 'highlight CursorLine guibg=' . g:colorList[i]
+        redraw
+        if getchar(1) != 0
+            break
+        endif
+        execute g:sleepCommand
+    endfor
+    execute 'highlight CursorLine guibg=' . g:colorList[0]
+    if !hadCursorline | setlocal nocursorline | endif
+    setlocal nocursorcolumn
+endfunction
 " }}}
 " }}}
 " Plugins {{{
@@ -372,23 +353,16 @@ let g:brightest_enable = 0
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
 highlight BrightestCustom guifg=#000000 guibg=#00AA00
 " }}}
-" detectindent {{{
-" TODO delete this for sleuth ?
-let g:detectindent_preferred_expandtab  = 1
-let g:detectindent_preferred_indent     = 4
-let g:detectindent_max_lines_to_analyse = 1024
-" }}}
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
 " exchange {{{
 " need to define default mappings in vimrc for vim-plug lazy loading to work
-nmap cx <Plug>(Exchange)
-xmap X <Plug>(Exchange)
-nmap cxc <Plug>(ExchangeClear)
-nmap cxx <Plug>(ExchangeLine)
-let g:easy_align_bypass_fold = 1
+"nmap cx <Plug>(Exchange)
+"xmap X <Plug>(Exchange)
+"nmap cxc <Plug>(ExchangeClear)
+"nmap cxx <Plug>(ExchangeLine)
 " }}}
 " fzf {{{
 " Files command with preview window
@@ -447,6 +421,15 @@ let g:grepper.side   = 0 " side window that has context for matches
 command! TodoBuffer    :Grepper -noprompt -buffer  -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
 command! TodoBuffers   :Grepper -noprompt -buffers -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
 " }}}
+" is.vim + vim-asterisk {{{
+map n <Plug>(is-nohl)<Plug>(anzu-n-with-echo)
+map N <Plug>(is-nohl)<Plug>(anzu-N-with-echo)
+map *  <Plug>(asterisk-z*)<Plug>(is-nohl-1)
+map g* <Plug>(asterisk-gz*)<Plug>(is-nohl-1)
+map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)
+map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
+let g:asterisk#keeppos = 1
+" }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
 let g:lt_location_list_toggle_map = '<leader>l'
@@ -494,43 +477,6 @@ let NERDCompactSexyComs = 0
 " netrw {{{
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
-" oblique {{{
-let g:oblique#incsearch_highlight_all=1
-let g:oblique#clear_highlight = 1
-
-" nnoremap <expr> n 'Nn'[v:searchforward]
-" nnoremap <expr> N 'nN'[v:searchforward]
-map n <Plug>(Oblique-n!)
-map N <Plug>(Oblique-N!)
-
-augroup Oblique
-  autocmd! User Oblique
-  autocmd! User ObliqueStar
-  autocmd! User ObliqueRepeat
-  autocmd User Oblique        call ColumnFlash() | AnzuUpdateSearchStatusOutput | normal! zv
-  autocmd User ObliqueStar    call ColumnFlash() | AnzuUpdateSearchStatusOutput | normal! zv
-  autocmd User ObliqueRepeat  call ColumnFlash() | AnzuUpdateSearchStatusOutput | normal! zv
-augroup END
-
-" call feedkeys("\<Plug>(anzu-echohl_search_status)")
-let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
-let g:sleepCommand = 'sleep ' . string(100 / len(g:colorList)) . 'm'
-function! ColumnFlash()
-    let hadCursorline=&cursorline
-    setlocal cursorline cursorcolumn
-    for i in range (0, len(g:colorList) - 1)
-        execute 'highlight CursorLine guibg=' . g:colorList[i]
-        redraw
-        if getchar(1) != 0
-            break
-        endif
-        execute g:sleepCommand
-    endfor
-    execute 'highlight CursorLine guibg=' . g:colorList[0]
-    if !hadCursorline | setlocal nocursorline | endif
-    setlocal nocursorcolumn
-endfunction
-" }}}
 " pandoc {{{
 augroup PandocMaps
   autocmd!
@@ -542,38 +488,6 @@ let g:pandoc#formatting#textwidth = 80
 let g:pandoc#folding#fdc = 0 " foldcolumn width
 let g:pandoc#modules#disabled = ["folding"]
 let g:pandoc#after#modules#enabled = ["ultisnips", "unite"]
-" }}}
-" quickrun {{{
-let g:quickrun_config         = {}  " initialize dictionary
-" let g:quickrun_config._       = {'runner':'vimproc', 'runner/vimproc/updatetime':'250','hook/getpid/enable':'1'} " _ is fallback default value
-let g:quickrun_config.generic = {'exec':'%c %a'}    " any arbitrary -command and -args, e.g. `QuickRun generic -command ls -args '-al ~'`
-let g:quickrun_config.make    = {'exec':'make %a','runner':'vimproc','outputter':'quickfix'}
-let g:quickrun_config.pandoc  = {'exec':'pandoc %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
-let g:quickrun_config.python  = {'cmdopt':'-u','runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}      " prevent python from buffering output
-let g:quickrun_config.pytest  = {'exec':'pytest '.expand('%:p'),'runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}
-let g:quickrun_config.javascript  = {'exec':'node '.expand('%:p'),'runner':'jobstart', 'outputter/buffer/name':'__quickrun_output__'}      " prevent python from buffering output
-let g:quickrun_config.latex   = {'exec':'rubber %a','runner':'vimproc','outputter':'quickfix','hook/markdown/enable':'1'}
-let g:quickrun_config._       = {'runner':'jobstart'} " TODO using jobstart when i have the updatetime / getpid stuff set for vimproc causes problems. also make sure to only do this in nvim
-nnoremap <silent> <leader>R :bwipeout __quickrun_output__<CR>
-nnoremap <silent> <leader>Q :bwipeout __quickrun_output__<CR>
-" nnoremap <silent> <leader>T :execute 'QuickRun pytest -outputter/buffer/split "' . (winwidth(0) * 2 < winheight(0) * 5 ? '35' : 'vertical 90') . '"'<CR>
-function! QuickRunSplit()
-    " figure out what to prepend to :split command for buffer output based on current window size
-    return winwidth(0) * 2 < winheight(0) * 5 ? "15" : "vertical 45"
-endfunction
-
-function! QuickRunTimeToggle()
-  if !has_key(g:quickrun_config['_'], 'hook/time/enable')
-    let g:quickrun_config['_']['hook/time/enable'] = '0'
-  endif
-  if g:quickrun_config['_']['hook/time/enable'] == '0'
-    let g:quickrun_config['_']['hook/time/enable'] = '1'
-    echo 'enabled time hook'
-  else
-    let g:quickrun_config['_']['hook/time/enable'] = '0'
-    echo 'disabled time hook'
-  endif
-endfunction
 " }}}
 " signify {{{
 let g:signify_disable_by_default = 0            " disable run by default
@@ -604,9 +518,6 @@ xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
 map <M-;> <Plug>Sneak_,
-" oblique fuzzy search steps on these omaps if I don't explicitly put them in
-omap z <Plug>Sneak_s
-omap Z <Plug>Sneak_S
 " }}}
 " startify {{{
 let g:startify_list_order         = ['bookmarks']
@@ -671,7 +582,7 @@ set relativenumber             " use relative line numbers
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
 set nolazyredraw               " don't redraw the screen w ile executing macros
-set clipboard=unnamedplus      " by default, * system clipboard
+set clipboard+=unnamedplus     " by default, * system clipboard
 set titlestring=%<%q%F%h%r%m   " file name
 set title titlelen=150         " max length of title string
 set backspace=indent,eol,start " allow backspace in insert mode
@@ -774,15 +685,13 @@ augroup SyntaxFold
 augroup END
 " }}}
 " Tab/Indent {{{
-" I let vim-sleuth take care of these now
+" https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd
+set expandtab
+set tabstop=4      " Optional, if you want files with tabs to look the same too.
+set shiftwidth=4
+set softtabstop=-1 " Use value of shiftwidth
+set smarttab       " Always use shiftwidth
 set autoindent      " auto indent line to match above line when hitting enter
-"set cindent        " newer and better smartindent
-" set smarttab        " make tabs more consistent with softtabstop
-" set shiftwidth =4   " amount of whitespace to insert or remove using normal mode indentation commands
-" set softtabstop=-1  " amount of whitespace deleted by backspace. -1 means use value of 'shiftwidth'
-" set tabstop    =4   " width of tab character
-" set shiftround      " indent by multiples of shiftwidth
-" set expandtab       " use spaces instead of tabs
 set linebreak       " wrap lines at nice points
 set textwidth=0     " disables textwidth
 
@@ -836,12 +745,22 @@ endif
 " }}}
 " Keymaps {{{
 " Misc {{{
-" always show multiple tag options, <C-w> to open in new window
-"nnoremap <C-]> <C-w>g<C-]>
-nnoremap <C-]> g<C-]>
+" misc g maps
+nnoremap          gp    gw{gw}
+nnoremap          gs    gnv
+nnoremap          g;    g;zz
+nnoremap          g,    g,zz
+
+" make K do the opposite of J: split lines under the cursor
+nnoremap K i<CR><Esc>k$
+
+" line yanks Y yl yaa
+nnoremap Y y$
+nnoremap yl :let c=col(".")<CR>$v^y:call cursor(line("."),c)<CR>
+nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>:echo 'yanked whole file'<CR>
+
+vnoremap <C-a> :call Increment()<CR>
 nnoremap <BS> :%s/\V\<lt><c-r><c-w>\>//g<left><left>
-nnoremap H ^
-nnoremap L g_
 " }}}
 " fix the esc/alt mapping problem in terminal vim {{{
 if !has('gui_running')
@@ -853,22 +772,6 @@ if !has('gui_running')
   augroup END
 endif
 " }}}
-" misc g maps {{{
-nnoremap          gdu   :diffupdate<CR>
-xnoremap          gdp   :diffput <BAR> diffupdate<CR>
-xnoremap          gdo   :diffget <BAR> diffupdate<CR>
-nnoremap          gp    gw{gw}
-nnoremap          gs    gnv
-nnoremap          g;    g;zz
-nnoremap          g,    g,zz
-" }}}
-" changed default keys M - _ K {{{
-nnoremap M %
-onoremap M %
-vnoremap M %
-" make K do the opposite of J: split lines under the cursor
-nnoremap K i<CR><Esc>k$
-" }}}
 " easily toggle command line window with Q {{{
 nnoremap Q q:
 augroup CmdWindow
@@ -876,16 +779,6 @@ augroup CmdWindow
   autocmd CmdwinEnter * nnoremap <buffer><silent> Q :q<CR>
   autocmd CmdwinEnter * nnoremap <buffer><silent> <C-c> <Esc>
 augroup END
-" }}}
-" visual mode increment, search, shift, gV {{{
-vnoremap <C-a> :call Increment()<CR>
-xnoremap <C-f> <Esc>/\%V
-nnoremap gV `[v`]
-" }}}
-" line yanks Y yl yaa {{{
-nnoremap Y y$
-nnoremap yl :let c=col(".")<CR>$v^y:call cursor(line("."),c)<CR>
-nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>:echo 'yanked whole file'<CR>
 " }}}
 " c/C/x/X operators go to own registers instead of unnamed[plus] register specified by 'clipboard' {{{
 nnoremap <expr> c (v:register == '+' \|\| v:register == '*') ? '"cc' : 'c'
@@ -923,34 +816,23 @@ augroup END
 " Text Object / targets.vim maps {{{
 let g:targets_pairs       = '()b {}c []r <>g'
 let g:targets_quotes      = "\"d 's `t"
-
-function! Append(type, ...)
-    call feedkeys("`]a", 'n')
-endfunction
-
-function! Insert(type, ...)
-    call feedkeys("`[i", 'n')
-endfunction
 " }}}
 " k and j add to jumplist {{{
 nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : 'k'))
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
 " defualt comma leader maps {{{
-nnoremap <silent> <leader>a    :set opfunc=Append<CR>g@
 nnoremap <silent> <leader>A    :AnzuUpdateSearchStatusOutput<CR>
 nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
-"                 <leader>e    ListToggle
+nnoremap <silent> <leader>f    :call ColumnFlash()<CR>
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                      [gG]    gina, signify and grepper maps below
-nnoremap <silent> <leader>i    :set opfunc=Insert<CR>g@
 "                 <leader>l    ListToggle
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
-nnoremap <silent> <leader>r    :execute 'QuickRun -outputter/buffer/split ' . (winwidth(0) * 2 < winheight(0) * 5 ? "30" : "'vertical 45'")<CR>
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
 nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sv   :source %<CR>
@@ -961,7 +843,6 @@ vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call curs
 nnoremap <silent> <leader>tv   :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>u    yyp^v$r=
 nnoremap <silent> <leader>w    :w!<CR>
-nnoremap <silent> <leader>W    :SudoWrite<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 
@@ -1048,16 +929,6 @@ exec 'nnoremap <silent> ' . Altmap('7') . ' 7gt'
 exec 'nnoremap <silent> ' . Altmap('8') . ' 8gt'
 exec 'nnoremap <silent> ' . Altmap('9') . ' 9gt'
 exec 'nnoremap <silent> ' . Altmap('0') . ' :tablast<CR>'
-" }}}
-" alt insert mode {{{
-exec 'inoremap ' . Altmap('h') . '   <Left>'
-exec 'inoremap ' . Altmap('j') . '   <Down>'
-exec 'inoremap ' . Altmap('k') . '   <Up>'
-exec 'inoremap ' . Altmap('l') . '   <Right>'
-exec 'inoremap ' . Altmap('b') . '   <S-Left>'
-exec 'inoremap ' . Altmap('B') . '   <C-Left>'
-exec 'inoremap ' . Altmap('w') . '   <S-Right>'
-exec 'inoremap ' . Altmap('W') . '   <C-Right>'
 " }}}
 " slash leader maps. tmuxify {{{
 function! TmuxifySendLines(count, direction)
@@ -1156,4 +1027,4 @@ if has('nvim')
 end
 " }}}
 " }}}
-" vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}}
+" vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}} nofoldenable
