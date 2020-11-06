@@ -308,13 +308,14 @@ function! OpenHelp()
 endfunction
 augroup AutoSizeHelpWindow
   autocmd!
-  autocmd BufEnter * if &ft == 'help' | call OpenHelp()
+  "autocmd BufEnter * if &ft == 'help' | call OpenHelp()
 augroup END
 " }}}
 " ColumnFlash {{{
 let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
 let g:sleepCommand = 'sleep ' . string(150 / len(g:colorList)) . 'm'
 function! ColumnFlash()
+    " TODO since this is manually invoked now, maybe tweak it to use laker colors and stay longer
     let hadCursorline=&cursorline
     setlocal cursorline cursorcolumn
     for i in range (0, len(g:colorList) - 1)
@@ -848,6 +849,7 @@ nnoremap <silent> <leader>u    yyp^v$r=
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
+nnoremap <silent> <leader>zt   :write \| edit \| TSBufEnable highlight<CR>
 
 " <leader>g[jkht] taken by signify
 nnoremap <silent> <leader>ga  :Gina add %:p<CR>
@@ -869,10 +871,33 @@ xmap              <leader>gg  <Plug>(GrepperOperator)
 
 augroup RunningAndTesting
   " https://vi.stackexchange.com/questions/15431/how-can-i-make-the-neovim-terminal-run-the-current-file-in-python
+  " could probably be more sophisticated using neoterm or iron.nvim, but not needed for now
+  " https://austeretechnology.wordpress.com/2017/07/18/a-ruby-repl-workflow-with-neovim-and-neoterm/
   autocmd!
-  autocmd FileType python  nnoremap <buffer><leader>r :sp <CR> :term python % <CR>
-  autocmd FileType python  nnoremap <buffer><leader>t :sp <CR> :term pytest % <CR>
+  " TODO based on OpenHelp, do sp or vsp and set size based on current buffer size
+  autocmd FileType python  nnoremap <buffer><leader>r :call RunAndReturn('terminal python %')<CR>
+  autocmd FileType python  nnoremap <buffer><leader>t :call RunAndReturn('terminal pytest %')<CR>
+  autocmd FileType python  nnoremap <buffer><leader>a :call DeleteTerminalBuffers()<CR>
 augroup END
+
+function! RunAndReturn(cmd)
+  call DeleteTerminalBuffers()
+  if winwidth(0) >= 260
+    let termwidth = winwidth(0) - 160
+    execute termwidth.'vsplit'
+  else
+    split
+  endif
+  execute a:cmd
+  wincmd p
+endfunction
+
+function! DeleteTerminalBuffers()
+  let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && bufname(v:val) =~ "term://"')
+  if !empty(buffers) 
+    execute 'bdelete! '.join(buffers, ' ')
+  endif
+endfunction
 " }}}
 " space leader maps. fzf + vim-plug {{{
 let g:fzf_command_prefix = 'FZF' " easy autocompletion

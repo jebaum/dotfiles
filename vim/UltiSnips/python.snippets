@@ -1,3 +1,12 @@
+snippet leetcode "pytest block for leetcode problems" b
+def test():
+    s = Solution()
+    assert s.$0 == 
+
+if __name__ == "__main__":
+    test()
+endsnippet
+
 snippet leetcodeunittest "unittest block for leetcode problems" b
 import unittest
 class SolutionTest(unittest.TestCase):
@@ -8,10 +17,3 @@ class SolutionTest(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 endsnippet
-
-snippet leetcodepytest "pytest block for leetcode problems" b
-def test():
-    s = Solution()
-    assert s.$0 == 
-endsnippet
-
