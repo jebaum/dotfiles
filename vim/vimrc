@@ -58,8 +58,8 @@ Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'Br
 Plug 'scrooloose/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 " Plug 'timakro/vim-searchant'
-Plug 'tmhedberg/SimpylFold', {'for': 'python'}
-Plug 'tommcdo/vim-exchange' ", {'on': ['<Plug>(Exchange)', '<Plug>(ExchangeClear)', '<Plug>(ExchangeLine)']}
+" Plug 'tmhedberg/SimpylFold', {'for': 'python'}
+Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
@@ -297,7 +297,7 @@ command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1
 " }}}
 " Manipulate help window on open {{{
 function! OpenHelp()
-    if winwidth(0) >= 160
+    if winwidth(0) >= 260
         setlocal textwidth=118
         wincmd L
         vertical resize 120
@@ -308,14 +308,13 @@ function! OpenHelp()
 endfunction
 augroup AutoSizeHelpWindow
   autocmd!
-  "autocmd BufEnter * if &ft == 'help' | call OpenHelp()
+  autocmd BufWinEnter * if &ft == 'help' | call OpenHelp()
 augroup END
 " }}}
 " ColumnFlash {{{
-let g:colorList = ['#3a3a3a', '#444444', '#4e4e4e', '#585858', '#626262']
-let g:sleepCommand = 'sleep ' . string(150 / len(g:colorList)) . 'm'
+let g:colorList = ['#3E2D10', '#7D5A14', '#BC871E', '#FAB428', '#FDB927', '#FDB927', '#FDB927', '#FDB927']
+let g:sleepCommand = 'sleep ' . string(400 / len(g:colorList)) . 'm'
 function! ColumnFlash()
-    " TODO since this is manually invoked now, maybe tweak it to use laker colors and stay longer
     let hadCursorline=&cursorline
     setlocal cursorline cursorcolumn
     for i in range (0, len(g:colorList) - 1)
@@ -326,7 +325,7 @@ function! ColumnFlash()
         endif
         execute g:sleepCommand
     endfor
-    execute 'highlight CursorLine guibg=' . g:colorList[0]
+    execute 'highlight CursorLine guibg=#3C3836'
     if !hadCursorline | setlocal nocursorline | endif
     setlocal nocursorcolumn
 endfunction
@@ -342,14 +341,6 @@ let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 let g:airline#extensions#tabline#enabled = 0
 " }}}
-" anzu {{{
-" NOTE: these options are not actually distinct. if either is true, cursormoved autocmd will run
-" let g:anzu_enable_CursorHold_AnzuUpdateSearchStatus = 0
-" let g:anzu_enable_CursorMoved_AnzuUpdateSearchStatus = 0
-" augroup DisableAnzu " disable anzu autocmds, have map to run it just when I need to
-    " autocmd VimEnter * augroup anzu | autocmd! | augroup END
-" augroup END
-" }}}
 " brightest {{{
 let g:brightest_enable = 0
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
@@ -358,13 +349,6 @@ highlight BrightestCustom guifg=#000000 guibg=#00AA00
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-" }}}
-" exchange {{{
-" need to define default mappings in vimrc for vim-plug lazy loading to work
-"nmap cx <Plug>(Exchange)
-"xmap X <Plug>(Exchange)
-"nmap cxc <Plug>(ExchangeClear)
-"nmap cxx <Plug>(ExchangeLine)
 " }}}
 " fzf {{{
 " Files command with preview window
@@ -644,7 +628,7 @@ set noswapfile                 " seriously who needs them
 set tags=./.tags;              " search for .tags file upward (:h file-searching)
 set previewheight=20
 set viewoptions=cursor,folds,slash,unix " vim-stay configuration
-set nocursorline
+set cursorline
 set mouse=                     " disable mouse
 set listchars=tab:▶-,trail:•,extends:>,eol:¬
 set dictionary=/usr/share/dict/words  " dictionary completion with <C-X><C-K>
