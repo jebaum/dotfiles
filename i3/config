@@ -330,7 +330,7 @@ bar {
         -p memory.format='{used}/{total} ({percent:.1f}%)' \
            mpd.format='{title} - {artist} {position}/{duration}' \
            title.max=120 \
-           pomodoro.work=55 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
+           pomodoro.work=30 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
         -t iceberg-dark-powerline
   tray_output primary
   colors {
