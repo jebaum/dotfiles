@@ -45,6 +45,8 @@ upgrade() {
  }
 
 # cp with progress
+#alias scp='rsync --verbose --progress --partial'
+#alias scp='/usr/bin/rsync --archive --xattrs --acls --progress --rsh="ssh"'
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 alias rsync-copy="rsync -avz --progress -h"
 alias rsync-move="rsync -avz --progress -h --remove-source-files"
