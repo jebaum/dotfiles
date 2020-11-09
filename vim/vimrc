@@ -12,7 +12,7 @@ if empty(glob("~/.vim/autoload/plug.vim"))
     execute '!curl -fLo '.expand("~/.vim/autoload/plug.vim", 1).' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
-let g:plug_threads = 70
+let g:plug_threads = 50
 let @p="03df/IPlug 'A':wV:Source:PlugInstall"
 
 call plug#begin('~/.vim/bundle')
@@ -177,6 +177,16 @@ let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 augroup HighlightYankedText
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="JustYanked", timeout=750}
+augroup END
+" }}}
+" return to last file location on open {{{
+" https://vi.stackexchange.com/questions/106/how-can-i-restore-the-cursor-position-when-opening-a-file
+augroup ReturnToLastFilePosition
+  autocmd!
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
+        \ execute("normal `\"") |
+    \ endif
 augroup END
 " }}}
 " }}}
@@ -408,8 +418,8 @@ command! TodoBuffer    :Grepper -noprompt -buffer  -tool rg -grepprg rg -Hi --no
 command! TodoBuffers   :Grepper -noprompt -buffers -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
 " }}}
 " is.vim + vim-asterisk {{{
-map n <Plug>(is-nohl)<Plug>(anzu-n-with-echo)
-map N <Plug>(is-nohl)<Plug>(anzu-N-with-echo)
+map <silent> n <Plug>(is-nohl)<Plug>(anzu-n-with-echo):silent! foldopen<CR>
+map <silent> N <Plug>(is-nohl)<Plug>(anzu-N-with-echo):silent! foldopen<CR>
 map *  <Plug>(asterisk-z*)<Plug>(is-nohl-1)
 map g* <Plug>(asterisk-gz*)<Plug>(is-nohl-1)
 map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)
@@ -551,6 +561,9 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+  indent = {
+    enable = true
   },
 }
 EOF
@@ -866,8 +879,8 @@ augroup END
 
 function! RunAndReturn(cmd)
   call DeleteTerminalBuffers()
-  if winwidth(0) >= 260
-    let termwidth = winwidth(0) - 160
+  if winwidth(0) >= 235
+    let termwidth = winwidth(0) - 145
     execute termwidth.'vsplit'
   else
     split
@@ -1046,4 +1059,4 @@ if has('nvim')
 end
 " }}}
 " }}}
-" vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}} nofoldenable
+" vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}}
