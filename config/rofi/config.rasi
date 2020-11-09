@@ -3,7 +3,7 @@ configuration {
 	lines: 30;
 	width: 1600;
 	columns: 2;
-	font: "Dejavu Sans Mono 24";
+	font: "Dejavu Sans Mono 14";
 	location: 0;
 	fixed-num-lines: true;
 	show-icons: true;
