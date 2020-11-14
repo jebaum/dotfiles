@@ -12,7 +12,7 @@
 
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
-# config.load_autoconfig(True)
+config.load_autoconfig(False)
 
 ## Aliases for commands. The keys of the given dictionary are the
 ## aliases, while the values are the commands they map to.
@@ -31,7 +31,7 @@
 ## session which was last loaded. This behavior can be customized via the
 ## `session.default_name` setting.
 ## Type: Bool
-# c.auto_save.session = False
+c.auto_save.session = True
 
 ## Backend to use to display websites. qutebrowser supports two different
 ## web rendering engines / backends, QtWebKit and QtWebEngine. QtWebKit
@@ -484,7 +484,7 @@
 ## `colors.webpage.darkmode.threshold.background` to 205.  - "With
 ## selective inversion of everything": Combines the two variants   above.
 ## Type: Bool
-# c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = True
 
 ## Render all colors as grayscale. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
@@ -533,12 +533,12 @@
 
 ## Force `prefers-color-scheme: dark` colors for websites.
 ## Type: Bool
-# c.colors.webpage.prefers_color_scheme_dark = False
+c.colors.webpage.prefers_color_scheme_dark = True
 
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
 ## Type: Int
-# c.completion.cmd_history_max_items = 100
+c.completion.cmd_history_max_items = 5000
 
 ## Delay (in milliseconds) before updating completions after typing a
 ## character.
@@ -586,7 +586,7 @@
 ## Shrink the completion to be smaller than the configured size if there
 ## are no scrollbars.
 ## Type: Bool
-# c.completion.shrink = False
+c.completion.shrink = True
 
 ## Format of timestamps (e.g. for the history completion). See
 ## https://sqlite.org/lang_datefunc.html and
@@ -620,11 +620,11 @@
 ##   - multiple-tabs: Show a confirmation if multiple tabs are opened.
 ##   - downloads: Show a confirmation if downloads are running
 ##   - never: Never show a confirmation.
-# c.confirm_quit = ['never']
+c.confirm_quit = ['downloads']
 
 ## Automatically start playing `<video>` elements.
 ## Type: Bool
-# c.content.autoplay = True
+c.content.autoplay = False
 
 ## Enable support for the HTML 5 web application cache feature. An
 ## application cache acts like an HTTP cache in some sense. For documents
@@ -894,7 +894,7 @@
 ## still be downloaded by clicking the download button in the pdf.js
 ## viewer.
 ## Type: Bool
-# c.content.pdfjs = False
+c.content.pdfjs = True
 
 ## Allow websites to request persistent storage quota via
 ## `navigator.webkitPersistentStorage.requestQuota`.
@@ -1020,7 +1020,7 @@
 ## Valid values:
 ##   - top
 ##   - bottom
-# c.downloads.position = 'top'
+c.downloads.position = 'bottom'
 
 ## Duration (in milliseconds) to wait before removing finished downloads.
 ## If set to -1, downloads are never removed.
@@ -1034,7 +1034,7 @@
 ## `{line0}`: Same as `{line}`, but starting from index 0. * `{column0}`:
 ## Same as `{column}`, but starting from index 0.
 ## Type: ShellCommand
-# c.editor.command = ['gvim', '-f', '{file}', '-c', 'normal {line}G{column0}l']
+c.editor.command = ['gvim', '-f', '{file}', '-c', 'normal {line}G{column0}l']
 
 ## Encoding to use for the editor.
 ## Type: Encoding
@@ -1182,7 +1182,7 @@
 ## Valid values:
 ##   - javascript: Better but slower
 ##   - python: Slightly worse but faster
-# c.hints.find_implementation = 'python'
+c.hints.find_implementation = 'javascript'
 
 ## Hide unmatched hints in rapid mode.
 ## Type: Bool
@@ -1232,7 +1232,7 @@
 
 ## Make characters in hint strings uppercase.
 ## Type: Bool
-# c.hints.uppercase = False
+c.hints.uppercase = True
 
 ## Maximum time (in minutes) between two history items for them to be
 ## considered being from the same browsing session. Items with less time
@@ -1345,7 +1345,7 @@
 ## Duration (in milliseconds) to show messages in the statusbar for. Set
 ## to 0 to never clear messages.
 ## Type: Int
-# c.messages.timeout = 2000
+c.messages.timeout = 5000
 
 ## How to open links in an existing instance if a new one is launched.
 ## This happens when e.g. opening a link from a terminal. See
@@ -1416,7 +1416,7 @@
 ## with some bitmap fonts. As an alternative to this, it's possible to
 ## set font sizes and the `zoom.default` setting.
 ## Type: Bool
-# c.qt.highdpi = False
+c.qt.highdpi = False
 
 ## When to use Chromium's low-end device mode. This improves the RAM
 ## usage of renderer processes, at the expense of performance.
@@ -1451,7 +1451,7 @@
 ## Enable smooth scrolling for web pages. Note smooth scrolling does not
 ## work with the `:scroll-px` command.
 ## Type: Bool
-# c.scrolling.smooth = False
+c.scrolling.smooth = True
 
 ## When to find text on a page case-insensitively.
 ## Type: IgnoreCase
@@ -1474,7 +1474,7 @@
 ## Name of the session to save by default. If this is set to null, the
 ## session which was last loaded is saved.
 ## Type: SessionName
-# c.session.default_name = None
+c.session.default_name = 'default'
 
 ## Load a restored tab as soon as it takes focus.
 ## Type: Bool
@@ -1563,7 +1563,7 @@
 
 ## Open new tabs (middleclick/ctrl+click) in the background.
 ## Type: Bool
-# c.tabs.background = False
+c.tabs.background = True
 
 ## Mouse button with which to close tabs.
 ## Type: String
@@ -1689,7 +1689,7 @@
 ##   - bottom
 ##   - left
 ##   - right
-# c.tabs.position = 'top'
+c.tabs.position = 'left'
 
 ## Which tab to select when the focused tab is removed.
 ## Type: SelectOnRemove
@@ -1697,7 +1697,7 @@
 ##   - prev: Select the tab which came before the closed one (left in horizontal, above in vertical).
 ##   - next: Select the tab which came after the closed one (right in horizontal, below in vertical).
 ##   - last-used: Select the previously selected tab.
-# c.tabs.select_on_remove = 'next'
+c.tabs.select_on_remove = 'next'
 
 ## When to show the tab bar.
 ## Type: String
@@ -1738,7 +1738,7 @@
 ## web page. * `{protocol}`: Protocol (http/https/...) of the current web
 ## page. * `{audio}`: Indicator for audio/mute status.
 ## Type: FormatString
-# c.tabs.title.format = '{audio}{index}: {current_title}'
+c.tabs.title.format = '{perc}{audio}{index}: {current_title}'
 
 ## Format to use for the tab title for pinned tabs. The same placeholders
 ## like for `tabs.title.format` are defined.
@@ -1758,7 +1758,7 @@
 ## Width (in pixels or as percentage of the window) of the tab bar if
 ## it's vertical.
 ## Type: PercOrInt
-# c.tabs.width = '20%'
+c.tabs.width = '17%'
 
 ## Wrap when changing tabs.
 ## Type: Bool
@@ -1813,7 +1813,7 @@
 ## the search engine name to the search term, e.g. `:open google
 ## qutebrowser`.
 ## Type: Dict
-# c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}'}
+c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}'}
 
 ## Page(s) to open at the start.
 ## Type: List of FuzzyUrl, or FuzzyUrl
@@ -1835,11 +1835,11 @@
 
 ## Default zoom level.
 ## Type: Perc
-# c.zoom.default = '100%'
+c.zoom.default = '137%'
 
 ## Available zoom levels.
 ## Type: List of Perc
-# c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
+c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '137%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
 
 ## Number of zoom increments to divide the mouse wheel movements to.
 ## Type: Int
@@ -1850,6 +1850,27 @@
 # c.zoom.text_only = False
 
 ## Bindings for normal mode
+# TODO bindings for quickmarks and bookmarks, remaining userscripts (particularly bitwarden)
+#  vimsource = spawn --userscript ~/dotfiles/config/qutebrowser/userscripts/qutebrowser_viewsource
+config.bind(',d', 'config-cycle -p content.user_stylesheets [~/dotfiles/config/qutebrowser/dark.css] [~/dotfiles/config/qutebrowser/dark2.css] "" ;; reload') # new
+config.bind(',y', 'spawn --userscript ~/dev/qutebrowser/misc/userscripts/view_in_mpv')
+config.bind('<Ctrl-c>', 'stop') # new
+config.bind('<Ctrl-j>', 'tab-focus') # d
+config.bind('<Ctrl-l>', 'clear-messages') # new
+config.bind('<Ctrl-N>', 'tab-next') # was originally bound to 'open -w'
+config.bind('<Ctrl-P>', 'tab-prev')
+config.bind('<Alt-n>', 'tab-move +') # new
+config.bind('<Alt-p>', 'tab-move -') # new
+config.bind('>', 'tab-move -1') # new
+config.bind('<', 'tab-move 1') # new
+config.bind('O', 'set-cmd-text :open {url:pretty}')
+config.bind('T', 'set-cmd-text :open -t -r {url:pretty}')
+config.bind('U', 'undo') # originally had -w flag
+config.bind('X', 'tab-close -o') # D
+config.bind('d', 'scroll-page 0 0.5') # ctrl-d
+config.bind('t', 'set-cmd-text -s :open -t') # switched from upper case T
+config.bind('u', 'scroll-page 0 -0.5') # ctrl-u
+config.bind('x', 'tab-close') # d
 # config.bind("'", 'enter-mode jump_mark')
 # config.bind('+', 'zoom-in')
 # config.bind('-', 'zoom-out')
@@ -1882,10 +1903,8 @@
 # config.bind('<Ctrl-A>', 'navigate increment')
 # config.bind('<Ctrl-Alt-p>', 'print')
 # config.bind('<Ctrl-B>', 'scroll-page 0 -1')
-# config.bind('<Ctrl-D>', 'scroll-page 0 0.5')
 # config.bind('<Ctrl-F5>', 'reload -f')
 # config.bind('<Ctrl-F>', 'scroll-page 0 1')
-# config.bind('<Ctrl-N>', 'open -w')
 # config.bind('<Ctrl-PgDown>', 'tab-next')
 # config.bind('<Ctrl-PgUp>', 'tab-prev')
 # config.bind('<Ctrl-Q>', 'quit')
@@ -1896,7 +1915,6 @@
 # config.bind('<Ctrl-Shift-W>', 'close')
 # config.bind('<Ctrl-T>', 'open -t')
 # config.bind('<Ctrl-Tab>', 'tab-focus last')
-# config.bind('<Ctrl-U>', 'scroll-page 0 -0.5')
 # config.bind('<Ctrl-V>', 'enter-mode passthrough')
 # config.bind('<Ctrl-W>', 'tab-close')
 # config.bind('<Ctrl-X>', 'navigate decrement')
@@ -1914,7 +1932,6 @@
 # config.bind('?', 'set-cmd-text ?')
 # config.bind('@', 'run-macro')
 # config.bind('B', 'set-cmd-text -s :quickmark-load -t')
-# config.bind('D', 'tab-close -o')
 # config.bind('F', 'hint all tab')
 # config.bind('G', 'scroll-to-perc')
 # config.bind('H', 'back')
@@ -1923,7 +1940,6 @@
 # config.bind('L', 'forward')
 # config.bind('M', 'bookmark-add')
 # config.bind('N', 'search-prev')
-# config.bind('O', 'set-cmd-text -s :open -t')
 # config.bind('PP', 'open -t -- {primary}')
 # config.bind('Pp', 'open -t -- {clipboard}')
 # config.bind('R', 'reload -f')
@@ -1931,8 +1947,6 @@
 # config.bind('Sh', 'open qute://history')
 # config.bind('Sq', 'open qute://bookmarks')
 # config.bind('Ss', 'open qute://settings')
-# config.bind('T', 'tab-focus')
-# config.bind('U', 'undo -w')
 # config.bind('V', 'enter-mode caret ;; toggle-selection --line')
 # config.bind('ZQ', 'quit')
 # config.bind('ZZ', 'quit --save')
@@ -1943,7 +1957,6 @@
 # config.bind('b', 'set-cmd-text -s :quickmark-load')
 # config.bind('cd', 'download-clear')
 # config.bind('co', 'tab-only')
-# config.bind('d', 'tab-close')
 # config.bind('f', 'hint')
 # config.bind('g$', 'tab-focus -1')
 # config.bind('g0', 'tab-focus 1')
@@ -1981,32 +1994,33 @@
 # config.bind('sk', 'set-cmd-text -s :bind')
 # config.bind('sl', 'set-cmd-text -s :set -t')
 # config.bind('ss', 'set-cmd-text -s :set')
-# config.bind('tCH', 'config-cycle -p -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
-# config.bind('tCh', 'config-cycle -p -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
-# config.bind('tCu', 'config-cycle -p -u {url} content.cookies.accept all no-3rdparty never ;; reload')
-# config.bind('tIH', 'config-cycle -p -u *://*.{url:host}/* content.images ;; reload')
-# config.bind('tIh', 'config-cycle -p -u *://{url:host}/* content.images ;; reload')
-# config.bind('tIu', 'config-cycle -p -u {url} content.images ;; reload')
-# config.bind('tPH', 'config-cycle -p -u *://*.{url:host}/* content.plugins ;; reload')
-# config.bind('tPh', 'config-cycle -p -u *://{url:host}/* content.plugins ;; reload')
-# config.bind('tPu', 'config-cycle -p -u {url} content.plugins ;; reload')
-# config.bind('tSH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
-# config.bind('tSh', 'config-cycle -p -u *://{url:host}/* content.javascript.enabled ;; reload')
-# config.bind('tSu', 'config-cycle -p -u {url} content.javascript.enabled ;; reload')
-# config.bind('tcH', 'config-cycle -p -t -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
-# config.bind('tch', 'config-cycle -p -t -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
-# config.bind('tcu', 'config-cycle -p -t -u {url} content.cookies.accept all no-3rdparty never ;; reload')
-# config.bind('th', 'back -t')
-# config.bind('tiH', 'config-cycle -p -t -u *://*.{url:host}/* content.images ;; reload')
-# config.bind('tih', 'config-cycle -p -t -u *://{url:host}/* content.images ;; reload')
-# config.bind('tiu', 'config-cycle -p -t -u {url} content.images ;; reload')
-# config.bind('tl', 'forward -t')
-# config.bind('tpH', 'config-cycle -p -t -u *://*.{url:host}/* content.plugins ;; reload')
-# config.bind('tph', 'config-cycle -p -t -u *://{url:host}/* content.plugins ;; reload')
-# config.bind('tpu', 'config-cycle -p -t -u {url} content.plugins ;; reload')
-# config.bind('tsH', 'config-cycle -p -t -u *://*.{url:host}/* content.javascript.enabled ;; reload')
-# config.bind('tsh', 'config-cycle -p -t -u *://{url:host}/* content.javascript.enabled ;; reload')
-# config.bind('tsu', 'config-cycle -p -t -u {url} content.javascript.enabled ;; reload')
+# capitalized the 't' at start of all of below maps to free up 't' for use
+config.bind('TCH', 'config-cycle -p -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('TCh', 'config-cycle -p -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('TCu', 'config-cycle -p -u {url} content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('TIH', 'config-cycle -p -u *://*.{url:host}/* content.images ;; reload')
+config.bind('TIh', 'config-cycle -p -u *://{url:host}/* content.images ;; reload')
+config.bind('TIu', 'config-cycle -p -u {url} content.images ;; reload')
+config.bind('TPH', 'config-cycle -p -u *://*.{url:host}/* content.plugins ;; reload')
+config.bind('TPh', 'config-cycle -p -u *://{url:host}/* content.plugins ;; reload')
+config.bind('TPu', 'config-cycle -p -u {url} content.plugins ;; reload')
+config.bind('TSH', 'config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload')
+config.bind('TSh', 'config-cycle -p -u *://{url:host}/* content.javascript.enabled ;; reload')
+config.bind('TSu', 'config-cycle -p -u {url} content.javascript.enabled ;; reload')
+config.bind('TcH', 'config-cycle -p -t -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('Tch', 'config-cycle -p -t -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('Tcu', 'config-cycle -p -t -u {url} content.cookies.accept all no-3rdparty never ;; reload')
+config.bind('Th', 'back -t')
+config.bind('TiH', 'config-cycle -p -t -u *://*.{url:host}/* content.images ;; reload')
+config.bind('Tih', 'config-cycle -p -t -u *://{url:host}/* content.images ;; reload')
+config.bind('Tiu', 'config-cycle -p -t -u {url} content.images ;; reload')
+config.bind('Tl', 'forward -t')
+config.bind('TpH', 'config-cycle -p -t -u *://*.{url:host}/* content.plugins ;; reload')
+config.bind('Tph', 'config-cycle -p -t -u *://{url:host}/* content.plugins ;; reload')
+config.bind('Tpu', 'config-cycle -p -t -u {url} content.plugins ;; reload')
+config.bind('TsH', 'config-cycle -p -t -u *://*.{url:host}/* content.javascript.enabled ;; reload')
+config.bind('Tsh', 'config-cycle -p -t -u *://{url:host}/* content.javascript.enabled ;; reload')
+config.bind('Tsu', 'config-cycle -p -t -u {url} content.javascript.enabled ;; reload')
 # config.bind('u', 'undo')
 # config.bind('v', 'enter-mode caret')
 # config.bind('wB', 'set-cmd-text -s :bookmark-load -w')
@@ -2025,8 +2039,8 @@
 # config.bind('wl', 'forward -w')
 # config.bind('wo', 'set-cmd-text -s :open -w')
 # config.bind('wp', 'open -w -- {clipboard}')
-# config.bind('xO', 'set-cmd-text :open -b -r {url:pretty}')
-# config.bind('xo', 'set-cmd-text -s :open -b')
+config.bind('XO', 'set-cmd-text :open -b -r {url:pretty}') # xO, changed from lowercase so 'x' by itself closes tabs with no delay
+config.bind('Xo', 'set-cmd-text -s :open -b') # xo, changed from lowercase so 'x' by itself closes tabs with no delay
 # config.bind('yD', 'yank domain -s')
 # config.bind('yM', 'yank inline [{title}]({url}) -s')
 # config.bind('yP', 'yank pretty-url -s')
@@ -2092,7 +2106,7 @@
 # config.bind('<Ctrl-Shift-Tab>', 'completion-item-focus prev-category', mode='command')
 # config.bind('<Ctrl-Tab>', 'completion-item-focus next-category', mode='command')
 # config.bind('<Ctrl-U>', 'rl-unix-line-discard', mode='command')
-# config.bind('<Ctrl-W>', 'rl-unix-word-rubout', mode='command')
+config.bind('<Ctrl-W>', 'rl-backward-kill-word', mode='command')
 # config.bind('<Ctrl-Y>', 'rl-yank', mode='command')
 # config.bind('<Down>', 'completion-item-focus --history next', mode='command')
 # config.bind('<Escape>', 'leave-mode', mode='command')
@@ -2157,3 +2171,343 @@
 # config.bind('Y', 'prompt-accept --save yes', mode='yesno')
 # config.bind('n', 'prompt-accept no', mode='yesno')
 # config.bind('y', 'prompt-accept yes', mode='yesno')
+
+
+
+
+# gruvbox dark hard qutebrowser theme by Florian Bruhin <me@the-compiler.org>
+#
+# Originally based on:
+#   base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
+#   Base16 qutebrowser template by theova and Daniel Mulford
+#   Gruvbox dark, hard scheme by Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+#   source: https://github.com/The-Compiler/dotfiles/blob/master/qutebrowser/gruvbox.py
+
+bg0_hard = "#1d2021"
+bg0_soft = '#32302f'
+bg0_normal = '#282828'
+
+bg0 = bg0_normal
+bg1 = "#3c3836"
+bg2 = "#504945"
+bg3 = "#665c54"
+bg4 = "#7c6f64"
+
+fg0 = "#fbf1c7"
+fg1 = "#ebdbb2"
+fg2 = "#d5c4a1"
+fg3 = "#bdae93"
+fg4 = "#a89984"
+
+bright_red = "#fb4934"
+bright_green = "#b8bb26"
+bright_yellow = "#fabd2f"
+bright_blue = "#83a598"
+bright_purple = "#d3869b"
+bright_aqua = "#8ec07c"
+bright_gray = "#928374"
+bright_orange = "#fe8019"
+
+dark_red = "#cc241d"
+dark_green = "#98971a"
+dark_yellow = "#d79921"
+dark_blue = "#458588"
+dark_purple = "#b16286"
+dark_aqua = "#689d6a"
+dark_gray = "#a89984"
+dark_orange = "#d65d0e"
+
+lakerpurple = "#552583"
+lakergold = "#FDB927"
+### Completion
+
+# Text color of the completion widget. May be a single color to use for
+# all columns or a list of three colors, one for each column.
+c.colors.completion.fg = [fg1, bright_aqua, bright_yellow]
+
+# Background color of the completion widget for odd rows.
+c.colors.completion.odd.bg = bg0
+
+# Background color of the completion widget for even rows.
+c.colors.completion.even.bg = c.colors.completion.odd.bg
+
+# Foreground color of completion widget category headers.
+c.colors.completion.category.fg = bright_blue
+
+# Background color of the completion widget category headers.
+c.colors.completion.category.bg = bg1
+
+# Top border color of the completion widget category headers.
+c.colors.completion.category.border.top = c.colors.completion.category.bg
+
+# Bottom border color of the completion widget category headers.
+c.colors.completion.category.border.bottom = c.colors.completion.category.bg
+
+# Foreground color of the selected completion item.
+c.colors.completion.item.selected.fg = fg0
+
+# Background color of the selected completion item.
+c.colors.completion.item.selected.bg = lakerpurple #bg4
+
+# Top border color of the selected completion item.
+c.colors.completion.item.selected.border.top = bg2
+
+# Bottom border color of the selected completion item.
+c.colors.completion.item.selected.border.bottom = c.colors.completion.item.selected.border.top
+
+# Foreground color of the matched text in the selected completion item.
+c.colors.completion.item.selected.match.fg = bright_orange
+
+# Foreground color of the matched text in the completion.
+c.colors.completion.match.fg = c.colors.completion.item.selected.match.fg
+
+# Color of the scrollbar handle in the completion view.
+c.colors.completion.scrollbar.fg = c.colors.completion.item.selected.fg
+
+# Color of the scrollbar in the completion view.
+c.colors.completion.scrollbar.bg = c.colors.completion.category.bg
+
+### Context menu
+
+# Background color of disabled items in the context menu.
+c.colors.contextmenu.disabled.bg = bg3
+
+# Foreground color of disabled items in the context menu.
+c.colors.contextmenu.disabled.fg = fg3
+
+# Background color of the context menu. If set to null, the Qt default is used.
+c.colors.contextmenu.menu.bg = bg0
+
+# Foreground color of the context menu. If set to null, the Qt default is used.
+c.colors.contextmenu.menu.fg =  fg2
+
+# Background color of the context menu’s selected item. If set to null, the Qt default is used.
+c.colors.contextmenu.selected.bg = bg2
+
+#Foreground color of the context menu’s selected item. If set to null, the Qt default is used.
+c.colors.contextmenu.selected.fg = c.colors.contextmenu.menu.fg
+
+### Downloads
+
+# Background color for the download bar.
+c.colors.downloads.bar.bg = bg0
+
+# Color gradient start for download text.
+c.colors.downloads.start.fg = bg0
+
+# Color gradient start for download backgrounds.
+c.colors.downloads.start.bg = bright_blue
+
+# Color gradient end for download text.
+c.colors.downloads.stop.fg = c.colors.downloads.start.fg
+
+# Color gradient stop for download backgrounds.
+c.colors.downloads.stop.bg = bright_aqua
+
+# Foreground color for downloads with errors.
+c.colors.downloads.error.fg = bright_red
+
+### Hints
+
+# Font color for hints.
+c.colors.hints.fg = bg0
+
+# Background color for hints.
+#  c.colors.hints.bg = 'rgba(250, 191, 47, 200)'  # bright_yellow
+c.colors.hints.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 247, 133, 0.9), stop:1 rgba(255, 197, 66, 0.9))'
+
+# Font color for the matched part of hints.
+c.colors.hints.match.fg = bg4
+
+### Keyhint widget
+
+# Text color for the keyhint widget.
+c.colors.keyhint.fg = fg4
+
+# Highlight color for keys to complete the current keychain.
+c.colors.keyhint.suffix.fg = fg0
+
+# Background color of the keyhint widget.
+c.colors.keyhint.bg = bg0
+
+### Messages
+
+# Foreground color of an error message.
+c.colors.messages.error.fg = bg0
+
+# Background color of an error message.
+c.colors.messages.error.bg = bright_red
+
+# Border color of an error message.
+c.colors.messages.error.border = c.colors.messages.error.bg
+
+# Foreground color of a warning message.
+c.colors.messages.warning.fg = bg0
+
+# Background color of a warning message.
+c.colors.messages.warning.bg = bright_purple
+
+# Border color of a warning message.
+c.colors.messages.warning.border = c.colors.messages.warning.bg
+
+# Foreground color of an info message.
+c.colors.messages.info.fg = fg2
+
+# Background color of an info message.
+c.colors.messages.info.bg = bg0
+
+# Border color of an info message.
+c.colors.messages.info.border = c.colors.messages.info.bg
+
+### Prompts
+
+# Foreground color for prompts.
+c.colors.prompts.fg = fg2
+
+# Border used around UI elements in prompts.
+c.colors.prompts.border = f'1px solid {bg1}'
+
+# Background color for prompts.
+c.colors.prompts.bg = bg3
+
+# Background color for the selected item in filename prompts.
+c.colors.prompts.selected.bg = bg2
+
+### Statusbar
+
+# Foreground color of the statusbar.
+c.colors.statusbar.normal.fg = fg2
+
+# Background color of the statusbar.
+c.colors.statusbar.normal.bg = bg0
+
+# Foreground color of the statusbar in insert mode.
+c.colors.statusbar.insert.fg = bg0
+
+# Background color of the statusbar in insert mode.
+c.colors.statusbar.insert.bg = dark_aqua
+
+# Foreground color of the statusbar in passthrough mode.
+c.colors.statusbar.passthrough.fg = bg0
+
+# Background color of the statusbar in passthrough mode.
+c.colors.statusbar.passthrough.bg = dark_blue
+
+# Foreground color of the statusbar in private browsing mode.
+c.colors.statusbar.private.fg = bright_purple
+
+# Background color of the statusbar in private browsing mode.
+c.colors.statusbar.private.bg = bg0
+
+# Foreground color of the statusbar in command mode.
+c.colors.statusbar.command.fg = fg3
+
+# Background color of the statusbar in command mode.
+c.colors.statusbar.command.bg = bg1
+
+# Foreground color of the statusbar in private browsing + command mode.
+c.colors.statusbar.command.private.fg = c.colors.statusbar.private.fg
+
+# Background color of the statusbar in private browsing + command mode.
+c.colors.statusbar.command.private.bg = c.colors.statusbar.command.bg
+
+# Foreground color of the statusbar in caret mode.
+c.colors.statusbar.caret.fg = bg0
+
+# Background color of the statusbar in caret mode.
+c.colors.statusbar.caret.bg = dark_purple
+
+# Foreground color of the statusbar in caret mode with a selection.
+c.colors.statusbar.caret.selection.fg = c.colors.statusbar.caret.fg
+
+# Background color of the statusbar in caret mode with a selection.
+c.colors.statusbar.caret.selection.bg = bright_purple
+
+# Background color of the progress bar.
+c.colors.statusbar.progress.bg = bright_blue
+
+# Default foreground color of the URL in the statusbar.
+c.colors.statusbar.url.fg = fg4
+
+# Foreground color of the URL in the statusbar on error.
+c.colors.statusbar.url.error.fg = dark_red
+
+# Foreground color of the URL in the statusbar for hovered links.
+c.colors.statusbar.url.hover.fg = bright_orange
+
+# Foreground color of the URL in the statusbar on successful load
+# (http).
+c.colors.statusbar.url.success.http.fg = bright_red
+
+# Foreground color of the URL in the statusbar on successful load
+# (https).
+c.colors.statusbar.url.success.https.fg = fg0
+
+# Foreground color of the URL in the statusbar when there's a warning.
+c.colors.statusbar.url.warn.fg = bright_purple
+
+### tabs
+
+# Background color of the tab bar.
+c.colors.tabs.bar.bg = "#11071A" #bg0
+
+# Color gradient start for the tab indicator.
+c.colors.tabs.indicator.start = bright_blue
+
+# Color gradient end for the tab indicator.
+c.colors.tabs.indicator.stop = bright_aqua
+
+# Color for the tab indicator on errors.
+c.colors.tabs.indicator.error = bright_red
+
+# Foreground color of unselected odd tabs.
+c.colors.tabs.odd.fg = fg2
+
+# Background color of unselected odd tabs.
+c.colors.tabs.odd.bg = bg2
+
+# Foreground color of unselected even tabs.
+c.colors.tabs.even.fg = c.colors.tabs.odd.fg
+
+# Background color of unselected even tabs.
+c.colors.tabs.even.bg = bg3
+
+# Foreground color of selected odd tabs.
+c.colors.tabs.selected.odd.fg = fg2
+
+# Background color of selected odd tabs.
+c.colors.tabs.selected.odd.bg = lakerpurple #bg0
+
+# Foreground color of selected even tabs.
+c.colors.tabs.selected.even.fg = c.colors.tabs.selected.odd.fg
+
+# Background color of selected even tabs.
+c.colors.tabs.selected.even.bg = c.colors.tabs.selected.odd.bg
+
+# Background color of pinned unselected even tabs.
+c.colors.tabs.pinned.even.bg = bright_green
+
+# Foreground color of pinned unselected even tabs.
+c.colors.tabs.pinned.even.fg = bg2
+
+# Background color of pinned unselected odd tabs.
+c.colors.tabs.pinned.odd.bg = bright_green
+
+# Foreground color of pinned unselected odd tabs.
+c.colors.tabs.pinned.odd.fg = c.colors.tabs.pinned.even.fg
+
+# Background color of pinned selected even tabs.
+c.colors.tabs.pinned.selected.even.bg = bg0
+
+# Foreground color of pinned selected even tabs.
+c.colors.tabs.pinned.selected.even.fg = c.colors.tabs.selected.odd.fg
+
+# Background color of pinned selected odd tabs.
+c.colors.tabs.pinned.selected.odd.bg = c.colors.tabs.pinned.selected.even.bg
+
+# Foreground color of pinned selected odd tabs.
+c.colors.tabs.pinned.selected.odd.fg = c.colors.tabs.selected.odd.fg
+
+# Background color for webpages if unset (or empty to use the theme's
+# color).
+c.colors.webpage.bg = bg4
