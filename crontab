@@ -1,6 +1,7 @@
+# https://crontab.guru/
 # have to enable/start cronie.service with systemctl
 # run 0 minutes after 6 PM every day
 0 18 * * *       $HOME/dotfiles/scripts/get_arch_packages.sh
 
-# run every 5 minutes. requires sudo chgrp -R mlocate /var/lib/mlocate && sudo chmod g+w mlocate, and being in the mlocate group
-*/5 * * * * updatedb && date >> $HOME/.updatedb
+# At minute 0 past every 12th hour
+0 */12 * * * $HOME/dotfiles/scripts/generate-find-cache.sh

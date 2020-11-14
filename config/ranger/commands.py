@@ -61,56 +61,18 @@ class my_edit(Command):
         # content of the current directory.
         return self._tab_directory_content()
 
-from subprocess import PIPE 
-class fzfcd(Command):
+from subprocess import PIPE
+import os.path
+class fzf_select(Command):
     def execute(self):
         currentdir = str(self.fm.thisdir)
-        currentdirlen = len(currentdir)
-        # TODO replace this implementation with rg, or at least have an alternative for that. much faster on laptop
+        # + 1 to get rid of the trailing slash at the end of currentdir, +1 again because -b flag of cut indicates which byte to start at
+        lengthToCut = len(currentdir) + (2 if currentdir != "/" else 0)
+        cacheLocation = os.path.expanduser("~") + "/.cache/" # '/home/james' + ...
+        fileToSearch = cacheLocation + ("alldirs.txt" if self.arg(1) == "dirs" else "allfiles.txt")
+        command="grep -F '{cwd}' {file} | cut -b {cutlen}- | fzf +m --info=inline".format(cwd=currentdir, file=fileToSearch, cutlen=lengthToCut)
 
-        if currentdir.startswith('/home/james/big1'):  # symlink stupidity
-          currentdir = currentdir.replace('/home/james/big1', '/home/plex', 1)
-          currentdirlen = len(currentdir)
-
-        if currentdir != "/":
-            currentdirlen += 2  # + 2 to get rid of the whole cwd and the trailing slash with cut
-
-        # TODO this has a bug in the "storage" folder, because i have a "music" and "music old". "old/whatever" appears in the search results
-        if self.arg(1) == "files":
-            command = "locate '" + currentdir + "' 2>/dev/null | cut -b " + str(currentdirlen) + "- | fzf -x --inline-info"
-        else:
-            command = "strings /var/lib/mlocate/mlocate.db | grep -E '" + currentdir + "' | cut -b " + str(currentdirlen) + "- | sed '/^$/d' | fzf -x --inline-info"
-
-        fzf = self.fm.execute_command(command, stdout=PIPE)
-        stdout, stderr = fzf.communicate()
-        result = stdout.decode('utf-8').rstrip('\n')
-
-        if os.path.isfile(result):
-            self.fm.select_file(os.path.abspath(result))
-        else:
-            self.fm.cd(result)
-
-
-class fzf_select(Command):
-    """
-    :fzf_select
-
-    Find a file using fzf.
-
-    With a prefix argument select only directories.
-    """
-    def execute(self):
-        import subprocess
-        import os.path
-        if self.arg(1) == "directories":
-            # match only directories
-            command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-            -o -type d -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
-        else:
-            # match files and directories
-            command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-            -o -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
-        fzf = self.fm.execute_command(command, universal_newlines=True, stdout=subprocess.PIPE)
+        fzf = self.fm.execute_command(command, universal_newlines=True, stdout=PIPE)
         stdout, stderr = fzf.communicate()
         if fzf.returncode == 0:
             fzf_file = os.path.abspath(stdout.rstrip('\n'))
@@ -118,3 +80,6 @@ class fzf_select(Command):
                 self.fm.cd(fzf_file)
             else:
                 self.fm.select_file(fzf_file)
+
+    def tab(self, tabnum):
+        return ["fzf_select dirs"]

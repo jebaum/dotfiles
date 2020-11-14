@@ -892,6 +892,7 @@ nnoremap <silent> <Space>g   :FZFLines<CR>
 nnoremap <silent> <Space>G   :FZFBLines<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>
 nnoremap <silent> <Space>H   :FZFHistory<CR>
+" TODO see if I can make a command like the below that uses my findcache
 nnoremap          <Space>l   :FZFLocate<Space>
 nnoremap <silent> <Space>m   :FZFMarks<CR>
 nnoremap <silent> <Space>M   :FZFMaps<CR>

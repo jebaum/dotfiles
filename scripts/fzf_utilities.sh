@@ -77,10 +77,10 @@ fzimpl() { # fzf package management implementation
 
 
 ##### GIT - TODO take a couple things from here https://github.com/wfxr/forgit (git add, stash, etc. I prefer my log viewer to theirs)
-# also: https://github.com/bigH/git-fuzzy and https://github.com/jesseduffield/lazygit
+# also: https://github.com/jesseduffield/lazygit and https://github.com/wfxr/forgit
 fzgbr() { # checkout git branch
   local branches branch
-  branches=$(git branch -vv) &&
+  branches=$(git --no-pager branch -vv) &&
   branch=$(echo "$branches" | fzf +m) &&
   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
@@ -89,45 +89,42 @@ fzgbrall() { # checkout git branch (including remote branches)
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(echo "$branches" | wc -l) )) +m) &&
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 fzgco() { # checkout git commit
   local commits commit
-  commits=$(git log --color=always --graph --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]') &&
-  commit=$(echo "$commits" | fzf --ansi --no-sort --reverse +m) &&
-  git checkout $(echo "$commit" | sed 's/^[^a-z0-9]*//' | awk '{print $1}')
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
 fzgcotag() { # checkout git branch/tag
   local tags branches target
-  tags=$(
-    git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
   branches=$(
-    git branch --all | grep -v HEAD             |
-    sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-    sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+    git --no-pager branch --all \
+      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+    | sed '/^$/d') || return
+  tags=$(
+    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
   target=$(
-    (echo "$tags"; echo "$branches") |
-    fzf-tmux -l30 -- --no-hscroll --ansi +m -d "\t" -n 2) || return
-  git checkout $(echo "$target" | awk '{print $2}')
+    (echo "$branches"; echo "$tags") |
+    fzf --no-hscroll --no-multi -n 2 \
+        --ansi) || return
+  git checkout $(awk '{print $2}' <<<"$target" )
 }
 
-# TODO sample code to enable copying a commit hash to clipboard from fzf
-#_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-#    --bind "alt-y:execute:$_gitLogLineToHash | xclip"
-fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially with Enter
+fzgshow() { # git commit browser
   local out sha query keypress expect
   expect="ctrl-o"
   while out=$(
       git log --color=always --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' $@ |
-      fzf --bind='ctrl-space:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1}"); do
+      fzf --header "enter: multiple commits at once, ctrl-o: sequential, alt-p: preview" --bind='alt-p:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1}"); do
     query=$(echo "$out" | head -1)
     keypress=$(echo "$out" | sed -n '2p')
     shalist=()
     while read sha; do
-      # if ctrl-o was pressed, open each commit sequentially. else, open all at once
       if [ "$keypress" = "$expect" ]; then
         [ -n "$sha" ] && git show --color=always $sha | less -R
       else
@@ -138,30 +135,20 @@ fzgshow() { # git commit browser. view all at once with ctrl-o, or sequentially 
   done
 }
 
-fshow() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-FZF-EOF"
-}
 
 # fzgsha - get git commit sha, copy to clipboard
 # example usage: git rebase -i `fzgsha`
+_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+_gitFullLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | xargs git rev-parse | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | delta'"
 fzgsha() {
-  local commits commit long
-  if [ "$1" = "long" ]; then
-      long=""
-  else
-      long="--abbrev-commit"
-  fi
-  commits=$(git log --color=always --pretty=oneline $long --reverse) &&
-  commit=$(echo "$commits" | fzf --tac +s +m --ansi --reverse --nth=2..) &&
-  echo -n $(echo "$commit" | sed "s/ .*//" | xargs git rev-parse) | xsel # git rev-parse will get the full hash
-  echo "full hash from \`$commit' copied to clipboard"
+    git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@" |
+        fzf --no-sort --reverse --tiebreak=index --no-multi \
+            --ansi --preview="$_viewGitLogLine" \
+                --header "ctrl-o to view, alt-y to copy short hash, alt-g to copy full hash" \
+                --bind "ctrl-o:execute:$_viewGitLogLine   | less -R" \
+                --bind "alt-y:execute:$_gitLogLineToHash | xclip" \
+                --bind "alt-g:execute:$_gitFullLogLineToHash | xclip" | grep -o '[a-f0-9]\{7\}' | xargs git rev-parse| head -1
 }
 
 # fzgstash - easier way to deal with stashes
@@ -169,12 +156,12 @@ fzgsha() {
 # enter shows you the contents of the stash
 # ctrl-d shows a diff of the stash against your current HEAD
 # ctrl-b checks the stash out as a branch, for easier merging
-# TODO make a repo to test this in, make sure eliminating the <<< redirection in favor of echo doesn't break it
+# TODO currently only works in bash due to `mapfile`
 fzgstash() {
   local out q k sha
   while out=$(
     git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-    fzf --ansi --no-sort --query="$q" --print-query \
+      fzf --header "enter: show stash, ctrl-d: diff stash HEAD, ctrl-b: check stash out as branch (easier merging)" --ansi --no-sort --query="$q" --print-query \
         --expect=ctrl-d,ctrl-b);
   do
     mapfile -t out <<< "$out"
@@ -193,7 +180,6 @@ fzgstash() {
     fi
   done
 }
-
 
 ##### FILES AND DIRECTORIES
 fzcd() { # change directory
