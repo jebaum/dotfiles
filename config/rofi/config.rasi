@@ -20,6 +20,7 @@ configuration {
 	scroll-method: 0;
 	window-format: " {n} {t}";
 	theme: "~/dotfiles/config/rofi/purple.rasi";
+	monitor: "primary";
 /*	bw: 1;*/
 /*	padding: 5;*/
 /*	yoffset: 0;*/
