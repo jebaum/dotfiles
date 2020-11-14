@@ -470,21 +470,12 @@ nmap [c             <Plug>(signify-prev-hunk)
 " }}}
 " sneak  {{{
 let g:sneak#label = 0
-let g:sneak#target_labels = ";sftunq/SFGHLTUNRMQZ?0"
 let g:sneak#use_ic_scs = 1
 let g:sneak#absolute_dir = 1
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
 map <M-;> <Plug>Sneak_,
 " }}}
 " startify {{{
