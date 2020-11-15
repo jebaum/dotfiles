@@ -343,38 +343,14 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
 " fzf {{{
-" Files command with preview window
-" Files command uses FZF_DEFAULT_COMMAND (which currently is rg -u for me)
-" might want to make this just rg, no -u, or give various options for that with maps
-" may want to use pathshorten() here around the fnamemodify call, we'll see
-command! -bang -nargs=? -complete=dir FZFFiles call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46', '--prompt', fnamemodify(getcwd(), ':~:.') . '.FZF > ']}, 'right', 'ctrl-space'), <bang>0)
-command! FZFColors call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
-
-" TODO: use rg for everything, it's better
-" TODO override or add map to the FZFBuffers command to use :sbuffer, switch
-" to buffer if it's already open in a window somewhere. then can get rid of gO map
-
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "ctrl-space" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* FZFAg
-    \ call fzf#vim#ag(<q-args>,
-    \                 <bang>0 ? fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'up:60%:hidden', 'ctrl-space')
-    \                         : fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'right:50%:hidden', 'ctrl-space'),
-    \                 <bang>0)
-
-function! FZFRgWrapper(qargs, bang)
-    let rgcommand = "command rg --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:magenta' --column --line-number --no-heading --color=always "
-    if empty(a:qargs) " if no search term provided, only match lines with 10 or more characters, and don't highlight the results
-        let rgcommand .= " --colors 'match:none' " . '".{10,}"'
-    else " if we provided a search term, use it, and highlight the matches
-        let rgcommand .= " --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' " . shellescape(a:qargs)
-    endif
-    call fzf#vim#grep(rgcommand, 1,
-    \   a:bang ? fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'up:60%:hidden', 'ctrl-space')
-    \           : fzf#vim#with_preview({'options': ['--color', 'hl:196,hl+:46']}, 'right:50%:hidden', 'ctrl-space'),
-    \   a:bang)
-endfunction
-command! -bang -nargs=* FZFRg call FZFRgWrapper(<q-args>, <bang>0)
+let g:fzf_buffers_jump = 1 " jump to the existing window if possible
+command! -bang -nargs=* FZFFindCache call fzf#run(fzf#wrap({'source': 'cat '.expand('~/.cache/allfiles.txt'), 'options': ['--multi', '--prompt', 'findcache > ']}))
+unlet! g:fzf_colors " makes fzf.vim use the 24 bit colors configured in env variables https://github.com/junegunn/fzf.vim/issues/1152
+if has('nvim') && !exists('g:fzf_layout')
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 noshowmode noruler
+        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+endif
 " }}}
 " gina {{{
 " gina adds a lot to startup time, so I set it to lazy load in vim-plug
@@ -420,23 +396,6 @@ let g:mta_filetypes = {
     \ 'jinja' : 1,
     \ 'php' : 1,
     \}
-" }}}
-" matchparen {{{
-" let g:loaded_matchparen = 1 put this in neovim remote plugin!
-let g:matchparen_timeout = 50
-augroup MatchParenTimeout
-    autocmd!
-    autocmd BufEnter * call SetMatchParenTimeout()
-augroup END
-function! SetMatchParenTimeout()
-    let bytes = line2byte(line('$') + 1)
-    if bytes > 1000000
-        let b:matchparen_timeout = 1
-        let b:matchparen_insert_timeout = 1
-        setlocal nocursorline nocursorcolumn " TODO conflicts with general cursorline autocmd used in all bufs
-        " TODO also turn off anzu here
-    endif
-endfunction
 " }}}
 " nerdcommenter {{{
 let NERDSpaceDelims     = 1
@@ -850,7 +809,6 @@ augroup RunningAndTesting
   " could probably be more sophisticated using neoterm or iron.nvim, but not needed for now
   " https://austeretechnology.wordpress.com/2017/07/18/a-ruby-repl-workflow-with-neovim-and-neoterm/
   autocmd!
-  " TODO based on OpenHelp, do sp or vsp and set size based on current buffer size
   autocmd FileType python  nnoremap <buffer><leader>r :call RunAndReturn('terminal python %')<CR>
   autocmd FileType python  nnoremap <buffer><leader>t :call RunAndReturn('terminal pytest %')<CR>
   autocmd FileType python  nnoremap <buffer><leader>a :call DeleteTerminalBuffers()<CR>
@@ -880,12 +838,11 @@ let g:fzf_command_prefix = 'FZF' " easy autocompletion
 nnoremap <silent> <Space>b   :FZFBuffers<CR>
 nnoremap          <Space>c   :FZFCommands<CR>
 nnoremap <silent> <Space>f   :FZFFiles<CR>
-nnoremap <silent> <Space>F   :FZFFiles!<CR>
+nnoremap <silent> <Space>F   :FZFFindCache<CR>
 nnoremap <silent> <Space>g   :FZFLines<CR>
 nnoremap <silent> <Space>G   :FZFBLines<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>
 nnoremap <silent> <Space>H   :FZFHistory<CR>
-" TODO see if I can make a command like the below that uses my findcache
 nnoremap          <Space>l   :FZFLocate<Space>
 nnoremap <silent> <Space>m   :FZFMarks<CR>
 nnoremap <silent> <Space>M   :FZFMaps<CR>
