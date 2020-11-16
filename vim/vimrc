@@ -17,15 +17,16 @@ let @p="03df/IPlug 'A':wV:Source:PlugInstall"
 call plug#begin('~/.vim/bundle')
 Plug 'gruvbox-community/gruvbox'
 if has('unix')
+  Plug 'jebaum/vim-tmuxify'
   Plug 'junegunn/gv.vim',    {'on': ['GV']}
   Plug 'tpope/vim-fugitive'
-  Plug 'jebaum/vim-tmuxify'
+  Plug 'tommcdo/vim-fugitive-blame-ext'
 endif
 
 if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 1
-  Plug 'honza/vim-snippets'
   Plug 'SirVer/ultisnips'
   Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
+  Plug 'honza/vim-snippets'
 endif
 
 if has('nvim')
@@ -36,66 +37,62 @@ else
   Plug 'vim-scripts/L9'
 endif
 
+Plug 'Konfekt/FastFold'
+Plug 'Valloric/ListToggle'
 Plug 'airblade/vim-rooter'
-Plug 'vim-utils/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'jreybert/vimagit',     {'on': ['Magit', 'MagitOnly']}
+Plug 'haya14busa/is.vim'
+Plug 'haya14busa/vim-asterisk'
+Plug 'jreybert/vimagit', {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'haya14busa/is.vim'
-Plug 'haya14busa/vim-asterisk'
-" Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 Plug 'justinmk/vim-sneak'
-Plug 'zhimsel/vim-stay'
-Plug 'wsdjeg/vim-fetch'
-Plug 'lambdalisue/gina.vim', {'on': ['Gina']}
+" Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
 " Plug 'timakro/vim-searchant'
 " Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'tommcdo/vim-exchange'
-Plug 'tpope/vim-eunuch',     {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
+Plug 'tpope/vim-eunuch', {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth' " auto detect indent settings
 Plug 'tpope/vim-surround' " TODO vim-sandwich? https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
 Plug 'tpope/vim-unimpaired'
-Plug 'Valloric/ListToggle'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
+Plug 'vim-utils/vim-husk'
 Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
-Plug 'Konfekt/FastFold'
+Plug 'wsdjeg/vim-fetch'
+Plug 'zhimsel/vim-stay'
 
 call plug#end()
 let g:gruvbox_invert_selection=0
 set background=dark
 colorscheme gruvbox
 function! TweakColors() " override some defaults
-  highlight Search        ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
-  highlight IncSearch     ctermfg=255  ctermbg=24   guifg=#FDB927  guibg=#552583
-  " for vim-searchant
-  highlight SearchCurrent ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
-
   highlight Folded                     ctermbg=16                  guibg=#000000
   highlight Function      ctermfg=43                guifg=#00D7AF
+  highlight IncSearch     ctermfg=255  ctermbg=24   guifg=#FDB927  guibg=#552583
+  highlight JustYanked    ctermfg=108  ctermbg=235  guifg=#F0F0F0  guibg=#552583
   highlight MatchParen    ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
   highlight Normal        ctermfg=223               guifg=#FFD7AF  guibg=#1C1C1C
+  highlight QuickFixLine               ctermbg=16                  guibg=#000000
+  highlight Search        ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
+  " for vim-searchant
+  highlight SearchCurrent ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
   highlight SpecialKey    ctermfg=231  ctermbg=236  guifg=#FFFFFF  guibg=#303030
   highlight String        ctermfg=46                guifg=#70F0F0
-  highlight QuickFixLine               ctermbg=16                  guibg=#000000
-
-  highlight JustYanked    ctermfg=108  ctermbg=235  guifg=#F0F0F0  guibg=#552583
 endfunction
-call TweakColors()
 augroup TweakColors
   autocmd!
   autocmd Syntax * call TweakColors()
@@ -161,16 +158,6 @@ let g:ctrl_space = has("gui_running") ? "<C-Space>" : "<C-@>"
 augroup HighlightYankedText
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="JustYanked", timeout=750}
-augroup END
-" }}}
-" return to last file location on open {{{
-" https://vi.stackexchange.com/questions/106/how-can-i-restore-the-cursor-position-when-opening-a-file
-augroup ReturnToLastFilePosition
-  autocmd!
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
-        \ execute("normal `\"") |
-    \ endif
 augroup END
 " }}}
 " }}}
@@ -302,7 +289,7 @@ function! OpenHelp()
 endfunction
 augroup AutoSizeHelpWindow
   autocmd!
-  autocmd BufWinEnter * if &ft == 'help' | call OpenHelp()
+  autocmd BufWinEnter * if &ft == 'help' | call OpenHelp() | endif
 augroup END
 " }}}
 " ColumnFlash {{{
@@ -342,6 +329,26 @@ highlight BrightestCustom guifg=#000000 guibg=#00AA00
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
+" fugitive {{{
+command! -nargs=1 -bar Gbranch   call GitBranch(<f-args>)
+function! GitBranch(name)
+    execute 'silent Git checkout -b ' . a:name
+    redraw!
+endfunction
+
+command! -nargs=1 -bar Gcheckout   call GitCheckout(<f-args>)
+function! GitCheckout(name)
+    execute 'silent Git checkout ' . a:name
+    redraw!
+endfunction
+
+autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+
+autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
+" }}}
 " fzf {{{
 let g:fzf_buffers_jump = 1 " jump to the existing window if possible
 command! -bang -nargs=* FZFFindCache call fzf#run(fzf#wrap({'source': 'cat '.expand('~/.cache/allfiles.txt'), 'options': ['--multi', '--prompt', 'findcache > ']}))
@@ -351,19 +358,6 @@ if has('nvim') && !exists('g:fzf_layout')
   autocmd  FileType fzf set laststatus=0 noshowmode noruler
         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 endif
-" }}}
-" gina {{{
-" gina adds a lot to startup time, so I set it to lazy load in vim-plug
-" that means these functions are undefined at startup, so they'll need to go
-" in an autocmd or something
-" call gina#custom#command#option(
-"       \ 'commit', '-v|--verbose'
-"       \)
-
-" call gina#custom#command#option(
-"       \ '/\%(diff\|log\)',
-"       \ '--opener', 'tabedit'
-"       \)
 " }}}
 " grepper {{{
 let g:grepper = {}
@@ -398,8 +392,10 @@ let g:mta_filetypes = {
     \}
 " }}}
 " nerdcommenter {{{
-let NERDSpaceDelims     = 1
-let NERDCompactSexyComs = 0
+let g:NERDSpaceDelims            = 1
+let g:NERDCompactSexyComs        = 0
+let g:NERDCommentEmptyLines      = 1
+let g:NERDTrimTrailingWhitespace = 1
 " }}}
 " netrw {{{
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
@@ -420,7 +416,7 @@ let g:pandoc#after#modules#enabled = ["ultisnips", "unite"]
 let g:signify_disable_by_default = 0            " disable run by default
 let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
 let g:signify_sign_change        = '~'
-let g:signify_sign_show_count = 1
+let g:signify_sign_show_count    = 1
 nnoremap <leader>gh :SignifyToggleHighlight<CR>
 nnoremap <leader>gt :SignifyToggle<CR>
 nnoremap <leader>gf :SignifyFold<CR>
@@ -438,6 +434,7 @@ map T <Plug>Sneak_T
 map <M-;> <Plug>Sneak_,
 " }}}
 " startify {{{
+let g:rooter_silent_chdir = 1 " sticking this here because i'm lazy
 let g:startify_lists = [
       \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
       \ { 'type': 'files',     'header': ['   MRU Global']     },
@@ -536,7 +533,7 @@ set history=10000              " length of command history
 set showmode                   " show what mode we're in on the bottom line
 set showcmd                    " show current command or visual selection info in bottom line
 set cmdwinheight=10            " height of command line window
-set noshowmatch                " don't flash to matching paren when typing
+set showmatch                  " don't flash to matching paren when typing
 set matchtime=3                " tenths of a second to flash to matching paren
 set incsearch                  " find as you type
 set hlsearch                   " hilight search terms
@@ -766,7 +763,7 @@ nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>f    :call ColumnFlash()<CR>
 nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
-"                      [gG]    gina, signify and grepper maps below
+"                      [gG]    fugitive, signify and grepper maps below
 "                 <leader>l    ListToggle
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
@@ -786,16 +783,22 @@ nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zt   :write \| edit \| TSBufEnable highlight<CR>
 
-" <leader>g[jkht] taken by signify
-nnoremap <silent> <leader>ga  :Gina add %:p<CR>
-nnoremap          <leader>gb  :Gina branch -v<CR>
-nnoremap <silent> <leader>gB  :Gina blame :<CR>
-nnoremap <silent> <leader>gc  :Gina commit --verbose<CR>
-nnoremap <silent> <leader>gd  :Gina diff<CR>
-nnoremap <silent> <leader>glf :Gina log -- --follow %:p<CR>
-nnoremap <silent> <leader>gll :Gina log<CR>
-nnoremap          <leader>gm  :Gmove<Space>
-nnoremap <silent> <leader>gs  :Gina status<CR>
+" <leader>g[ht] taken by signify
+nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
+nnoremap          <leader>gb  :Gbranch<Space>
+nnoremap <silent> <leader>gB  :Git blame<CR>
+nnoremap <silent> <leader>gc  :Git commit --verbose<CR>
+nnoremap          <leader>gC  :Gcheckout<Space>
+" TODO some new gdiff commands to look at
+nnoremap <silent> <leader>gd  :Gdiffsplit<CR>
+nnoremap          <leader>ge  :Gedit<Space>
+" TODO also new log commands. may want to use GV for these instead?
+nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
+nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
+nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
+nnoremap <silent> <leader>gr  :Gread<CR>
+nnoremap <silent> <leader>gs  :Git<CR>
+nnoremap <silent> <leader>gw  :Gwrite<CR>
 
 nnoremap          <leader>#   :Grepper -cword -noprompt<cr>
 nnoremap          <leader>G   :Grepper<CR>
