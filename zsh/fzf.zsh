@@ -16,7 +16,7 @@ __fsel() {
     -o -type d -print \
     -o -type l -print 2> /dev/null | cut -b3-"}"
   setopt localoptions pipefail no_aliases 2> /dev/null
-  eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='find . -mindepth 1 > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+  eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='find . -mindepth 1 > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) -m "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -38,7 +38,7 @@ fzf-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
   selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort --reverse --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]
@@ -78,15 +78,21 @@ bindkey '\et' fzf-findcache-widget
 # ALT-d and ALT-D - cd into the selected directory using find/findcache
 fzf-cd-widget() {
   if [ "$1" = "find" ]; then
+    local prompt="find . -type d > "
     local cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"
   elif [ "$1" = "findcache" ]; then
-    # first line will always be exact match of $PWD, and will become blank after the cut. so tail +2 to return results starting from line 2
-    local cmd="grep "$PWD" ~/.cache/alldirs.txt | cut -b $((${#PWD}+2))- | tail +2"
+    local prompt="findcache > "
+    if [ "$PWD" = "/" ]; then
+      local cmd="cat ~/.cache/alldirs.txt"
+    else
+      # first line will always be exact match of $PWD, and will become blank after the cut. so tail +2 to return results starting from line 2
+      local cmd="grep "$PWD" ~/.cache/alldirs.txt | cut -b $((${#PWD}+2))- | tail +2"
+    fi
   fi
 
   setopt localoptions pipefail no_aliases 2> /dev/null
-  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
+  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='$prompt' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
