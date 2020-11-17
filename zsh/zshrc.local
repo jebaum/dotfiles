@@ -1,1 +1,3 @@
 BROWSER=firefox
+export PATH="/home/james/.local/bin:$PATH"
+xset r rate 250 50

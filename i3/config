@@ -1,3 +1,5 @@
+set_from_resource $rofiTheme rofi.theme /etc/regolith/styles/lascaille/rofi.rasi
+bindsym $mod+Control+f exec rofi -show find -modi find:/usr/share/rofi/modi/finder.sh
 # GENERAL CONFIG {{{
 set $mpdhost localhost
 set $mpvfifo ~/.config/mpv/mpvfifo
@@ -8,7 +10,7 @@ floating_modifier $mod
 set $barmodifier modifier Mod3
 
 ### MONITOR SETTINGS
-set $wide DP-0
+set $wide eDP-1-1
 set $narrowleft DP-2
 set $narrowright DP-4.8
 ### END MONITOR SETTINGS
@@ -70,15 +72,14 @@ set $statusline          statusline         #CCCCCC
 # exec_always will run when i3 is restarted, not just initially
 exec --no-startup-id unclutter
 exec --no-startup-id hsetroot -solid "#181818"
-exec --no-startup-id pasystray
+# exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
 
 exec --no-startup-id xset m 0 0
 exec --no-startup-id dropbox-cli start
 exec --no-startup-id amixer set PCM 208
 exec --no-startup-id amixer set Master 25
-exec --no-startup-id ~/dotfiles/scripts/startup.sh
-exec --no-startup-id rofication-daemon.py
+exec --no-startup-id rofication-daemon
 # }}}
 # KEYBINDS {{{
   ### conky and config controls
@@ -88,12 +89,22 @@ bindsym $mod+Shift+Q    kill
 bindsym $mod+Shift+R    restart
 
 bindsym $mod+c          exec CM_HISTLENGTH=20 CM_LAUNCHER=rofi clipmenu -columns 1 -width 2000
+bindsym $mod+g          exec gnome-control-center
 bindsym $mod+i          bar mode toggle
 bindsym $mod+n          exec rofication-gui
 
+# bindsym $mod+Shift+q    [con_id="__focused__"] kill
+# bindsym $mod+$alt+q     [con_id="__focused__"] exec --no-startup-id kill -9 $(xdotool getwindowfocus getwindowpid)
+# can also do these 3 in $mod+p dmenu
+# bindsym $mod+Shift+e    exec /usr/bin/gnome-session-quit --logout
+# bindsym $mod+Shift+b    exec /usr/bin/gnome-session-quit --reboot
+# bindsym $mod+Shift+p    exec /usr/bin/gnome-session-quit --power-off
+
   ### borders
 bindsym $mod+t          border normal 1
+bindsym $mod+Shift+T    border normal 3
 bindsym $mod+y          border pixel 1
+bindsym $mod+Shift+Y    border pixel 3
 bindsym $mod+Shift+n    border none
 
  ### scratchpad
@@ -190,6 +201,10 @@ for_window [instance="rangermpvaudio"] move scratchpad
 for_window [instance="rangermpvaudio"] border normal 1pixel
 
 for_window [instance="_scratchpad"] move scratchpad; scratchpad show
+
+# Cause Settings app to float above tiled windows
+floating_maximum_size -1 x -1
+for_window [class="Gnome-control-center"] floating enable
 # }}}
 # WINDOW MANAGEMENT KEYBINDS {{{
   ### hjkl for moving focus
@@ -220,6 +235,7 @@ bindsym $mod+Shift+Right move right 10px
 # move absolute position center
 
   ### container layout
+# "split toggle" is a thing, so is "layout toggle tabbed splith splitv"
 bindsym $mod+v split h
 bindsym $mod+s split v
 bindsym $mod+f fullscreen
@@ -306,6 +322,11 @@ mode "resize" {
   bindsym Shift+Up    resize shrink   up    1 px or 1 ppt
   bindsym Right       resize grow     right 1 px or 1 ppt
   bindsym Shift+Right resize shrink   right 1 px or 1 ppt
+  ## Resize // Window Gaps // + - ##
+  bindsym minus       gaps inner current minus 1
+  bindsym plus        gaps inner current plus 1
+  bindsym Shift+minus gaps inner current minus 5
+  bindsym Shift+plus  gaps inner current plus 5
 
   bindsym Return              mode "default"
   bindsym Escape              mode "default"
@@ -331,10 +352,11 @@ bar {
   workspace_buttons yes
   $barfont
   status_command bumblebee-status \
-        -m title cpu memory mpd pasink pasource pomodoro datetime dunst \
+        -m title cpu memory mpd pasink pasource pomodoro datetime dunst battery \
         -p memory.format='{used}/{total} ({percent:.1f}%)' \
            mpd.format='{title} - {artist} {position}/{duration}' \
-           title.max=120 \
+           title.max=80 \
+           battery.interval=1m \
            pomodoro.work=30 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
         -t iceberg-dark-powerline
   tray_output primary
