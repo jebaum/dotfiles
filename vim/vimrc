@@ -789,13 +789,9 @@ nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Git blame<CR>
 nnoremap <silent> <leader>gc  :Git commit --verbose<CR>
 nnoremap          <leader>gC  :Gcheckout<Space>
-" TODO some new gdiff commands to look at
-nnoremap <silent> <leader>gd  :Gdiffsplit<CR>
+nnoremap <silent> <leader>gd  :Gdiffsplit!<CR>
 nnoremap          <leader>ge  :Gedit<Space>
-" TODO also new log commands. may want to use GV for these instead?
-nnoremap <silent> <leader>gla :silent Glog -- <Bar> redraw!<CR>
-nnoremap <silent> <leader>glf :silent Glog -- % <Bar> redraw!<CR>
-nnoremap <silent> <leader>gli :silent Glog <Bar> redraw!<CR>
+nnoremap <silent> <leader>glf :silent Glog -- %<CR>
 nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Git<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>

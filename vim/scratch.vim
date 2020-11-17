@@ -1,6 +1,14 @@
 " various crap that I want to keep around but for whatever reason don't want
 " in my vimrc anymore
 
+" fugitive / GV git maps
+" "0Gclog" loads commits affecting current file into quickfix, lets you go through full file at various commits
+" "[range]Gclog" loads commits affecting range (e.g. from visual selection)
+" "Glog -- %" loads commits affecting current file into quickfix, lets you go through the commit diffs
+" "Glog! -- %" does the same, but doesn't load first commit into current buffer by default like the above does
+" GV seems to allow all of the above, but possibly nicer
+" ^ for going through commits and diffs, GV is nicer except for the 'visual mode see changes impacting these lines' use case, which it isn't quite as good at (loads accumulated diffs into single buffer)
+" for going through old versions of the whole file, GV can't help. so better than Glog, but not a repacement for [range|0]Gclog
 
 " let g:syntastic_java_javac_config_file_enabled = 1
 " for allowing syntastic to find symbols in java classpath, put this in .syntastic_javac_config. must be in cwd
