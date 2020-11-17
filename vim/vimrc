@@ -117,11 +117,8 @@ augroup FileTypeSettings
   autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
-  autocmd BufNewFile,BufRead  .tags set filetype=tags
   autocmd BufNewFile,BufRead *.log  set filetype=log
-  " autocmd BufRead,BufNewFile *.md   set filetype=pandoc
   autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc " from vim-pandoc-syntax
-  autocmd FileType javascript setlocal foldmethod=syntax foldnestmax=5 foldlevel=1
   autocmd BufRead coc-settings.json syntax match Comment +\/\/.\+$+ " coc-settings file uses jsonc, supports comments
 augroup END
 " }}}
@@ -330,23 +327,10 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
 " fugitive {{{
-command! -nargs=1 -bar Gbranch   call GitBranch(<f-args>)
-function! GitBranch(name)
-    execute 'silent Git checkout -b ' . a:name
-    redraw!
-endfunction
-
-command! -nargs=1 -bar Gcheckout   call GitCheckout(<f-args>)
-function! GitCheckout(name)
-    execute 'silent Git checkout ' . a:name
-    redraw!
-endfunction
-
 autocmd User fugitive  " .. to go back up to parent directory when browsing git tree
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
-
 autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
 " }}}
 " fzf {{{
@@ -361,7 +345,7 @@ endif
 " }}}
 " grepper {{{
 let g:grepper = {}
-let g:grepper.tools  = ['rg', 'ag', 'git', 'grep']
+let g:grepper.tools  = ['rg', 'git', 'grep']
 let g:grepper.open   = 1 " open quickfix window when done searching
 let g:grepper.switch = 0 " don't switch to the quickfix window when it opens
 let g:grepper.jump   = 0 " don't jump to the first match
@@ -413,15 +397,12 @@ let g:pandoc#modules#disabled = ["folding"]
 let g:pandoc#after#modules#enabled = ["ultisnips", "unite"]
 " }}}
 " signify {{{
-let g:signify_disable_by_default = 0            " disable run by default
-let g:signify_vcs_list           = [ 'git' ]    " I only use git for now
+let g:signify_disable_by_default = 0
+let g:signify_vcs_list           = [ 'git' ]
 let g:signify_sign_change        = '~'
 let g:signify_sign_show_count    = 1
-nnoremap <leader>gh :SignifyToggleHighlight<CR>
-nnoremap <leader>gt :SignifyToggle<CR>
-nnoremap <leader>gf :SignifyFold<CR>
-nmap ]c             <Plug>(signify-next-hunk)
-nmap [c             <Plug>(signify-prev-hunk)
+nmap ]c <Plug>(signify-next-hunk)
+nmap [c <Plug>(signify-prev-hunk)
 " }}}
 " sneak  {{{
 let g:sneak#label = 0
@@ -517,7 +498,7 @@ set number                     " show line numbers
 set relativenumber             " use relative line numbers
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
-set nolazyredraw               " don't redraw the screen w ile executing macros
+set nolazyredraw               " don't redraw the screen while executing macros
 set clipboard+=unnamedplus     " by default, * system clipboard
 set titlestring=%<%q%F%h%r%m   " file name
 set title titlelen=150         " max length of title string
@@ -613,12 +594,6 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 set foldnestmax=1   " folds only one level deep
 set foldmethod =manual
 set foldlevel  =1
-augroup SyntaxFold
-  autocmd!
-  autocmd BufWinEnter    *.java           set foldnestmax=2 foldlevel=1
-  autocmd BufWinEnter    *.c,*.cpp,*.java set foldmethod=syntax " define syntax folds when file loads
-  autocmd InsertEnter    *.c,*.cpp,*.java set foldmethod=manual " once we start typing, using manual folds
-augroup END
 " }}}
 " Tab/Indent {{{
 " https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd
@@ -682,10 +657,10 @@ endif
 " Keymaps {{{
 " Misc {{{
 " misc g maps
-nnoremap          gp    gw{gw}
-nnoremap          gs    gnv
-nnoremap          g;    g;zz
-nnoremap          g,    g,zz
+nnoremap    gp    gw{gw}
+nnoremap    gs    gnv
+nnoremap    g;    g;zz
+nnoremap    g,    g,zz
 
 " make K do the opposite of J: split lines under the cursor
 nnoremap K i<CR><Esc>k$
@@ -750,6 +725,7 @@ augroup QuickFix
 augroup END
 " }}}
 " Text Object / targets.vim maps {{{
+" TODO this way of customizing targets is deprecated, see targets#mappings#extend()
 let g:targets_pairs       = '()b {}c []r <>g'
 let g:targets_quotes      = "\"d 's `t"
 " }}}
@@ -758,18 +734,16 @@ nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : '
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
 " defualt comma leader maps {{{
-nnoremap <silent> <leader>A    :AnzuUpdateSearchStatusOutput<CR>
 nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>f    :call ColumnFlash()<CR>
-nnoremap <silent> <leader>F    :set foldmethod=syntax<CR>:set foldmethod=manual<CR>
 "                      [gG]    fugitive, signify and grepper maps below
 "                 <leader>l    ListToggle
 nnoremap <silent> <leader>m    :Magit<CR><C-w>T
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 "                        rt    " term/tmux/repl maps
-nnoremap <silent> <leader>q    :q <Bar> redraw!<CR>
+nnoremap <silent> <leader>q    :q<CR>
 nnoremap          <leader>sf   :call SourceCurrentFunction()<CR>
 nnoremap <silent> <leader>sh   :echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')<CR>
 nnoremap          <leader>sv   :source %<CR>
@@ -783,7 +757,10 @@ nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
 nnoremap <silent> <leader>zt   :write \| edit \| TSBufEnable highlight<CR>
 
-" <leader>g[ht] taken by signify
+nnoremap          <leader>gh  :SignifyToggleHighlight<CR>
+nnoremap          <leader>gt  :SignifyToggle<CR>
+nnoremap          <leader>gf  :SignifyFold<CR>
+
 nnoremap <silent> <leader>ga  :Git add %:p<CR><CR>
 nnoremap          <leader>gb  :Gbranch<Space>
 nnoremap <silent> <leader>gB  :Git blame<CR>
@@ -838,16 +815,13 @@ nnoremap <silent> <Space>b   :FZFBuffers<CR>
 nnoremap          <Space>c   :FZFCommands<CR>
 nnoremap <silent> <Space>f   :FZFFiles<CR>
 nnoremap <silent> <Space>F   :FZFFindCache<CR>
-nnoremap <silent> <Space>g   :FZFLines<CR>
-nnoremap <silent> <Space>G   :FZFBLines<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>
 nnoremap <silent> <Space>H   :FZFHistory<CR>
-nnoremap          <Space>l   :FZFLocate<Space>
+nnoremap <silent> <Space>l   :FZFLines<CR>
+nnoremap <silent> <Space>L   :FZFBLines<CR>
 nnoremap <silent> <Space>m   :FZFMarks<CR>
 nnoremap <silent> <Space>M   :FZFMaps<CR>
 nnoremap          <Space>s   :FZFSnippets<CR>
-nnoremap <silent> <Space>t   :FZFTags<CR>
-nnoremap <silent> <Space>T   :FZFBTags<CR>
 nnoremap <silent> <Space>v   :FZFCommits<CR>
 nnoremap <silent> <Space>V   :FZFBCommits<CR>
 nnoremap <silent> <Space>w   :FZFWindows<CR>
@@ -863,9 +837,6 @@ nnoremap <Space>pU       :PlugUpgrade<CR>
 " ctrl normal mode {{{
 nnoremap <C-n>              gt
 nnoremap <C-p>              gT
-nnoremap <C-w>o             <C-w>o:redraw!<CR>
-nnoremap <C-w>s             <C-w>s:redraw!<CR>
-nnoremap <C-w>v             <C-w>v:redraw!<CR>
 " }}}
 " ctrl insert mode {{{
 inoremap <C-a>   <Home>
