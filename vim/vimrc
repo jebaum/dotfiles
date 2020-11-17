@@ -320,7 +320,7 @@ let g:airline#extensions#hunks#non_zero_only = 1
 " brightest {{{
 let g:brightest_enable = 0
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
-highlight BrightestCustom guifg=#000000 guibg=#00AA00
+highlight BrightestCustom ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
 " }}}
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
