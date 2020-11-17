@@ -139,8 +139,8 @@ bindsym $mod+Control+Prior  exec echo seek 600 relative > $mpvfifo
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
-bindsym $mod+Return             exec STARTUPDIR="`~/dotfiles/i3/xcwd/xcwd`" st
-bindsym $mod+Shift+Return       exec st
+bindsym $mod+Return             exec ~/dotfiles/i3/smart-terminal-start.sh
+bindsym $mod+Shift+Return       exec st -n "_scratchpad"
 bindsym $mod+Escape             exec i3lock -c '#181818'
 # bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
 bindsym $mod+p                  exec rofi -show drun
@@ -185,6 +185,8 @@ for_window [instance="vdpau" class="mpv"] border 1pixel
 
 for_window [instance="rangermpvaudio"] move scratchpad
 for_window [instance="rangermpvaudio"] border normal 1pixel
+
+for_window [instance="_scratchpad"] move scratchpad; scratchpad show
 # }}}
 # WINDOW MANAGEMENT KEYBINDS {{{
   ### hjkl for moving focus
@@ -389,4 +391,4 @@ bar {
   }
 }
 # }}}
-# vim:filetype=i3 foldmethod=marker foldlevel=0
+# vim:filetype=i3config foldmethod=marker foldlevel=0
