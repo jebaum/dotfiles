@@ -1451,7 +1451,7 @@ c.qt.highdpi = False
 ## Enable smooth scrolling for web pages. Note smooth scrolling does not
 ## work with the `:scroll-px` command.
 ## Type: Bool
-c.scrolling.smooth = True
+# c.scrolling.smooth = False
 
 ## When to find text on a page case-insensitively.
 ## Type: IgnoreCase
@@ -1852,7 +1852,7 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '125%', '137%
 ## Bindings for normal mode
 # TODO bindings for quickmarks and bookmarks, remaining userscripts (particularly bitwarden)
 #  vimsource = spawn --userscript ~/dotfiles/config/qutebrowser/userscripts/qutebrowser_viewsource
-config.bind(',d', 'config-cycle -p content.user_stylesheets [~/dotfiles/config/qutebrowser/dark.css] [~/dotfiles/config/qutebrowser/dark2.css] "" ;; reload') # new
+config.bind(',d', 'config-cycle -p content.user_stylesheets [~/dotfiles/config/qutebrowser/gruvbox-all-sites.css] [~/dotfiles/config/qutebrowser/dark.css] [~/dotfiles/config/qutebrowser/dark2.css] "" ;; reload') # new
 config.bind(',y', 'spawn --userscript ~/dev/qutebrowser/misc/userscripts/view_in_mpv')
 config.bind('<Ctrl-c>', 'stop') # new
 config.bind('<Ctrl-j>', 'tab-focus') # d
