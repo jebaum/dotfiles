@@ -337,7 +337,7 @@ autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from maki
 " }}}
 " fzf {{{
 let g:fzf_buffers_jump = 1 " jump to the existing window if possible
-command! -bang -nargs=* FZFFindCache call fzf#run(fzf#wrap({'source': 'cat '.expand('~/.cache/allfiles.txt'), 'options': ['--multi', '--prompt', 'findcache > ']}))
+command! -bang -nargs=* FZFFindCache call fzf#run(fzf#wrap({'source': 'cat '.expand('~/.cache/allfiles.txt'), 'options': ['--preview', '~/.vim/bundle/fzf.vim/bin/preview.sh {}', '--multi', '--prompt', 'findcache > ']}))
 unlet! g:fzf_colors " makes fzf.vim use the 24 bit colors configured in env variables https://github.com/junegunn/fzf.vim/issues/1152
 if has('nvim') && !exists('g:fzf_layout')
   autocmd! FileType fzf
