@@ -47,7 +47,7 @@ bindkey "^E"    end-of-line
 bindkey "^F"    forward-char
 bindkey "^G"    delete-char         # C-g deletes character in front of cursor, opposite C-h
 bindkey "^H"    backward-delete-char
-bindkey '^I'    expand-or-complete  # expand-or-complete-with-dots by default, but fzf-completion takes it
+# bindkey '^I'    expand-or-complete # using https://github.com/changyuheng/zsh-interactive-cd
 bindkey "^K"    kill-line
 bindkey "^L"    clear-screen
 bindkey "^Q"    delete-word         # C-q deletes word in front of cursor, opposite C-w
