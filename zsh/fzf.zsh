@@ -78,11 +78,11 @@ bindkey '\et' fzf-findcache-widget
 # ALT-d and ALT-D - cd into the selected directory using find/findcache
 fzf-cd-widget() {
   if [ "$1" = "find" ]; then
-    local prompt="find . -type d > "
+    local fzfprompt="find . -type d > "
     local cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"
   elif [ "$1" = "findcache" ]; then
-    local prompt="findcache > "
+    local fzfprompt="findcache > "
     if [ "$PWD" = "/" ]; then
       local cmd="cat ~/.cache/alldirs.txt"
     else
@@ -92,7 +92,7 @@ fzf-cd-widget() {
   fi
 
   setopt localoptions pipefail no_aliases 2> /dev/null
-  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='$prompt' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
+  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='$fzfprompt' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
