@@ -52,7 +52,6 @@ Plug 'justinmk/vim-sneak'
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
-Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
 Plug 'preservim/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
@@ -312,10 +311,13 @@ endfunction
 " Plugins {{{
 " airline {{{
 let g:airline_theme='tomorrow'
-let g:airline_powerline_fonts          = 1
-let g:airline_skip_empty_sections      = 1
-let g:airline#extensions#hunks#enabled = 1
+let g:airline_powerline_fonts                = 1
+let g:airline_skip_empty_sections            = 1
+let g:airline#extensions#hunks#enabled       = 1
 let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#vimagit#enabled     = 1
+let g:airline#extensions#grepper#enabled     = 1
+let g:airline#extensions#searchcount#enabled = 1
 " }}}
 " brightest {{{
 let g:brightest_enable = 0
@@ -354,8 +356,8 @@ command! TodoBuffer    :Grepper -noprompt -buffer  -tool rg -grepprg rg -Hi --no
 command! TodoBuffers   :Grepper -noprompt -buffers -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
 " }}}
 " is.vim + vim-asterisk {{{
-map <silent> n <Plug>(is-nohl)<Plug>(anzu-n-with-echo):silent! foldopen<CR>
-map <silent> N <Plug>(is-nohl)<Plug>(anzu-N-with-echo):silent! foldopen<CR>
+map <silent> n <Plug>(is-n):silent! foldopen!<CR>
+map <silent> N <Plug>(is-N):silent! foldopen!<CR>
 map *  <Plug>(asterisk-z*)<Plug>(is-nohl-1)
 map g* <Plug>(asterisk-gz*)<Plug>(is-nohl-1)
 map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)

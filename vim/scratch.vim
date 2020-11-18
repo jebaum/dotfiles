@@ -1,6 +1,17 @@
 " various crap that I want to keep around but for whatever reason don't want
 " in my vimrc anymore
 
+" can't get this to play nice with is.vim
+function! Nice_next(cmd)
+  let view = winsaveview()
+  execute "normal! " . a:cmd
+  silent! foldopen!
+  if view.topline != winsaveview().topline
+    normal! zz
+  endif
+endfunction
+
+
 " fugitive / GV git maps
 " "0Gclog" loads commits affecting current file into quickfix, lets you go through full file at various commits
 " "[range]Gclog" loads commits affecting range (e.g. from visual selection)
@@ -9,40 +20,6 @@
 " GV seems to allow all of the above, but possibly nicer
 " ^ for going through commits and diffs, GV is nicer except for the 'visual mode see changes impacting these lines' use case, which it isn't quite as good at (loads accumulated diffs into single buffer)
 " for going through old versions of the whole file, GV can't help. so better than Glog, but not a repacement for [range|0]Gclog
-
-" let g:syntastic_java_javac_config_file_enabled = 1
-" for allowing syntastic to find symbols in java classpath, put this in .syntastic_javac_config. must be in cwd
-" let g:syntastic_java_javac_custom_classpath_command = "brazil-path testlib.classpath | gawk 'BEGIN {RS=\":\"} {print $1;}' | tr '\n' ':'"
-
-" Run shell command, put output in split function {{{
-function! s:ExecuteInShell(command, bang)
-  let _ = a:bang != '' ? s:_ : a:command == '' ? '' : join(map(split(a:command), 'expand(v:val)'))
-  if (_ != '')
-    let s:_ = _
-    let bufnr = bufnr('%')
-    let winnr = bufwinnr('^' . _ . '$')
-    silent! execute  winnr < 0 ? 'belowright new ' . fnameescape(_) : winnr . 'wincmd w'
-    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile wrap number
-    silent! :%d
-    let message = 'Execute ' . _ . '...'
-    call append(0, message)
-    echo message
-    silent! 2d | resize 1 | redraw
-    silent! execute 'silent! %!'. _
-    silent! execute 'resize ' . line('$')
-    silent! execute 'syntax on'
-    silent! execute 'autocmd BufUnload <buffer> execute bufwinnr(' . bufnr . ') . ''wincmd w'''
-    silent! execute 'autocmd BufEnter <buffer> execute ''resize '' .  line(''$'')'
-    silent! execute 'nnoremap <silent> <buffer> <CR> :call <SID>ExecuteInShell(''' . _ . ''', '''')<CR>'
-    silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . _ . ''', '''')<CR>'
-    silent! execute 'nnoremap <silent> <buffer> <LocalLeader>g :execute bufwinnr(' . bufnr . ') . ''wincmd w''<CR>'
-    nnoremap <silent> <buffer> <C-W>_ :execute 'resize ' . line('$')<CR>
-    silent! syntax on
-  endif
-endfunction
-
-command! -complete=shellcmd -nargs=* -bang Shell call s:ExecuteInShell(<q-args>, '<bang>')
-" }}}
 
 
 " iirc, this thing was designed for one specific eggert ocaml project and I
@@ -70,8 +47,6 @@ function! ViewWrapper(command)
 endfunction
 command! -nargs=1 -bar View call ViewWrapper(<f-args>)
 " }}}
-
-
 
 
 " pretty sure these are buggy, never fully migrated them to neovim
@@ -179,47 +154,6 @@ endfunction
 
 
 
-" I don't use airline anymore
-" airline {{{
-let g:airline_theme             = "tomorrow"
-let g:airline_detect_modified   = 1
-let g:airline_detect_paste      = 1
-let g:airline_inactive_collapse = 1
-let g:airline_readonly_symbol   = ''
-let g:airline_left_alt_sep      = ''
-let g:airline_right_alt_sep     = ''
-
-""" FANCY SETTINGS
-" let g:airline_left_sep      = ''
-" let g:airline_right_sep     = ''
-" let g:airline_branch_prefix = ' '
-" let g:airline_section_z     = "%l/%L:C%c"
-
-""" MINIMAL SETTINGS
-let g:airline_left_sep  = ''
-let g:airline_right_sep = ''
-let g:airline_section_z = "%l/%L:C%v (%P)"
-
-let g:airline#extensions#whitespace#symbol              = 'Ξ'
-let g:airline#extensions#whitespace#trailing_format     = 's[%s]'
-let g:airline#extensions#whitespace#mixed_indent_format = 't[%s]'
-let g:airline#extensions#hunks#enabled                  = 1
-let g:airline#extensions#hunks#non_zero_only            = 1
-
-let g:airline_theme_patch_func = 'AirlineThemePatch'
-function! AirlineThemePatch(palette)
-  if g:airline_theme == 'tomorrow'
-    for colors in values(a:palette.inactive)
-      let colors[2] = 231  " text color of split statusline
-      let colors[3] = 58   " background color of split statusline
-    endfor
-  endif
-endfunction
-" }}}
-
-
-
-
 " misc stuff at end of vimrc I haven't gotten to yet
 function! Open_current_file_dir(args)
   let [args, options] = unite#helper#parse_options_args(a:args)
@@ -267,7 +201,6 @@ nnoremap <Esc>g :<C-u>echo fnamemodify(getcwd(), ":~")
 \ (strlen(v:this_session) ? fnamemodify(v:this_session, ":~") : "[No session]")<cr>
 
 
-
 if has('nvim')
     tnoremap <silent> <ESC><ESC> <C-\><C-n>G:call search(".", "b")<CR>$
 endif
@@ -308,93 +241,15 @@ endif
 " endif
 
 
-
-
-" =====================================================================
-
-" From the bairui & Raimondi show:
-"
-" Are you bored with vanilla z= ?
-" Grab the   overlay   branch of vimple
-" And GO WILD!
-" NOTE: If you use vfm, you'll want to
-"       revert back to master branch of
-"       vimple, or pull overlay branch
-"       of vfm too, but it's experimental.
-
-" In the overlay window:
-" <enter> replaces current word with word under cursor
-" q closes the overlay without action
-
-
-" vimple spell suggestions shenanigans, overrides z=. super sexy
-" function! GetSuggestions(ident)
-  " let spell = &spell
-  " if ! spell
-    " set spell
-  " endif
-  " let suggestions = list#lspread(spellsuggest(a:ident), 5)
-  " if ! spell
-    " set nospell
-  " endif
-  " return suggestions
-" endfunction
-
-" function! SpellSuggest(ident)
-  " let suggestions = GetSuggestions(a:ident)
-  " call overlay#show(
-        " \  suggestions
-        " \, {'<enter>' : ':call SpellSuggestAccept()<cr>'}
-        " \, {'filter'    : 0, 'use_split' : 1})
-" endfunction
-
-" nnoremap z= :call SpellSuggest(expand('<cword>'))<cr>
-
-" function! SpellSuggestAccept()
-  " let word = expand('<cword>')
-  " call overlay#close()
-  " exe 'norm! ciw' . word
-" endfunction
-
-
-" =====================================================================
-
-function! OpenHelp()
-    if winwidth(0) >= 160
-        setlocal textwidth=78
-        wincmd L
-        vertical resize 80
-        normal ze
-    else
-        wincmd J
-    endif
-endfunction
-autocmd BufEnter * if &ft == 'help' | call OpenHelp()
-inoremap <expr> <tab> col('.') > 1 && strpart(getline('.'), -1, col('.')) !~ '^\s*$' ? "\<esc>:call search('[])}]', '', line('.'))\<cr>a" : "\<tab>"
-
-
-
-" Plug 'dbakker/vim-projectroot' " there's also a thing called rooter that's more automatic
-
 " Plug 'jeetsukumaran/vim-markology', {'on': ['MarkologyEnable', 'MarkologyDisable', 'MarkologyToggle', 'MarkologyPlaceMarkToggle', 'MarkologyPlaceMark', 'MarkologyClearMark', 'MarkologyClearAll', 'MarkologyNextLocalMarkPos', 'MarkologyPrevLocalMarkPos', 'MarkologyNextLocalMarkByAlpha', 'MarkologyPrevLocalMarkByAlpha', 'MarkologyLocationList', 'MarkologyQuickFix']}
 let g:markology_enable = 0
 
 " Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
-
-" Plug 'bruno-/vim-vertical-move', {'on': ['<Plug>(vertical_move_up)', '<Plug>(vertical_move_down)']}
-" let g:vertical_move_default_mapping = 0
-" TODO defaults are ]v and [v, maybe they're fine? maybe think of something else. + and -?
-" nmap <silent> <leader>j <Plug>(vertical_move_down)
-" nmap <silent> <leader>k <Plug>(vertical_move_up)
-" xmap <silent> <leader>j <Plug>(vertical_move_down)
-" xmap <silent> <leader>k <Plug>(vertical_move_up)
-
 " Plug 'kana/vim-textobj-user'
 " Plug 'kana/vim-textobj-line' " TODO map conflict with 'in last' and 'around last' targets.vim objects
 " Plug 'kana/vim-textobj-entire'
 " https://github.com/glts/vim-textobj-comment
 " Plug 'junegunn/vim-after-object'
-" https://github.com/junegunn/vim-easy-align
 " autocmd VimEnter * call after_object#enable(['>', '<'], '=', ':', '-', '#', ' ')
 
 " Commands for editing wiki pages to Gitit
@@ -404,9 +259,6 @@ let g:markology_enable = 0
 
 " TODO look into this more, and remove other maps starting with " maybe
 " Plug 'junegunn/vim-peekaboo'
-
-" Plug 'pelodelfuego/vim-swoop' " TODO definite keeper, but needs maps and config
-
 " Plug 'michaeljsmith/vim-indent-object'  <- doesn't have any maps that overlap with targets.vim
 
 https://github.com/dahu/VimRegexTutor
@@ -414,17 +266,13 @@ https://www.reddit.com/r/neovim/comments/3t6k8i/looking_for_a_nice_way_to_use_th
 https://www.reddit.com/r/vim/comments/3tbghl/canonical_way_of_searching_project_from_within_vim/
 https://github.com/vimwiki/vimwiki
 https://www.reddit.com/r/vim/comments/3ysfnn/how_to_quickly_view_changes_gitfugitive_workflow/
-https://github.com/junegunn/fzf.vim/issues/47
 https://github.com/dhruvasagar/vim-dotoo
 https://github.com/jceb/vim-orgmode
 
 search plugins:
 https://github.com/henrik/vim-indexed-search
-https://github.com/osyo-manga/vim-anzu
 
-https://github.com/Olical/vim-enmasse
-https://github.com/lfv89/vim-interestingwords
-https://github.com/xtal8/traces.vim
+https://github.com/lfv89/vim-interestingwords " more featureful and english version of brightest?
 
 these maps instead of vim move plugin thing
 vnoremap J :m '>+1<CR>gv=gv
