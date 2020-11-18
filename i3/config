@@ -168,6 +168,8 @@ for_window [instance="chromium" class="Chromium"] border 1pixel
 
 for_window [instance="vps|st-256color" class="vps|URxvt"] border 1pixel
 assign     [instance="vps|st-256color" class="vps|URxvt"] → $workspace03
+for_window [instance="discord" class="discord"] border 1pixel
+assign     [instance="discord" class="discord"] → $workspace03
 
 for_window [instance="ncmpcpp|st-256color" class="ncmpcpp|URxvt"] border 1pixel
 assign     [instance="ncmpcpp|st-256color" class="ncmpcpp|URxvt"] → $workspace04
