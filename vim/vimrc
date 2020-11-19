@@ -94,7 +94,7 @@ function! TweakColors() " override some defaults
 endfunction
 augroup TweakColors
   autocmd!
-  autocmd Syntax * call TweakColors()
+  autocmd VimEnter * call TweakColors()
 augroup END
 " }}}
 " }}}
