@@ -12,4 +12,8 @@ start-pulseaudio-x11
 #    --output DVI-D-1 --off \
 #    --output HDMI-1 --off
 
+# https://github.com/cdown/clipmenu/issues/141
+systemctl --user import-environment DISPLAY
+systemctl --user start clipmenud.service
+
 exec i3

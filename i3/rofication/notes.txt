@@ -1,0 +1,10 @@
+the python files in here are copies of the files installed by the AUR rofication-git package
+which I assume are just whatever is here: https://github.com/DaveDavenport/Rofication
+since the above repo hasn't seen any updates in years (seems feature complete)
+
+on arch, the gui file is installed at /usr/bin/rofication-gui.py by default
+on regolith (my laptop), it is at /usr/bin/rofication-gui, no .py extension
+
+i tweaked the additional_args list passed to rofi from the default gui file and copied
+it along with msg.py directly into /usr/local/bin, was the simplest way to get it working how i wanted
+(without copying msg.py into same directory, the `import msg` stuff in rofication-gui.py fails)
