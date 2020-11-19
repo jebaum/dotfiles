@@ -26,5 +26,5 @@ echo $config_file
 if [ -z $config_file ]; then
     echo cancelled
 else
-    st -e nvim "$config_file"
+    st -n "_scratchpad" -e nvim "$config_file"
 fi

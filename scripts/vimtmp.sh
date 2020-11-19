@@ -10,7 +10,7 @@ else
     FILE="${TMPDIR}/${TIMESTAMP}.txt"
 fi
 
-st -e nvim "${FILE}"
+st -n "_scratchpad" -e nvim "${FILE}"
 
 if [ -e "${FILE}" ]; then
     NUMLINES=$(wc -l "${FILE}" | cut -d ' ' -f 1)
@@ -19,5 +19,5 @@ if [ -e "${FILE}" ]; then
         PLURAL='s'
     fi
     xclip "${FILE}"
-    # notify-send "Copied ${NUMLINES} line${PLURAL} and ${NUMCHARS} chars from ${FILE} into clipboard"
+    notify-send "Copied ${NUMLINES} line${PLURAL} and ${NUMCHARS} chars from ${FILE} into clipboard"
 fi
