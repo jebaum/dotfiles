@@ -25,6 +25,8 @@ MODE_INDICATOR="" # don't need the extra granula mode tracking that zsh-vim-mode
 for config_file ($HOME/dotfiles/zsh/{*.zsh,plugins/*.zsh}); do
     source $config_file
 done
+# this bind from fzf.zsh gets stomped on by zsh-vim-mode which is sourced after it, but I want the rest of the vim-mode binds so manually put this one back
+bindkey '^R' fzf-history-widget
 
 sudo-command-line() {
   [[ -z $BUFFER ]] && zle up-history
