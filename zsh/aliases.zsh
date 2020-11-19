@@ -14,7 +14,7 @@ alias nvim='nvim -p'
 alias nvimlisten='rm -f /tmp/nvim; NVIM_LISTEN_ADDRESS=/tmp/nvim nvim -p'
 alias nvimapi='nvim --api-info | python2 -c "import msgpack, sys, yaml; print yaml.dump(msgpack.unpackb(sys.stdin.read()))" | less'
 alias open='xdg-open'
-alias rg='rg --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:magenta" --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --color=always '
+alias rg='rg -S --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:magenta" --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --color=always '
 alias paclsorphans="pacman --query --deps --unrequired"
 alias pandoc='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks'
 alias pandoczenburn='pandoc -V geometry:margin=0.5in -f markdown+hard_line_breaks --highlight-style=zenburn'
