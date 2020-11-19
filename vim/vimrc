@@ -79,9 +79,10 @@ let g:gruvbox_invert_selection=0
 set background=dark
 colorscheme gruvbox
 function! TweakColors() " override some defaults
+  highlight Comment       gui=italic
   highlight Folded                     ctermbg=16                  guibg=#000000
   highlight Function      ctermfg=43                guifg=#00D7AF
-  highlight IncSearch     ctermfg=255  ctermbg=24   guifg=#FDB927  guibg=#552583
+  highlight IncSearch     ctermfg=255  ctermbg=24   guifg=#FDB927  guibg=#552583 gui=bold
   highlight JustYanked    ctermfg=108  ctermbg=235  guifg=#F0F0F0  guibg=#552583
   highlight MatchParen    ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
   highlight Normal        ctermfg=223               guifg=#FFD7AF  guibg=#1C1C1C
@@ -498,6 +499,7 @@ let g:snips_author                 = 'James Baumgarten'
 " Set options {{{
 set number                     " show line numbers
 set relativenumber             " use relative line numbers
+set signcolumn=number          " merge signcolumn with line number
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
 set nolazyredraw               " don't redraw the screen while executing macros
@@ -528,8 +530,9 @@ set nostartofline              " don't reset cursor to start of line when moving
 set nrformats=hex              " for C-a and C-x. recognize '0x' prefix as hex
 set scrolljump=1               " lines to scroll when cursor leaves screen
 set scrolloff=1                " start scrolling when 8 lines away from margins
+set sidescrolloff=5            " keep 5 columns next to the cursor when scrolling horizontally
 set updatetime=400             " swap file writes and CursorHold autocmd. weird fold closing problem
-set encoding=utf8              " new files use utf-8 encoding by default
+set encoding=utf-8             " new files use utf-8 encoding by default
 set ffs=unix,dos,mac           " new files use unix line endings by default
 set shortmess+=c               " don't give |ins-completion-menu| messages. helps with completion flicker
 set timeout
