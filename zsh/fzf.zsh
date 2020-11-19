@@ -16,7 +16,8 @@ __fsel() {
     -o -type d -print \
     -o -type l -print 2> /dev/null | cut -b3-"}"
   setopt localoptions pipefail no_aliases 2> /dev/null
-  eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='find . -mindepth 1 > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) -m "$@" | while read item; do
+  local FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS --prompt='find . -mindepth 1 > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse -m"
+  eval "$cmd" | FZF_DEFAULT_OPTS="$FZF_CTRL_T_OPTS" $(__fzfcmd) "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?
@@ -33,13 +34,26 @@ fzf-file-widget() {
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
 
+# ALT-T - Paste the selected entry from find cache files I maintain into the command line
+# TODO can probably combine this with fzf-file-widget/__fsel
+fzf-findcache-widget() {
+  local FZF_ALT_T_OPTS="$FZF_DEFAULT_OPTS --prompt='findcache / > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse -m"
+  LBUFFER="${LBUFFER}$(FZF_DEFAULT_OPTS="$FZF_ALT_T_OPTS" $(__fzfcmd) < $HOME/.cache/allfilesanddirs.txt | while read item; do echo -n "${(q)item} "; done)"
+  local ret=$?
+  zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
+}
+zle     -N    fzf-findcache-widget
+bindkey '\et' fzf-findcache-widget
+
 # CTRL-R - Paste the selected command from history into the command line
 # https://github.com/junegunn/fzf/issues/1431 - copy execution may require a sleep? seems to work fine for me without it
 fzf-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
-  selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind 'ctrl-r:toggle-sort,ctrl-y:execute-silent(echo -n {2..} | xclip -selection clipboard)+abort' --reverse --header 'Press CTRL-Y to copy command into clipboard' --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+  local FZF_CTRL_R_OPTS="$FZF_DEFAULT_OPTS --height ${FZF_TMUX_HEIGHT:-40%} -n2..,.. --tiebreak=index --bind 'ctrl-y:execute-silent(echo -n {2..} | xclip -selection clipboard)+abort' --reverse --header 'Press CTRL-Y to copy command into clipboard' --query=${(qqq)LBUFFER} +m"
+  selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' | FZF_DEFAULT_OPTS="$FZF_CTRL_R_OPTS" $(__fzfcmd)) )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]
@@ -64,17 +78,6 @@ fzf-redraw-prompt() {
 }
 zle -N fzf-redraw-prompt
 
-# ALT-T - Paste the selected entry from find cache files I maintain into the command line
-fzf-findcache-widget() {
-LBUFFER="${LBUFFER}$(FZF_DEFAULT_OPTS="--prompt='findcache / > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) -m < $HOME/.cache/allfilesanddirs.txt | while read item; do echo -n "${(q)item} "; done)"
-  local ret=$?
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
-  return $ret
-}
-zle     -N    fzf-findcache-widget
-bindkey '\et' fzf-findcache-widget
-
 
 # ALT-d and ALT-D - cd into the selected directory using find/findcache
 fzf-cd-widget() {
@@ -93,7 +96,8 @@ fzf-cd-widget() {
   fi
 
   setopt localoptions pipefail no_aliases 2> /dev/null
-  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--prompt='$fzfprompt' --height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
+  local FZF_ALT_D_OPTS="$FZF_DEFAULT_OPTS --prompt='$fzfprompt' --height ${FZF_TMUX_HEIGHT:-40%} --reverse +m"
+  local dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="$FZF_ALT_D_OPTS" $(__fzfcmd))"
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
@@ -125,7 +129,7 @@ fzf-edit-widget() {
   oldifs=$IFS
   IFS=$'\n'
   local OLD_FZF_DEFALUT_OPTS=$FZF_DEFAULT_OPTS
-  FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS --bind=ctrl-r:toggle-sort --query=${(q)LBUFFER} -m"
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-r:toggle-sort --query=${(q)LBUFFER} -m"
   if [ "$1" = "rg" ]; then
     FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='rg > '"
     local filelist=( $(command rg --files 2>/dev/null | $(__fzfcmd)) )
