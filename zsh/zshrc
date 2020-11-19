@@ -20,6 +20,8 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 bindkey -v
+VIM_MODE_TRACK_KEYMAP=no # required to prevent zsh-vim-mode.plugin.zsh from stomping on my right prompt
+MODE_INDICATOR="" # don't need the extra granula mode tracking that zsh-vim-mode.plugin.zsh provides
 for config_file ($HOME/dotfiles/zsh/{*.zsh,plugins/*.zsh}); do
     source $config_file
 done
