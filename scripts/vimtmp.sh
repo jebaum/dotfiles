@@ -18,6 +18,6 @@ if [ -e "${FILE}" ]; then
     if [ "${NUMLINES}" -ne "1" ]; then
         PLURAL='s'
     fi
-    xclip "${FILE}"
+    xclip -selection clipboard "${FILE}"
     notify-send "Copied ${NUMLINES} line${PLURAL} and ${NUMCHARS} chars from ${FILE} into clipboard"
 fi
