@@ -1,5 +1,5 @@
 # keep in sync with https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
-export FZF_DEFAULT_OPTS="--extended --bind='alt-p:toggle-preview,alt-a:select-all,alt-d:deselect-all' --info=inline --color fg:#ebdbb2,hl:#FDB927,fg+:#ffffff,bg+:#552583,hl+:#fabd2f --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#FDB927,marker:#FDB927,header:#665c54"
+export FZF_DEFAULT_OPTS="--extended --bind='alt-p:toggle-preview,alt-a:select-all,alt-d:deselect-all,ctrl-r:toggle-sort' --info=inline --color fg:#ebdbb2,hl:#FDB927,fg+:#ffffff,bg+:#552583,hl+:#fabd2f --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#FDB927,marker:#FDB927,header:#665c54"
 export FZF_DEFAULT_COMMAND="rg --files -u 2>&1" # make sure errors are visible if there are any
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
@@ -129,7 +129,7 @@ fzf-edit-widget() {
   oldifs=$IFS
   IFS=$'\n'
   local OLD_FZF_DEFALUT_OPTS=$FZF_DEFAULT_OPTS
-  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-r:toggle-sort --query=${(q)LBUFFER} -m"
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height ${FZF_TMUX_HEIGHT:-40%} --reverse --query=${(q)LBUFFER} -m"
   if [ "$1" = "rg" ]; then
     FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='rg > '"
     local filelist=( $(command rg --files 2>/dev/null | $(__fzfcmd)) )
