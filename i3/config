@@ -1,6 +1,6 @@
 # GENERAL CONFIG {{{
 set $mpdhost localhost
-set $mpvfifo ~/.config/mpv/mpvfifo
+set $mpvsocket ~/.config/mpv/mpvsocket
 set $mod Mod4
 set $alt Mod1
 set $barfont font pango:Times New Roman 12
@@ -128,16 +128,15 @@ bindsym $mod+$alt+Prior exec mpc -h $mpdhost seek +60
 bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
-bindsym $mod+Control+n      exec echo playlist_next > $mpvfifo
-bindsym $mod+Control+p      exec echo playlist_prev > $mpvfifo
-bindsym $mod+Control+s      exec echo stop > $mpvfifo
-bindsym $mod+Control+space  exec echo cycle pause > $mpvfifo
-bindsym $mod+Control+Left   exec echo seek -10 relative > $mpvfifo
-bindsym $mod+Control+Right  exec echo seek 10 relative > $mpvfifo
-bindsym $mod+Control+Down   exec echo seek -60 relative > $mpvfifo
-bindsym $mod+Control+Up     exec echo seek 60 relative > $mpvfifo
-bindsym $mod+Control+Next   exec echo seek -600 relative > $mpvfifo
-bindsym $mod+Control+Prior  exec echo seek 600 relative > $mpvfifo
+bindsym $mod+Control+n      exec echo 'playlist_next' | socat - $mpvsocket
+bindsym $mod+Control+p      exec echo 'playlist_prev' | socat - $mpvsocket
+bindsym $mod+Control+space  exec echo 'cycle pause' | socat - $mpvsocket
+bindsym $mod+Control+Left   exec echo 'seek -10 relative' | socat - $mpvsocket
+bindsym $mod+Control+Right  exec echo 'seek 10 relative' | socat - $mpvsocket
+bindsym $mod+Control+Down   exec echo 'seek -60 relative' | socat - $mpvsocket
+bindsym $mod+Control+Up     exec echo 'seek 60 relative' | socat - $mpvsocket
+bindsym $mod+Control+Next   exec echo 'seek -600 relative' | socat - $mpvsocket
+bindsym $mod+Control+Prior  exec echo 'seek 600 relative' | socat - $mpvsocket
 bindsym $mod+Control+q      exec killall mpv
 
   ### program/script hotkeys
