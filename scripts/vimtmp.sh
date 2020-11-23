@@ -9,9 +9,10 @@ if [ "$1" == "last" ] && [ "$(ls -A $TMPDIR)" != "" ]; then
     FILE="${TMPDIR}/$(ls -t /tmp/vimtmp | head -n 1)"
 else
     FILE="${TMPDIR}/${TIMESTAMP}.txt"
+    STARTINSERT="-c startinsert"
 fi
 
-st -n "_scratchpad" -e nvim "${FILE}" -c "cd $TMPDIR"
+st -n "_scratchpad" -e nvim "${FILE}" -c "cd $TMPDIR" $STARTINSERT
 
 if [ -e "${FILE}" ]; then
     NUMLINES=$(wc -l "${FILE}" | cut -d ' ' -f 1)
