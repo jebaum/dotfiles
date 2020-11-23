@@ -811,6 +811,7 @@ endfunction
 let g:fzf_command_prefix = 'FZF' " easy autocompletion
 nnoremap <silent> <Space>b   :FZFBuffers<CR>
 nnoremap          <Space>c   :FZFCommands<CR>
+" TODO FZFFiles doesn't show preview correctly for files with colons in the name (noticed when working with my vimtmp.sh)
 nnoremap <silent> <Space>f   :FZFFiles<CR>
 nnoremap <silent> <Space>F   :FZFFindCache<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>

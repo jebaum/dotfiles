@@ -3,14 +3,15 @@
 TMPDIR='/tmp/vimtmp'
 mkdir -p ${TMPDIR}
 
-if [ "$1" == "last" ]; then
+TIMESTAMP="$(date +'%j%b%d_%H-%M-%S')"
+if [ "$1" == "last" ] && [ "$(ls -A $TMPDIR)" != "" ]; then
+    echo hi
     FILE="${TMPDIR}/$(ls -t /tmp/vimtmp | head -n 1)"
 else
-    TIMESTAMP="$(date +'%j_%H:%M:%S')"
     FILE="${TMPDIR}/${TIMESTAMP}.txt"
 fi
 
-st -n "_scratchpad" -e nvim "${FILE}"
+st -n "_scratchpad" -e nvim "${FILE}" -c "cd $TMPDIR"
 
 if [ -e "${FILE}" ]; then
     NUMLINES=$(wc -l "${FILE}" | cut -d ' ' -f 1)
