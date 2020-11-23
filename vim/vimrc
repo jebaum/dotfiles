@@ -338,8 +338,30 @@ autocmd User fugitive  " .. to go back up to parent directory when browsing git 
 autocmd BufReadPost fugitive://* set bufhidden=delete  " stop fugitive from making tons of buffers
 " }}}
 " fzf {{{
+function! GetBufferUrls()
+  redir => bufferurls
+  silent execute 'write !xurls'
+  redir END
+  return split(bufferurls)
+endfunction
+
+function! HandleUrl(urls)
+  if empty(systemlist('pgrep firefox')) " firefox isn't running, start it
+    silent! execute "!firefox &"
+    " without sleep, race between firefox starting and below command with --new-tab being run may result in multiple windows opening
+    sleep 500m
+  endif
+
+  let argstring = ""
+  for url in a:urls
+    let argstring .= "--new-tab '" . fnameescape(url) . "' "
+  endfor
+  silent! execute "!firefox " . argstring . "&"
+endfunction
+
 let g:fzf_buffers_jump = 1 " jump to the existing window if possible
 command! -bang -nargs=* FZFFindCache call fzf#run(fzf#wrap({'source': 'cat '.expand('~/.cache/allfiles.txt'), 'options': ['--preview', '~/.vim/bundle/fzf.vim/bin/preview.sh {}', '--multi', '--prompt', 'findcache > ']}))
+command! -bang -nargs=* FZFUrls call fzf#run(fzf#wrap({'sink*': function('HandleUrl'), 'source': GetBufferUrls(), 'options': ['--multi', '--prompt', 'urls > ']}))
 unlet! g:fzf_colors " makes fzf.vim use the 24 bit colors configured in env variables https://github.com/junegunn/fzf.vim/issues/1152
 if has('nvim') && !exists('g:fzf_layout')
   autocmd! FileType fzf
@@ -821,6 +843,7 @@ nnoremap <silent> <Space>L   :FZFBLines<CR>
 nnoremap <silent> <Space>m   :FZFMarks<CR>
 nnoremap <silent> <Space>M   :FZFMaps<CR>
 nnoremap          <Space>s   :FZFSnippets<CR>
+nnoremap          <Space>u   :FZFUrls<CR>
 nnoremap <silent> <Space>v   :FZFCommits<CR>
 nnoremap <silent> <Space>V   :FZFBCommits<CR>
 nnoremap <silent> <Space>w   :FZFWindows<CR>
