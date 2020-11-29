@@ -349,7 +349,7 @@ function! HandleUrl(urls)
   if empty(systemlist('pgrep firefox')) " firefox isn't running, start it
     silent! execute "!firefox &"
     " without sleep, race between firefox starting and below command with --new-tab being run may result in multiple windows opening
-    sleep 500m
+    sleep 500m " could replace this with a timer/jobstart callback thing, but this is one simple line that works perfectly in practice
   endif
 
   let argstring = ""
@@ -522,7 +522,7 @@ let g:snips_author                 = 'James Baumgarten'
 " Set options {{{
 set number                     " show line numbers
 set relativenumber             " use relative line numbers
-set signcolumn=number          " merge signcolumn with line number
+" set signcolumn=number          " merge signcolumn with line number
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
 set nolazyredraw               " don't redraw the screen while executing macros
