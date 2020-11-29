@@ -3,7 +3,7 @@
 # parallel -j 4 'i={}; flac -cd "${i}" | lame -V 0 - "${i/%flac/mp3}"' ::: "$@"
 
 ## for VBR
-find "${@}" -print0 | xargs -0 -L 1 -P 4 bash -c 'flac -cd "${0}" | lame -V 0 - "${0/%flac/mp3}"'
+find "${@}" -print0 | xargs -0 -L 1 -P 9 bash -c 'flac -cd "${0}" | lame -V 0 - "${0/%flac/mp3}"'
 
 ## for CBR
 # find "${@}" -print0 | xargs -0 -L 1 -P 4 bash -c 'flac -cd "${0}" | lame -b 320 --cbr - "${0/%flac/mp3}"'
