@@ -12,6 +12,8 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export REPORTTIME=30
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
+export BAT_THEME="gruvbox"
+export MANPAGER="sh -c 'col -bx | bat --theme Monokai\ Extended -l man -p'"
 
 stty -ixon  # stop C-s from activating scroll lock
 ulimit -c unlimited
