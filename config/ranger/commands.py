@@ -63,14 +63,33 @@ class my_edit(Command):
 
 from subprocess import PIPE
 import os.path
-class fzf_select(Command):
+class fzf_select_cache(Command):
     def execute(self):
         currentdir = str(self.fm.thisdir)
         # + 1 to get rid of the trailing slash at the end of currentdir, +1 again because -b flag of cut indicates which byte to start at
         lengthToCut = len(currentdir) + (2 if currentdir != "/" else 0)
         cacheLocation = os.path.expanduser("~") + "/.cache/" # '/home/james' + ...
         fileToSearch = cacheLocation + ("alldirs.txt" if self.arg(1) == "dirs" else "allfiles.txt")
-        command="grep -F '{cwd}' {file} | cut -b {cutlen}- | fzf +m --info=inline".format(cwd=currentdir, file=fileToSearch, cutlen=lengthToCut)
+        command="grep -F '{cwd}' {file} | cut -b {cutlen}- | fzf +m --prompt='findcache > ' --info=inline".format(cwd=currentdir, file=fileToSearch, cutlen=lengthToCut)
+
+        fzf = self.fm.execute_command(command, universal_newlines=True, stdout=PIPE)
+        stdout, stderr = fzf.communicate()
+        if fzf.returncode == 0:
+            fzf_file = os.path.abspath(stdout.rstrip('\n'))
+            if os.path.isdir(fzf_file):
+                self.fm.cd(fzf_file)
+            else:
+                self.fm.select_file(fzf_file)
+
+    def tab(self, tabnum):
+        return ["fzf_select dirs"]
+
+class fzf_select(Command):
+    def execute(self):
+        currentdir = str(self.fm.thisdir)
+        # + 1 to get rid of the trailing slash at the end of currentdir, +1 again because -b flag of cut indicates which byte to start at
+        typeArg = "--type directory" if self.arg(1) == "dirs" else "--type file --type symlink --type socket --type pipe"
+        command="fd {type} . '{cwd}' | fzf +m --prompt 'fd > ' --info=inline".format(type=typeArg, cwd=currentdir)
 
         fzf = self.fm.execute_command(command, universal_newlines=True, stdout=PIPE)
         stdout, stderr = fzf.communicate()
