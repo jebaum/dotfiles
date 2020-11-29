@@ -4,6 +4,3 @@
 [submodule "scripts/git/git-extras"]
 	path = scripts/git/git-extras
 	url = https://github.com/tj/git-extras
-[submodule "scripts/diff-so-fancy"]
-	path = scripts/diff-so-fancy
-	url = https://github.com/so-fancy/diff-so-fancy
