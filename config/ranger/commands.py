@@ -86,10 +86,8 @@ class fzf_select_cache(Command):
 
 class fzf_select(Command):
     def execute(self):
-        currentdir = str(self.fm.thisdir)
-        # + 1 to get rid of the trailing slash at the end of currentdir, +1 again because -b flag of cut indicates which byte to start at
         typeArg = "--type directory" if self.arg(1) == "dirs" else "--type file --type symlink --type socket --type pipe"
-        command="fd {type} . '{cwd}' | fzf +m --prompt 'fd > ' --info=inline".format(type=typeArg, cwd=currentdir)
+        command = "fd {type} . | fzf +m --prompt 'fd > '".format(type=typeArg)
 
         fzf = self.fm.execute_command(command, universal_newlines=True, stdout=PIPE)
         stdout, stderr = fzf.communicate()
