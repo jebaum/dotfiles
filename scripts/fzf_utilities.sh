@@ -115,23 +115,31 @@ fzgcotag() { # checkout git branch/tag
   git checkout $(awk '{print $2}' <<<"$target" )
 }
 
+# for fzgshow and fzgsha - need to explicitly pipe to delta | less so the pager doesn't immediately quit (--quit-if-one-screen doesn't have an off flag for some stupid fucking reason)
+# `delta --navigate' also seems to work since it forces the pager to stay active on the screen in order to use the search pattern, but leaves the screen with junk on it afterward
+# `delta --side-by-side' doesn't work due to weird interactions with the pager i don't care enough to figure out
+# i explicitly pass `--line-numbers --features decorations' to delta to turn off side-by-side, which is turned on by default in gitconfig since i want it on for `git diff'
 fzgshow() { # git commit browser
   local out sha query keypress expect
   expect="ctrl-o"
   while out=$(
       git log --color=always --pretty=format:'%C(auto)%h %d %s %C(cyan)(%cr)%Creset [%C(97)%cn%Creset]' $@ |
-      fzf --header "enter: multiple commits at once, ctrl-o: sequential, alt-p: preview" --bind='alt-p:toggle-preview' --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1}"); do
+        fzf --header "enter: multiple commits at once | ctrl-o: sequential | ctrl-y: copy short hash | ctrl-g: copy full hash" \
+            --ansi --multi --no-sort --reverse --query="$query" --print-query --expect="$expect" --preview="git show --color=always {1} | delta --features decorations" \
+            --bind 'ctrl-y:execute-silent(echo -n {} | grep -o "[a-f0-9]\{7\}" | head -1 | tr -d "\n" | xclip -selection clipboard)+abort' \
+            --bind 'ctrl-g:execute-silent(echo -n {} | grep -o "[a-f0-9]\{7\}" | xargs git rev-parse | head -1 | tr -d "\n" | xclip -selection clipboard)+abort' \
+        ); do
     query=$(echo "$out" | head -1)
     keypress=$(echo "$out" | sed -n '2p')
     shalist=()
     while read sha; do
       if [ "$keypress" = "$expect" ]; then
-        [ -n "$sha" ] && git show --color=always $sha | less -R
+        [ -n "$sha" ] && git show --color=always $sha | delta --line-numbers --features decorations | less
       else
         shalist+=$sha
       fi
     done < <(echo "$out" | sed '1,2d;s/^[^a-z0-9]*//;/^$/d' | awk '{print $1}')
-    [ "$keypress" != "$expect" ] && git show --color $shalist
+    [ "$keypress" != "$expect" ] && git show --color=always $shalist | delta --line-numbers --features decorations | less
   done
 }
 
@@ -139,16 +147,15 @@ fzgshow() { # git commit browser
 # fzgsha - get git commit sha, copy to clipboard
 # example usage: git rebase -i `fzgsha`
 _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_gitFullLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | xargs git rev-parse | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | delta'"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always %' | delta --features decorations"
 fzgsha() {
     git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@" |
         fzf --no-sort --reverse --tiebreak=index --no-multi \
             --ansi --preview="$_viewGitLogLine" \
-                --header "ctrl-o to view, alt-y to copy short hash, alt-g to copy full hash" \
-                --bind "ctrl-o:execute:$_viewGitLogLine   | less -R" \
-                --bind "alt-y:execute:$_gitLogLineToHash | xclip" \
-                --bind "alt-g:execute:$_gitFullLogLineToHash | xclip" | grep -o '[a-f0-9]\{7\}' | xargs git rev-parse| head -1
+                --header "ctrl-o to view, ctrl-y to copy short hash, ctrl-g to copy full hash" \
+                --bind "ctrl-o:execute:$_viewGitLogLine | less -R" \
+                --bind 'ctrl-y:execute-silent(echo -n {} | grep -o "[a-f0-9]\{7\}" | head -1 | tr -d "\n" | xclip -selection clipboard)+abort' \
+                --bind 'ctrl-g:execute-silent(echo -n {} | grep -o "[a-f0-9]\{7\}" | xargs git rev-parse | head -1 | tr -d "\n" | xclip -selection clipboard)+abort'
 }
 
 # fzgstash - easier way to deal with stashes
