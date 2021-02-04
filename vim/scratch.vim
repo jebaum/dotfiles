@@ -268,6 +268,9 @@ https://github.com/vimwiki/vimwiki
 https://www.reddit.com/r/vim/comments/3ysfnn/how_to_quickly_view_changes_gitfugitive_workflow/
 https://github.com/dhruvasagar/vim-dotoo
 https://github.com/jceb/vim-orgmode
+not sure what these two things are. second looks to just be fzf but in lua?
+https://github.com/nvim-lua
+https://github.com/nvim-telescope
 
 search plugins:
 https://github.com/henrik/vim-indexed-search

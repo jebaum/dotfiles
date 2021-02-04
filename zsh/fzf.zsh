@@ -98,7 +98,7 @@ fzf-cd-widget() {
     return 0
   fi
   zle push-line
-  BUFFER="cd ${(q)dir}" # " this fixes the highlighting lol. gives it a closing quote to match i guess
+  BUFFER="cd ${(q)dir}" # " this fixes the highlighting lol. gives it a closing quote to match i guess. comment color is still wrong though
   zle accept-line
   local ret=$?
   unset dir # ensure this doesn't end up appearing in prompt expansion

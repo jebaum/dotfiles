@@ -2,5 +2,9 @@
 	// https://github.com/neoclide/coc-python
 	// on arch, installed microsoft-python-language-server from aur
 	"python.jediEnabled": false,
-	"pyls.enable": false
+	"pyls.enable": false,
+
+	// https://github.com/neoclide/coc.nvim/issues/1630
+	"coc.source.around.firstMatch": false,
+	"coc.source.buffer.firstMatch": false
 }
