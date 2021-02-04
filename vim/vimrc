@@ -32,7 +32,7 @@ endif
 
 if has('nvim')
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'vim-scripts/L9'
@@ -501,7 +501,7 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "c", "rust" },  -- list of language that will be disabled
+    disable = { "clojure", "rust" },  -- list of language that will be disabled
   },
   indent = {
     enable = true
