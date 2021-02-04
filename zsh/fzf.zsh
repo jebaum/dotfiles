@@ -1,6 +1,11 @@
 # keep in sync with https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
 export FZF_DEFAULT_OPTS="--extended --bind='alt-p:toggle-preview,alt-a:select-all,alt-d:deselect-all,ctrl-r:toggle-sort' --info=inline --color fg:#ebdbb2,hl:#FDB927,fg+:#ffffff,bg+:#552583,hl+:#fabd2f --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#FDB927,marker:#FDB927,header:#665c54"
+# TODO use fd instead of rg? fd --exclude '/proc' --exclude '/sys' --exclude '/var/lib/plex' . / | fzf
 export FZF_DEFAULT_COMMAND="rg --files -u 2>&1" # make sure errors are visible if there are any
+
+# export FZF_DEFAULT_COMMAND='fd --type f --color=never'
+# export FZF_ALT_C_COMMAND='fd --type d . --color=never'
+#export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore' export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
 
@@ -68,16 +73,6 @@ fzf-history-widget() {
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
-# Ensure precmds are run after cd
-fzf-redraw-prompt() {
-  local precmd
-  for precmd in $precmd_functions; do
-    $precmd
-  done
-  zle reset-prompt
-}
-zle -N fzf-redraw-prompt
-
 
 # ALT-d and ALT-D - cd into the selected directory using find/findcache
 fzf-cd-widget() {
@@ -102,18 +97,12 @@ fzf-cd-widget() {
     zle redisplay
     return 0
   fi
-  if [ -z "$BUFFER" ]; then
-    # UNRELATED NOTE - this line causes a highlighting bug in nvim-treesitter. opening quote doesn't seem to register as a quote
-    # unless there's a space between it and the "=", but that changes the semantics
-    BUFFER="cd ${(q)dir}" # " this fixes the highlighting lol. gives it a closing quote to match i guess
-    zle accept-line
-  else
-    print -sr "cd ${(q)dir}"
-    cd "$dir"
-  fi
+  zle push-line
+  BUFFER="cd ${(q)dir}" # " this fixes the highlighting lol. gives it a closing quote to match i guess
+  zle accept-line
   local ret=$?
   unset dir # ensure this doesn't end up appearing in prompt expansion
-  zle fzf-redraw-prompt
+  zle reset-prompt
   return $ret
 }
 fzf-cd-widget-find() { fzf-cd-widget find }
