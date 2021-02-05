@@ -152,7 +152,7 @@ bindsym $mod+Shift+BackSpace    exec ~/dotfiles/scripts/vimtmp.sh last
 bindsym --release Print		    exec scrot --select --line style=dash --line width=2 --freeze --quality 100 '%Y-%m-%d_%H:%M:%S.png' -e 'mv $f ~/'
 bindsym --release Control+Print exec scrot --focused --quality 100 '%Y-%m-%d_%H:%M:%S.png' -e 'mv $f ~/'
 
-bindsym $mod+Control+y          exec notify-send "preparing to play youtube video..." && mpv $(xclip -o)
+bindsym $mod+Control+y          exec notify-send "preparing to play youtube video: $(xclip -o)" && mpv $(xclip -o)
 bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
 # }}}
 # PROGRAM SPECIFIC SETTINGS {{{
@@ -330,9 +330,9 @@ bar {
   workspace_buttons yes
   $barfont
   status_command bumblebee-status \
-        -m title cpu memory mpd pasink pasource pomodoro datetime dunst \
+        -m title mpd cpu memory network_traffic pasink pasource pomodoro datetime rofication \
         -p memory.format='{used}/{total} ({percent:.1f}%)' \
-           mpd.format='{title} - {artist} {position}/{duration}' \
+           mpd.format='{title} - {artist} {position}/{duration}' mpd.scrolling.width=165 mpd.scrolling.makewide=false \
            title.max=120 \
            pomodoro.work=30 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
         -t iceberg-dark-powerline
