@@ -65,8 +65,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth' " auto detect indent settings
 Plug 'tpope/vim-surround' " TODO vim-sandwich? https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'vim-utils/vim-husk'
@@ -75,6 +73,7 @@ Plug 'wellle/tmux-complete.vim'
 Plug 'wsdjeg/vim-fetch'
 Plug 'zhimsel/vim-stay'
 
+Plug 'hoob3rt/lualine.nvim'
 call plug#end()
 let g:gruvbox_invert_selection=0
 set background=dark
@@ -311,16 +310,6 @@ endfunction
 " }}}
 " }}}
 " Plugins {{{
-" airline {{{
-let g:airline_theme='tomorrow'
-let g:airline_powerline_fonts                = 1
-let g:airline_skip_empty_sections            = 1
-let g:airline#extensions#hunks#enabled       = 1
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#vimagit#enabled     = 1
-let g:airline#extensions#grepper#enabled     = 1
-let g:airline#extensions#searchcount#enabled = 1
-" }}}
 " brightest {{{
 let g:brightest_enable = 0
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
@@ -392,6 +381,16 @@ let g:asterisk#keeppos = 1
 let g:lt_quickfix_list_toggle_map = '<leader>e'
 let g:lt_location_list_toggle_map = '<leader>l'
 " }}}
+" lualine {{{
+if has('nvim')
+lua << EOF
+  local lualine = require('lualine')
+  lualine.theme = 'onedark'
+  lualine.sections.lualine_b = { 'branch', 'signify' }
+  lualine.status()
+EOF
+endif
+" }}}
 " match tag {{{
 let g:mta_filetypes = {
     \ 'html' : 1,
@@ -439,6 +438,8 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 map <M-;> <Plug>Sneak_,
+omap z <Plug>Sneak_s
+omap Z <Plug>Sneak_S
 " }}}
 " startify {{{
 let g:rooter_silent_chdir = 1 " sticking this here because i'm lazy
