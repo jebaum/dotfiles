@@ -271,6 +271,8 @@ https://github.com/jceb/vim-orgmode
 not sure what these two things are. second looks to just be fzf but in lua?
 https://github.com/nvim-lua
 https://github.com/nvim-telescope
+https://github.com/hrsh7th/nvim-compe
+nvim-compe guide: https://www.reddit.com/r/neovim/comments/ldetyp/linux_script_to_install_neovim_nightly_with_a/
 
 search plugins:
 https://github.com/henrik/vim-indexed-search

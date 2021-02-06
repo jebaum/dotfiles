@@ -38,26 +38,26 @@ else
   Plug 'vim-scripts/L9'
 endif
 
+" Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 Plug 'Konfekt/FastFold'
 Plug 'Valloric/ListToggle'
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'haya14busa/is.vim'
 Plug 'haya14busa/vim-asterisk'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'jreybert/vimagit', {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
-" Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
 Plug 'mhinz/vim-signify' " do not lazy load
 Plug 'mhinz/vim-startify'
 Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
 Plug 'preservim/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
-" Plug 'timakro/vim-searchant'
-" Plug 'tmhedberg/SimpylFold', {'for': 'python'}
+Plug 'timakro/vim-searchant'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-eunuch', {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-jdaddy'
@@ -72,8 +72,6 @@ Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, an
 Plug 'wellle/tmux-complete.vim'
 Plug 'wsdjeg/vim-fetch'
 Plug 'zhimsel/vim-stay'
-
-Plug 'hoob3rt/lualine.nvim'
 call plug#end()
 let g:gruvbox_invert_selection=0
 set background=dark
@@ -989,4 +987,3 @@ if has('nvim')
 end
 " }}}
 " }}}
-" vim: foldmethod=marker foldlevel=1 foldmarker={{{,}}}
