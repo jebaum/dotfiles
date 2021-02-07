@@ -339,11 +339,8 @@ function! HandleUrl(urls)
     sleep 500m " could replace this with a timer/jobstart callback thing, but this is one simple line that works perfectly in practice
   endif
 
-  let argstring = ""
-  for url in a:urls
-    let argstring .= "--new-tab '" . fnameescape(url) . "' "
-  endfor
-  silent! execute "!firefox " . argstring . "&"
+  let argstring = join(map(a:urls, { idx, val -> "--new-tab '" . fnameescape(val) . "'" }))
+  silent! execute "!firefox " . argstring . " &"
 endfunction
 
 let g:fzf_buffers_jump = 1 " jump to the existing window if possible
