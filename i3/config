@@ -128,6 +128,7 @@ bindsym $mod+$alt+Prior exec mpc -h $mpdhost seek +60
 bindsym $mod+$alt+t     exec killall mpd && mpd
 
   ### mpv controls
+bindsym $mod+Control+m      exec echo 'cycle mute' | socat - $mpvsocket
 bindsym $mod+Control+n      exec echo 'playlist_next' | socat - $mpvsocket
 bindsym $mod+Control+p      exec echo 'playlist_prev' | socat - $mpvsocket
 bindsym $mod+Control+space  exec echo 'cycle pause' | socat - $mpvsocket
@@ -393,4 +394,4 @@ bar {
   }
 }
 # }}}
-# vim:filetype=i3config foldmethod=marker foldlevel=0
+# vim:filetype=i3config
