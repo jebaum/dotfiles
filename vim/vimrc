@@ -371,13 +371,19 @@ map g* <Plug>(asterisk-gz*)<Plug>(is-nohl-1)
 map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)
 map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
 let g:asterisk#keeppos = 1
+command! ClearSearch execute "normal \<Plug>SearchantStop"
 " }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
 let g:lt_location_list_toggle_map = '<leader>l'
 " }}}
 " lualine {{{
+" TODO: add section on righthand side for displaying if file has mixed indent, trailing spaces
 if has('nvim')
+" '', '' and component separators are '', ''.
+" lualine.options.separator = '|'
+" lualine.section_separators = {'', ''}
+" lualine.component_separators = {'', ''}
 lua << EOF
   local lualine = require('lualine')
   lualine.theme = 'onedark'
@@ -500,7 +506,7 @@ require'nvim-treesitter.configs'.setup {
     disable = { "clojure", "rust" },  -- list of language that will be disabled
   },
   indent = {
-    enable = true
+    enable = false
   },
 }
 EOF
@@ -521,7 +527,7 @@ set relativenumber             " use relative line numbers
 " set signcolumn=number          " merge signcolumn with line number
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
-set nolazyredraw               " don't redraw the screen while executing macros
+set lazyredraw                 " don't redraw the screen while executing macros
 set clipboard+=unnamedplus     " by default, * system clipboard
 set titlestring=%<%q%F%h%r%m   " file name
 set title titlelen=150         " max length of title string
@@ -750,6 +756,7 @@ nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : '
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
 " defualt comma leader maps {{{
+nnoremap <silent> <leader>a    :ClearSearch<CR>
 nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>f    :call ColumnFlash()<CR>
