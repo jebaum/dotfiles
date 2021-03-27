@@ -71,7 +71,8 @@ Plug 'vim-utils/vim-husk'
 Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
 Plug 'wsdjeg/vim-fetch'
-Plug 'zhimsel/vim-stay'
+" Plug 'zhimsel/vim-stay'
+Plug 'farmergreg/vim-lastplace' " much simpler version of vim-stay
 call plug#end()
 let g:gruvbox_invert_selection=0
 set background=dark
@@ -378,18 +379,45 @@ let g:lt_quickfix_list_toggle_map = '<leader>e'
 let g:lt_location_list_toggle_map = '<leader>l'
 " }}}
 " lualine {{{
-" TODO: add section on righthand side for displaying if file has mixed indent, trailing spaces
 if has('nvim')
-" '', '' and component separators are '', ''.
-" lualine.options.separator = '|'
 " lualine.section_separators = {'', ''}
 " lualine.component_separators = {'', ''}
-lua << EOF
-  local lualine = require('lualine')
-  lualine.theme = 'onedark'
-  lualine.sections.lualine_b = { 'branch', 'signify' }
-  lualine.status()
-EOF
+" https://got-ravings.blogspot.com/2008/10/vim-pr0n-statusline-whitespace-flags.html
+function! StatuslineTabWarning()
+    let tabs = search('^\t', 'nw') != 0
+    let spaces = search('^ ', 'nw') != 0
+
+    if tabs && spaces
+        return '[mixed-indenting]'
+    elseif (spaces && !&et) || (tabs && &et) " expandtab setting doesn't match buffer contents
+        return '[&et]'
+    endif
+    return ''
+endfunction
+
+function! StatuslineTrailingSpaceWarning()
+    if search('\s\+$', 'nw') != 0
+        return '[\s]'
+    endif
+    return ''
+endfunction
+
+let g:lualine = {
+    \'options' : {
+    \  'theme' : 'onedark',
+    \  'section_separators' : ['', ''],
+    \  'component_separators' : ['', ''],
+    \},
+    \'sections' : {
+    \  'lualine_b' : [ ['branch', {'icon': '',}, ], 'diff' ],
+    \  'lualine_z' : [ 'location', ['StatuslineTabWarning', {'color': {'fg': '#ffffff', 'bg': '#ff0000'} }], 'StatuslineTrailingSpaceWarning' ],
+    \},
+    \'inactive_sections' : {
+    \  'lualine_c' : [ ['filename', {'full_path': v:true } ] ],
+    \}
+\}
+lua require("lualine").setup()
+
 endif
 " }}}
 " match tag {{{
@@ -774,11 +802,11 @@ nnoremap          <leader>sV   :source $MYVIMRC<CR>
 vnoremap          <leader>sv   :Source %<CR>
 nnoremap <silent> <leader>S    :let c=col(".")<CR>V:Source<CR>:call cursor(line("."),c)<CR>
 vnoremap <silent> <leader>S    <Esc>:let g:c=col(".")<CR>gv:Source<CR>:call cursor(line("."),g:c)<CR>
+nnoremap <silent> <leader>ts   :write \| edit \| TSBufEnable highlight<CR>
 nnoremap <silent> <leader>u    yyp^v$r=
 nnoremap <silent> <leader>w    :w!<CR>
 nnoremap <silent> <leader>x    :x!<CR>
 nnoremap <silent> <leader>zs   :syntax sync fromstart<CR>
-nnoremap <silent> <leader>zt   :write \| edit \| TSBufEnable highlight<CR>
 
 nnoremap          <leader>gh  :SignifyToggleHighlight<CR>
 nnoremap          <leader>gt  :SignifyToggle<CR>
@@ -991,3 +1019,4 @@ if has('nvim')
 end
 " }}}
 " }}}
+" vim: foldmethod=marker
