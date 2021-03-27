@@ -5,7 +5,10 @@ export FZF_DEFAULT_COMMAND="rg --files -u 2>&1" # make sure errors are visible i
 
 # export FZF_DEFAULT_COMMAND='fd --type f --color=never'
 # export FZF_ALT_C_COMMAND='fd --type d . --color=never'
-#export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore' export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore' export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+# export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --glob '!*/{.git,node_modules}/**'"
+# export FZF_CTRL_T_COMMAND="rg --files --no-ignore-vcs --glob '!*/{.git,node_modules}/**'"
+# export FZF_ALT_C_COMMAND="fd --type d --no-ignore-vcs --exclude node_modules --exclude .git"
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
 
