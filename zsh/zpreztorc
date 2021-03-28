@@ -41,7 +41,7 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'history-substring-search'
   #'prompt'
-
+# https://github.com/zdharma/fast-syntax-highlighting <- alternative to syntax-highlighting
 #
 # Autosuggestions
 #
