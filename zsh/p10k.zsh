@@ -366,7 +366,7 @@
     if (( $1 )); then
       # Styling for up-to-date Git status.
       local       meta='%f'     # default foreground
-      local      clean='%76F'   # green foreground
+      local      clean='%F{magenta}'  # purple foreground (default is green)
       local   modified='%178F'  # yellow foreground
       local  untracked='%39F'   # blue foreground
       local conflicted='%196F'  # red foreground
@@ -380,6 +380,7 @@
     fi
 
     local res
+    res+="%F{green}["
 
     if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
       local branch=${(V)VCS_STATUS_LOCAL_BRANCH}
@@ -444,6 +445,7 @@
     # in this case.
     (( VCS_STATUS_HAS_UNSTAGED == -1 )) && res+=" ${modified}─"
 
+    res+="%F{green}]"
     typeset -g my_git_format=$res
   }
   functions -M my_git_formatter 2>/dev/null
