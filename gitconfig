@@ -15,9 +15,7 @@
     cp  = cherry-pick
 
     d     = diff
-    dn    = "!DELTA_NAVIGATE=1 git diff"
     dc    = diff --cached
-    dcn   = "!DELTA_NAVIGATE=1 git diff --cached"
     l     = "!zsh -ic 'fzgshow'"
     ll    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit
     lp    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit -p
@@ -104,6 +102,7 @@
     whitespace-error-style = 22 reverse
     plus-style = syntax "#003800"
     minus-style = syntax "#3f0001"
+	navigate = true
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
