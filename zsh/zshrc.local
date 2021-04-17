@@ -1,1 +1,2 @@
 BROWSER=firefox
+PATH=$HOME/clearbanc/dev/google-cloud-sdk/bin:$PATH
