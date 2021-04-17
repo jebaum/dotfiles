@@ -162,10 +162,12 @@ bindsym $mod+Shift+D            exec ~/dotfiles/scripts/dmenu_edit_dotfiles.sh
 for_window [instance="mupdf" class="MuPDF"] border normal 1pixel
 for_window [instance="vimtmp"] move scratchpad; scratchpad show
 
-for_window [instance="Navigator" class="Firefox"] border 1pixel
-assign     [instance="Navigator" class="Firefox"] → $workspace02
+for_window [instance="Navigator" class="firefox"] border 1pixel
+assign     [instance="Navigator" class="firefox"] → $workspace02
 assign     [instance="__main__.py" class="qutebrowser"] → $workspace02
 for_window [instance="chromium" class="Chromium"] border 1pixel
+
+assign     [instance="zoom" class="zoom"] → 13: zoom
 
 for_window [instance="vps|st-256color" class="vps|URxvt"] border 1pixel
 assign     [instance="vps|st-256color" class="vps|URxvt"] → $workspace03
@@ -394,4 +396,4 @@ bar {
   }
 }
 # }}}
-# vim:filetype=i3config
+# vim:filetype=i3config foldmethod=marker
