@@ -18,10 +18,10 @@ call plug#begin('~/.vim/bundle')
 Plug 'gruvbox-community/gruvbox'
 
 if has('unix')
-  Plug 'jebaum/vim-tmuxify'
   Plug 'junegunn/gv.vim',    {'on': ['GV']}
-  Plug 'tpope/vim-fugitive'
   Plug 'tommcdo/vim-fugitive-blame-ext'
+  Plug 'tpope/vim-fugitive'
+  " Plug 'jebaum/vim-tmuxify'
 endif
 
 if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 1
@@ -31,33 +31,45 @@ if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 
 endif
 
 if has('nvim')
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+  let g:indent_blankline_char = '│' " TODO map IndentBlanklineToggle?
+  let g:indent_blankline_filetype_exclude = ['help', 'startify']
+  Plug 'code-biscuits/nvim-biscuits'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'hrsh7th/nvim-compe'
+  Plug 'kevinhwang91/nvim-hlslens'
+  Plug 'kyazdani42/nvim-tree.lua' " TODO this seems nice, configure it
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'norcalli/nvim-colorizer.lua'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  " Plug 'kabouzeid/nvim-lspinstall'
+  " Plug 'kyazdani42/nvim-web-devicons'
+  " Plug 'alec-gibson/nvim-tetris'
 else
   Plug 'othree/vim-autocomplpop'
   Plug 'vim-scripts/L9'
 endif
-
 " Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
+" Plug 'TimUntersberger/neogit' " still WIP. fugitive better for now
+" Plug 'nvim-lua/plenary.nvim' " required by neogit, possibly other lua plugins
+" https://github.com/RRethy/vim-illuminate " alternative to brightest that can use LSP
+" Plug 'liuchengxu/vim-which-key' " cool and useful, set this up sometime
 Plug 'Konfekt/FastFold'
 Plug 'Valloric/ListToggle'
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'haya14busa/is.vim'
+Plug 'farmergreg/vim-lastplace' " much simpler version of vim-stay
 Plug 'haya14busa/vim-asterisk'
 Plug 'hoob3rt/lualine.nvim'
-Plug 'jreybert/vimagit', {'on': ['Magit', 'MagitOnly']}
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
-Plug 'mhinz/vim-grepper', {'on': ['Grepper', '<Plug>(GrepperOperator)']}
-Plug 'mhinz/vim-signify' " do not lazy load
+Plug 'mhinz/vim-signify' " do not lazy load. maybe https://github.com/lewis6991/gitsigns.nvim ?
 Plug 'mhinz/vim-startify'
 Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
 Plug 'preservim/nerdcommenter'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
-Plug 'timakro/vim-searchant'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-eunuch', {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
 Plug 'tpope/vim-jdaddy'
@@ -71,9 +83,11 @@ Plug 'vim-utils/vim-husk'
 Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
 Plug 'wsdjeg/vim-fetch'
-" Plug 'zhimsel/vim-stay'
-Plug 'farmergreg/vim-lastplace' " much simpler version of vim-stay
 call plug#end()
+" }}}
+" gruvbox + colorizer {{{
+set termguicolors " must be set before colorizer.setup()
+lua require'colorizer'.setup()
 let g:gruvbox_invert_selection=0
 set background=dark
 colorscheme gruvbox
@@ -81,16 +95,32 @@ function! TweakColors() " override some defaults
   highlight Comment       gui=italic
   highlight Folded                     ctermbg=16                  guibg=#000000
   highlight Function      ctermfg=43                guifg=#00D7AF
-  highlight IncSearch     ctermfg=255  ctermbg=24   guifg=#FDB927  guibg=#552583 gui=bold
+  highlight IncSearch     ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927 gui=bold
   highlight JustYanked    ctermfg=108  ctermbg=235  guifg=#F0F0F0  guibg=#552583
   highlight MatchParen    ctermfg=16   ctermbg=201  guifg=#000000  guibg=#FF00FF
   highlight Normal        ctermfg=223               guifg=#FFD7AF  guibg=#1C1C1C
   highlight QuickFixLine               ctermbg=16                  guibg=#000000
   highlight Search        ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
-  " for vim-searchant
-  highlight SearchCurrent ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
   highlight SpecialKey    ctermfg=231  ctermbg=236  guifg=#FFFFFF  guibg=#303030
   highlight String        ctermfg=46                guifg=#70F0F0
+  highlight Pmenu         guifg=#EBDBB2  guibg=#282828
+  highlight PmenuSel      guifg=#FDB927  guibg=#552583 cterm=bold gui=bold
+  highlight HlSearchLensNear guifg=#DDDDDD guibg=#000000 gui=italic
+  highlight HlSearchLens     guifg=#999999 guibg=#202020 gui=italic
+  highlight BiscuitColor      guifg=#999999 guibg=#101010 gui=italic
+
+  " highlight LspReferenceRead  ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
+  " highlight LspReferenceText  ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
+  " highlight LspReferenceWrite ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
+
+  " TODO update normal diff highlights so gdiffsplit isn't awful
+  " highlight NeogitDiffAdd  gui=none guifg=#CCCCCC guibg=#132E1F
+  " highlight NeogitDiffAddHighlight gui=none guifg=#FFFFFF guibg=#226D32
+  " highlight NeogitDiffDelete gui=none guifg=#CCCCCC guibg=#36181c
+  " highlight NeogitDiffDeleteHighlight gui=none guifg=#FFFFFF guibg=#882727
+  " highlight NeogitHunkHeader gui=none guifg=#FFFFFF guibg=#552583
+  " highlight NeogitHunkHeaderHighlight  gui=none guifg=#000000 guibg=#FDB927
+  " highlight NeogitDiffContextHighlight gui=none guifg=#C0C0C0 guibg=#000000
 endfunction
 augroup TweakColors
   autocmd!
@@ -100,9 +130,6 @@ augroup END
 " }}}
 " Misc {{{
 " Command mode maps and abbreviations {{{
-command! CD cd %:p:h
-command! SearchCount %s///gn
-
 " use one of these maps in the middle of a search to move, copy, or delete text
 cnoremap $t <CR>:t''<CR>
 cnoremap $T <CR>:''t.<CR>
@@ -116,9 +143,10 @@ augroup FileTypeSettings
   autocmd BufRead *vimrc* nnoremap <buffer> z<Space> zMzrzvzz
   autocmd FileType gitcommit setlocal nocursorline nocursorcolumn
   autocmd FileType make setlocal noexpandtab shiftwidth=4 tabstop=4
-  autocmd BufNewFile,BufRead *.log  set filetype=log
-  autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc " from vim-pandoc-syntax
-  autocmd BufRead coc-settings.json syntax match Comment +\/\/.\+$+ " coc-settings file uses jsonc, supports comments
+  autocmd FileType vim syn keyword vimCommand Plug
+  autocmd BufNewFile,BufRead *.log  setlocal filetype=log
+  autocmd BufNewFile,BufFilePre,BufRead *.md setlocal filetype=markdown.pandoc " from vim-pandoc-syntax
+  autocmd BufReadPost,BufNewFile *.vue setlocal filetype=vue
 augroup END
 " }}}
 " align quickfix output {{{
@@ -272,20 +300,32 @@ endfunction
 " visually selected lines of the buffer.
 command! -nargs=? -bar -range Source if empty("<args>") | call SourcePart(<line1>, <line2>) | else | exec "so <args>" | endif
 " }}}
-" Manipulate help window on open {{{
-function! OpenHelp()
-    if winwidth(0) >= 260
-        setlocal textwidth=118
-        wincmd L
-        vertical resize 120
-        normal ze
+" Auto open certain buf and file types in vertical split if there's room {{{
+let g:autosplit_ft = ['man', 'fugitive', 'gitcommit']
+let g:autosplit_bt = ['help']
+
+function! NewSplit()
+  if (index(get(g:, 'autosplit_bt', []), &buftype) != -1 ||
+    \ index(get(g:, 'autosplit_ft', []), &filetype) != -1)
+    let b = bufnr()
+    let p = winnr('#')
+    let v = winwidth(p) >= getwinvar(p, '&tw', 80) + getwinvar(winnr(), '&tw', 80)
+    wincmd J
+    wincmd p
+    if v
+      vsplit
+      vertical resize 80
     else
-        wincmd J
+      split
     endif
-endfunction
-augroup AutoSizeHelpWindow
+    exe b . 'b'
+    exe winnr('50j') . 'wincmd q'
+  endif
+endfun
+
+augroup Autosplit
   autocmd!
-  autocmd BufWinEnter * if &ft == 'help' | call OpenHelp() | endif
+  autocmd WinNew * autocmd BufEnter * ++once call NewSplit()
 augroup END
 " }}}
 " ColumnFlash {{{
@@ -309,10 +349,60 @@ endfunction
 " }}}
 " }}}
 " Plugins {{{
+" biscuits {{{
+lua << EOF
+require('nvim-biscuits').setup({
+  default_config = {
+    max_length = 60,
+    min_distance = 15,
+    prefix_string = "  "
+  },
+  on_events = { 'InsertLeave', 'CursorHoldI' }
+})
+EOF
+" }}}
 " brightest {{{
 let g:brightest_enable = 0
 let g:brightest#highlight = { 'group': 'BrightestCustom' }
 highlight BrightestCustom ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
+" }}}
+" compe {{{
+set completeopt=menuone,noselect
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true " TODO may need to set this to false in some slow files like typescript and vue
+let g:compe.debug = v:false
+let g:compe.min_length = 2 " default is 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.resolve_timeout = 800
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.emoji = v:false
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:false
+let g:compe.source.path = v:true
+let g:compe.source.spell = v:true
+let g:compe.source.tmux = v:true " integration with tmux-complete
+let g:compe.source.ultisnips = v:true
+
+" https://github.com/hrsh7th/nvim-compe/issues/159#issuecomment-775947348
+command! CompeEnable  let g:compe.autocomplete = v:true  | call compe#setup(g:compe)
+command! CompeDisable let g:compe.autocomplete = v:false | call compe#setup(g:compe)
+
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 " }}}
 " easy-align {{{
 xmap ga <Plug>(EasyAlign)
@@ -344,6 +434,25 @@ function! HandleUrl(urls)
   silent! execute "!firefox " . argstring . " &"
 endfunction
 
+" FZF Buffer Delete
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! FZFBD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
+
+
 let g:fzf_buffers_jump = 1 " jump to the existing window if possible
 command! -bang -nargs=* FZFFindCache call fzf#run(fzf#wrap({'source': 'cat '.expand('~/.cache/allfiles.txt'), 'options': ['--preview', '~/.vim/bundle/fzf.vim/bin/preview.sh {}', '--multi', '--prompt', 'findcache > ']}))
 command! -bang -nargs=* FZFUrls call fzf#run(fzf#wrap({'sink*': function('HandleUrl'), 'source': GetBufferUrls(), 'options': ['--multi', '--prompt', 'urls > ']}))
@@ -354,70 +463,144 @@ if has('nvim') && !exists('g:fzf_layout')
         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 endif
 " }}}
-" grepper {{{
-let g:grepper = {}
-let g:grepper.tools  = ['rg', 'git', 'grep']
-let g:grepper.open   = 1 " open quickfix window when done searching
-let g:grepper.switch = 0 " don't switch to the quickfix window when it opens
-let g:grepper.jump   = 0 " don't jump to the first match
-let g:grepper.side   = 0 " side window that has context for matches
-command! TodoBuffer    :Grepper -noprompt -buffer  -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
-command! TodoBuffers   :Grepper -noprompt -buffers -tool rg -grepprg rg -Hi --no-heading --vimgrep 'TODO|XXX|FIXME'
-" }}}
-" is.vim + vim-asterisk {{{
-map <silent> n <Plug>(is-n):silent! foldopen!<CR>
-map <silent> N <Plug>(is-N):silent! foldopen!<CR>
-map *  <Plug>(asterisk-z*)<Plug>(is-nohl-1)
-map g* <Plug>(asterisk-gz*)<Plug>(is-nohl-1)
-map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)
-map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
+" hlslens + vim-asterisk {{{
+lua << EOF
+require('hlslens').setup({
+    calm_down = true,
+})
+EOF
+noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>silent! foldopen!<CR>
+            \<Cmd>lua require('hlslens').start()<CR>
+noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>silent! foldopen!<CR>
+            \<Cmd>lua require('hlslens').start()<CR>
+map *  <Plug>(asterisk-z*)<Cmd>lua require('hlslens').start()<CR>
+map #  <Plug>(asterisk-z#)<Cmd>lua require('hlslens').start()<CR>
+map g* <Plug>(asterisk-gz*)<Cmd>lua require('hlslens').start()<CR>
+map g# <Plug>(asterisk-gz#)<Cmd>lua require('hlslens').start()<CR>
 let g:asterisk#keeppos = 1
-command! ClearSearch execute "normal \<Plug>SearchantStop"
 " }}}
 " listtoggle {{{
 let g:lt_quickfix_list_toggle_map = '<leader>e'
 let g:lt_location_list_toggle_map = '<leader>l'
 " }}}
+" lspconfig {{{
+lua << EOF
+-- see neovim/lspconfig repo for documentation on config details + language server initialization below
+local saga = require('lspsaga')
+saga.init_lsp_saga()
+
+local nvim_lsp = require('lspconfig')
+local on_attach = function(client, bufnr)
+  print("LSP started.");
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', '\\a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '\\d', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', '\\D', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', '\\h', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '\\i', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '\\l', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '\\L', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '\\r', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '\\R', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '\\td', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "\\f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  end
+  if client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("v", "\\f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  end
+
+  -- Set autocommands conditional on server_capabilities
+  if false and client.resolved_capabilities.document_highlight then -- TODO currently disabled, but good alternative to brightest here where supported
+    vim.api.nvim_exec([[
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], false)
+  end
+end
+
+-- Use a loop to conveniently both setup defined servers
+-- and map buffer local keybindings when the language server attaches
+-- NOTE: need to install these manually or use one of the lspinstall plugins
+local servers = { "tsserver", "vimls", "bashls", "vuels" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    settings = {
+      vetur = {
+        ignoreProjectWarning = true
+      }
+    }
+  }
+end
+EOF
+" }}}
 " lualine {{{
-if has('nvim')
-" lualine.section_separators = {'', ''}
-" lualine.component_separators = {'', ''}
 " https://got-ravings.blogspot.com/2008/10/vim-pr0n-statusline-whitespace-flags.html
+let b:tabwarning = ''
+let b:trailingspacewarning = ''
+function! TreesitterStatusline()
+  let l:ts = nvim_treesitter#statusline(90)
+  return l:ts == v:null ? '' : l:ts
+endfunction
 function! StatuslineTabWarning()
+    if stridx(mode(), 'i') != -1 | return b:tabwarning | endif " don't run while in insert mode
     let tabs = search('^\t', 'nw') != 0
     let spaces = search('^ ', 'nw') != 0
 
     if tabs && spaces
-        return '[mixed-indenting]'
+        let b:tabwarning = '[mixed-indenting]'
     elseif (spaces && !&et) || (tabs && &et) " expandtab setting doesn't match buffer contents
-        return '[&et]'
+        let b:tabwarning = '[&et]'
+    else
+        let b:tabwarning = ''
     endif
-    return ''
+    return b:tabwarning
 endfunction
 
 function! StatuslineTrailingSpaceWarning()
-    if search('\s\+$', 'nw') != 0
-        return '[\s]'
+  if stridx(mode(), 'i') != -1 | return b:trailingspacewarning | endif " don't run while in insert mode
+    let trailingSpaces = search('\s\+$', 'nw')
+    if trailingSpaces != 0
+        let b:trailingspacewarning = '[\s ' . trailingSpaces . ']'
+    else
+        let b:trailingspacewarning = ''
     endif
-    return ''
+    return b:trailingspacewarning
 endfunction
-
-let g:lualine = {
-    \'options' : {
-    \  'theme' : 'onedark',
-    \  'section_separators' : ['', ''],
-    \  'component_separators' : ['', ''],
-    \},
-    \'sections' : {
-    \  'lualine_b' : [ ['branch', {'icon': '',}, ], 'diff' ],
-    \  'lualine_z' : [ 'location', ['StatuslineTabWarning', {'color': {'fg': '#ffffff', 'bg': '#ff0000'} }], 'StatuslineTrailingSpaceWarning' ],
-    \},
-    \'inactive_sections' : {
-    \  'lualine_c' : [ ['filename', {'full_path': v:true } ] ],
-    \}
-\}
-lua require("lualine").setup()
-
+if has('nvim')
+lua << EOF
+-- lualine.section_separators = {'', ''}
+-- lualine.component_separators = {'', ''}
+require'lualine'.setup  {
+    options = {
+      theme = 'onedark',
+      component_separators = {'', ''},
+      section_separators = {'', ''},
+    },
+    sections = {
+      lualine_b = { {'branch', icon = ''}, 'diff' },
+      lualine_c = { {'filename', path = 1}, 'TreesitterStatusline' },
+      lualine_z = { {'StatuslineTabWarning', color = {fg = '#ffffff', bg = '#ff0000'}}, 'StatuslineTrailingSpaceWarning', 'location' },
+    },
+    inactive_sections = {
+      lualine_c = { {'filename', path = 1} },
+    }
+}
+EOF
 endif
 " }}}
 " match tag {{{
@@ -428,6 +611,16 @@ let g:mta_filetypes = {
     \ 'jinja' : 1,
     \ 'php' : 1,
     \}
+" }}}
+" neogit {{{
+" lua << EOF
+" local neogit = require('neogit')
+" neogit.setup {
+  " signs = { -- { CLOSED, OPENED }
+    " hunk = { ">", "v" },
+  " }
+" }
+" EOF
 " }}}
 " nerdcommenter {{{
 let g:NERDSpaceDelims            = 1
@@ -457,6 +650,18 @@ let g:signify_sign_change        = '~'
 let g:signify_sign_show_count    = 1
 nmap ]c <Plug>(signify-next-hunk)
 nmap [c <Plug>(signify-prev-hunk)
+
+" directly pulled from signify docs
+
+augroup ShowHunkNumbers
+  autocmd User SignifyHunk call s:show_current_hunk()
+  function! s:show_current_hunk() abort
+    let h = sy#util#get_hunk_stats()
+    if !empty(h)
+      echo printf('[Hunk %d/%d]', h.current_hunk, h.total_hunks)
+    endif
+  endfunction
+augroup END
 " }}}
 " sneak  {{{
 let g:sneak#label = 0
@@ -513,16 +718,6 @@ else
     \ ]
 endif
 " }}}
-" tmuxify {{{
-let g:tmuxify_custom_command = 'tmux split-window -dp 25'
-let g:tmuxify_map_prefix = ''
-let g:tmuxify_run = {
-      \ 'sh':     'bash %',
-      \ 'python': 'python %',
-      \ 'ocaml':  'ocaml %',
-      \ 'clisp':  'clisp %',
-\}
-" }}}
 " treesitter {{{
 " https://git.sr.ht/~seirdy/dotfiles/tree/master/.config/nvim/init.vim
 if has('nvim')
@@ -534,7 +729,7 @@ require'nvim-treesitter.configs'.setup {
     disable = { "clojure", "rust" },  -- list of language that will be disabled
   },
   indent = {
-    enable = false
+    enable = true
   },
 }
 EOF
@@ -552,10 +747,10 @@ let g:snips_author                 = 'James Baumgarten'
 " Set options {{{
 set number                     " show line numbers
 set relativenumber             " use relative line numbers
-" set signcolumn=number          " merge signcolumn with line number
+set signcolumn=auto            " merge signcolumn with line number
 set exrc                       " allow directory specific .vimrc files
 set secure                     " prevent directory specific .vimrcs from doing malicious things
-set lazyredraw                 " don't redraw the screen while executing macros
+set nolazyredraw               " redraw the screen while executing macros. required for search count to display on my setup
 set clipboard+=unnamedplus     " by default, * system clipboard
 set titlestring=%<%q%F%h%r%m   " file name
 set title titlelen=150         " max length of title string
@@ -597,7 +792,6 @@ if !has('nvim')
   set cryptmethod=blowfish     " more secure encryption for vim -x
   set esckeys                  " make numpad work
 else
-  set termguicolors            " this is available in recent builds of vim as well as nvim
   if exists('&inccommand')
     set inccommand=split
   endif
@@ -640,18 +834,13 @@ elseif executable('ag')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 filetype plugin indent on
-set guicursor=n-v:block,i-c-ci:ver30 " change ver30 to 'block' to get block cursor back during insert mode
-" }}}
-" Completion options {{{
-set completeopt=noinsert,menuone,noselect
-" hitting enter when completion menu is visible selects item
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+set guicursor=n-v:block,i-c-ci:block " change ver30 to 'block' to get block cursor back during insert mode
 " }}}
 " Fold {{{
 " zf#j manually folds # lines, or zf in visual mode selection.
-set foldnestmax=1   " folds only one level deep
-set foldmethod =manual
-set foldlevel  =1
+set foldnestmax =1   " folds only one level deep
+set foldmethod  =manual
+set foldlevel   =1
 " }}}
 " Tab/Indent {{{
 " https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd
@@ -729,7 +918,6 @@ nnoremap yl :let c=col(".")<CR>$v^y:call cursor(line("."),c)<CR>
 nnoremap yaa :let c=col(".") <BAR> let l = line(".")<CR>ggyG:call cursor(l,c)<CR>:echo 'yanked whole file'<CR>
 
 vnoremap <C-a> :call Increment()<CR>
-nnoremap <BS> :%s/\V\<lt><c-r><c-w>\>//g<left><left>
 " }}}
 " fix the esc/alt mapping problem in terminal vim {{{
 if !has('gui_running')
@@ -784,13 +972,13 @@ nnoremap <expr> k (v:count > 4 ? "m'" . v:count . 'k' : (v:count == 0 ? 'gk' : '
 nnoremap <expr> j (v:count > 4 ? "m'" . v:count . 'j' : (v:count == 0 ? 'gj' : 'j'))
 " }}}
 " defualt comma leader maps {{{
-nnoremap <silent> <leader>a    :ClearSearch<CR>
+nnoremap <silent> <leader>a    :nohlsearch<CR>
 nnoremap <silent> <leader>b    :BrightestToggle<CR>
 "                         c    nerdcommenter maps
 nnoremap <silent> <leader>f    :call ColumnFlash()<CR>
-"                      [gG]    fugitive, signify and grepper maps below
+"                      [gG]    fugitive, signify maps below
 "                 <leader>l    ListToggle
-nnoremap <silent> <leader>m    :Magit<CR><C-w>T
+" nnoremap <silent> <leader>m    :Neogit<CR>
 nnoremap <silent> <leader>p    "0p
 nnoremap <silent> <leader>P    "0P
 "                        rt    " term/tmux/repl maps
@@ -824,16 +1012,9 @@ nnoremap <silent> <leader>gr  :Gread<CR>
 nnoremap <silent> <leader>gs  :Git<CR>
 nnoremap <silent> <leader>gw  :Gwrite<CR>
 
-nnoremap          <leader>#   :Grepper -cword -noprompt<cr>
-nnoremap          <leader>G   :Grepper<CR>
-nnoremap          <leader>gu  :Grepper -tool rg -grepprg rg -Hu  --no-heading --vimgrep<CR>
-nnoremap          <leader>gU  :Grepper -tool rg -grepprg rg -Huu --no-heading --vimgrep<CR>
-nmap              <leader>gg  <Plug>(GrepperOperator)
-xmap              <leader>gg  <Plug>(GrepperOperator)
-
 augroup RunningAndTesting
   " https://vi.stackexchange.com/questions/15431/how-can-i-make-the-neovim-terminal-run-the-current-file-in-python
-  " could probably be more sophisticated using neoterm or iron.nvim, but not needed for now
+  " could probably be more sophisticated using neoterm / iron.nvim / sniprun / vim-terminator, but not needed for now
   " https://austeretechnology.wordpress.com/2017/07/18/a-ruby-repl-workflow-with-neovim-and-neoterm/
   autocmd!
   autocmd FileType python  nnoremap <buffer><leader>r :call RunAndReturn('terminal python %')<CR>
@@ -867,6 +1048,7 @@ nnoremap          <Space>c   :FZFCommands<CR>
 " TODO FZFFiles doesn't show preview correctly for files with colons in the name (noticed when working with my vimtmp.sh)
 nnoremap <silent> <Space>f   :FZFFiles<CR>
 nnoremap <silent> <Space>F   :FZFFindCache<CR>
+nnoremap <silent> <Space>g   :FZFGitFiles<CR>
 nnoremap          <Space>h   :FZFHelptags<CR>
 nnoremap <silent> <Space>H   :FZFHistory<CR>
 nnoremap <silent> <Space>l   :FZFLines<CR>
@@ -921,93 +1103,6 @@ exec 'nnoremap <silent> ' . Altmap('7') . ' 7gt'
 exec 'nnoremap <silent> ' . Altmap('8') . ' 8gt'
 exec 'nnoremap <silent> ' . Altmap('9') . ' 9gt'
 exec 'nnoremap <silent> ' . Altmap('0') . ' :tablast<CR>'
-" }}}
-" slash leader maps. tmuxify {{{
-function! TmuxifySendLines(count, direction)
-  let l = line(".")
-  let c = col(".")
-
-  if a:count == 0
-    execute 'normal! "vyy'
-  else
-    execute 'normal! "vy' . a:count . a:direction
-  endif
-
-  TxSend!(@v)
-  call cursor(l, c)
-endfunction
-
-function! AutoAssociate()
-  if !exists('$TMUX')
-    let descriptor=systemlist('tmux list-panes -aF "#S:#I.#P"')[0]
-    if descriptor == 'failed to connect to server: Connection refused'
-      echo "there's no tmux running!"
-      return -1
-    endif
-  else
-    let vimdescriptor=systemlist('tmux display-message -p "#S:#I.#P"')[0]
-    let descriptorlist=systemlist('tmux list-panes -sF "#S:#I.#P"')
-    if len(descriptorlist) == 1
-      echo "vim is the only pane!"
-      return -1
-    else
-      for entry in descriptorlist
-          if entry == vimdescriptor | continue | endif
-          let descriptor=entry
-          break
-      endfor
-    endif
-  endif
-
-  let [session, window, pane] = split(descriptor, '\W')
-  call tmuxify#pane_set('!', session, window, pane)
-  echo "associated with pane " . session . ":" . window . "." . pane
-endfunction
-
-function! TxCreateWrapper()
-  if tmuxify#get_associated_pane('!') != -1
-    echo 'TxCreateWrapper: already associated with a pane'
-    return -1
-  endif
-  if !exists('$TMUX')
-    call system('urxvt -e zsh -c "tmux" &')
-    let counter = 0
-    while counter < 100
-      if empty(systemlist('pgrep tmux'))
-        let counter += 1
-        sleep 20m
-      else
-        break
-      endif
-    endwhile
-    call AutoAssociate()
-  else
-    TxCreate!
-  endif
-endfunction
-
-nnoremap <silent> \a  :call tmuxify#pane_command('!', 'copy-mode')<CR>
-nnoremap <silent> \c  :TxSigInt!<CR>
-nnoremap <silent> \d  :call tmuxify#pane_send_raw('C-d', '!')<CR>
-nnoremap <silent> \j  :<C-u>call TmuxifySendLines(v:count, "j")<CR>
-nnoremap <silent> \k  :<C-u>call TmuxifySendLines(v:count, "k")<CR>
-nnoremap <silent> \l  :TxClear!<CR>
-nnoremap          \o  :call TxCreateWrapper()<CR>
-nnoremap <silent> \s  "vyy:TxSend!(@v)<CR>
-vnoremap <silent> \s  "vy:TxSend!(@v)<CR>
-" TODO - if somebody C-c's or puts invalid input in the prompt, errors aren't handled
-nnoremap <silent> \t  :TxSetPane<CR>
-nnoremap <silent> \T  :TxSetPane!<CR>
-nnoremap <silent> \w  :call tmuxify#pane_send_raw('C-u', '!')<CR>:TxClear!<CR>
-nnoremap <silent> \x  :TxKill!<CR>
-nnoremap <silent> \|  :TxSend!<CR>
-nnoremap <silent> \<CR>  :call tmuxify#pane_send_raw('C-j', '!')<CR>
-nnoremap          \\  :call AutoAssociate()<CR>
-
-nnoremap <silent> <up>    :call tmuxify#pane_send_raw('C-u', '!')<CR>
-nnoremap <silent> <down>  :call tmuxify#pane_send_raw('C-d', '!')<CR>
-nnoremap <silent> <left>  :call tmuxify#pane_send_raw('C-b', '!')<CR>
-nnoremap <silent> <right> :call tmuxify#pane_send_raw('C-f', '!')<CR>
 " }}}
 " neovim terminal maps {{{
 let g:terminal_scrollback_buffer_size = 100000
