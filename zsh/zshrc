@@ -125,11 +125,39 @@ killkeyimpl() {
 zle -N killkey killkeyimpl
 bindkey '\ek' killkey
 
-updirkey() {
-    cd .. && zle reset-prompt
+# updirkey() {
+    # cd .. && zle reset-prompt
+# }
+# zle -N updirkey updirkey
+# bindkey "" updirkey # Ctrl + /
+
+# above `cd .. && zle reset-prompt` code doesn't work with p10k. see:
+# https://github.com/romkatv/powerlevel10k/issues/72
+# https://github.com/romkatv/zsh4humans/issues/65
+# https://github.com/zsh-users/zsh-autosuggestions/issues/431
+# instead have to use this slightly more sophisticated version:
+function cd-up() {
+  cd ..
+  saved_buffer=$BUFFER
+  saved_cursor=$CURSOR
+  BUFFER=
+  zle accept-line
 }
-zle -N updirkey updirkey
-bindkey "" updirkey # Ctrl + /
+
+function restore-buffer() {
+  BUFFER=$saved_buffer
+  CURSOR=$saved_cursor
+  saved_buffer=
+  saved_cursor=1
+}
+
+zle -N cd-up
+zle -N restore-buffer
+
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget line-init restore-buffer
+
+bindkey "" cd-up # Ctrl + /
 
 popdkey() {
     if [ "$#dirstack" != "0" ]; then popd && zle reset-prompt; fi

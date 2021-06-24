@@ -34,6 +34,7 @@
     # =========================[ Line #1 ]=========================
     # os_icon               # os identifier
     dir                     # current directory
+    # james_example         # simple directory display that works with simple updirkey from zshrc
     vcs                     # git status
     # =========================[ Line #2 ]=========================
     newline                 # \n
@@ -108,6 +109,12 @@
     # example               # example user-defined segment (see prompt_example function below)
   )
 
+  # goal of this function was to have a dir prompt that worked with my simple updirkey from zshrc
+  # it does, but the cached git display and other prompt things do not, so sticking with p10k fancy
+  # dir for now. leaving this here to remind myself how to add custom prompt sections easily
+  function prompt_james_example() {
+    p10k segment -f yellow -t '%~' # `p10k help segment`
+  }
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
   typeset -g POWERLEVEL9K_MODE=nerdfont-complete
   # When set to `moderate`, some icons will have an extra space after them. This is meant to avoid
@@ -1550,7 +1557,7 @@
   #   - always:   Trim down prompt when accepting a command line.
   #   - same-dir: Trim down prompt when accepting a command line unless this is the first command
   #               typed after changing current working directory.
-  typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always
+  typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=same-dir
 
   # Instant prompt mode.
   #
