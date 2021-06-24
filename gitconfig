@@ -15,6 +15,7 @@
     cp  = cherry-pick
 
     d     = diff
+    dd    = "!git diff | delta --side-by-side"
     dc    = diff --cached
     l     = "!zsh -ic 'fzgshow'"
     ll    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit
@@ -76,10 +77,15 @@
     user = jebaum
 [core]
     editor = nvim
-    pager = delta
     excludesfile = "~/.gitignore"
     whitespace = trailing-space,space-before-tab
     untrackedCache = true
+    pager = less
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
 [interactive]
     diffFilter = delta --color-only
 [merge]
@@ -97,12 +103,13 @@
 [pull]
     rebase = true
 [delta]
-    features = side-by-side line-numbers decorations
+    features = line-numbers decorations
     syntax-theme = DarkNeon
     whitespace-error-style = 22 reverse
     plus-style = syntax "#003800"
     minus-style = syntax "#3f0001"
-	navigate = true
+    navigate = true
+    # paging = always # makes delta always send to less instead of just cat'ing to screen, even if contents fit on one page
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
@@ -113,4 +120,4 @@
     line-numbers-right-style = cyan
     line-numbers-minus-style = 124
     line-numbers-plus-style = 28
-# vim: filetype=gitconfig
+# vim: filetype=gitconfig expandtab
