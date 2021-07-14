@@ -1,17 +1,11 @@
-# /dev/sdc1
-UUID=652ec8a0-d7b0-4798-aab6-d094ffee0b2f   /           ext4        rw,relatime,data=ordered    0 1
+# Static information about the filesystems.
+# See fstab(5) for details.
 
-# /dev/sdc2
-UUID=8b2da6f5-db87-4d9d-912f-6482a5a64a1a   /home       ext4        rw,relatime,data=ordered    0 2
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/nvme0n1p2
+UUID=55d71be0-432b-4efb-bd9f-838f170be7de	/         	ext4      	rw,relatime	0 1
 
-# /dev/sda1 LABEL=Storage
-UUID=e7e38873-9ccf-4bcd-8582-7fc49eed7f51   /home/james/storage ext4        rw,nofail,user,relatime,data=ordered    0 2
 
-# /dev/sdd1 LABEL=Big1
-UUID=d23ce4f3-2970-42ac-af9c-4562826c56fb   /home/big1          ext4        rw,nofail,user,relatime,data=ordered    0 2
-
-# /dev/sde1 LABEL=Big2
-UUID=8ac36a91-500d-47c6-b0ef-1b9062535adf   /home/big2    ext4        rw,nofail,user,relatime,data=ordered    0 2
-
-# /dev/sdb1 LABEL=wd12
-UUID=ff58b0a8-8f61-4a4a-8299-9da1d838538b   /home/james/wd12 ext4        rw,nofail,user,relatime,data=ordered    0 2
+UUID=ff58b0a8-8f61-4a4a-8299-9da1d838538b   /home/wd12 ext4        noauto,x-systemd.automount,rw,nofail,user,relatime,exec,data=ordered    0 2
+UUID=1043e6f7-249a-4c91-a14b-e94cbd6837b1   /home/wd16 ext4        noauto,x-systemd.automount,rw,nofail,user,relatime,exec,data=ordered    0 2
+UUID=f0d9e022-03aa-4dd4-9107-7d3d62cb3ff7   /home/ssd  ext4        noauto,x-systemd.automount,rw,nofail,user,relatime,exec,data=ordered    0 2
