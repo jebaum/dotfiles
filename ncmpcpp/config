@@ -12,7 +12,7 @@
 ## file which defines that while launching ncmpcpp.
 ##
 #
-ncmpcpp_directory = "~/.ncmpcpp"
+ncmpcpp_directory = "~/.config/ncmpcpp"
 data_fetching_delay = "no"
 #
 ##
@@ -32,7 +32,7 @@ mpd_host = "localhost"
 #
 mpd_port = "6600"
 #
-mpd_music_dir = "~/storage/music"
+mpd_music_dir = "/home/ssd/music"
 #
 #mpd_connection_timeout = "5"
 #

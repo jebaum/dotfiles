@@ -27,6 +27,11 @@ config/dmenu-extended/plugins/*
 config/dwb/adblock_lists/
 config/dwb/default/*
 
+config/mpd/pid
+config/mpd/state
+config/mpd/log
+config/mpd/database
+
 config/gtk-youtube-viewer/*.??t
 config/youtube-viewer/*.cat
 

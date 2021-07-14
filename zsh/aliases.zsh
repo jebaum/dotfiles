@@ -28,6 +28,7 @@ alias tron='ssh sshtron.zachlatta.com'
 alias vim='vim -p'
 alias xev="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias xprop='xprop | grep WM_CLASS && echo The first part of WM_CLASS is the instance, second part is the class'
+alias ranger='~/dev/ranger/ranger.py'
 
 pacrmorphans() {
     sudo pacman --remove --recursive $(pacman --quiet --query --deps --unrequired)

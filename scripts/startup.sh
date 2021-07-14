@@ -19,7 +19,7 @@ fi
 #fi
 
 if ! pgrep ranger > /dev/null ; then
-  st -c 'ranger' -e ranger &
+  st -c 'ranger' -e ~/dev/ranger/ranger.py &
 fi
 
 # if [[ $(ps aux | grep "st -c vps" | wc -l) != 2 ]]; then
