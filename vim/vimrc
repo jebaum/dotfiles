@@ -31,7 +31,7 @@ if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 
 endif
 
 if has('nvim')
-  Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+  Plug 'lukas-reineke/indent-blankline.nvim'
   let g:indent_blankline_char = '│' " TODO map IndentBlanklineToggle?
   let g:indent_blankline_filetype_exclude = ['help', 'startify']
   Plug 'code-biscuits/nvim-biscuits'
