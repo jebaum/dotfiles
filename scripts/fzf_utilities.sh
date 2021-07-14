@@ -58,7 +58,7 @@ fzimpl() { # fzf package management implementation
     flags="-Ql"
     pipe="| less"
   elif [ "$key" = "ctrl-s" ]; then
-    flags="-S"
+    flags="-S --answerdiff None --answerclean None --removemake"
   elif [ "$key" = "ctrl-r" ]; then
     flags="-R"
   fi

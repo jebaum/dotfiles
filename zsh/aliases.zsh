@@ -38,7 +38,7 @@ ytdl() { youtube-dl "${1-$(xsel)}" }
 
 upgrade() {
    #sudo pacman -Syu
-   yay -Syu --devel --timeupdate
+   yay -Syu --devel --timeupdate --answerdiff None --removemake
  }
 
 # cp with progress
