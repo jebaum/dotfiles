@@ -1,6 +1,57 @@
 " various crap that I want to keep around but for whatever reason don't want
 " in my vimrc anymore
 
+
+" making my own preview window
+" was going to stick it in fugitive buffer to show cheat sheet of keymaps
+function! BreakHabitsWindow() abort
+    let lines = [
+          \"s: stage   u: unstage   -: toggle stage", 
+          \"=: toggle diff   X: discard change",
+          \"ca, ce, cw, cvc, cva, cc, etc"
+          \]
+
+    " Create the scratch buffer displayed in the floating window
+    let buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(buf, 0, len(lines), v:false, lines)
+
+    " Set mappings in the buffer to close the window easily
+    let closingKeys = ['<Esc>', '<CR>']
+    for closingKey in closingKeys
+        call nvim_buf_set_keymap(buf, 'n', closingKey, ':close<CR>', {'silent': v:true, 'nowait': v:true, 'noremap': v:true})
+    endfor
+
+    " Create the floating window
+    let ui = nvim_list_uis()[0]
+    let opts = {'relative': 'win',
+                \ 'width': ui.width - (ui.width/3),
+                \ 'height': len(lines),
+                \ 'col': ui.width,
+                \ 'row': 0,
+                \ 'anchor': 'NE',
+                \ 'border': 'none',
+                \ 'style': 'minimal',
+                \ }
+    let g:popupwin = nvim_open_win(buf, 0, opts)
+    " call win_gotoid(win)
+
+    " Change highlighting
+    call nvim_win_set_option(g:popupwin, 'winhl', 'Normal:ErrorFloat')
+endfunction
+function! GitTest()
+  tabnew
+  Git
+  only
+  call BreakHabitsWindow()
+endfunction
+" augroup FugitiveHorseshit
+  " autocmd!
+  " autocmd FileType fugitive nnoremap <silent><buffer> <leader>q :call nvim_win_close(g:popupwin, v:false) \| quit<CR>
+  " autocmd FileType fugitive nnoremap <silent><buffer> <leader>e :call nvim_win_close(g:popupwin, v:false)<CR>
+  " autocmd FileType fugitive nnoremap <silent><buffer> ?? :call BreakHabitsWindow()<CR>
+" augroup END
+
+
 " can't get this to play nice with is.vim
 function! Nice_next(cmd)
   let view = winsaveview()
