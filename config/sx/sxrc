@@ -6,8 +6,8 @@ xset r rate 200 70 # an also set in ~/.xserverrc. 1000 / 70 = 14 milliseconds be
 # start-pulseaudio-x11 # don't seem to need this anymore? systemd must be starting it idk
 
 xrandr \
-       --output DP-2 --mode 2560x1440 --pos 0x0 --rotate left \
-       --output DP-4 --primary --mode 3840x1600 --pos 1440x480 --rotate normal \
+       --output DP-4 --mode 2560x1440 --pos 0x0 --rotate left \
+       --output DP-2 --primary --mode 3840x1600 --pos 1440x480 --rotate normal \
        --output DP-0.8 --mode 2560x1440 --pos 5280x0 --rotate right \
        --output DP-0 --off \
        --output DP-1 --off \

@@ -8,8 +8,8 @@ floating_modifier $mod
 set $barmodifier modifier Mod3
 
 ### MONITOR SETTINGS
-set $wide DP-4
-set $narrowleft DP-2
+set $wide DP-2
+set $narrowleft DP-4
 set $narrowright DP-0.8
 ### END MONITOR SETTINGS
 
