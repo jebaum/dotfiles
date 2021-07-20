@@ -16,8 +16,8 @@ xrandr \
        --output DP-5 --off
 
 # https://github.com/cdown/clipmenu/issues/141
-# systemctl --user import-environment DISPLAY
-# systemctl --user start clipmenud.service
+systemctl --user import-environment DISPLAY
+systemctl --user start clipmenud.service
 
 
 # https://unix.stackexchange.com/questions/265503/how-do-i-fix-no-such-secret-collection-at-path-for-gnome-keyring-and-arch-l
