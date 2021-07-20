@@ -17,6 +17,7 @@
     d     = diff
     dd    = "!git diff | delta --side-by-side"
     dc    = diff --cached
+    fa    = fetch --all
     l     = "!zsh -ic 'fzgshow'"
     ll    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit
     lp    = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --abbrev-commit -p
