@@ -3,7 +3,6 @@ alias reload='source ~/dotfiles/zsh/aliases.zsh'
 # useful for following log files:
 # tail -f /var/log/pacman.log | bat --paging=never -l log
 alias ls='exa --long --group-directories-first --group --header'
-alias sudo='sudo -E '
 alias sc='systemctl'
 alias beep='echo -en "\a"'
 alias datednotes='nvim `date "+%Y-%m-%d"`.txt'
@@ -38,7 +37,7 @@ ytdl() { youtube-dl "${1-$(xsel)}" }
 
 upgrade() {
    #sudo pacman -Syu
-   yay -Syu --devel --timeupdate --answerdiff None --removemake
+   yay -Syu --devel --timeupdate --answerdiff None --answerclean All --answerdiff None --removemake
  }
 
 # cp with progress
