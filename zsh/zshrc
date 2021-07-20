@@ -19,7 +19,6 @@ export LESS='--RAW-CONTROL-CHARS --hilite-search --HILITE-UNREAD --ignore-case -
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export REPORTTIME=30
-export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
 export BAT_THEME="gruvbox-dark"
 export MANPAGER="sh -c 'col -bx | bat --theme Monokai\ Extended -l man -p'"
 
@@ -38,7 +37,7 @@ done
 fpath=($HOME/dotfiles/zsh/completion $fpath)
 # these binds from fzf.zsh get stomped on by zsh-vim-mode which is sourced after it, but I want the rest of the vim-mode binds so manually put these ones back
 bindkey '^R' fzf-history-widget
-bindkey '^[d' fzf-cd-widget-find
+bindkey '^[d' fzf-cd-widget-fd
 
 sudo-command-line() {
   [[ -z $BUFFER ]] && zle up-history

@@ -1,14 +1,8 @@
 # keep in sync with https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
-export FZF_DEFAULT_OPTS="--extended --bind='alt-p:toggle-preview,alt-a:select-all,alt-d:deselect-all,ctrl-r:toggle-sort' --info=inline --color fg:#ebdbb2,hl:#FDB927,fg+:#ffffff,bg+:#552583,hl+:#fabd2f --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#FDB927,marker:#FDB927,header:#665c54"
-# TODO use fd instead of rg? fd --exclude '/proc' --exclude '/sys' --exclude '/var/lib/plex' . / | fzf
-export FZF_DEFAULT_COMMAND="rg --files -u 2>&1" # make sure errors are visible if there are any
+export FZF_DEFAULT_OPTS="--ansi --extended --bind='alt-p:toggle-preview,alt-a:select-all,alt-d:deselect-all,ctrl-r:toggle-sort' --info=inline --color fg:#ebdbb2,hl:#FDB927,fg+:#ffffff,bg+:#552583,hl+:#fabd2f --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#FDB927,marker:#FDB927,header:#665c54"
 
-# export FZF_DEFAULT_COMMAND='fd --type f --color=never'
-# export FZF_ALT_C_COMMAND='fd --type d . --color=never'
-# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore' export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-# export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --glob '!*/{.git,node_modules}/**'"
-# export FZF_CTRL_T_COMMAND="rg --files --no-ignore-vcs --glob '!*/{.git,node_modules}/**'"
-# export FZF_ALT_C_COMMAND="fd --type d --no-ignore-vcs --exclude node_modules --exclude .git"
+export FZF_DEFAULT_COMMAND='command fd --type file --hidden --exclude .git --exclude /sys --exclude /proc --exclude /var/lib/plex'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
 
@@ -18,7 +12,7 @@ __fzfcmd() { # currently does basically nothing, can be used to change behavior 
 
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
-  # not using rg for this since I want directories listed as well, not just files
+  local REPORTTIME=-1 # make sure zsh doesn't dump time stats into the fzf prompt if it takes too long to finish
   local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type f -print \
     -o -type d -print \
@@ -42,19 +36,6 @@ fzf-file-widget() {
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
 
-# ALT-T - Paste the selected entry from find cache files I maintain into the command line
-# TODO can probably combine this with fzf-file-widget/__fsel
-fzf-findcache-widget() {
-  local FZF_ALT_T_OPTS="$FZF_DEFAULT_OPTS --prompt='findcache / > ' --height ${FZF_TMUX_HEIGHT:-40%} --reverse -m"
-  LBUFFER="${LBUFFER}$(FZF_DEFAULT_OPTS="$FZF_ALT_T_OPTS" $(__fzfcmd) < $HOME/.cache/allfilesanddirs.txt | while read item; do echo -n "${(q)item} "; done)"
-  local ret=$?
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
-  return $ret
-}
-zle     -N    fzf-findcache-widget
-bindkey '\et' fzf-findcache-widget
-
 # CTRL-R - Paste the selected command from history into the command line
 # https://github.com/junegunn/fzf/issues/1431 - copy execution may require a sleep? seems to work fine for me without it
 fzf-history-widget() {
@@ -77,20 +58,15 @@ zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
 
-# ALT-d and ALT-D - cd into the selected directory using find/findcache
+# ALT-d and ALT-D - cd into the selected directory using fd
 fzf-cd-widget() {
-  if [ "$1" = "find" ]; then
-    local fzfprompt="find . -type d > "
-    local cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-    -o -type d -print 2> /dev/null | cut -b3-"
-  elif [ "$1" = "findcache" ]; then
-    local fzfprompt="findcache > "
-    if [ "$PWD" = "/" ]; then
-      local cmd="cat ~/.cache/alldirs.txt"
-    else
-      # first line will always be exact match of $PWD, and will become blank after the cut. so tail +2 to return results starting from line 2
-      local cmd="grep "$PWD" ~/.cache/alldirs.txt | cut -b $((${#PWD}+2))- | tail +2"
-    fi
+  local REPORTTIME=-1
+  if [ "$1" = "fd" ]; then
+    local fzfprompt="fd --type d > "
+    local cmd="fd --type d"
+  elif [ "$1" = "fdhidden" ]; then
+    local fzfprompt="fd --type d --hidden > "
+    local cmd="fd --type d --hidden --exclude .git"
   fi
 
   setopt localoptions pipefail no_aliases 2> /dev/null
@@ -108,29 +84,30 @@ fzf-cd-widget() {
   zle reset-prompt
   return $ret
 }
-fzf-cd-widget-find() { fzf-cd-widget find }
-fzf-cd-widget-findcache() { fzf-cd-widget findcache }
-zle     -N    fzf-cd-widget-find
-zle     -N    fzf-cd-widget-findcache
-bindkey '^[d' fzf-cd-widget-find
-bindkey '^[D' fzf-cd-widget-findcache
+fzf-cd-widget-fd() { fzf-cd-widget fd }
+fzf-cd-widget-fdhidden() { fzf-cd-widget fdhidden }
+zle     -N    fzf-cd-widget-fd
+zle     -N    fzf-cd-widget-fdhidden
+bindkey '^[d' fzf-cd-widget-fd
+bindkey '^[D' fzf-cd-widget-fdhidden
 
-# CTRL-O and ALT-O - open file from rg or findcache
+# CTRL-O and ALT-O - open file from fd
 fzf-edit-widget() {
+  local REPORTTIME=-1
   local oldifs
   oldifs=$IFS
   IFS=$'\n'
   local OLD_FZF_DEFALUT_OPTS=$FZF_DEFAULT_OPTS
   FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height ${FZF_TMUX_HEIGHT:-40%} --reverse --query=${(q)LBUFFER} -m"
-  if [ "$1" = "rg" ]; then
-    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='rg > '"
-    local filelist=( $(command rg --files 2>/dev/null | $(__fzfcmd)) )
-  elif [ "$1" = "rg-all" ]; then
-    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='rg -u > '"
-    local filelist=( $(command rg --files -u 2>/dev/null | $(__fzfcmd)) ) # includes hidden files
-  elif [ "$1" = "findcache" ]; then
-    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='findcache / > '"
-    local filelist=( $($(__fzfcmd) < $HOME/.cache/allfiles.txt) )
+  if [ "$1" = "fd" ]; then
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd --type f > '"
+    local filelist=( $(command fd --type f | $(__fzfcmd)) )
+  elif [ "$1" = "fdhidden" ]; then
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd --type f --hidden > '"
+    local filelist=( $(command fd --type f --hidden --exclude .git | $(__fzfcmd)) )
+  elif [ "$1" = "fdall" ]; then
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd / --type f --hidden > '"
+    local filelist=( $(command fd . '/' --type f --hidden --exclude .git --exclude /sys --exclude /proc | $(__fzfcmd)) )
   fi
   if [ -z "$filelist" ]; then
     zle redisplay
@@ -148,16 +125,16 @@ fzf-edit-widget() {
   IFS=$oldifs
   FZF_DEFAULT_OPTS=$OLD_FZF_DEFALUT_OPTS
 }
-fzf-edit-widget-rg() { fzf-edit-widget rg }
-fzf-edit-widget-rg-all() { fzf-edit-widget rg-all }
-fzf-edit-widget-findcache() { fzf-edit-widget findcache }
+fzf-edit-widget-fd() { fzf-edit-widget fd }
+fzf-edit-widget-fdhidden() { fzf-edit-widget fdhidden }
+fzf-edit-widget-fdall() { fzf-edit-widget fdall }
 
-zle -N fzf-edit-widget-rg
-zle -N fzf-edit-widget-rg-all
-zle -N fzf-edit-widget-findcache
-bindkey '^O'   fzf-edit-widget-rg
-bindkey '\eo'  fzf-edit-widget-rg-all
-bindkey '\eO'  fzf-edit-widget-findcache
+zle -N fzf-edit-widget-fd
+zle -N fzf-edit-widget-fdhidden
+zle -N fzf-edit-widget-fdall
+bindkey '^O'   fzf-edit-widget-fd
+bindkey '\eo'  fzf-edit-widget-fdhidden
+bindkey '\eO'  fzf-edit-widget-fdall
 
 fzgshowkey() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
