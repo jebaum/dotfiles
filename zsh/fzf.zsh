@@ -194,4 +194,25 @@ zle -N installed fzimpl
 bindkey '\ep' all
 bindkey '\eP' installed
 
+
+monorepocd() {
+    local LOCATION="$HOME/work/dev/code"
+    if [ ! -d "$LOCATION" ]; then
+        return
+    fi
+    local WS=$(fd . --type d $LOCATION | sed "s|$LOCATION/||" | sort | sed -e '1 i .' | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-75%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) --delimiter="/" --nth=1,3..)
+    if [ -n "$WS" ] && [ -d "$LOCATION/$WS" ]; then
+        cd "$LOCATION/$WS"
+        saved_buffer=$BUFFER
+        saved_cursor=$CURSOR
+        BUFFER=
+        zle accept-line
+    fi
+    if [ -n "$WIDGET" ]; then
+        zle reset-prompt
+    fi
+}
+zle -N monorepocd monorepocd
+bindkey "\ew" monorepocd # Alt + w
+
 fi
