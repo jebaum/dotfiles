@@ -101,18 +101,18 @@ bindsym $mod+Shift+minus    move scratchpad
 bindsym $mod+minus          scratchpad show
 
   ### volume controls
-bindsym $mod+$alt+minus         exec amixer -D pulse sset Master 1%-
-bindsym $mod+$alt+plus          exec amixer -D pulse sset Master 1%+
-bindsym XF86AudioLowerVolume    exec amixer -D pulse sset Master 1%-
-bindsym XF86AudioRaiseVolume    exec amixer -D pulse sset Master 1%+
-bindsym $mod+Control+minus      exec amixer -D pulse sset Master 5%-
-bindsym $mod+Control+plus       exec amixer -D pulse sset Master 5%+
-bindsym $mod+$alt+Control+minus exec amixer -D pulse sset Master 10%-
-bindsym $mod+$alt+Control+plus  exec amixer -D pulse sset Master 10%+
-bindsym $mod+$alt+Shift+minus   exec amixer -D pulse sset Master 1%-
-bindsym $mod+$alt+Shift+plus    exec amixer -D pulse sset Master 1%-
-bindsym $mod+$alt+m             exec amixer -D pulse sset Master toggle
-bindsym XF86AudioMute           exec amixer -D pulse sset Master toggle
+bindsym $mod+$alt+minus         exec pamixer --decrease 1
+bindsym $mod+$alt+plus          exec pamixer --increase 1
+bindsym XF86AudioLowerVolume    exec pamixer --decrease 1
+bindsym XF86AudioRaiseVolume    exec pamixer --increase 1
+bindsym $mod+Control+minus      exec pamixer --decrease 5
+bindsym $mod+Control+plus       exec pamixer --increase 5
+bindsym $mod+$alt+Control+minus exec pamixer --decrease 10
+bindsym $mod+$alt+Control+plus  exec pamixer --increase 10
+bindsym $mod+$alt+Shift+minus   exec pamixer --decrease 1
+bindsym $mod+$alt+Shift+plus    exec pamixer --increase 1
+bindsym $mod+$alt+m             exec pamixer --toggle-mute
+bindsym XF86AudioMute           exec pamixer --toggle-mute
 
   ### mpc controls
 bindsym $mod+$alt+n     exec mpc -h $mpdhost next
@@ -333,11 +333,12 @@ bar {
   workspace_buttons yes
   $barfont
   status_command bumblebee-status \
-        -m title mpd cpu memory network_traffic pasink pasource pomodoro datetime rofication \
+        -m title mpd cpu2 cpu memory network_traffic pasink pasource pomodoro datetime \
         -p memory.format='{used}/{total} ({percent:.1f}%)' \
            mpd.format='{title} - {artist} {position}/{duration}' mpd.scrolling.width=165 mpd.scrolling.makewide=false \
            title.max=120 \
            pomodoro.work=30 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
+           cpu2.layout='cpu2.maxfreq cpu2.temp' cpu2.temp_pattern='temp2_input' \
         -t iceberg-dark-powerline
   tray_output primary
   colors {
@@ -360,7 +361,7 @@ bar {
   $barfont
   status_command bumblebee-status \
         -m title weather datetime \
-        -p title.max=30 weather.location=Seattle weather.unit=imperial weather.showminmax=true \
+        -p title.max=30 weather.location=Denver weather.unit=imperial weather.showminmax=true \
         -t iceberg-dark-powerline
   tray_output primary
   colors {
@@ -383,7 +384,7 @@ bar {
   $barfont
   status_command bumblebee-status \
         -m arch-update title weather datetime \
-        -p title.max=30 weather.location=Seattle weather.unit=imperial weather.showminmax=true \
+        -p title.max=30 weather.location=Denver weather.unit=imperial weather.showminmax=true \
         -t iceberg-dark-powerline
   tray_output primary
   colors {
