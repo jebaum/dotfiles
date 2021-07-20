@@ -13,10 +13,8 @@ endif
 
 let g:plug_threads = 60
 let @p="03df/IPlug 'A':wV:Source:PlugInstall"
-
+command! -range SortPlugins :'<,'>sort i /[^\/]*\// " sort plugins by name, case insensitive
 call plug#begin('~/.vim/bundle')
-Plug 'gruvbox-community/gruvbox'
-
 if has('unix')
   Plug 'junegunn/gv.vim',    {'on': ['GV']}
   Plug 'tommcdo/vim-fugitive-blame-ext'
@@ -31,21 +29,26 @@ if has('python') || has('python3') " pip3 install neovim only sets 'python3' to 
 endif
 
 if has('nvim')
-  Plug 'nvim-lua/plenary.nvim' " required by neogit, gitsigns possibly other lua plugins
+  " Plug 'sunjon/Shade.nvim'
+  " lua require'shade'.setup({ overlay_opacity = 75 })
+  Plug 'lewis6991/gitsigns.nvim'
+  Plug 'rmagatti/goto-preview'
+  Plug 'npxbr/gruvbox.nvim'
   Plug 'lukas-reineke/indent-blankline.nvim'
+  Plug 'b3nj5m1n/kommentary'
+  Plug 'rktjmp/lush.nvim'
   Plug 'code-biscuits/nvim-biscuits'
+  Plug 'norcalli/nvim-colorizer.lua'
   Plug 'hrsh7th/nvim-compe'
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'neovim/nvim-lspconfig'
-  Plug 'norcalli/nvim-colorizer.lua'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'andymass/vim-matchup'
-  Plug 'lewis6991/gitsigns.nvim'
-  Plug 'b3nj5m1n/kommentary'
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  Plug 'nvim-lua/plenary.nvim' " required by neogit, gitsigns possibly other lua plugins
+  Plug 'andymass/vim-matchup'
   Plug 'liuchengxu/vista.vim' " :Vista nvim_lsp, with 'p' key for preview seems maybe useful?
-  Plug 'rmagatti/goto-preview'
 
+  " Plug 'folke/which-key.nvim' " cool and useful, set this up sometime
   " Plug 'TimUntersberger/neogit' " still WIP. fugitive better for now.
   " following 3 complement neogit:
   " Plug 'sindrets/diffview.nvim'
@@ -61,38 +64,37 @@ if has('nvim')
   " Plug 'kabouzeid/nvim-lspinstall'
   " Plug 'alec-gibson/nvim-tetris'
 else
-  Plug 'othree/vim-autocomplpop'
   Plug 'vim-scripts/L9'
+  Plug 'othree/vim-autocomplpop'
 endif
-" Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
-" Plug 'liuchengxu/vim-which-key' " cool and useful, set this up sometime
+
 Plug 'Konfekt/FastFold'
-Plug 'Valloric/ListToggle'
-Plug 'airblade/vim-rooter'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'farmergreg/vim-lastplace' " much simpler version of vim-stay
-Plug 'haya14busa/vim-asterisk'
-Plug 'hoob3rt/lualine.nvim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'justinmk/vim-sneak'
-Plug 'mhinz/vim-startify'
-Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
+Plug 'Valloric/ListToggle'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
-Plug 'tommcdo/vim-exchange'
-Plug 'tpope/vim-eunuch', {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
-Plug 'tpope/vim-jdaddy'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth' " auto detect indent settings
-Plug 'tpope/vim-surround' " TODO vim-sandwich? https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
-Plug 'tpope/vim-unimpaired'
-Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
-Plug 'vim-utils/vim-husk'
 Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
+Plug 'haya14busa/vim-asterisk'
+Plug 'osyo-manga/vim-brightest', {'on': ['BrighestClear', 'BrightestEnable', 'BrightestDiable', 'BrightestHighlight', 'BrightestLock', 'BrightestUnlock', 'BrightestToggle']}
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-eunuch', {'on': ['Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
+Plug 'tommcdo/vim-exchange'
 Plug 'wsdjeg/vim-fetch'
+Plug 'vim-utils/vim-husk'
+Plug 'tpope/vim-jdaddy'
+Plug 'farmergreg/vim-lastplace' " much simpler version of vim-stay
+Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
+Plug 'tpope/vim-repeat'
+Plug 'airblade/vim-rooter'
+Plug 'tpope/vim-sleuth' " auto detect indent settings
+Plug 'justinmk/vim-sneak'
+Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-surround' " TODO vim-sandwich? https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-unimpaired'
 call plug#end()
 " }}}
 " gruvbox + colorizer {{{
@@ -126,6 +128,7 @@ function! TweakColors() " override some defaults
   highlight YellowLineNr   ctermfg=214 guifg=#FABD2F guibg=#181818
   highlight RedLineNr      ctermfg=167 guifg=#FB4934 guibg=#181818
   highlight GitSignsCurrentLineBlame guifg=#FDB927 gui=italic
+  highlight! link GitSignsChange GruvboxYellowSign
 
   " highlight LspReferenceRead  ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
   " highlight LspReferenceText  ctermfg=250  ctermbg=24   guifg=#552583  guibg=#FDB927
@@ -136,7 +139,17 @@ function! TweakColors() " override some defaults
   highlight DiffDelete gui=none guifg=none guibg=#36181c
   highlight DiffText  gui=none guifg=none guibg=#47254d
   highlight DiffChange  gui=none guifg=none guibg=#301934
-  highlight! link GitSignsChange GruvboxYellowSign
+
+  " gruvbox.nvim linked Startify to different highlight groups than old school gruvbox. I like the old school look
+  highlight! link StartifyBracket GruvboxFg3
+  highlight! link StartifyFile GruvboxFg1
+  highlight! link StartifyNumber GruvboxBlue
+  highlight! link StartifyPath GruvboxGray
+  highlight! link StartifySlash GruvboxGray
+  highlight! link StartifySection GruvboxYellow
+  highlight! link StartifySpecial GruvboxBg2
+  highlight! link StartifyHeader GruvboxOrange
+  highlight! link StartifyFooter GruvboxBg2
 
   " highlight NeogitDiffAddHighlight gui=none guifg=#FFFFFF guibg=#1c442d
   " highlight NeogitDiffDeleteHighlight gui=none guifg=#FFFFFF guibg=#4a2126
