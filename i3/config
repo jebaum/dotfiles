@@ -16,7 +16,7 @@ set $narrowright DP-0.8
 ### WORKSPACE NAMES
 set $workspace01 1: main
 set $workspace02 2: web
-set $workspace03 3: vps
+set $workspace03 3: comms
 set $workspace04 4: music
 set $workspace05 5: mail
 set $workspace06 6: files
@@ -79,6 +79,10 @@ exec --no-startup-id amixer set PCM 208
 exec --no-startup-id amixer set Master 25
 exec --no-startup-id ~/dotfiles/scripts/startup.sh
 exec --no-startup-id rofication-daemon.py
+
+# https://github.com/cdown/clipmenu/issues/141 - doesn't work from sxrc like it did from xinitrc, so starting in i3 config
+exec --no-startup-id systemctl --user import-environment DISPLAY
+exec --no-startup-id systemctl --user start clipmenud.service
 # }}}
 # KEYBINDS {{{
   ### conky and config controls
@@ -338,7 +342,7 @@ bar {
            mpd.format='{title} - {artist} {position}/{duration}' mpd.scrolling.width=165 mpd.scrolling.makewide=false \
            title.max=120 \
            pomodoro.work=30 pomodoro.break=5 pomodoro.notify='notify-send "Time Up!"' \
-           cpu2.layout='cpu2.maxfreq cpu2.temp' cpu2.temp_pattern='temp2_input' \
+           cpu2.layout='cpu2.temp' cpu2.temp_pattern='temp2_input' \
         -t iceberg-dark-powerline
   tray_output primary
   colors {
