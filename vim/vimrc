@@ -1,5 +1,4 @@
 " Initial setup {{{
-runtime macros/matchit.vim
 let mapleader = ','
 augroup LineNumberAutoToggle
   autocmd InsertEnter * let b:relativenumberSetting = &relativenumber | setlocal norelativenumber
