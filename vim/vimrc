@@ -554,6 +554,7 @@ let g:asterisk#keeppos = 1
 " indent-blankline {{{
 let g:indent_blankline_char = '│'
 let g:indent_blankline_filetype_exclude = ['help', 'startify']
+let g:indent_blankline_enabled = v:false
 set colorcolumn=999 " workaround to prevent indents on otherwise blank lines from being highlighted
 " }}}
 " kommentary {{{
