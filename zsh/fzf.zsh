@@ -1,7 +1,7 @@
 # keep in sync with https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
 export FZF_DEFAULT_OPTS="--ansi --extended --bind='alt-p:toggle-preview,alt-a:select-all,alt-d:deselect-all,ctrl-r:toggle-sort' --info=inline --color fg:#ebdbb2,hl:#FDB927,fg+:#ffffff,bg+:#552583,hl+:#fabd2f --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#FDB927,marker:#FDB927,header:#665c54"
 
-export FZF_DEFAULT_COMMAND='command fd --type file --hidden --exclude .git --exclude /sys --exclude /proc --exclude /var/lib/plex'
+export FZF_DEFAULT_COMMAND='command fd --no-ignore-vcs --type file --hidden --exclude .git --exclude /sys --exclude /proc --exclude /var/lib/plex'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 if [[ $- == *i* ]]; then # $- is shell flags, 'i' flag means interactive shell
@@ -103,11 +103,11 @@ fzf-edit-widget() {
     FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd --type f > '"
     local filelist=( $(command fd --type f | $(__fzfcmd)) )
   elif [ "$1" = "fdhidden" ]; then
-    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd --type f --hidden > '"
-    local filelist=( $(command fd --type f --hidden --exclude .git | $(__fzfcmd)) )
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd --no-ignore-vcs --type f --hidden > '"
+    local filelist=( $(command fd --no-ignore-vcs --type f --hidden --exclude .git | $(__fzfcmd)) )
   elif [ "$1" = "fdall" ]; then
-    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd / --type f --hidden > '"
-    local filelist=( $(command fd . '/' --type f --hidden --exclude .git --exclude /sys --exclude /proc | $(__fzfcmd)) )
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='fd / --no-ignore-vcs --type f --hidden > '"
+    local filelist=( $(command fd . '/' --no-ignore-vcs --type f --hidden --exclude .git --exclude /sys --exclude /proc | $(__fzfcmd)) )
   fi
   if [ -z "$filelist" ]; then
     zle redisplay
@@ -200,7 +200,7 @@ monorepocd() {
     if [ ! -d "$LOCATION" ]; then
         return
     fi
-    local WS=$(fd . --type d $LOCATION | sed "s|$LOCATION/||" | sort | sed -e '1 i .' | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-75%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) --delimiter="/" --nth=1,3..)
+    local WS=$(fd . --type d $LOCATION | sed "s|$LOCATION/||" | sort | sed -e '1 i .' | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-75%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd))
     if [ -n "$WS" ] && [ -d "$LOCATION/$WS" ]; then
         cd "$LOCATION/$WS"
         saved_buffer=$BUFFER
