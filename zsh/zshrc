@@ -20,7 +20,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export REPORTTIME=30
 export BAT_THEME="gruvbox-dark"
-export MANPAGER="sh -c 'col -bx | bat --theme Monokai\ Extended -l man -p'"
+export MANPAGER="sh -c 'col -bx | bat --theme Monokai\ Extended -l man -p --paging=always'"
 
 stty -ixon  # stop C-s from activating scroll lock
 ulimit -c unlimited
