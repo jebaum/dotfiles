@@ -75,8 +75,7 @@ exec --no-startup-id nm-applet
 
 exec --no-startup-id xset m 0 0
 exec --no-startup-id dropbox-cli start
-exec --no-startup-id amixer set PCM 208
-exec --no-startup-id amixer set Master 25
+exec --no-startup-id pamixer --set-volume 25
 exec --no-startup-id ~/dotfiles/scripts/startup.sh
 exec --no-startup-id rofication-daemon.py
 
