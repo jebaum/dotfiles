@@ -337,7 +337,7 @@ bar {
   workspace_buttons yes
   $barfont
   status_command bumblebee-status \
-        -m title mpd cpu2 cpu memory network_traffic pasink pasource pomodoro datetime \
+        -m title mpd cpu2 cpu memory network_traffic pasink pasource pomodoro rofication datetime \
         -p memory.format='{used}/{total} ({percent:.1f}%)' \
            mpd.format='{title} - {artist} {position}/{duration}' mpd.scrolling.width=165 mpd.scrolling.makewide=false \
            title.max=120 \
