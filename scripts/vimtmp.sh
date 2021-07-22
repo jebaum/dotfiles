@@ -3,7 +3,7 @@
 TMPDIR='/tmp/vimtmp'
 mkdir -p ${TMPDIR}
 
-TIMESTAMP="$(date +'%j%b%d_%H-%M-%S')"
+TIMESTAMP="$(date +'%j_%b-%d_%H-%M-%S')"
 if [ "$1" == "last" ] && [ "$(ls -A $TMPDIR)" != "" ]; then
     echo hi
     FILE="${TMPDIR}/$(ls -t /tmp/vimtmp | head -n 1)"
