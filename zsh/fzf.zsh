@@ -161,7 +161,7 @@ fzf-search-widget() {
         FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --prompt='rg ".{5,}" > '"
         local UARGS=""
     fi
-    filelist=($(command rg ".{5,}" $UARGS --color never --line-number 2>/dev/null | $(__fzfcmd) -m | cut -f 1,2 -d ":" | tr '\n' ' '))
+    filelist=($(command rg ".{5,}" $UARGS --color never --line-number 2>/dev/null | $(__fzfcmd) -m --delimiter=":" --preview="~/dotfiles/scripts/fzf-preview.sh {1}:{2}" | cut -f 1,2 -d ":" | tr '\n' ' '))
     if [ -z "$filelist" ]; then
         zle redisplay
     else
