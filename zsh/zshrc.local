@@ -1,3 +1,10 @@
-BROWSER=firefox
-PATH=$HOME/clearbanc/dev/google-cloud-sdk/bin:$PATH
-PUBSUB_EMULATOR_HOST=localhost:8085 # fix error when starting clearbanc-api because this env var wasn't available
+export BROWSER=firefox
+export PATH=$HOME/clearbanc/dev/google-cloud-sdk/bin:$PATH
+export PUBSUB_EMULATOR_HOST=localhost:8085 # fix error when starting clearbanc-api because this env var wasn't available
+
+# the /usr/local/lib part of this is necessary for manually installed packages like ranger, otherwise python doesn't find the various modules it installs there
+export PYTHONPATH="/usr/local/lib/python3.9/site-packages:${PYTHONPATH}"
+# ^ alternative to the above if needed outside shell environment: create a .pth file in the directory python is looking for it:
+# python -m site --user-site
+# https://stackoverflow.com/questions/3402168/permanently-add-a-directory-to-pythonpath
+# and just put a newline delimited set of paths in the file
