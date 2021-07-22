@@ -148,7 +148,7 @@ bindsym $mod+Control+q      exec killall mpv
 bindsym $mod+Return             exec ~/dotfiles/i3/smart-terminal-start.sh
 bindsym $mod+Shift+Return       exec st -n "_scratchpad"
 bindsym $mod+Escape             exec i3lock -c '#181818'
-# bindsym $mod+Shift+F            exec ~/dotfiles/scripts/firefox_history.sh
+bindsym $mod+Shift+F            exec st -n "_firefoxhistory" -e ~/dotfiles/scripts/firefox_history.sh
 bindsym $mod+p                  exec rofi -show drun
 bindsym $mod+q                  exec rofi -show window
 bindsym XF86TouchpadToggle      exec ~/dotfiles/scripts/touchpadtoggle.sh
@@ -196,6 +196,9 @@ for_window [instance="rangermpvaudio"] move scratchpad
 for_window [instance="rangermpvaudio"] border normal 1pixel
 
 for_window [instance="_scratchpad"] move scratchpad; scratchpad show
+for_window [instance="_firefoxhistory"] floating enable
+for_window [instance="_firefoxhistory"] resize set 80ppt 60ppt
+for_window [instance="_firefoxhistory"] move position center
 # }}}
 # WINDOW MANAGEMENT KEYBINDS {{{
   ### hjkl for moving focus

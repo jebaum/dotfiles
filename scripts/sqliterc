@@ -1,2 +1,2 @@
-.mode column
-.width 120 200
+.mode list
+.separator " ━━━━➤ "
