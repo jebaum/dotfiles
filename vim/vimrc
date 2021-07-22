@@ -46,6 +46,7 @@ if has('nvim')
   Plug 'nvim-lua/plenary.nvim' " required by neogit, gitsigns possibly other lua plugins
   Plug 'andymass/vim-matchup'
   Plug 'liuchengxu/vista.vim' " :Vista nvim_lsp, with 'p' key for preview seems maybe useful?
+  Plug 'hoob3rt/lualine.nvim'
 
   " Plug 'folke/which-key.nvim' " cool and useful, set this up sometime
   " Plug 'TimUntersberger/neogit' " still WIP. fugitive better for now.
@@ -71,9 +72,7 @@ Plug 'Konfekt/FastFold'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'Valloric/ListToggle'
-Plug 'hoob3rt/lualine.nvim'
 Plug 'talek/obvious-resize', {'on': ['ObviousResizeLeft', 'ObviousResizeDown', 'ObviousResizeUp', 'ObviousResizeRight']}
-Plug 'vim-scripts/SyntaxRange', {'for': ['markdown', 'pandoc']}
 Plug 'wellle/targets.vim' " https://github.com/wellle/targets.vim/issues/225, and issues/247 - some issues with folds
 Plug 'wellle/tmux-complete.vim'
 Plug 'haya14busa/vim-asterisk'
@@ -280,7 +279,7 @@ function! DetectIfInVimFunction(...)
 
     if funmatchpos != -1  " we found the text 'function'
       let funsynlist = map(synstack(currentline, funmatchpos + 1),'synIDattr(v:val,"name")')
-      if index(funsynlist, 'vimFuncKey') >= 0 " function start markers are in the VimFuncKey syntax group
+      if index(funsynlist, 'vimFunction') >= 0 " function start markers are in the vimFunction syntax group
         " save the line number of the first line of the function, and reset the search position
         let startfunline = currentline
         let currentline  = startline
@@ -357,7 +356,7 @@ function! NewSplit()
     exe b . 'b'
     exe winnr('50j') . 'wincmd q'
   endif
-endfun
+endfunction
 
 augroup Autosplit
   autocmd!
