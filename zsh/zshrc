@@ -171,7 +171,6 @@ fi
 
 function chpwd() {
   print -Pn "\e]0;st: ${PWD/#${HOME}/~}\a"
-  pwd > /tmp/whereami
 }
 chpwd # chpwd doesn't run on startup, so explicitly call it to set title when first opening shell
 
