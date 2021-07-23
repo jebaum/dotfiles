@@ -1,0 +1,30 @@
+name: clearco
+root: ~/work/dev/code
+startup_window: clearbanc-api
+
+windows:
+  - my.clearbanc.com:
+      root: ~/work/dev/code/my.clearbanc.com
+      panes:
+        - npm run dev 2>&1 | tee /tmp/my.clearbanc.com.log
+  - clearbanc-api:
+      root: ~/work/dev/code/clearbanc-api
+      panes:
+        - npm run dev 2>&1 | tee /tmp/clearbanc-api.log
+  - contract-service:
+      root: ~/work/dev/code/contract-service
+      panes:
+        - npm run dev 2>&1 | tee /tmp/contract-service.log
+
+# cd ~/work/dev/code
+# git stash
+# git pull --rebase
+# git stash pop
+# npm run clean
+# expect -f ~/work/npm-authenticate-expect
+# npm ci
+# npm run install:services
+# sudo systemctl start docker
+# ./cb deps up
+# npm run start:dev clearbanc.com clearbanc-api contract-service
+# tmuxinator start clearco
